@@ -2,6 +2,8 @@
 
 **Dota2Forge —— 将 Dota 2 数据锻造成可复用的 Bot 能力。**
 
+[GitHub 仓库](https://github.com/HBLADEH/Dota2Forge) · [CI 检查](https://github.com/HBLADEH/Dota2Forge/actions/workflows/ci.yml)
+
 Forge 意为“锻造、打造”。项目将 Steam、STRATZ、OpenDota 的原始数据与接口能力统一封装、加工和组合，目标是提供可供不同 Bot 框架复用的战绩查询、玩家分析、英雄数据、图片战报、订阅检测和 AI 分析能力。
 
 当前阶段：**M0 工程底座**。已提供 uv workspace、三个可构建的 Python 包骨架、工程规则、决策与任务记录、治理检查、离线测试和 CI 配置。当前没有可安装即用的 Bot 插件或 Dota 2 查询功能。

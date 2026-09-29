@@ -18,7 +18,7 @@ Ruff、mypy、pytest 均为必需检查。pytest 禁网并对治理工具设置 
 
 GitHub Actions 的 `offline` job 使用 Python 3.12 和 3.13，运行锁定依赖安装、统一检查、构建与干净环境 wheel 导入。拉取请求使用真实目标分支 SHA 计算影响范围。工作流无发布动作，仅请求读取仓库权限。
 
-仓库尚无远程托管地址，GitHub CI 未在线运行，分支保护尚未生效。接入 GitHub 后维护者需实际配置并验证：
+公开仓库为 [HBLADEH/Dota2Forge](https://github.com/HBLADEH/Dota2Forge)，默认分支为 main。M0 初始提交的 [GitHub CI](https://github.com/HBLADEH/Dota2Forge/actions/runs/36615343368) 已通过 Python 3.12 / 3.13 检查、构建与 wheel 安装验证。分支保护尚未配置，维护者仍需实际配置并验证：
 
 1. 默认分支要求 PR 合并，禁止直接推送及强推。
 2. 将 `offline (3.12)`、`offline (3.13)` 设置为必需检查。
