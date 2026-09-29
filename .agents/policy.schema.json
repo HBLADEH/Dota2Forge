@@ -1,0 +1,223 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "documents",
+    "architecture",
+    "notes",
+    "verification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "documents": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric",
+        "root_agents",
+        "scoped_agents_max_chars",
+        "architecture_max_chars",
+        "subsystem_max_chars",
+        "cookbook_max_chars",
+        "note_max_chars",
+        "postmortem_max_chars",
+        "task_max_chars",
+        "generated_paths"
+      ],
+      "properties": {
+        "metric": {
+          "const": "unicode_non_whitespace_characters"
+        },
+        "root_agents": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "max_chars",
+            "max_lines"
+          ],
+          "properties": {
+            "max_chars": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_lines": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "scoped_agents_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "architecture_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "subsystem_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "cookbook_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "note_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "postmortem_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "task_max_chars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generated_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "core_path",
+        "adapter_paths",
+        "platform_imports",
+        "platform_distributions",
+        "adapter_sdk_imports"
+      ],
+      "properties": {
+        "core_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "platform_imports": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "platform_distributions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "adapter_sdk_imports": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "adapters/astrbot_plugin_dota2forge",
+            "adapters/Dota2UID"
+          ],
+          "properties": {
+            "adapters/astrbot_plugin_dota2forge": {
+              "type": "string",
+              "minLength": 1
+            },
+            "adapters/Dota2UID": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "categories",
+        "required_sections",
+        "sensitive_paths"
+      ],
+      "properties": {
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required_sections": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sensitive_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_external_network",
+        "missing_required_command",
+        "commands"
+      ],
+      "properties": {
+        "default_external_network": {
+          "const": "deny"
+        },
+        "missing_required_command": {
+          "const": "fail"
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "documents": {
+    "metric": "unicode_non_whitespace_characters",
+    "root_agents": {
+      "max_chars": 3000,
+      "max_lines": 80
+    },
+    "scoped_agents_max_chars": 2000,
+    "architecture_max_chars": 6000,
+    "subsystem_max_chars": 5000,
+    "cookbook_max_chars": 4000,
+    "note_max_chars": 4000,
+    "postmortem_max_chars": 8000,
+    "task_max_chars": 3000,
+    "generated_paths": [
+      "docs/generated"
+    ]
+  },
+  "architecture": {
+    "core_path": "packages/dota2forge-core",
+    "adapter_paths": [
+      "adapters/astrbot_plugin_dota2forge",
+      "adapters/Dota2UID"
+    ],
+    "platform_imports": [
+      "astrbot",
+      "gsuid_core",
+      "nonebot",
+      "onebot",
+      "napcat"
+    ],
+    "platform_distributions": [
+      "astrbot",
+      "gsuid-core",
+      "nonebot",
+      "nonebot2",
+      "onebot",
+      "napcat"
+    ],
+    "adapter_sdk_imports": {
+      "adapters/astrbot_plugin_dota2forge": "astrbot",
+      "adapters/Dota2UID": "gsuid_core"
+    }
+  },
+  "notes": {
+    "categories": [
+      "architecture",
+      "feature",
+      "bug-fix",
+      "data",
+      "security",
+      "performance",
+      "operations"
+    ],
+    "required_sections": [
+      "Problem",
+      "Decision",
+      "Alternatives considered",
+      "Consequences",
+      "Verification"
+    ],
+    "sensitive_paths": [
+      "packages/",
+      "adapters/",
+      ".agents/policy",
+      "scripts/",
+      ".github/",
+      "pyproject.toml",
+      "uv.lock"
+    ]
+  },
+  "verification": {
+    "default_external_network": "deny",
+    "missing_required_command": "fail",
+    "commands": [
+      [
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      [
+        "ruff",
+        "check",
+        "."
+      ],
+      [
+        "mypy"
+      ],
+      [
+        "pytest"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+# Dota2Forge 包参考
+
+由 `scripts/generate_reference.py` 从 workspace 与各包 pyproject.toml 生成。
+
+| 分发包 | 版本 | 导入包 | 运行依赖 |
+| --- | --- | --- | --- |
+| dota2uid | 0.1.0a1 | Dota2UID | dota2forge-core>=0.1.0a1,<0.2 |
+| astrbot-plugin-dota2forge | 0.1.0a1 | astrbot_plugin_dota2forge | dota2forge-core>=0.1.0a1,<0.2 |
+| dota2forge-core | 0.1.0a1 | dota2forge_core | 无 |
+
+以上均为 M0 包骨架；配置、命令与 AI Tool 注册表尚未实现。

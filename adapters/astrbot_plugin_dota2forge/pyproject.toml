@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "astrbot-plugin-dota2forge"
+version = "0.1.0a1"
+description = "Dota2Forge adapter skeleton for AstrBot"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = ["dota2forge-core>=0.1.0a1,<0.2"]
+
+[tool.uv.sources]
+dota2forge-core = { workspace = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/astrbot_plugin_dota2forge"]
