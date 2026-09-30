@@ -19,12 +19,15 @@ def main() -> int:
         with tempfile.TemporaryDirectory(prefix="dota2forge-wheel-") as directory:
             environment = Path(directory) / "venv"
             subprocess.run(["uv", "venv", "--python", sys.executable, str(environment)], check=True)
-            python = environment / "bin/python"
+            python = environment / (
+                "Scripts/python.exe" if sys.platform == "win32" else "bin/python"
+            )
             subprocess.run(
                 [
                     "uv",
                     "pip",
                     "install",
+                    "--no-cache",
                     "--python",
                     str(python),
                     "--no-index",
@@ -35,15 +38,25 @@ def main() -> int:
                 ],
                 check=True,
             )
+            smoke = (
+                f"import {module}; from dota2forge_core import Dota2Service; "
+                "import importlib.util; "
+                "assert importlib.util.find_spec('astrbot') is None; "
+                "assert importlib.util.find_spec('gsuid_core') is None"
+            )
+            if module == "Dota2UID":
+                smoke += (
+                    "; from Dota2UID.commands import parse_command; "
+                    "from importlib.resources import files; "
+                    "assert parse_command('dota帮助', '').limit == 10; "
+                    "assert files('Dota2UID').joinpath('host_entry.py.template').is_file()"
+                )
             subprocess.run(
                 [
                     str(python),
                     "-I",
                     "-c",
-                    f"import {module}; import dota2forge_core; "
-                    "import importlib.util; "
-                    "assert importlib.util.find_spec('astrbot') is None; "
-                    "assert importlib.util.find_spec('gsuid_core') is None",
+                    smoke,
                 ],
                 cwd=directory,
                 check=True,

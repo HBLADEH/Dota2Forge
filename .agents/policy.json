@@ -90,6 +90,22 @@
       ],
       [
         "pytest"
+      ],
+      [
+        "python",
+        "-m",
+        "coverage",
+        "report",
+        "--include=scripts/*",
+        "--fail-under=80"
+      ],
+      [
+        "python",
+        "-m",
+        "coverage",
+        "report",
+        "--include=packages/dota2forge-core/*",
+        "--fail-under=80"
       ]
     ]
   }
