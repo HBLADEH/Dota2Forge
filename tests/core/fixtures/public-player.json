@@ -1,0 +1,33 @@
+{
+  "fixture_kind": "synthetic-normalized-v1",
+  "source": "fixture",
+  "fetched_at": "2026-09-30T00:00:00+00:00",
+  "account_id": 123,
+  "player": {"display_name": "Synthetic Player", "rank_tier": null},
+  "matches": [
+    {
+      "match_id": 1002,
+      "started_at": "2026-09-29T18:00:00+00:00",
+      "hero_id": 1,
+      "duration_seconds": 1800,
+      "kills": 0,
+      "deaths": 4,
+      "assists": 8,
+      "gold_per_minute": null,
+      "experience_per_minute": null,
+      "is_win": false
+    },
+    {
+      "match_id": 1001,
+      "started_at": "2026-09-28T18:00:00+00:00",
+      "hero_id": 2,
+      "duration_seconds": 2100,
+      "kills": 5,
+      "deaths": 0,
+      "assists": 7,
+      "gold_per_minute": 500,
+      "experience_per_minute": 600,
+      "is_win": true
+    }
+  ]
+}

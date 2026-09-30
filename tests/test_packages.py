@@ -6,6 +6,7 @@ import importlib.util
 from pathlib import Path
 
 import pytest
+from packaging.requirements import Requirement
 
 
 @pytest.mark.parametrize(
@@ -21,8 +22,14 @@ def test_workspace_package_installed(distribution, module):
     assert importlib.metadata.version(distribution) == "0.1.0a1"
 
 
-def test_core_has_no_runtime_dependencies_or_host_sdks():
-    assert importlib.metadata.requires("dota2forge-core") is None
+def test_core_keeps_http_optional_and_has_no_host_sdks():
+    requirements = importlib.metadata.requires("dota2forge-core")
+    assert requirements is not None and len(requirements) == 1
+    dependency = Requirement(requirements[0])
+    assert dependency.name == "httpx"
+    assert dependency.marker is not None
+    assert not dependency.marker.evaluate({"extra": ""})
+    assert dependency.marker.evaluate({"extra": "stratz"})
     assert importlib.util.find_spec("astrbot") is None
     assert importlib.util.find_spec("gsuid_core") is None
 

@@ -5,8 +5,8 @@
 > 本文件保留功能规划，实施现状见 [README](README.md)。治理补充要求先实施 M0；M0 后按 Core → Dota2UID → AstrBot 的顺序推进。
 
 > 面向 Codex / AI Coding Agent 的工程实施文档\
-> 项目阶段：架构设计与仓库初始化\
-> 优先级：Dota2Forge Core → AstrBot Adapter → GsCore Adapter → Integration Pack
+> 项目阶段：M0 已交付，STRATZ Core 与 Dota2UID QQ 首个宿主闭环已实现\
+> 优先级：STRATZ Core 闭环 → Dota2UID / GsCore → AstrBot → 扩展能力 → Integration Pack
 
 ---
 
@@ -392,20 +392,23 @@ QQ消息
 
 # 8. 数据源设计
 
-第一阶段建议：
+2026-09-30 用户确认：以免费、易用和实际数据质量选型，不要求数据源服务端开源。以下选型中 STRATZ 基础 Provider 已实现并只读联调，其他补充及扩展能力仍为规划：
 
-```text
-Primary:
-STRATZ
+| 数据源 | 职责 | 接入阶段 |
+| --- | --- | --- |
+| STRATZ | 默认主源：玩家、当前段位、最近比赛；后续详情、IMP 和时间序列 | 首个联网闭环 |
+| OpenDota | 独立补充、基础战绩与交叉核验 | 首个宿主闭环之后 |
+| Valve Steam Web API | 按需补充账号解析和官方基础比赛数据 | 出现明确缺口时 |
 
-Fallback / Supplement:
-OpenDota
-Steam Web API
-```
+首轮不做自动 fallback、跨源字段拼接或后台抓取。段位冲突分别标明来源和时间，不取较高段位，也不让补充源旧值覆盖主源。明确隐私拒绝时不换源绕过限制。精确 MMR 不作为可保证能力，估算分数与排行榜名次单独标注；IMP 为 STRATZ 的表现指标。
 
-所有 API 必须通过 Provider 抽象。
+[实测](.agents/tasks/done/2026-09-30-stratz-evaluation.md) 的 20 场基础数据一致，STRATZ 15 场有详细经济/购买记录，OpenDota 为 2 场；用户确认 STRATZ 段位为当前值，OpenDota 对应先前段位。单账号样本不构成全站时效保证。历史总场次和经济序列须明确各自统计口径。
 
-例如：
+STRATZ 采用 GraphQL、Bearer Token 与已验证的 User-Agent: STRATZ_API；检查 HTTP 状态之外还需检查 GraphQL errors、部分数据及缺失字段，HTML 403 不能直接认定账号私密或凭据失效。动态读取秒/分/时/日额度头并遵守最紧窗口；本次 Token 的 8/秒、150/分钟、1500/小时、15000/天仅为观测值，不是所有 Token 的固定配额。OpenDota 免费接入无需付费 Key，本次元数据为 3000/天、60/分钟。展示保留来源链接。
+
+HTTP 与配置放在基础设施/组合入口，所有 API 必须通过 Provider 抽象；详细原因见 [选型决策](.agents/notes/implemented/2026-09-30-provider-selection.md)，首轮验收见 [STRATZ 接入任务](.agents/tasks/done/2026-09-30-stratz-provider.md)。GC、自建全量 OpenDota、录像解析服务和 GSI 不作为首个闭环依赖。缓存、重试和自动回退后续另行定义与验收。
+
+后续详情扩展的示意（不是当前公共契约；当前端口见 [ports.py](packages/dota2forge-core/src/dota2forge_core/ports.py)）：
 
 ```python
 class MatchProvider(Protocol):
@@ -421,12 +424,7 @@ class MatchProvider(Protocol):
     ) -> list[MatchSummary]: ...
 ```
 
-实现：
-
-```text
-StratzMatchProvider
-OpenDotaMatchProvider
-```
+STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调；实际端口以 Core 契约为准，上方详情接口仍是规划。OpenDota 实现在后续补充阶段，当前尚未实现。
 
 业务层只依赖：
 
@@ -889,6 +887,8 @@ Adapter 决定用户文案。
 
 # 20. 配置设计
 
+以下通用键为配置规划，Core 不读取环境变量。已实现的独立联调入口使用 STRATZ_TOKEN、STRATZ_ACCOUNT_ID 和有限 STRATZ_TIMEOUT_SECONDS，见 [配置步骤](docs/cookbook/stratz.md)。STEAM_API_KEY 按需启用，OPENDOTA_API_KEY 仅为可选付费能力，免费默认部署不要求提供。REQUEST_TIMEOUT、CACHE_TTL 的宿主配置与缓存契约待后续实现。
+
 Core Config：
 
 ```text
@@ -1045,10 +1045,13 @@ ruff check .
 
 ### API
 
-- Steam ID 工具
-- Steam Web API
-- STRATZ Client
-- OpenDota Client
+- Steam ID 工具（已有严格 Account ID / SteamID64 值与转换；新输入形式另行验证）
+- 首轮：STRATZ PlayerProvider / MatchProvider，先完成玩家、当前段位、最近比赛
+- 宿主基础闭环后：STRATZ 单场详情、IMP、经济/购买序列；新增公共模型须先检查消费者
+- 后续：OpenDota 独立补充与交叉核验
+- 按需：Valve Steam Web API，不作为首轮必需依赖
+
+本 Phase 列表是完整功能范围；首个交付切片以 [STRATZ 任务](.agents/tasks/done/2026-09-30-stratz-provider.md) 为准，完成后先接 Dota2UID，不等待 Renderer、双数据源或全部 Domain/UseCase 实现。
 
 ### Domain
 
@@ -1106,7 +1109,50 @@ matches = await client.get_recent_matches(...)
 
 ---
 
-# Phase 2：AstrBot Adapter
+# Phase 2：GsCore Adapter / Dota2UID
+
+优先级：高。
+
+实现：
+
+```text
+Dota2UID
+```
+
+必须复用：
+
+```text
+dota2forge_core
+```
+
+实现：
+
+- GsCore Event Adapter
+- GsCore Repository
+- GsCore Config
+- GsCore Scheduler
+- GsCore UID 系统适配
+- GsCore 图片消息
+- GsCore Help
+- GsCore WebUI 配置
+
+Phase 2 验收：
+
+用户部署：
+
+```text
+NapCat
+GsCore
+Dota2UID
+```
+
+即可完整使用 Dota2 Bot。
+
+不要求 AstrBot。
+
+---
+
+# Phase 3：AstrBot Adapter
 
 优先级：高。
 
@@ -1138,7 +1184,7 @@ dota段位
 - Scheduler
 - 新比赛检测
 
-Phase 2 验收：
+Phase 3 验收：
 
 普通用户安装：
 
@@ -1151,49 +1197,6 @@ astrbot_plugin_dota2forge
 即可使用 Dota2 Bot。
 
 不需要安装 GsCore。
-
----
-
-# Phase 3：GsCore Adapter / Dota2UID
-
-优先级：高。
-
-实现：
-
-```text
-Dota2UID
-```
-
-必须复用：
-
-```text
-dota2forge_core
-```
-
-实现：
-
-- GsCore Event Adapter
-- GsCore Repository
-- GsCore Config
-- GsCore Scheduler
-- GsCore UID 系统适配
-- GsCore 图片消息
-- GsCore Help
-- GsCore WebUI 配置
-
-Phase 3 验收：
-
-用户部署：
-
-```text
-NapCat
-GsCore
-Dota2UID
-```
-
-即可完整使用 Dota2 Bot。
-
-不要求 AstrBot。
 
 ---
 
@@ -1498,44 +1501,44 @@ adapters/
 
 Codex 不应一次性实现整个项目。
 
-严格按照：
+Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4 已完成代码、离线测试与本机安装；Step 5 已通过真实宿主加载/受控重载/卸载及恢复冷启动，用户已完成 QQ 单会话帮助、绑定、玩家和战绩命令验收，见 [Dota2UID 任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。不重做已完成的 Core 和主源；在线证据单列。
 
 ```text
 Step 1
-初始化 Monorepo
+固定 STRATZ 最小查询、字段及错误映射，编写禁网响应测试
 
 Step 2
-实现 Core Domain
+实现 STRATZ 玩家与最近比赛 Provider、限流和客户端关闭
 
 Step 3
-实现 Provider Interface
+通过 Core 离线检查，再用本机凭据独立只读联调
 
 Step 4
-实现 Steam / STRATZ Provider
+实现 Dota2UID / GsCore 首个绑定与查询闭环
 
 Step 5
-实现 Repository
+GsCore 加载、重载、卸载与授权命令实机验证
 
 Step 6
-实现 Service / UseCase
+实现 AstrBot 对相同 Core 用例的消费
 
 Step 7
-Core Tests
+AstrBot 安装与生命周期验证
 
 Step 8
-实现 Renderer
+扩展 STRATZ 单场详情、IMP 与时间序列契约
 
 Step 9
-实现 AstrBot Adapter
+接入 OpenDota 独立补充与交叉核验；Valve 按需
 
 Step 10
-AstrBot 实机验证
+单独定义并验证缓存、刷新与有限重试策略
 
 Step 11
-实现 GsCore Adapter
+实现 Renderer
 
 Step 12
-GsCore 实机验证
+更新双适配器消费并验证图片战报
 
 Step 13
 订阅系统

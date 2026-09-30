@@ -29,7 +29,7 @@ def package_configs(root: Path) -> list[Path]:
         paths.append(path)
     if len(paths) != len(set(paths)):
         raise ValueError("Duplicate workspace members")
-    return sorted(paths)
+    return sorted(paths, key=lambda path: path.relative_to(root).as_posix())
 
 
 def render(root: Path) -> str:
@@ -49,7 +49,14 @@ def render(root: Path) -> str:
         )
         dependencies = ", ".join(project.get("dependencies", [])) or "无"
         lines.append(f"| {project['name']} | {project['version']} | {imports} | {dependencies} |")
-    lines.extend(["", "以上均为 M0 包骨架；配置、命令与 AI Tool 注册表尚未实现。", ""])
+    lines.extend(
+        [
+            "",
+            "本表仅描述包元数据；实现边界见 [当前架构](../architecture.md)。"
+            "配置、命令与 AI Tool 注册表尚未实现。",
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 

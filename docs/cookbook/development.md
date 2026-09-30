@@ -7,7 +7,7 @@ uv sync --locked --all-packages
 uv run --locked python scripts/check_governance.py --all
 ```
 
-统一入口验证治理规则，然后依次执行 Ruff 格式、Ruff lint、mypy 和 pytest。任一命令缺失或失败均返回非零。测试使用 pytest-socket 禁网。M0 覆盖率门槛针对治理工具，业务代码加入后需增加 Core 覆盖率门槛。
+统一入口验证治理规则，然后依次执行 Ruff 格式、Ruff lint、mypy、pytest，以及治理工具和 Core 各自的覆盖率报告。任一命令缺失或失败均返回非零；两组语句与分支综合覆盖率须分别至少 80%，无覆盖数据同样失败。测试使用 pytest-socket 禁网；Core 流程与异步循环测试说明见 [离线闭环](core-offline.md)。
 
 已有提交时可以根据目标分支计算变更范围：
 
@@ -38,5 +38,5 @@ uv run --locked python scripts/smoke_wheels.py
 uv run --locked pre-commit install
 ```
 
-预留 `.env.example` 当前不被代码读取。不要填入密钥后提交。
+`.env.example` 是本机联调配置模板；复制为被忽略的 .env 后，仅由显式 [STRATZ 联调命令](stratz.md) 经 uv 注入环境。普通检查和 Core 导入不读取它；不要填入密钥后提交模板。
 CI 配置见 [workflow](../../.github/workflows/ci.yml)，托管保护配置见 [治理契约](../subsystems/governance.md)。
