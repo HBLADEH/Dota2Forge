@@ -1,0 +1,9 @@
+namespace = "dota2uid-local"
+stratz_token = ""
+timeout_seconds = 10
+
+# Map verified Event.bot_id values to platform namespaces; unknown platforms fail closed.
+[platforms]
+onebot = "qq"
+qq = "qq"
+telegram = "telegram"
