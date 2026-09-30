@@ -10,7 +10,7 @@ Dota2UID ──────────────────┘
 
 Core 已包含严格身份值、绑定/查询用例、异步 Provider/Repository 端口、文件型 SQLite 仓库和 STRATZ 玩家/最近比赛 Provider。基础安装无必选运行依赖，联网实现使用 stratz extra 中的 httpx。领域与用例不读取环境、执行 SQL 或访问 HTTP；SQLite、时钟与专用 HTTP 客户端由组合入口显式构造、注入和关闭。
 
-STRATZ 主源已实现并独立只读联调概况及 100 场分页结果；受限于现有端口，只提供基础资料与近期战绩，不保证完整历史。错误不降级为空结果，额度耗尽停止发送，无自动重试或回退。见 [接入任务](../.agents/tasks/done/2026-09-30-stratz-provider.md)、[实现决策](../.agents/notes/implemented/2026-09-30-stratz-provider.md) 和 [使用步骤](cookbook/stratz.md)。OpenDota、Valve 按需补充与详情扩展仍待实现；Dota2UID 真实宿主生命周期已验证，QQ 单会话收发由用户实测确认。
+STRATZ 主源已实现并独立只读联调概况及 100 场分页结果；受限于现有端口，只提供基础资料与近期战绩，不保证完整历史。错误不降级为空结果，额度耗尽停止发送，无自动重试或回退。按比赛 ID 的历史详情、共享图片 Renderer 和 MatchDetailCard 已列入后续任务，见 [接入任务](../.agents/tasks/done/2026-09-30-stratz-provider.md)、[图片任务](../.agents/tasks/active/2026-10-01-image-interaction.md)、[详情任务](../.agents/tasks/active/2026-10-01-historical-match-detail.md) 与 [实现决策](../.agents/notes/implemented/2026-09-30-stratz-provider.md)。OpenDota、Valve 按需补充仍待实现；Dota2UID 真实宿主生命周期已验证，QQ 单会话收发由用户实测确认。
 
 Dota2UID 已有首个绑定/查询消费者：安全导入的 src 库包加显式安装到 plugins/Dota2UID 的宿主发现桥接。组合入口安装 stratz extra，管理专用 HTTP 客户端与 Core SQLite 仓库；可信 Event 转为四维身份后才调用 Core。插件注册普通命令及需管理员鉴权的状态/停用接口，不注册 AI 工具、不做推送。AstrBot 仍是骨架，两端互不依赖，平台事件不传入核心。
 
