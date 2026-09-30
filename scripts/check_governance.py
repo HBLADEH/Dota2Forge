@@ -55,7 +55,7 @@ def load_policy(root: Path) -> dict[str, Any]:
     paths = [architecture["core_path"], *architecture["adapter_paths"]]
     if len(set(paths)) != len(paths):
         raise ValueError("Architecture paths must be distinct")
-    actual = {str(p.parent.relative_to(root)) for p in package_configs(root)}
+    actual = {p.parent.relative_to(root).as_posix() for p in package_configs(root)}
     if actual != set(paths):
         raise ValueError("Architecture paths must cover exactly the workspace packages")
     return policy
@@ -163,7 +163,7 @@ def imported_modules(tree: ast.AST) -> list[str]:
 def check_architecture(root: Path, policy: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     architecture = policy["architecture"]
-    configs = {str(p.parent.relative_to(root)): read_toml(p) for p in package_configs(root)}
+    configs = {p.parent.relative_to(root).as_posix(): read_toml(p) for p in package_configs(root)}
     imports: dict[str, set[str]] = {}
     for relative, config in configs.items():
         entries = config["tool"]["hatch"]["build"]["targets"]["wheel"]["packages"]
@@ -270,8 +270,9 @@ def check_repository(root: Path, changed: set[str] | None = None) -> list[str]:
 def run_checks(root: Path, commands: list[list[str]]) -> int:
     for command in commands:
         print("RUN " + " ".join(command), flush=True)
+        invocation = [sys.executable, *command[1:]] if command[0] == "python" else command
         try:
-            result = subprocess.run(command, cwd=root, check=False)
+            result = subprocess.run(invocation, cwd=root, check=False)
         except OSError as exc:
             print(f"Required command unavailable: {exc}", file=sys.stderr)
             return 1
@@ -298,7 +299,7 @@ def main(argv: list[str] | None = None) -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("Governance checks passed. Both adapters: skeletons only; host checks not implemented.")
+    print("Governance checks passed. Live host verification is recorded separately in tasks.")
     return run_checks(ROOT, load_policy(ROOT)["verification"]["commands"])
 
 

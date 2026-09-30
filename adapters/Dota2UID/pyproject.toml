@@ -5,11 +5,14 @@ build-backend = "hatchling.build"
 [project]
 name = "dota2uid"
 version = "0.1.0a1"
-description = "Dota2UID adapter skeleton for GsCore, powered by Dota2Forge Core"
+description = "Dota2UID GsCore binding and STRATZ query adapter, powered by Dota2Forge Core"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = ["dota2forge-core>=0.1.0a1,<0.2"]
+
+[project.optional-dependencies]
+stratz = ["dota2forge-core[stratz]>=0.1.0a1,<0.2", "httpx>=0.28.1,<1"]
 
 [tool.uv.sources]
 dota2forge-core = { workspace = true }

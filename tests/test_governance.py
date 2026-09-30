@@ -4,6 +4,7 @@ import ast
 import json
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -114,15 +115,18 @@ def test_core_rejects_platform_imports(repository, source):
 
 
 @pytest.mark.parametrize(
-    "declaration",
+    ("original", "declaration"),
     [
-        'dependencies = ["astrbot>=1"]',
-        'dependencies = []\n[project.optional-dependencies]\nhost = ["gsuid_core"]',
+        ("dependencies = []", 'dependencies = ["astrbot>=1"]'),
+        (
+            "[project.optional-dependencies]",
+            '[project.optional-dependencies]\nhost = ["gsuid_core"]',
+        ),
     ],
 )
-def test_dependency_declarations_checked(repository, declaration):
+def test_dependency_declarations_checked(repository, original, declaration):
     path = repository / CORE / "pyproject.toml"
-    path.write_text(path.read_text().replace("dependencies = []", declaration))
+    path.write_text(path.read_text().replace(original, declaration))
     assert "forbidden dependency" in "\n".join(checks.check_repository(repository))
 
 
@@ -156,7 +160,8 @@ def test_invalid_python_fails(repository):
 
 
 def test_missing_decision_record_fails(repository):
-    (repository / NOTE).unlink()
+    for note in (repository / ".agents/notes/implemented").glob("*.md"):
+        note.unlink()
     assert "Missing implemented decision" in "\n".join(checks.check_repository(repository))
 
 
@@ -226,12 +231,45 @@ def test_required_commands_fail_closed(tmp_path, monkeypatch):
     assert checks.run_checks(tmp_path, [["ruff"]]) == 0
 
 
+def test_python_checks_use_current_environment_interpreter(tmp_path, monkeypatch):
+    calls = []
+
+    def run(command, **kwargs):
+        calls.append(command)
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(subprocess, "run", run)
+    original = ["python", "-m", "coverage", "report"]
+    assert checks.run_checks(tmp_path, [original]) == 0
+    assert calls == [[sys.executable, "-m", "coverage", "report"]]
+    assert original == ["python", "-m", "coverage", "report"]
+
+
+def test_reference_package_order_is_platform_independent(repository):
+    paths = [
+        path.relative_to(repository).as_posix() for path in reference.package_configs(repository)
+    ]
+    assert paths == sorted(paths)
+    assert paths[0] == "adapters/Dota2UID/pyproject.toml"
+
+
 def test_cli_runs_checks_after_governance(repository, monkeypatch):
     monkeypatch.setattr(checks, "ROOT", repository)
     calls = []
     monkeypatch.setattr(checks, "run_checks", lambda root, commands: calls.append(commands) or 0)
     assert checks.main(["--all"]) == 0
-    assert calls[0][-1] == ["pytest"]
+    assert calls[0][-3:] == [
+        ["pytest"],
+        ["python", "-m", "coverage", "report", "--include=scripts/*", "--fail-under=80"],
+        [
+            "python",
+            "-m",
+            "coverage",
+            "report",
+            "--include=packages/dota2forge-core/*",
+            "--fail-under=80",
+        ],
+    ]
     (repository / NOTE).unlink()
     assert checks.main(["--all"]) == 1
 
@@ -273,12 +311,46 @@ def test_git_scope_covers_committed_staged_working_deleted_and_untracked(tmp_pat
     }
 
 
-def test_wheel_smoke_uses_offline_install_and_isolated_import(monkeypatch):
+@pytest.mark.parametrize("platform", ["win32", "linux"])
+def test_wheel_smoke_uses_offline_install_and_isolated_import(monkeypatch, platform):
     commands = []
+    monkeypatch.setattr(smoke_wheels.sys, "platform", platform)
     monkeypatch.setattr(subprocess, "run", lambda args, **kw: commands.append(args))
     assert smoke_wheels.main() == 0
     assert len(commands) == 9
     for install in commands[1::3]:
         assert "--no-index" in install
+        assert "--no-cache" in install
+    assert "from Dota2UID.commands import parse_command" in commands[-1][-1]
+    assert "host_entry.py.template" in commands[-1][-1]
     for command in commands[2::3]:
         assert "-I" in command
+        suffix = "Scripts/python.exe" if platform == "win32" else "bin/python"
+        assert Path(command[0]).as_posix().endswith(suffix)
+
+
+@pytest.mark.parametrize("low_group", [None, "scripts", "packages/dota2forge-core"])
+def test_coverage_gates_keep_core_and_governance_independent(tmp_path, low_group):
+    from coverage import CoverageData
+
+    data = CoverageData(basename=str(tmp_path / ".coverage"))
+    for group in ("scripts", "packages/dota2forge-core"):
+        source = tmp_path / group / "sample.py"
+        source.parent.mkdir(parents=True)
+        source.write_text("\n".join(f"value_{index} = {index}" for index in range(1, 11)))
+        data.add_lines({str(source): {1} if group == low_group else set(range(1, 11))})
+    data.write()
+    gates = checks.load_policy(ROOT)["verification"]["commands"][-2:]
+    for group, command in zip(("scripts", "packages/dota2forge-core"), gates, strict=True):
+        result = subprocess.run(
+            [sys.executable, *command[1:]], cwd=tmp_path, capture_output=True, text=True
+        )
+        assert result.returncode == (2 if group == low_group else 0), result.stdout + result.stderr
+
+
+def test_coverage_gate_fails_without_data(tmp_path):
+    command = checks.load_policy(ROOT)["verification"]["commands"][-1]
+    result = subprocess.run(
+        [sys.executable, *command[1:]], cwd=tmp_path, capture_output=True, text=True
+    )
+    assert result.returncode != 0

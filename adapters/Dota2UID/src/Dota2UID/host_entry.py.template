@@ -1,0 +1,62 @@
+"""GsCore discovery bridge; install as plugins/Dota2UID/__init__.py."""
+
+from pathlib import Path
+
+from fastapi import Depends
+from gsuid_core.bot import Bot
+from gsuid_core.models import Event
+from gsuid_core.server import on_core_shutdown, on_core_start, on_core_start_before
+from gsuid_core.sv import Plugins, SV
+from gsuid_core.webconsole.app_app import app
+from gsuid_core.webconsole.web_api import require_admin_header
+
+from Dota2UID.commands import Action, Caller
+from Dota2UID.runtime import Runtime, State
+
+Plugins(name="Dota2UID", prefix=[], allow_empty_prefix=True)
+queries = SV("Dota2UID账号与查询", pm=6)
+admin = SV("Dota2UID生命周期", pm=0)
+runtime = Runtime(Path(__file__).resolve().parents[3] / "data" / "Dota2UID" / "config.toml")
+
+
+@on_core_start_before
+@on_core_start
+async def start_dota2uid() -> None:
+    await runtime.start()
+
+
+@on_core_shutdown
+async def stop_dota2uid() -> None:
+    await runtime.close()
+
+
+@queries.on_command(tuple(action.value for action in Action), block=True)
+async def command_dota2uid(bot: Bot, ev: Event) -> None:
+    caller = Caller(
+        ev.bot_id, ev.bot_self_id, ev.user_id, ev.WS_BOT_ID,
+        bool(ev.at_list) or ev.at is not None,
+    )
+    replies = await runtime.handle(caller, ev.command, ev.text)
+    for reply in replies:
+        if runtime.state in {State.STOPPING, State.STOPPED}:
+            return
+        await bot.send(reply)
+
+
+@admin.on_command("dota停用", block=True)
+async def disable_dota2uid(bot: Bot, ev: Event) -> None:
+    if type(ev.user_pm) is not int or ev.user_pm != 0 or ev.text.strip() or ev.at_list:
+        return
+    await runtime.close()
+    await bot.send("Dota2UID 已停用，客户端已关闭；现在可重载或卸载插件。")
+
+
+@app.get("/api/dota2uid/status", dependencies=[Depends(require_admin_header)])
+async def status_dota2uid() -> dict[str, str | bool]:
+    return {"state": runtime.state.value, "client_closed": runtime.client_closed}
+
+
+@app.post("/api/dota2uid/stop", dependencies=[Depends(require_admin_header)])
+async def close_dota2uid() -> dict[str, str | bool]:
+    await runtime.close()
+    return await status_dota2uid()

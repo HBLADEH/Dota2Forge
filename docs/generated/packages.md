@@ -8,4 +8,4 @@
 | astrbot-plugin-dota2forge | 0.1.0a1 | astrbot_plugin_dota2forge | dota2forge-core>=0.1.0a1,<0.2 |
 | dota2forge-core | 0.1.0a1 | dota2forge_core | 无 |
 
-以上均为 M0 包骨架；配置、命令与 AI Tool 注册表尚未实现。
+本表仅描述包元数据；实现边界见 [当前架构](../architecture.md)。配置、命令与 AI Tool 注册表尚未实现。
