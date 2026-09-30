@@ -40,6 +40,6 @@ STRATZ 映射 steamAccount.seasonRank/昵称及最近比赛基本统计；胜负
 
 HTTP 401 与已核实的缺 Bearer JSON 提示为认证失败；429/限额耗尽保留可知等待，超时明确返回，其余非 200 为 UNAVAILABLE。JSON/schema/null 及 GraphQL errors（含部分数据和可选字段错误）为 INVALID_RESPONSE；正常可选 null 可保留 None。空 matches 有效，null player/matches 不伪装为空，也不猜测 PRIVATE/NOT_FOUND；isStratzPublic=false 不是整个账号不可查的证据。无重试、缓存或自动回退，同 Token/循环须复用一个实例读取额度。
 
-实现后已用本机配置账号独立只读查询概况和 100 场，验证同账号、source=stratz 与客户端关闭；Dota2UID 宿主生命周期也已单独实测。QQ 单会话收发已获用户确认；详情、IMP、精确 MMR 与经济序列仍未实现。限制与操作见 [STRATZ 接入](../cookbook/stratz.md)，Provider 证据见 [任务](../../.agents/tasks/done/2026-09-30-stratz-provider.md)。
+实现后已用本机配置账号独立只读查询概况和 100 场，验证同账号、source=stratz 与客户端关闭；Dota2UID 宿主生命周期也已单独实测。QQ 单会话收发已获用户确认；按比赛 ID 的 MatchDetail、图片 Renderer、IMP、精确 MMR 与经济序列仍未实现，后续边界见 [图片任务](../../.agents/tasks/active/2026-10-01-image-interaction.md) 和 [详情任务](../../.agents/tasks/active/2026-10-01-historical-match-detail.md)。限制与操作见 [STRATZ 接入](../cookbook/stratz.md)，Provider 证据见 [任务](../../.agents/tasks/done/2026-09-30-stratz-provider.md)。
 
 操作见 [离线闭环](../cookbook/core-offline.md)，原因见 [Core 决策](../../.agents/notes/implemented/2026-09-30-core-offline-contracts.md)。

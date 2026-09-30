@@ -43,6 +43,6 @@ uv build --all-packages
 
 STRATZ 主源已实现概况、当前段位和最近比赛，支持有界分页、错误分类、限流等待和客户端生命周期注入；Dota2UID 已完成 QQ 单会话绑定和查询。配置及只读验证见 [STRATZ 接入](docs/cookbook/stratz.md)，宿主安装见 [Dota2UID 接入](docs/cookbook/dota2uid.md)。OpenDota 独立补充与交叉核验、Valve 按需补充仍在规划中，无自动回退，见 [选型决策](.agents/notes/implemented/2026-09-30-provider-selection.md)。
 
-[STRATZ 基础接入已完成](.agents/tasks/done/2026-09-30-stratz-provider.md)。后续顺序：Dota2UID（GsCore）→ AstrBot → 详情/IMP 与补充数据源 → 订阅与渲染扩展 → Deploy。完整 Phase 1 功能范围保留在规划中。
+[STRATZ 基础接入已完成](.agents/tasks/done/2026-09-30-stratz-provider.md)。后续顺序：共享图片展示模型与 Dota2UID 卡片 → STRATZ 按比赛 ID 查询历史详情 → AstrBot → OpenDota/IMP/订阅与重试策略 → Deploy。完整 Phase 1 功能范围保留在规划中。
 
 许可证：[MIT](LICENSE)。
