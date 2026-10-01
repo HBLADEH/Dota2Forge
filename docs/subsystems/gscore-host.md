@@ -17,6 +17,8 @@
 
 本仓库 [Dota2UID](../../adapters/Dota2UID/) 保留 src 库包布局，显式安装器将分发模板放入 plugins/Dota2UID/__init__.py，SV 在该桥接中构造以满足调用栈归属。仅安装 wheel 不注册命令，宿主须再加载发现入口。详见 [安装步骤](../cookbook/dota2uid.md)。
 
+2026-10-02修复失败重载/不完整wheel安装后，宿主冷启动和两轮管理员stop/reload通过，最终ready/image。Core/Renderer/Dota2UID/Pillow内容逐文件匹配wheel，Pillow为12.3.0；配置/绑定库/发现入口指纹未变。用户随后确认QQ菜单、账号和直接ID详情均正常、图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。该结果更新10-01的会话过期/尚未验证状态，不推广为多账号或全平台保证。
+
 ## 身份与 UID
 
 `gsuid_core/models.py` 的 Event 包含 bot_id、bot_self_id、user_id、real_bot_id、WS_BOT_ID、user_pm 和 at。handler.msg_process 将 MessageReceive.bot_id 的冒号后缀移除后作为 Event.bot_id，并在 real_bot_id 保留原值；WS_BOT_ID 由已连接宿主对象赋值。bot_self_id 才是机器人账号维度，bot_id 不是可直接替代它的字段。

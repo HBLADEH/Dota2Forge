@@ -12,7 +12,7 @@ Dota2UID ────────┐
 
 Core 已包含严格身份/比赛 ID 值、绑定/查询用例、独立 MatchDetailService、异步 Provider/Repository 端口、文件型 SQLite 仓库和 STRATZ 玩家/最近比赛/按 ID 详情 Provider。基础安装无必选运行依赖，联网实现使用 stratz extra 中的 httpx。领域与用例不读取环境、执行 SQL 或访问 HTTP；SQLite、时钟与专用 HTTP 客户端由组合入口显式构造、注入和关闭。
 
-STRATZ 主源已实现并独立只读联调概况、100 场分页及按比赛 ID 的最小详情；后者不受 recent 范围限制，不保证历史覆盖。详情字段缺口、匿名身份和正常 null 详情分别保留；错误不降级为空结果，额度耗尽停止发送，无自动重试或回退。Dota2UID 已有直接ID、已发送列表序号/取页和图片/文本模式，图片代码/离线回退已验证，当前GsCore/QQ图片联调未验证；共享Renderer和MatchDetailCard已实现。见[图片任务](../.agents/tasks/active/2026-10-01-image-interaction.md)、[详情任务](../.agents/tasks/active/2026-10-01-historical-match-detail.md)、[Renderer契约](subsystems/renderer.md)。OpenDota、Valve按需补充仍待实现。
+STRATZ 主源已实现并独立只读联调概况、100 场分页及按比赛 ID 的最小详情；后者不受 recent 范围限制，不保证历史覆盖。详情字段缺口、匿名身份和正常 null 详情分别保留；错误不降级为空结果，额度耗尽停止发送，无自动重试或回退。Dota2UID已有直接ID、已发送列表序号/取页和图片/文本模式；共享Renderer和详情卡已实现。GsCore冷启动/受控stop/reload与QQ单会话图片可读性已验证，[证据](../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。见[图片任务](../.agents/tasks/active/2026-10-01-image-interaction.md)、[详情任务](../.agents/tasks/active/2026-10-01-historical-match-detail.md)、[Renderer契约](subsystems/renderer.md)。OpenDota、Valve按需补充仍待实现。
 
 Dota2UID 已有首个绑定/查询消费者：安全导入的 src 库包加显式安装到 plugins/Dota2UID 的宿主发现桥接。组合入口安装 stratz extra，管理专用 HTTP 客户端与 Core SQLite 仓库；可信 Event 转为四维身份后才调用 Core。插件注册普通命令及需管理员鉴权的状态/停用接口，不注册 AI 工具、不做推送。AstrBot 适配器已有无宿主 SDK 的 AstrApplication，消费同一 Core/Renderer；AstrBot 平台事件、配置、生命周期和真实消息发送仍未验证，两端互不依赖，平台事件不传入核心。
 

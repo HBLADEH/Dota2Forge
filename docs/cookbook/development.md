@@ -25,7 +25,7 @@ uv run --locked python scripts/generate_reference.py
 uv run --locked python scripts/check_governance.py --all
 ```
 
-构建三个包并检查 wheel 在独立环境中的安装和导入：
+构建四个包并检查 wheel 在独立环境中的安装和导入：
 
 ```sh
 uv build --all-packages

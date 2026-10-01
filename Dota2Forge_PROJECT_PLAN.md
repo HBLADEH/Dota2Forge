@@ -1519,7 +1519,7 @@ adapters/
 
 Codex 不应一次性实现整个项目。
 
-Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4 已完成代码、离线测试与本机安装；Step 5 已通过真实宿主加载/受控重载/卸载及恢复冷启动，用户已完成 QQ 单会话帮助、绑定、玩家和战绩命令验收，见 [Dota2UID 任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。Step 6 Renderer资源/回退边界、Step 8详情/选择文本与卡片代码和 AstrApplication 无宿主消费者已完成离线验证；GsCore 图片压缩/分页/重载与 AstrBot 平台消费未完成。不重做已完成的 Core 和主源；在线证据单列。
+Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4–5 的Dota2UID绑定/查询与真实宿主生命周期已完成，见 [接入任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。Step 6–8 的共享Renderer、图片命令、基础历史详情/列表选择已实现并离线验证；2026-10-02 GsCore图片版本冷启动/两轮stop-reload通过，QQ单会话菜单、账号、分页、序号和直接ID详情正常且图片可读，[证据](.agents/artifacts/gscore-image-lifecycle-v1/README.md)。Step 9已有AstrApplication无宿主消费者，AstrBot平台注册/生命周期/消息仍待实现验证；后续Step 10–15尚未完成。不重做已完成的Core和主源，在线证据不代表多账号/全平台保证。
 
 ```text
 Step 1

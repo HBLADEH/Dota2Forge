@@ -21,7 +21,7 @@ Status: in_progress
 - [x] 复用有限超时、取消、限流与客户端生命周期，无自动重试/跨源切换；账号查询偏好不等于所有权证明，禁止暴露完整平台身份和匿名玩家身份。
 - [x] 离线覆盖合法/非法 ID、列表范围外的旧比赛、部分/null/错误详情、匿名参赛者、非参赛绑定账号、列表失效与并发选择；授权账号旧比赛只读验证通过。
 - [x] 新命令/图片四包已安装当前 CPython 3.13.2 GsCore，发现桥接替换并冷启动；无管理员会话时不宣称命令注册通过。
-- [ ] 真实 QQ 详情/图片/序号/取页验收；用户已确认第1场序号详情，直接ID本次因 STRATZ 不可用，待恢复后重试。
+- [x] 真实 QQ 单会话详情/图片/序号/取页通过；冷却结束后的直接 ID 详情已由用户确认，10-02冷启动与两轮管理员stop/reload后用户再次确认详情正常、图片可读。
 
 ## 影响模块与决策
 [Core 端口](../../../packages/dota2forge-core/src/dota2forge_core/ports.py)、[公共契约](../../../docs/subsystems/core.md)、[STRATZ](../../../packages/dota2forge-core/src/dota2forge_core/infrastructure/stratz.py)、[Dota2UID 命令](../../../adapters/Dota2UID/src/Dota2UID/commands.py)、[基础图片任务](2026-10-01-image-interaction.md)、[决策](../../notes/proposed/2026-10-01-image-history-interaction.md)。
@@ -36,4 +36,4 @@ STRATZ 内省/固定查询通过；授权账号偏移 100 的第 101 条旧比�
 最终统一入口通过：813 项禁网测试、Ruff、mypy 36 源文件；综合96.27%，Core约99%、scripts约97%，Dota2UID约95%、Renderer约98%，两个独立80%门槛通过。四包 build 及无索引、无SDK、隔离 wheel 安装/导入通过，包含详情公共导出与 Renderer 资源断言；CPython3.13.2 宿主已安装四包 wheel 并冷启动，Dota2UID/Renderer独立导入与资源生成通过；新命令未实机消息/QQ验证。
 
 ## 阻塞与下一步
-契约/Provider/直接ID、有界列表选择/取页文本和MatchDetailCard已完成；共享Renderer已实现并接入Dota2UID，代码/离线验证完整。用户已确认第1场序号详情；直接ID本次遇到 STRATZ UNAVAILABLE。整体任务仍未完成：真实压缩/重载和直接ID成功响应待验，WebConsole管理员会话过期，IMP/经济序列仍属后续增量，不静默增加来源缓存/重试。
+基础详情契约/Provider/直接ID、列表序号/取页和详情卡已完成代码、离线与QQ单会话验收。10-02宿主恢复/冷启动和两轮stop/reload后，用户复测详情正常、图片可读，[证据](../../artifacts/gscore-image-lifecycle-v1/README.md)。IMP/经济/购买序列口径仍待独立增量；不静默增加来源缓存/重试。

@@ -1,0 +1,158 @@
+{
+  "date": "2026-10-02",
+  "timezone": "Asia/Shanghai",
+  "pillow": "12.3.0",
+  "cold_start": "ready",
+  "lifecycle_rounds": 2,
+  "after_stop": {
+    "state": "stopped",
+    "client_closed": true
+  },
+  "after_reload": {
+    "state": "ready",
+    "client_closed": false
+  },
+  "config_bindings_bridge_unchanged": true,
+  "restart_settings_restored": true,
+  "wheel_content_verified": [
+    "dota2forge-core",
+    "dota2forge-renderer",
+    "dota2uid",
+    "pillow"
+  ],
+  "events": [
+    {
+      "time": "10-02 01:55:42",
+      "level": "success",
+      "event": "🔌 Dota2UID 就绪 (0.21s)"
+    },
+    {
+      "time": "10-02 01:55:46",
+      "level": "info",
+      "event": "🌱 lifecycle state=starting"
+    },
+    {
+      "time": "10-02 01:55:47",
+      "level": "info",
+      "event": "🌱 lifecycle state=ready reply_mode=image"
+    },
+    {
+      "time": "10-02 01:56:54",
+      "level": "info",
+      "event": "🌱 lifecycle state=stopping"
+    },
+    {
+      "time": "10-02 01:56:54",
+      "level": "info",
+      "event": "🌱 lifecycle state=stopped client_closed=true"
+    },
+    {
+      "time": "10-02 01:57:03",
+      "level": "info",
+      "event": "🔌 正在重载插件 Dota2UID..."
+    },
+    {
+      "time": "10-02 01:57:03",
+      "level": "info",
+      "event": "🔌 [GsCore] 已清理插件 Dota2UID 的 3 个旧生命周期 Hook"
+    },
+    {
+      "time": "10-02 01:57:03",
+      "level": "info",
+      "event": "🔌 [GsCore] 已清理插件 Dota2UID 的 2 条旧 web 路由/挂载"
+    },
+    {
+      "time": "10-02 01:57:04",
+      "level": "success",
+      "event": "🔌 Dota2UID 就绪 (0.33s)"
+    },
+    {
+      "time": "10-02 01:57:04",
+      "level": "success",
+      "event": "🔌 已重载插件 Dota2UID"
+    },
+    {
+      "time": "10-02 01:57:04",
+      "level": "info",
+      "event": "🔌 [GsCore] 重载后执行插件 Dota2UID 的启动 Hook (1 个)..."
+    },
+    {
+      "time": "10-02 01:57:04",
+      "level": "info",
+      "event": "🌱 lifecycle state=starting"
+    },
+    {
+      "time": "10-02 01:57:04",
+      "level": "info",
+      "event": "🌱 lifecycle state=ready reply_mode=image"
+    },
+    {
+      "time": "10-02 01:58:01",
+      "level": "info",
+      "event": "🌱 lifecycle state=stopping"
+    },
+    {
+      "time": "10-02 01:58:01",
+      "level": "info",
+      "event": "🌱 lifecycle state=stopped client_closed=true"
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "info",
+      "event": "🔌 正在重载插件 Dota2UID..."
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "info",
+      "event": "🔌 [GsCore] 已清理插件 Dota2UID 的 3 个旧生命周期 Hook"
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "info",
+      "event": "🔌 [GsCore] 已清理插件 Dota2UID 的 2 条旧 web 路由/挂载"
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "success",
+      "event": "🔌 Dota2UID 就绪 (0.02s)"
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "success",
+      "event": "🔌 已重载插件 Dota2UID"
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "info",
+      "event": "🔌 [GsCore] 重载后执行插件 Dota2UID 的启动 Hook (1 个)..."
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "info",
+      "event": "🌱 lifecycle state=starting"
+    },
+    {
+      "time": "10-02 01:58:21",
+      "level": "info",
+      "event": "🌱 lifecycle state=ready reply_mode=image"
+    }
+  ],
+  "temporary_files_removed": true,
+  "dependencies_satisfied": true,
+  "qq_user_report": {
+    "menu": "normal",
+    "account": "normal",
+    "direct_match_detail": "normal",
+    "image_readability": "confirmed",
+    "scope": "one existing QQ session"
+  },
+  "offline_verification": {
+    "command": "uv run --locked python scripts/check_governance.py --all",
+    "tests_passed": 813,
+    "aggregate_coverage": 96.27,
+    "ruff": "passed",
+    "mypy": "passed",
+    "governance": "passed",
+    "separate_core_and_scripts_coverage_gates": "passed"
+  }
+}
