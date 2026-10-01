@@ -7,10 +7,34 @@ from .domain.errors import (
     ValidationError,
 )
 from .domain.identity import AccountId, PlatformIdentity, parse_account_id
+from .domain.match_detail import (
+    MatchDetail,
+    MatchDetailResult,
+    MatchDetailUnavailable,
+    parse_match_id,
+)
 from .domain.models import PlayerBinding, PlayerProfile, RecentMatches
-from .ports import BindingRepository, Clock, MatchProvider, PlayerProvider
+from .ports import BindingRepository, Clock, MatchDetailProvider, MatchProvider, PlayerProvider
 
 MAX_RECENT_MATCHES = 100
+
+
+class MatchDetailService:
+    """Direct historical lookup, with no binding or recent-list requirement."""
+
+    def __init__(self, details: MatchDetailProvider) -> None:
+        self._details = details
+
+    async def get_match_detail(self, match_id: int | str) -> MatchDetailResult:
+        target = parse_match_id(match_id)
+        result = await self._details.get_match_detail(target)
+        if (
+            not isinstance(result, (MatchDetail, MatchDetailUnavailable))
+            or result.match_id != target
+            or result.metadata.source != self._details.source
+        ):
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        return result
 
 
 class Dota2Service:

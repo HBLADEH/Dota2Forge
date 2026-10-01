@@ -9,7 +9,7 @@ Related docs: [项目规划](../../../Dota2Forge_PROJECT_PLAN.md)
 首个 QQ 文本查询闭环已通过。用户希望菜单和查询以图片回复，参考 StarRailUID，并增加历史对局中某一局的详细信息。旧顺序把 Renderer 放在 AstrBot、OpenDota 和重试之后，会使已可用数据的图片交互等待无关扩展；也未明确历史单局的选择方式。
 
 ## Decision
-用户已要求记录这些功能；以下为待实施方案，目录状态保持 proposed，具体样图和版式实现前确认。
+用户已要求记录这些功能；以下为实施顺序与边界记录。共享Renderer和基础详情代码已按已实施决策落地，未完成项仍由active任务跟踪。
 - 优先让现有 Dota2UID 消费共享图片 Renderer：菜单/帮助、玩家卡、近期战绩卡，然后账号状态卡；保留纯文本提示与可配置文本模式。普通图片菜单展示命令，不当作已支持可点击按钮。
 - Core 负责业务数据和规则，计划独立 dota2forge-renderer 包负责可复用排版与编码。绘图库/字体/图片资源不进入 Core 领域和用例，宿主事件/消息只在适配器；包结构、依赖和治理路径在实施时更新。
 - 首轮采用 Pillow，参考 StarRailUID 的分类帮助与命令调用绘图/发送方式；资源和主题采用 Dota2Forge 自有设计，记录字体、英雄/装备图标来源和授权。静态英雄中文名与缺图占位先准备，复杂图表必要时再评估 HTML，不以完整浏览器运行时阻塞首版。
@@ -28,7 +28,9 @@ Related docs: [项目规划](../../../Dota2Forge_PROJECT_PLAN.md)
 - 全部回复立即图片化或依赖按钮：失败时提示不可读/平台支持未验证，保留文本补充，按钮后续独立评估。
 
 ## Consequences
-需要维护独立 Renderer、资源版本/授权、回复类型和详情模型；列表选择新增有界宿主状态，须明确隐私/失效和重载语义。样式、分页大小、选取命令和详情字段仍需实施前核对；没有自动重试、解析作业或跨源回退的授权扩展。
+需要维护独立 Renderer、资源版本/授权、回复类型和详情模型；这些首轮边界已实现，列表选择为有界宿主状态。图标/装备资源授权、QQ压缩/发送/重载、IMP/经济和AstrBot消费仍需增量验收；没有自动重试、解析作业或跨源回退的授权扩展。
+
+样图技术基线已采用（浅色主题、完整OFL字体、780px、5场/页）；实现细节见 [Renderer决策](../implemented/2026-10-01-shared-image-renderer.md)，样图历史见 [展示契约草案](2026-10-01-renderer-preview-contract.md)。真实平台验收不由本记录宣称通过。
 
 ## Verification
-参考仓库 [StarRailUID](https://github.com/baiqwerdvd/StarRailUID/tree/739a80a26b7a137b6b7b7d45435c769822de06d0) 的 starrailuid_help/get_help.py、help.json 和独立 draw_*_card.py 已静态核查，体现分类图片菜单/Pillow 卡片及 bot.send 图片；其 GPL-3.0-or-later 元数据不作为复制代码/资产到本 MIT 项目的许可。当前无本项目图片/详情实现；验收与后续联调见两个 planned 任务，普通测试继续禁网。
+参考仓库 [StarRailUID](https://github.com/baiqwerdvd/StarRailUID/tree/739a80a26b7a137b6b7b7d45435c769822de06d0) 的帮助注册与Pillow调用方式已静态核查；其GPL-3.0-or-later元数据不作为复制代码/资产到本MIT项目。共享Renderer/详情契约/Provider与文本ID/序号/取页已独立实现，见三个implemented决策。原方案仍未完整实施：GsCore/QQ新图片功能与AstrBot消费未验证；普通测试继续禁网。

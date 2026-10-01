@@ -5,6 +5,7 @@ from typing import Protocol
 
 from .domain.errors import DataSource
 from .domain.identity import AccountId, PlatformIdentity
+from .domain.match_detail import MatchDetailResult, MatchId
 from .domain.models import PlayerBinding, PlayerProfile, RecentMatches
 
 
@@ -39,4 +40,13 @@ class MatchProvider(Protocol):
 
     async def get_recent_matches(self, account_id: AccountId, limit: int) -> RecentMatches:
         """Return up to limit newest-first matches; empty is a valid observed result."""
+        ...
+
+
+class MatchDetailProvider(Protocol):
+    @property
+    def source(self) -> DataSource: ...
+
+    async def get_match_detail(self, match_id: MatchId) -> MatchDetailResult:
+        """Query the ID directly; null data remains distinct from classified failures."""
         ...

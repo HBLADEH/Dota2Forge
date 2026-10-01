@@ -32,14 +32,24 @@ SQL 使用参数绑定；BEGIN IMMEDIATE 将读取旧绑定、冲突检查与写
 
 取消等待不保证工作线程中的事务停止。发生取消后应重新读取状态再决定是否改绑；不承诺恰好一次写入。文件路径、备份、访问权限、部署调度与宿主卸载管理归组合入口。
 
+## 历史单局详情
+
+[详情值](../../packages/dota2forge-core/src/dota2forge_core/domain/match_detail.py) 和 MatchDetailService 独立于原 Dota2Service/玩家/近期端口。MatchId 接受 1–9223372036854775807 的整数或规范 ASCII 十进制字符串；拒绝 bool、浮点、符号、空白、前导零和 URL。服务通过 MatchDetailProvider 按 ID 直接查询，无绑定或 recent 依赖，不受近期 100 场边界限制；核对返回 ID、类型和来源。
+
+MatchDetail 保留可缺省开始/解析时间、时长、模式枚举、game_version_id、胜方、has_stats 和实际参赛者。人数最多十人，重复已知槽位/账号失败；players=None、空 tuple 与不足十人可区分。解析时间不等于 observed_at，版本 ID 不等于补丁名称，has_stats 不证明字段完整。`parse_state` 只摘要上游证据：`UNPARSED`、`UPSTREAM_PARSED`、`PARTIAL`、`UNKNOWN`；显式 null 结果为 `NO_DATA`，原因/隐私仍未知。
+
+MatchParticipant 保留阵营/槽位、英雄/KDA/GPM/XPM 和六个装备槽；0/False 有效，None 为缺失。账号哨兵 0/4294967295 是匿名，null 账号的匿名状态未知；均禁止携带昵称。已知账号与嵌套 steamAccount ID 必须一致；仅实际参赛账号可取得 participant 视角，绑定不证明参赛。账号/昵称 repr 隐藏，missing_fields 记录未知字段和装备槽。
+
+无 GraphQL errors 的显式 null match 返回 MatchDetailUnavailable，保留 ID/source/fetched_at，原因及隐私未知，不能解释成明确不存在/拒绝或正常比赛。缺字段、非法类型、重复玩家和 GraphQL errors 仍为 INVALID_RESPONSE；明确的 NOT_FOUND/PRIVATE 保持 ProviderError 契约，当前 STRATZ 没有该细化证据。共用同一 Provider 的限流、超时、取消和客户端所有权，不重试/换源。
+
 ## 实现范围
 
-[合成 fixture](../../tests/core/fixtures/public-player.json) 仅验证归一化端口及业务流程，标记 source=fixture，不是 STRATZ 原始响应样本。[StratzProvider](../../packages/dota2forge-core/src/dota2forge_core/infrastructure/stratz.py) 已实现两个查询端口，HTTP 依赖为 stratz extra；Token、Clock、有限超时和专用客户端由组合入口注入并关闭。[Dota2UID](../cookbook/dota2uid.md) 已消费现有用例，AstrBot 尚无业务消费者；本轮不改 Core 公共契约。
+[合成 fixture](../../tests/core/fixtures/public-player.json) 仅验证归一化端口及业务流程，标记 source=fixture，不是 STRATZ 原始响应样本。[StratzProvider](../../packages/dota2forge-core/src/dota2forge_core/infrastructure/stratz.py) 已实现三个独立查询端口，HTTP 依赖为 stratz extra；Dota2UID 和 AstrApplication 都只通过注入端口消费 Core，AstrBot 平台生命周期/真实消息尚未验证；新增详情契约没有更改旧构造与端口。
 
 STRATZ 映射 steamAccount.seasonRank/昵称及最近比赛基本统计；胜负由玩家阵营和 didRadiantWin 共同决定。每页至多 20、每次至多 10 页，短页继续按实际行数推进，空页或无进展停止，不保证历史完整。去重冲突、错账号、必要字段缺失或不合法模型失败；集合和每场分别保留实际抓取时间，observed_at/patch 未知时为空。
 
 HTTP 401 与已核实的缺 Bearer JSON 提示为认证失败；429/限额耗尽保留可知等待，超时明确返回，其余非 200 为 UNAVAILABLE。JSON/schema/null 及 GraphQL errors（含部分数据和可选字段错误）为 INVALID_RESPONSE；正常可选 null 可保留 None。空 matches 有效，null player/matches 不伪装为空，也不猜测 PRIVATE/NOT_FOUND；isStratzPublic=false 不是整个账号不可查的证据。无重试、缓存或自动回退，同 Token/循环须复用一个实例读取额度。
 
-实现后已用本机配置账号独立只读查询概况和 100 场，验证同账号、source=stratz 与客户端关闭；Dota2UID 宿主生命周期也已单独实测。QQ 单会话收发已获用户确认；按比赛 ID 的 MatchDetail、图片 Renderer、IMP、精确 MMR 与经济序列仍未实现，后续边界见 [图片任务](../../.agents/tasks/active/2026-10-01-image-interaction.md) 和 [详情任务](../../.agents/tasks/active/2026-10-01-historical-match-detail.md)。限制与操作见 [STRATZ 接入](../cookbook/stratz.md)，Provider 证据见 [任务](../../.agents/tasks/done/2026-09-30-stratz-provider.md)。
+已独立只读联调概况、100场及偏移100旧比赛详情：source=stratz、10名参赛者、绑定账号确实参赛和client关闭均核对。has_stats=False但parsed_at存在，不能据单一标记推断完整；装备缺失保持None。Dota2UID详情/序号/取页及共享Renderer图片代码离线验证，尚未部署/QQ图片验收；临时列表仍在适配器。IMP/精确MMR/经济序列仍未实现。详情见[决策](../../.agents/notes/implemented/2026-10-01-historical-match-contract.md)，图片见[Renderer契约](../subsystems/renderer.md)。
 
 操作见 [离线闭环](../cookbook/core-offline.md)，原因见 [Core 决策](../../.agents/notes/implemented/2026-09-30-core-offline-contracts.md)。

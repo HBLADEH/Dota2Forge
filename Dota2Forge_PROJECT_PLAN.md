@@ -425,7 +425,7 @@ class MatchProvider(Protocol):
     ) -> list[MatchSummary]: ...
 ```
 
-STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调；按比赛 ID 查询详情、详情模型和图片卡片仍按 [历史详情任务](.agents/tasks/active/2026-10-01-historical-match-detail.md) 规划。OpenDota 实现在后续补充阶段，当前尚未实现。
+STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调。2026-10-01 新增独立 MatchDetailProvider/MatchDetailService 与最小详情模型，已只读核对列表外旧比赛；Dota2UID 的直接 ID、最后已发送列表序号/取页和图片/文本消费已离线验证。共享 Renderer/详情卡代码已实现，新命令/图片 QQ 验收仍依 [历史详情任务](.agents/tasks/active/2026-10-01-historical-match-detail.md) 推进。OpenDota 实现在后续补充阶段，当前尚未实现。
 
 业务层只依赖：
 
@@ -1519,7 +1519,7 @@ adapters/
 
 Codex 不应一次性实现整个项目。
 
-Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4 已完成代码、离线测试与本机安装；Step 5 已通过真实宿主加载/受控重载/卸载及恢复冷启动，用户已完成 QQ 单会话帮助、绑定、玩家和战绩命令验收，见 [Dota2UID 任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。不重做已完成的 Core 和主源；在线证据单列。
+Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4 已完成代码、离线测试与本机安装；Step 5 已通过真实宿主加载/受控重载/卸载及恢复冷启动，用户已完成 QQ 单会话帮助、绑定、玩家和战绩命令验收，见 [Dota2UID 任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。Step 6 Renderer资源/回退边界、Step 8详情/选择文本与卡片代码和 AstrApplication 无宿主消费者已完成离线验证；GsCore 图片压缩/分页/重载与 AstrBot 平台消费未完成。不重做已完成的 Core 和主源；在线证据单列。
 
 ```text
 Step 1

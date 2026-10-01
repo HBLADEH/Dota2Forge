@@ -1,0 +1,63 @@
+{
+  "menu": {
+    "width": 780,
+    "height": 1040,
+    "png_bytes": 95190,
+    "text_boxes": 19,
+    "truncations": 0
+  },
+  "player": {
+    "width": 780,
+    "height": 804,
+    "png_bytes": 63079,
+    "text_boxes": 11,
+    "truncations": 1
+  },
+  "recent-1": {
+    "width": 780,
+    "height": 1568,
+    "png_bytes": 151365,
+    "text_boxes": 48,
+    "truncations": 0
+  },
+  "recent-2": {
+    "width": 780,
+    "height": 1568,
+    "png_bytes": 156072,
+    "text_boxes": 48,
+    "truncations": 0
+  },
+  "status": {
+    "width": 780,
+    "height": 740,
+    "png_bytes": 54954,
+    "text_boxes": 9,
+    "truncations": 0
+  },
+  "player-missing": {
+    "width": 780,
+    "height": 804,
+    "png_bytes": 49472,
+    "text_boxes": 11,
+    "truncations": 0
+  },
+  "recent-empty": {
+    "width": 780,
+    "height": 736,
+    "png_bytes": 63419,
+    "text_boxes": 10,
+    "truncations": 0
+  },
+  "font": {
+    "sha256": "5484a54242d042b6f78abb02306d5023a39715e2bef59020bd9bdaa2e8734701",
+    "missing_preview_glyphs": []
+  },
+  "pagination": {
+    "matches": 100,
+    "per_page": 5,
+    "pages": 20,
+    "maximum_height": 1568,
+    "unexpected_truncations": 0,
+    "scope": "offline layout only; no host paging or message sends"
+  }
+}
