@@ -25,6 +25,7 @@ class Config:
     database: Path = field(repr=False)
     platforms: Mapping[str, str] = field(repr=False)
     timeout_seconds: float = 10
+    reply_mode: str = "image"
 
     def __post_init__(self) -> None:
         if (
@@ -38,6 +39,7 @@ class Config:
             or isinstance(self.timeout_seconds, bool)
             or not 0 < self.timeout_seconds <= 60
             or not math.isfinite(self.timeout_seconds)
+            or self.reply_mode not in {"image", "text"}
         ):
             raise ConfigurationError()
         object.__setattr__(self, "platforms", MappingProxyType(dict(self.platforms)))
@@ -46,7 +48,9 @@ class Config:
 def load_config(path: Path) -> Config:
     try:
         raw = tomllib.loads(path.read_text(encoding="utf-8-sig"))
-        if set(raw) != {"namespace", "stratz_token", "timeout_seconds", "platforms"}:
+        if not {"namespace", "stratz_token", "timeout_seconds", "platforms"} <= set(raw) or (
+            set(raw) - {"namespace", "stratz_token", "timeout_seconds", "platforms", "reply_mode"}
+        ):
             raise ConfigurationError()
         namespace, token, timeout, platforms = (
             raw["namespace"],
@@ -63,8 +67,16 @@ def load_config(path: Path) -> Config:
             or any(not isinstance(k, str) or not isinstance(v, str) for k, v in platforms.items())
         ):
             raise ConfigurationError()
+        reply_mode = raw.get("reply_mode", "image")
+        if not isinstance(reply_mode, str):
+            raise ConfigurationError()
         return Config(
-            namespace, token, path.resolve().parent / "bindings.sqlite3", platforms, timeout
+            namespace,
+            token,
+            path.resolve().parent / "bindings.sqlite3",
+            platforms,
+            timeout,
+            reply_mode,
         )
     except (OSError, ValueError):
         raise ConfigurationError() from None

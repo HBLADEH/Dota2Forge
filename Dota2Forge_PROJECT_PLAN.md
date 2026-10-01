@@ -396,7 +396,7 @@ QQ消息
 
 | 数据源 | 职责 | 接入阶段 |
 | --- | --- | --- |
-| STRATZ | 默认主源：玩家、当前段位、最近比赛；后续详情、IMP 和时间序列 | 首个联网闭环 |
+| STRATZ | 默认主源：玩家、当前段位、最近比赛；后续按比赛 ID 查询详情、IMP 和时间序列 | 首个联网闭环 |
 | OpenDota | 独立补充、基础战绩与交叉核验 | 首个宿主闭环之后 |
 | Valve Steam Web API | 按需补充账号解析和官方基础比赛数据 | 出现明确缺口时 |
 
@@ -412,8 +412,9 @@ HTTP 与配置放在基础设施/组合入口，所有 API 必须通过 Provider
 
 ```python
 class MatchProvider(Protocol):
-    async def get_match(
+    async def get_match_detail(
         self,
+        account_id: int,
         match_id: int,
     ) -> MatchDetail: ...
 
@@ -424,7 +425,7 @@ class MatchProvider(Protocol):
     ) -> list[MatchSummary]: ...
 ```
 
-STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调；实际端口以 Core 契约为准，上方详情接口仍是规划。OpenDota 实现在后续补充阶段，当前尚未实现。
+STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调。2026-10-01 新增独立 MatchDetailProvider/MatchDetailService 与最小详情模型，已只读核对列表外旧比赛；Dota2UID 的直接 ID、最后已发送列表序号/取页和图片/文本消费已离线验证。共享 Renderer/详情卡代码已实现，新命令/图片 QQ 验收仍依 [历史详情任务](.agents/tasks/active/2026-10-01-historical-match-detail.md) 推进。OpenDota 实现在后续补充阶段，当前尚未实现。
 
 业务层只依赖：
 
@@ -754,14 +755,16 @@ Adapter 决定：
 
 ```text
 Core
-├── Render Model
-└── Renderer
+└── Render View Model
+
+Shared renderer package
+└── Pillow/HTML renderer
 
 Adapter
 └── Send Image
 ```
 
-第一阶段可使用：
+第一阶段图片切片优先使用：
 
 ```text
 Jinja2
@@ -771,10 +774,12 @@ Playwright / Chromium
 
 或者 Pillow。
 
-优先推荐 HTML 模板，以便实现：
+优先保证 Pillow 路径可独立运行，以便实现：
 
-- 比赛详情卡片
+- 图片帮助菜单
+- 玩家概况卡片
 - 最近战绩列表
+- 比赛详情卡片
 - 玩家主页
 - 英雄数据卡
 - 段位卡片
@@ -787,7 +792,9 @@ Path
 ImageArtifact
 ```
 
-而不是直接发送 QQ 图片。
+渲染层只返回 ImageArtifact/bytes/Path；Adapter 决定发送文本或图片，渲染失败时使用同次数据的文本回退。
+
+图片首轮只消费已验证的玩家与最近比赛模型；历史详情在按比赛 ID的 MatchDetail 契约完成后接入，不把 recent 的有限列表当作完整历史。
 
 ---
 
@@ -1047,7 +1054,7 @@ ruff check .
 
 - Steam ID 工具（已有严格 Account ID / SteamID64 值与转换；新输入形式另行验证）
 - 首轮：STRATZ PlayerProvider / MatchProvider，先完成玩家、当前段位、最近比赛
-- 宿主基础闭环后：STRATZ 单场详情、IMP、经济/购买序列；新增公共模型须先检查消费者
+- 宿主基础闭环后：按比赛 ID 的 STRATZ 单场详情；IMP、经济/购买序列随后逐项核对；新增公共模型须先检查消费者
 - 后续：OpenDota 独立补充与交叉核验
 - 按需：Valve Steam Web API，不作为首轮必需依赖
 
@@ -1094,6 +1101,7 @@ SQLite
 RecentMatchesCard
 MatchDetailCard
 PlayerCard
+MenuCard
 ```
 
 Phase 1 验收：
@@ -1133,6 +1141,7 @@ dota2forge_core
 - GsCore Scheduler
 - GsCore UID 系统适配
 - GsCore 图片消息
+- GsCore 图片菜单、玩家卡、近期战绩卡和详情卡
 - GsCore Help
 - GsCore WebUI 配置
 
@@ -1180,6 +1189,7 @@ dota段位
 - AstrBot User Identity
 - AstrBot SQLite Repository Adapter
 - 图片发送
+- 图片菜单、玩家卡、近期战绩卡和详情卡
 - 错误提示
 - Scheduler
 - 新比赛检测
@@ -1417,6 +1427,14 @@ dota2forge-core >= x.y,<x+1
 英雄查询
 段位查询
 图片战报
+
+图片帮助菜单
+
+玩家概况卡
+
+近期战绩卡
+
+历史单局详情卡（按比赛 ID）
 ```
 
 可延后：
@@ -1501,7 +1519,7 @@ adapters/
 
 Codex 不应一次性实现整个项目。
 
-Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4 已完成代码、离线测试与本机安装；Step 5 已通过真实宿主加载/受控重载/卸载及恢复冷启动，用户已完成 QQ 单会话帮助、绑定、玩家和战绩命令验收，见 [Dota2UID 任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。不重做已完成的 Core 和主源；在线证据单列。
+Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4–5 的Dota2UID绑定/查询与真实宿主生命周期已完成，见 [接入任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。Step 6–8 的共享Renderer、图片命令、基础历史详情/列表选择已实现并离线验证；2026-10-02 GsCore图片版本冷启动/两轮stop-reload通过，QQ单会话菜单、账号、分页、序号和直接ID详情正常且图片可读，[证据](.agents/artifacts/gscore-image-lifecycle-v1/README.md)。Step 9已有AstrApplication无宿主消费者，AstrBot平台注册/生命周期/消息仍待实现验证；后续Step 10–15尚未完成。不重做已完成的Core和主源，在线证据不代表多账号/全平台保证。
 
 ```text
 Step 1
@@ -1520,25 +1538,25 @@ Step 5
 GsCore 加载、重载、卸载与授权命令实机验证
 
 Step 6
-实现 AstrBot 对相同 Core 用例的消费
+定义共享展示模型、图片 Renderer 资源/授权和文本回退规则
 
 Step 7
-AstrBot 安装与生命周期验证
+实现 Dota2UID 图片帮助、玩家卡和近期战绩卡，并实机验证
 
 Step 8
-扩展 STRATZ 单场详情、IMP 与时间序列契约
+扩展 STRATZ 按比赛 ID 的单场详情契约、Provider、用例和详情卡
 
 Step 9
-接入 OpenDota 独立补充与交叉核验；Valve 按需
+实现 AstrBot 对相同 Core/Renderer/详情用例的消费并验证生命周期
 
 Step 10
-单独定义并验证缓存、刷新与有限重试策略
+接入 OpenDota 独立补充与交叉核验；Valve 按需
 
 Step 11
-实现 Renderer
+单独定义并验证缓存、刷新与有限重试策略
 
 Step 12
-更新双适配器消费并验证图片战报
+扩展 IMP、经济/购买序列和时间序列，逐项核对口径
 
 Step 13
 订阅系统

@@ -1,4 +1,4 @@
-"""STRATZ player and recent-match providers, with explicitly injected HTTP lifetime."""
+"""STRATZ player, recent and historical-detail ports with injected HTTP lifetime."""
 
 from dataclasses import replace
 
@@ -6,8 +6,10 @@ import httpx
 
 from ..domain.errors import DataSource, ProviderErrorCode, ValidationError
 from ..domain.identity import AccountId
+from ..domain.match_detail import MatchDetailResult, MatchId
 from ..domain.models import DataMetadata, MatchSummary, PlayerProfile, RecentMatches
 from ..ports import Clock
+from ._stratz_detail import match_detail
 from ._stratz_http import StratzHTTP, failure
 from ._stratz_mapping import match_page, player_data, profile
 
@@ -39,9 +41,23 @@ query Dota2ForgeRecentMatches($accountId: Long!, $take: Int!, $skip: Int!) {
 PAGE_SIZE = 20
 MAX_PAGES = 10
 
+MATCH_DETAIL_QUERY = """
+query Dota2ForgeMatchDetail($matchId: Long!) {
+  match(id: $matchId) {
+    id startDateTime durationSeconds didRadiantWin gameMode gameVersionId
+    isStats parsedDateTime
+    players {
+      playerSlot steamAccountId steamAccount { id name }
+      isRadiant heroId kills deaths assists goldPerMinute experiencePerMinute
+      item0Id item1Id item2Id item3Id item4Id item5Id
+    }
+  }
+}
+"""
+
 
 class StratzProvider:
-    """Implements both ports. Reuse one instance/client per token and event loop.
+    """Implements three independent ports. Reuse one instance/client per token and event loop.
 
     The caller owns and closes the dedicated AsyncClient (prefer async with).
     Importing or constructing this provider does not send requests or read configuration.
@@ -97,6 +113,14 @@ class StratzProvider:
             sorted(found.values(), key=lambda item: (item.started_at, item.match_id), reverse=True)
         )
         return RecentMatches(account_id, ordered, metadata)
+
+    async def get_match_detail(self, match_id: MatchId) -> MatchDetailResult:
+        if not isinstance(match_id, MatchId):
+            raise ValidationError("Expected a MatchId")
+        payload, fetched_at = await self._http.request(
+            MATCH_DETAIL_QUERY, {"matchId": match_id.value}
+        )
+        return match_detail(payload, match_id, DataMetadata(self.source, fetched_at))
 
     @staticmethod
     def _validate_account(account_id: AccountId) -> None:

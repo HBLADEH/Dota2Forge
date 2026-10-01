@@ -13,8 +13,17 @@ from .domain.errors import (
     ValidationError,
 )
 from .domain.identity import AccountId, PlatformIdentity, SteamId64, parse_account_id
+from .domain.match_detail import (
+    MatchDetail,
+    MatchDetailResult,
+    MatchDetailUnavailable,
+    MatchId,
+    MatchParseState,
+    MatchParticipant,
+    parse_match_id,
+)
 from .domain.models import DataMetadata, MatchSummary, PlayerBinding, PlayerProfile, RecentMatches
-from .use_cases import Dota2Service
+from .use_cases import Dota2Service, MatchDetailService
 
 __all__ = [
     "AccountId",
@@ -27,6 +36,13 @@ __all__ = [
     "InvalidIdentityError",
     "InvalidSteamIdError",
     "MatchSummary",
+    "MatchDetail",
+    "MatchDetailResult",
+    "MatchDetailService",
+    "MatchDetailUnavailable",
+    "MatchId",
+    "MatchParticipant",
+    "MatchParseState",
     "PlatformIdentity",
     "PlayerBinding",
     "PlayerProfile",
@@ -37,4 +53,5 @@ __all__ = [
     "SteamId64",
     "ValidationError",
     "parse_account_id",
+    "parse_match_id",
 ]

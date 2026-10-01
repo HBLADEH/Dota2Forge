@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main() -> int:
     for distribution, module in [
         ("dota2forge-core", "dota2forge_core"),
+        ("dota2forge-renderer", "dota2forge_renderer"),
         ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
         ("dota2uid", "Dota2UID"),
     ]:
@@ -39,7 +40,10 @@ def main() -> int:
                 check=True,
             )
             smoke = (
-                f"import {module}; from dota2forge_core import Dota2Service; "
+                f"import {module}; from dota2forge_core import Dota2Service, MatchDetailService, "
+                "MatchDetail, MatchDetailUnavailable, MatchId, MatchParseState; "
+                "assert MatchId(1).value == 1; "
+                "assert MatchParseState.NO_DATA.value == 'no_data'; "
                 "import importlib.util; "
                 "assert importlib.util.find_spec('astrbot') is None; "
                 "assert importlib.util.find_spec('gsuid_core') is None"
@@ -50,6 +54,20 @@ def main() -> int:
                     "from importlib.resources import files; "
                     "assert parse_command('dota帮助', '').limit == 10; "
                     "assert files('Dota2UID').joinpath('host_entry.py.template').is_file()"
+                )
+            if module == "dota2forge_renderer":
+                smoke += (
+                    "; from dota2forge_renderer import PillowRenderer, MenuCard; "
+                    "from importlib.resources import files; "
+                    "assert files('dota2forge_renderer').joinpath('assets/v1/OFL.txt').is_file(); "
+                    "renderer = PillowRenderer(); image = renderer.render(MenuCard()); "
+                    "assert image.data.startswith(b'\\x89PNG') and image.width == 780; "
+                    "renderer.close()"
+                )
+            if module == "astrbot_plugin_dota2forge":
+                smoke += (
+                    "; from astrbot_plugin_dota2forge import AstrApplication, AstrTextReply; "
+                    "assert AstrApplication and AstrTextReply"
                 )
             subprocess.run(
                 [

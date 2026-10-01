@@ -36,5 +36,7 @@ jobs:
         run: uv run --locked python scripts/check_governance.py --base "$BASE_SHA"
       - name: Build packages
         run: uv build --all-packages
+      - name: Stage locked Pillow wheel for offline install
+        run: uv run --locked python scripts/stage_wheel_dependencies.py
       - name: Install and import wheels without host SDKs
         run: uv run --locked python scripts/smoke_wheels.py

@@ -9,7 +9,7 @@ dependencies = []
 package = false
 
 [tool.uv.workspace]
-members = ["packages/dota2forge-core", "adapters/astrbot_plugin_dota2forge", "adapters/Dota2UID"]
+members = ["packages/dota2forge-core", "packages/dota2forge-renderer", "adapters/astrbot_plugin_dota2forge", "adapters/Dota2UID"]
 
 [dependency-groups]
 dev = [
@@ -17,6 +17,7 @@ dev = [
   "httpx>=0.28.1,<1",
   "jsonschema>=4.23,<5",
   "mypy>=1.15,<2",
+  "pip>=25,<27",
   "pre-commit>=4,<5",
   "pytest>=8.3,<10",
   "pytest-cov>=6,<8",
@@ -40,7 +41,7 @@ files = ["packages", "adapters", "scripts"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-addopts = "-ra --strict-markers --disable-socket --cov=scripts --cov=dota2forge_core --cov=Dota2UID --cov-branch --cov-report=term-missing --cov-fail-under=80"
+addopts = "-ra --strict-markers --disable-socket --cov=scripts --cov=dota2forge_core --cov=dota2forge_renderer --cov=Dota2UID --cov=astrbot_plugin_dota2forge --cov-branch --cov-report=term-missing --cov-fail-under=80"
 
 [tool.coverage.run]
 omit = ["scripts/__init__.py"]

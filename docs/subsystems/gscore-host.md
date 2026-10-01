@@ -9,13 +9,15 @@
 - 宿主源码 HEAD 为 `87c06f11ae10c12b3bb8e76b3c6f420c831282a8`；本次核实的模型、加载器、生命周期和 UID 源文件无工作区修改。此记录不宣称该提交是远端最新版本。
 - `/openapi.json` 未开放；源码 app_life.py 将 OpenAPI 置于 GSUID_ENABLE_OPENAPI 开关后，默认关闭。无需为插件接入开启它。
 
-下述宿主源码路径相对于该 checkout，不是本仓库源码。初次基线核查未导入宿主应用入口、访问真实绑定表、重启或发消息；本轮安装仅复用用户已配置的 STRATZ 凭据，不修改宿主核心。
+下述宿主源码路径相对于该 checkout，不是本仓库源码。初次基线核查未导入宿主应用入口、访问真实绑定表、重启或发消息；本轮安装仅复用用户已配置的 STRATZ 凭据，不修改宿主核心。2026-10-01 又安装了 Core、Renderer、Dota2UID 和 Pillow cp313 wheel，更新 reply_mode=image 与发现桥接并冷启动；宿主独立导入 Renderer/OFL 资源并生成780px菜单图通过。WebConsole管理员会话已过期、接口401，因此未宣称新命令注册或消息发送通过。
 
 ## 插件加载边界
 
 `gsuid_core/server.py` 的 GsServer.load_plugins 扫描 gsuid_core/plugins 与 buildin_plugins。load_plugin 识别目录根部的 __init__.py、__full__.py，或 __nest__.py/同名嵌套目录；发现阶段检查插件 pyproject，随后集中处理依赖再导入模块。
 
 本仓库 [Dota2UID](../../adapters/Dota2UID/) 保留 src 库包布局，显式安装器将分发模板放入 plugins/Dota2UID/__init__.py，SV 在该桥接中构造以满足调用栈归属。仅安装 wheel 不注册命令，宿主须再加载发现入口。详见 [安装步骤](../cookbook/dota2uid.md)。
+
+2026-10-02修复失败重载/不完整wheel安装后，宿主冷启动和两轮管理员stop/reload通过，最终ready/image。Core/Renderer/Dota2UID/Pillow内容逐文件匹配wheel，Pillow为12.3.0；配置/绑定库/发现入口指纹未变。用户随后确认QQ菜单、账号和直接ID详情均正常、图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。该结果更新10-01的会话过期/尚未验证状态，不推广为多账号或全平台保证。
 
 ## 身份与 UID
 
