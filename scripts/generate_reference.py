@@ -53,7 +53,7 @@ def render(root: Path) -> str:
         [
             "",
             "本表仅描述包元数据；实现边界见 [当前架构](../architecture.md)。"
-            "配置、命令与 AI Tool 注册表尚未实现。",
+            "命令与资源契约以适配器/Renderer文档为准，AI Tool 注册表尚未实现。",
             "",
         ]
     )

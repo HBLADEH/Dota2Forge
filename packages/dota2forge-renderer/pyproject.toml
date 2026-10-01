@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dota2forge-renderer"
+version = "0.1.0a1"
+description = "Dota2Forge shared Pillow cards"
+license = "MIT"
+license-files = ["LICENSE", "src/dota2forge_renderer/assets/v1/OFL.txt"]
+requires-python = ">=3.12"
+dependencies = ["dota2forge-core>=0.1.0a1,<0.2", "pillow>=12.3,<13"]
+
+[tool.uv.sources]
+dota2forge-core = { workspace = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dota2forge_renderer"]

@@ -29,7 +29,8 @@ def install_bridge(host_root: Path, *, token: str = "") -> tuple[Path, Path]:
         config.write_text(
             'namespace = "dota2uid-local"\nstratz_token = '
             + json.dumps(token)
-            + '\ntimeout_seconds = 10\n\n[platforms]\nonebot = "qq"\nqq = "qq"\n'
+            + '\ntimeout_seconds = 10\nreply_mode = "image"\n\n[platforms]\n'
+            'onebot = "qq"\nqq = "qq"\n'
             'telegram = "telegram"\n',
             encoding="utf-8",
         )

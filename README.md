@@ -41,8 +41,8 @@ uv build --all-packages
 - [M0 交付任务](.agents/tasks/done/2026-09-30-bootstrap.md)
 - [Core 最小闭环进展与联调待办](.agents/tasks/done/2026-09-30-core-mvp.md)
 
-STRATZ 主源已实现概况、当前段位和最近比赛，支持有界分页、错误分类、限流等待和客户端生命周期注入；Dota2UID 已完成 QQ 单会话绑定和查询。配置及只读验证见 [STRATZ 接入](docs/cookbook/stratz.md)，宿主安装见 [Dota2UID 接入](docs/cookbook/dota2uid.md)。OpenDota 独立补充与交叉核验、Valve 按需补充仍在规划中，无自动回退，见 [选型决策](.agents/notes/implemented/2026-09-30-provider-selection.md)。
+STRATZ 主源已实现概况、当前段位、最近比赛和独立按 ID 的最小历史详情；Dota2UID 的直接ID、列表选择/取页和图片优先/文本模式已离线验证，用户提供的 QQ 群聊截图确认玩家概况卡真实显示，压缩/分页/重载仍待实测。共享Renderer包含菜单、玩家、状态、近期和详情卡；AstrApplication 已离线消费同一 Core/Renderer，AstrBot 宿主生命周期和真实消息尚未验证。配置及只读验证见[STRATZ接入](docs/cookbook/stratz.md)，宿主安装见[Dota2UID接入](docs/cookbook/dota2uid.md)，图片契约见[Renderer契约](docs/subsystems/renderer.md)。OpenDota、Valve补充仍在规划中。
 
-[STRATZ 基础接入已完成](.agents/tasks/done/2026-09-30-stratz-provider.md)。后续顺序：共享图片展示模型与 Dota2UID 卡片 → STRATZ 按比赛 ID 查询历史详情 → AstrBot → OpenDota/IMP/订阅与重试策略 → Deploy。完整 Phase 1 功能范围保留在规划中。
+[STRATZ 基础接入已完成](.agents/tasks/done/2026-09-30-stratz-provider.md)。共享 Renderer、Dota2UID 基础/详情卡片与同次文本回退已完成离线验证；下一步是 GsCore/QQ 图片联调 → AstrBot → OpenDota/IMP/订阅与重试策略 → Deploy。完整 Phase 1 功能范围保留在规划中。
 
 许可证：[MIT](LICENSE)。

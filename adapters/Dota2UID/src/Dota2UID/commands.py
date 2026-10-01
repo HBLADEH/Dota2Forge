@@ -1,9 +1,17 @@
 """A small command grammar and identity mapping from trusted host event fields."""
 
+import re
 from dataclasses import dataclass, field
 from enum import StrEnum
 
-from dota2forge_core import AccountId, InvalidIdentityError, PlatformIdentity, parse_account_id
+from dota2forge_core import (
+    AccountId,
+    InvalidIdentityError,
+    MatchId,
+    PlatformIdentity,
+    parse_account_id,
+    parse_match_id,
+)
 
 from .config import Config
 
@@ -15,12 +23,14 @@ class CommandError(Exception):
 
 class Action(StrEnum):
     HELP = "dota帮助"
+    MENU = "dota菜单"
     BIND = "dota绑定"
     REBIND = "dota改绑"
     BINDING = "dota账号"
     UNBIND = "dota解绑"
     PLAYER = "dota玩家"
     RECENT = "dota战绩"
+    MATCH = "dota比赛"
 
 
 @dataclass(frozen=True, repr=False)
@@ -30,6 +40,9 @@ class Caller:
     user_id: str
     connection_id: str | None
     mentioned: bool = False
+    conversation_kind: str | None = None
+    conversation_id: str | None = None
+    is_admin: bool = False
 
     def identity(self, config: Config) -> PlatformIdentity:
         if not self.connection_id or self.platform_key not in config.platforms or self.mentioned:
@@ -44,6 +57,9 @@ class Command:
     action: Action
     account: AccountId | None = field(default=None, repr=False)
     limit: int = 10
+    match_id: MatchId | None = None
+    match_index: int | None = None
+    page: int | None = None
 
 
 def parse_command(keyword: str, text: str) -> Command:
@@ -52,7 +68,7 @@ def parse_command(keyword: str, text: str) -> Command:
     except ValueError:
         raise CommandError() from None
     tokens = text.split()
-    if action in {Action.HELP, Action.BINDING, Action.UNBIND}:
+    if action in {Action.HELP, Action.MENU, Action.BINDING, Action.UNBIND}:
         if tokens:
             raise CommandError()
         return Command(action)
@@ -64,6 +80,25 @@ def parse_command(keyword: str, text: str) -> Command:
         if len(tokens) > 1:
             raise CommandError()
         return Command(action, parse_account_id(tokens[0]) if tokens else None)
+    if action == Action.MATCH:
+        if len(tokens) != 1:
+            raise CommandError()
+        selected = re.fullmatch(r"第([1-9][0-9]{0,2})场", tokens[0])
+        if selected is not None:
+            index = int(selected[1])
+            if index > 100:
+                raise CommandError()
+            return Command(action, match_index=index)
+        try:
+            match_id = parse_match_id(tokens[0])
+        except ValueError:
+            raise CommandError() from None
+        return Command(action, match_id=match_id)
+    if len(tokens) == 1 and (selected := re.fullmatch(r"第([1-9][0-9]?)页", tokens[0])):
+        page = int(selected[1])
+        if page > 20:
+            raise CommandError()
+        return Command(action, page=page)
     if len(tokens) > 2:
         raise CommandError()
     # A single argument is a count; an explicit account uses "account count".

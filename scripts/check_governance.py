@@ -49,10 +49,15 @@ def load_policy(root: Path) -> dict[str, Any]:
     for value in [
         architecture["core_path"],
         *architecture["adapter_paths"],
+        *architecture["shared_paths"],
         *policy["documents"]["generated_paths"],
     ]:
         inside(root, value)
-    paths = [architecture["core_path"], *architecture["adapter_paths"]]
+    paths = [
+        architecture["core_path"],
+        *architecture["adapter_paths"],
+        *architecture["shared_paths"],
+    ]
     if len(set(paths)) != len(paths):
         raise ValueError("Architecture paths must be distinct")
     actual = {p.parent.relative_to(root).as_posix() for p in package_configs(root)}
@@ -175,13 +180,22 @@ def check_architecture(root: Path, policy: dict[str, Any]) -> list[str]:
             imports[relative].add(package.name)
     core = architecture["core_path"]
     adapters = architecture["adapter_paths"]
+    shared = architecture["shared_paths"]
     for relative, config in configs.items():
-        forbidden_paths = adapters if relative == core else [p for p in adapters if p != relative]
+        forbidden_paths = (
+            [*adapters, *shared]
+            if relative == core
+            else adapters
+            if relative in shared
+            else [p for p in adapters if p != relative]
+        )
         forbidden = {name for p in forbidden_paths for name in imports[p]}
         distributions = {normalized(configs[p]["project"]["name"]) for p in forbidden_paths}
-        if relative == core:
+        if relative == core or relative in shared:
             forbidden.update(architecture["platform_imports"])
             distributions.update(map(normalized, architecture["platform_distributions"]))
+            if relative == core:
+                distributions.update({"pillow", "playwright"})
         else:
             own_sdk = architecture["adapter_sdk_imports"][relative]
             forbidden.update(set(architecture["platform_imports"]) - {own_sdk})
@@ -205,6 +219,8 @@ def check_architecture(root: Path, policy: dict[str, Any]) -> list[str]:
             for name in imported_modules(tree):
                 if name.split(".")[0] in forbidden:
                     errors.append(f"{path.relative_to(root)}: forbidden import {name}")
+                if relative == core and name.split(".")[0] in {"PIL", "playwright"}:
+                    errors.append(f"{path.relative_to(root)}: forbidden rendering import {name}")
     return errors
 
 

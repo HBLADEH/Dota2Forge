@@ -94,6 +94,7 @@
       "required": [
         "core_path",
         "adapter_paths",
+        "shared_paths",
         "platform_imports",
         "platform_distributions",
         "adapter_sdk_imports"
@@ -115,6 +116,14 @@
         "platform_imports": {
           "type": "array",
           "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "shared_paths": {
+          "type": "array",
           "uniqueItems": true,
           "items": {
             "type": "string",

@@ -59,6 +59,8 @@ class SyntheticEvent:
     command: str = "dota绑定"
     text: str = "123"
     user_pm: int = 6
+    user_type: str = "direct"
+    group_id: str | None = None
 
 
 class CapturingBot:
@@ -155,12 +157,14 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         assert cold.runtime.state == State.NEW
         assert set(commands) == {
             "dota帮助",
+            "dota菜单",
             "dota绑定",
             "dota改绑",
             "dota账号",
             "dota解绑",
             "dota玩家",
             "dota战绩",
+            "dota比赛",
             "dota停用",
         }
         assert commands["dota停用"][1] == 0
@@ -178,9 +182,13 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         before = len(bot.replies)
         await cold.command_dota2uid(bot, SyntheticEvent())
         assert len(bot.replies) == before
+        config_path.write_text(
+            config_path.read_text("utf-8").replace('reply_mode="text"', 'reply_mode="image"'),
+            encoding="utf-8",
+        )
         hot = load()
-        await hot.command_dota2uid(bot, SyntheticEvent(command="dota账号", text=""))
-        assert "已绑定" in bot.replies[-1]
+        await hot.command_dota2uid(bot, SyntheticEvent(command="dota菜单", text=""))
+        assert isinstance(bot.replies[-1], bytes) and bot.replies[-1].startswith(b"\x89PNG")
         await hot.start_dota2uid()
         assert len(clients) == 2
         assert await hot.close_dota2uid() == {"state": "stopped", "client_closed": True}
