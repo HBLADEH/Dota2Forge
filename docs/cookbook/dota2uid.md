@@ -11,7 +11,7 @@
 uv pip install --no-cache --python D:/bot/gsuid_core/.venv/Scripts/python.exe --find-links dist --reinstall-package dota2uid --reinstall-package dota2forge-core --reinstall-package dota2forge-renderer "dist/dota2uid-0.1.0a1-py3-none-any.whl[stratz]" dist/dota2forge_core-0.1.0a1-py3-none-any.whl dist/dota2forge_renderer-0.1.0a1-py3-none-any.whl
 ~~~
 
-依赖首次安装可能联网下载；若宿主已具备 HTTPX 及其依赖，可加 --no-index。不能只看同版本“已安装”而假定新命令模块已更新。
+首次安装可能联网；已有依赖可加 --no-index。相同版本号不证明模块已更新。升级前先stop确认关闭；旧进程已导入共享包时须冷启动。Pillow DLL升级须在宿主退出后执行，避免文件占用留下不完整安装。见[恢复记录](../../.agents/notes/implemented/2026-10-02-gscore-wheel-recovery.md)。
 
 在 Dota2Forge workspace 中执行：
 
@@ -38,13 +38,13 @@ uv run --env-file .env --locked python -m Dota2UID.install --host-root D:/bot/gs
 | dota比赛 比赛ID | 直接按 ID 查历史单局，不要求绑定或出现在近期列表 |
 | dota比赛 第N场 | 使用当前会话最后有效战绩的绝对序号，1–100 |
 | dota战绩 第N页 | 读取同次返回结果的第 N 页，不重新查 Provider |
-| dota停用 | 仅宿主主人权限 0；关闭运行期资源 |
+| dota停用 | 仅宿主主人权限 0；关闭运行期资源，权限 1 不可执行；WebConsole 管理员使用下文接口 |
 
 ID 接受规范 Dota account ID/SteamID64 数字，不解析 URL/vanity/@他人。绑定不证明账号所有权。未知统计显示未知，0 与负场有效；分段回复保留 STRATZ 来源、抓取时间和历史不完整提示。不会把认证/限流/HTML 拦截或陌生 GraphQL 错误展示成无战绩。
 
 比赛 ID 独立校验为 1–9223372036854775807 的规范十进制，不接受 URL/前导零；第N场是独立序号语法。详情文本按实际阵营分段，保留未知字段、解析标记、版本 ID 和北京时间 UTC+8；匿名/未知账号不展示身份，只有绑定账号确实参赛才标我方。无详情时原因/隐私未知，不宣称不存在或私密。
 
-战绩最多先发两页，每页五场；11–100 场可显式取第3–20页。序号使用已成功完整发送的最后列表，不重新取 recent；无绑定也可使用显式账号列表。状态按部署/平台/机器人/调用者/连接和群或私聊隔离，最多128份、10分钟有效，读取不续期；改绑/解绑、连接变化、停用或重载失效。缺失会话和 channel/sub_channel 拒绝选择；直接 ID 不依赖列表。用户已确认群聊基础图片、近期第二页和第1场序号详情；压缩、直接 ID 成功响应、停用/重载仍待完整实测。
+战绩每页五场，最多先发两页；11–100场可显式取第3–20页。序号用最后完整发送列表，取页不重查Provider；无绑定可用显式账号列表。状态按部署/平台/机器人/调用者/连接和群或私聊隔离，容量128、TTL10分钟，读取不续期；改绑/解绑、连接变化、停用/重载失效。缺失会话及channel/sub_channel拒绝选择；直接ID不依赖列表。用户已确认基础图片、第二页、序号和直接ID详情；10-02停用/重载后复测图片回复正常、文字可读。
 
 配置 `reply_mode = "image"`（默认；旧配置省略时也使用 image）启用图片优先回复；设为 `text` 可保留纯文本模式。图片资源、尺寸限制、线程关闭和回退边界见 [Renderer 契约](../subsystems/renderer.md)。
 
@@ -66,4 +66,4 @@ Runtime 日志只记录生命周期、命令名、回复/图片数量、图片�
 uv run --locked pytest tests/dota2uid --cov-reset --cov=Dota2UID --cov-branch --cov-fail-under=80
 ~~~
 
-测试执行分发模板但使用合成宿主桩。2026-09-30 另在运行中的真实 GsCore 完成热加载、受控重载、停用后卸载及重启清理、恢复后冷启动；最终 ready，8 个命令各注册一次，配置/绑定库完整。用户已确认 QQ 单会话收发成功，未推广为多账号或全平台保证。完整证据见 [任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)，原因见 [决策](../../.agents/notes/implemented/2026-09-30-dota2uid-composition.md)。STRATZ 边界见 [Provider 操作](stratz.md)。
+测试使用合成宿主桩。09-30真实宿主完成热加载、受控重载、卸载/重启清理与冷启动，见[首轮任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。10-02图片版本完成冷启动与两轮stop/reload，最终ready/image；配置/绑定库指纹不变，用户复测QQ菜单、账号和详情正常、图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。仅验证单会话，未推广为多账号或全平台保证。STRATZ边界见[Provider操作](stratz.md)。

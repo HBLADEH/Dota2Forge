@@ -20,7 +20,8 @@ Status: in_progress
 - [x] 规范 TextReply/ImageReply；RenderError 回退同次数据文本，不二次请求、不吞数据源失败，发送失败不得盲目重复发送。
 - [x] 已接 Dota2UID 代码与离线桥接测试（包含 PNG bytes 转换）；四包锁定/build/wheel/治理路径已更新。
 - [x] 用户已确认授权群聊中基础图片可正常显示；AstrApplication 已离线消费共享 Core/Renderer。
-- [ ] 真实压缩、停用/重载和 AstrBot 平台注册仍待验；用户已实测菜单、战绩10、第二页和第1场详情，直接ID本次因STRATZ不可用。policy/scripts/workflow 改动需维护者评审。
+- [x] 真实 QQ 单会话图片可读、冷启动和两轮管理员停用/重载通过；菜单、账号、战绩分页、序号和直接 ID 详情图片已由用户确认。
+- [ ] AstrBot 平台注册/生命周期/真实消息，以及policy/scripts/workflow改动的维护者评审仍待完成。
 - [x] 禁网合成测试覆盖长昵称、中文字体、未知字段、无战绩、100场分页、缺资源、线程取消和回退；生产卡片 QA 检查裁切/重叠。真实单会话验收另列且不入库聊天截图。
 
 ## 影响模块与决策
@@ -31,15 +32,15 @@ Status: in_progress
 
 共享包实际生成9张合成卡片及390px预览，覆盖菜单/管理员、玩家、状态、近期两页/空列表、详情两队；QA检查字体cmap、边界/重叠、尺寸/2MiB、缺图和100条布局。生产字体/英雄资源来源见Renderer资源README，图像资源未授权前使用占位。
 
-AstrBot-neutral application layer added under `adapters/astrbot_plugin_dota2forge`; it injects Core/MatchDetailService/Renderer without importing AstrBot. 19 offline consumer/command tests pass, and package smoke asserts the public export. Platform registration/lifecycle/real-message delivery remain unverified.
+AstrApplication组合层注入共享Core/MatchDetailService/Renderer，不导入AstrBot；19项离线消费者/命令测试通过，wheel检查公共导出。平台注册/生命周期/真实消息仍待验证。
 
 最终统一入口通过：813项禁网测试，Ruff、mypy 36源文件；综合96.27%，scripts约97%、Core约99%，Dota2UID约95%、Renderer约98%，AstrApplication/commands 纳入聚合覆盖，独立80%门槛通过。四包build与无索引隔离wheel smoke通过；Pillow wheel由显式stage脚本准备。真实宿主图片发送和图标授权扩展未验证。
 
 2026-10-01 本机 CPython 3.13.2 GsCore 已安装四包 wheel（Pillow cp313），更新 config.toml 为 `reply_mode = "image"`，替换发现桥接并保存旧桥接副本；进程冷启动后保持响应，宿主 Python 独立导入 Dota2UID/Renderer、读取 OFL 资源并生成780px菜单图通过。WebConsole session 已过期，状态接口返回401，未冒充管理员；日志显示宿主依赖安装失败/其他插件错误，但没有 Dota2UID 导入错误证据。未发送 QQ 图片。
 
-用户随后提供群聊截图，确认玩家概况卡可读；本轮又确认菜单、战绩分页和序号详情成功。截图不入库，不记录身份；压缩/停用/重载仍未全场景通过。
+用户随后提供群聊截图，确认玩家概况卡可读；本轮又确认菜单、战绩分页、序号详情和冷却结束后的直接 ID 详情图片成功。截图不入库，不记录身份；压缩/停用/重载仍未全场景通过。
 
 用户已提供群聊截图并授权联调；Computer Use 无窗口，不能从 SQLite/日志猜身份。窗口不可操作时用户代执行命令并反馈视觉结果，Runtime 日志只核对生成/发送/列表提交；验证图片收发/压缩、分页、详情、序号、停用/重载和回退。
 
 ## 阻塞与下一步
-共享Renderer、Dota2UID图片/文本模式、同次回退与离线QA已完成。下一步是重启后日志核对、压缩/停用/重载和 STRATZ 恢复后的直接ID重试，再由AstrBot消费同一Renderer；IMP/经济序列仍不阻塞首轮卡片。
+2026-10-02修复宿主不完整wheel安装、冷启动并通过两轮stop/reload，最终ready/image；用户复测菜单、账号、直接ID详情均正常且图片可读，[证据](../../artifacts/gscore-image-lifecycle-v1/README.md)。Dota2UID首轮图片已完成单会话验收，后续是AstrBot平台接入和治理维护者评审；IMP/经济序列属后续增量。
