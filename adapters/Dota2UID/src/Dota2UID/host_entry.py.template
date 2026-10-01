@@ -11,7 +11,8 @@ from gsuid_core.webconsole.app_app import app
 from gsuid_core.webconsole.web_api import require_admin_header
 
 from Dota2UID.commands import Action, Caller
-from Dota2UID.runtime import Runtime, State
+from Dota2UID.runtime import Runtime
+from Dota2UID.replies import ImageReply, Reply
 
 Plugins(name="Dota2UID", prefix=[], allow_empty_prefix=True)
 queries = SV("Dota2UID账号与查询", pm=6)
@@ -35,12 +36,12 @@ async def command_dota2uid(bot: Bot, ev: Event) -> None:
     caller = Caller(
         ev.bot_id, ev.bot_self_id, ev.user_id, ev.WS_BOT_ID,
         bool(ev.at_list) or ev.at is not None,
+        ev.user_type, ev.group_id,
+        type(ev.user_pm) is int and ev.user_pm == 0,
     )
-    replies = await runtime.handle(caller, ev.command, ev.text)
-    for reply in replies:
-        if runtime.state in {State.STOPPING, State.STOPPED}:
-            return
-        await bot.send(reply)
+    async def send(reply: Reply) -> object:
+        return await bot.send(reply.artifact.data if isinstance(reply, ImageReply) else reply.text)
+    await runtime.dispatch(caller, ev.command, ev.text, send)
 
 
 @admin.on_command("dota停用", block=True)

@@ -6,7 +6,7 @@
 
 Forge 意为“锻造、打造”。项目将 Steam、STRATZ、OpenDota 的原始数据与接口能力统一封装、加工和组合，目标是提供可供不同 Bot 框架复用的战绩查询、玩家分析、英雄数据、图片战报、订阅检测和 AI 分析能力。
 
-当前阶段：**M0 / 首个宿主接入**。Core 已实现严格账号校验、SQLite 绑定、查询用例和 STRATZ 联网 Provider。Dota2UID 已通过真实宿主热加载、受控重载、卸载清理与恢复冷启动，最终保持 ready；用户已确认 QQ 单会话帮助/绑定/玩家/战绩均正常回复，证据见 [接入任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。普通测试禁网，AstrBot 仍为包骨架。
+当前阶段：**M0 / 首个宿主接入**。Core 已实现严格账号校验、SQLite 绑定、查询用例和 STRATZ 联网 Provider。Dota2UID 已通过真实宿主热加载、受控重载、卸载清理与恢复冷启动，最终保持 ready；用户已确认 QQ 单会话帮助/绑定/玩家/战绩均正常回复，证据见 [接入任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。普通测试禁网，AstrBot 已有无宿主 SDK 的离线消费者，平台接入尚未验证。
 
 | 模块 | 名称 | 位置 |
 | --- | --- | --- |
@@ -41,8 +41,8 @@ uv build --all-packages
 - [M0 交付任务](.agents/tasks/done/2026-09-30-bootstrap.md)
 - [Core 最小闭环进展与联调待办](.agents/tasks/done/2026-09-30-core-mvp.md)
 
-STRATZ 主源已实现概况、当前段位和最近比赛，支持有界分页、错误分类、限流等待和客户端生命周期注入；Dota2UID 已完成 QQ 单会话绑定和查询。配置及只读验证见 [STRATZ 接入](docs/cookbook/stratz.md)，宿主安装见 [Dota2UID 接入](docs/cookbook/dota2uid.md)。OpenDota 独立补充与交叉核验、Valve 按需补充仍在规划中，无自动回退，见 [选型决策](.agents/notes/implemented/2026-09-30-provider-selection.md)。
+STRATZ 主源已实现概况、当前段位、最近比赛和独立按 ID 的最小历史详情；Dota2UID 的直接ID、列表选择/取页和图片/文本模式已实现。QQ单会话已确认菜单、玩家、账号、分页、序号及直接ID详情；2026-10-02冷启动与两轮停用/重载后用户复测回复正常、图片可读，[证据](.agents/artifacts/gscore-image-lifecycle-v1/README.md)。共享Renderer包含菜单、玩家、状态、近期和详情卡；AstrApplication 已离线消费同一 Core/Renderer，AstrBot 宿主生命周期和真实消息尚未验证。配置及只读验证见[STRATZ接入](docs/cookbook/stratz.md)，安装见[Dota2UID接入](docs/cookbook/dota2uid.md)，图片契约见[Renderer契约](docs/subsystems/renderer.md)。OpenDota、Valve补充仍在规划中。
 
-[STRATZ 基础接入已完成](.agents/tasks/done/2026-09-30-stratz-provider.md)。后续顺序：Dota2UID（GsCore）→ AstrBot → 详情/IMP 与补充数据源 → 订阅与渲染扩展 → Deploy。完整 Phase 1 功能范围保留在规划中。
+[STRATZ 基础接入已完成](.agents/tasks/done/2026-09-30-stratz-provider.md)。共享 Renderer、Dota2UID 基础/详情卡片与同次文本回退已完成离线验证；GsCore/QQ首轮图片和生命周期已验证。下一步是 AstrBot → OpenDota/IMP/订阅与重试策略 → Deploy。完整 Phase 1 功能范围保留在规划中。
 
 许可证：[MIT](LICENSE)。

@@ -15,6 +15,7 @@ from packaging.requirements import Requirement
         ("dota2forge-core", "dota2forge_core"),
         ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
         ("dota2uid", "Dota2UID"),
+        ("dota2forge-renderer", "dota2forge_renderer"),
     ],
 )
 def test_workspace_package_installed(distribution, module):
@@ -48,6 +49,7 @@ def test_distribution_licenses_match_project_license():
     expected = (root / "LICENSE").read_text()
     for folder in [
         "packages/dota2forge-core",
+        "packages/dota2forge-renderer",
         "adapters/astrbot_plugin_dota2forge",
         "adapters/Dota2UID",
     ]:

@@ -1,6 +1,7 @@
 namespace = "dota2uid-local"
 stratz_token = ""
 timeout_seconds = 10
+reply_mode = "image" # Set "text" for plain replies; errors always use text.
 
 # Map verified Event.bot_id values to platform namespaces; unknown platforms fail closed.
 [platforms]

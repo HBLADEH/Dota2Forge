@@ -317,12 +317,13 @@ def test_wheel_smoke_uses_offline_install_and_isolated_import(monkeypatch, platf
     monkeypatch.setattr(smoke_wheels.sys, "platform", platform)
     monkeypatch.setattr(subprocess, "run", lambda args, **kw: commands.append(args))
     assert smoke_wheels.main() == 0
-    assert len(commands) == 9
+    assert len(commands) == 12
     for install in commands[1::3]:
         assert "--no-index" in install
         assert "--no-cache" in install
     assert "from Dota2UID.commands import parse_command" in commands[-1][-1]
     assert "host_entry.py.template" in commands[-1][-1]
+    assert "PillowRenderer" in commands[5][-1] and "OFL.txt" in commands[5][-1]
     for command in commands[2::3]:
         assert "-I" in command
         suffix = "Scripts/python.exe" if platform == "win32" else "bin/python"
@@ -354,3 +355,54 @@ def test_coverage_gate_fails_without_data(tmp_path):
         [sys.executable, *command[1:]], cwd=tmp_path, capture_output=True, text=True
     )
     assert result.returncode != 0
+
+
+@pytest.mark.parametrize("source", ["import gsuid_core", "import astrbot", "import Dota2UID"])
+def test_renderer_rejects_host_and_adapter_imports(repository, source):
+    path = repository / "packages/dota2forge-renderer/src/dota2forge_renderer/bad.py"
+    path.write_text(source)
+    assert "forbidden import" in "\n".join(checks.check_repository(repository))
+
+
+@pytest.mark.parametrize(
+    "source", ["import dota2forge_renderer", "from PIL import Image", "import playwright"]
+)
+def test_core_rejects_renderer_and_drawing_libraries(repository, source):
+    (repository / CORE / "src/dota2forge_core/bad.py").write_text(source)
+    assert "forbidden" in "\n".join(checks.check_repository(repository))
+
+
+@pytest.mark.parametrize("dependency", ["dota2forge-renderer", "pillow", "playwright"])
+def test_core_rejects_renderer_dependencies(repository, dependency):
+    path = repository / CORE / "pyproject.toml"
+    path.write_text(
+        path.read_text().replace("dependencies = []", f'dependencies = ["{dependency}"]')
+    )
+    assert "forbidden dependency" in "\n".join(checks.check_repository(repository))
+
+
+def test_shared_role_is_distinct_required_and_matches_workspace(repository):
+    change_policy(repository, lambda policy: policy["architecture"].update(shared_paths=[]))
+    assert "cover exactly" in "\n".join(checks.check_repository(repository))
+    change_policy(repository, lambda policy: policy["architecture"].update(shared_paths=[CORE]))
+    assert "distinct" in "\n".join(checks.check_repository(repository))
+    change_policy(repository, lambda policy: policy["architecture"].pop("shared_paths"))
+    assert "Invalid policy" in "\n".join(checks.check_repository(repository))
+
+
+def test_staged_wheel_dependency_download_is_explicit_and_versioned(tmp_path, monkeypatch):
+    from scripts import stage_wheel_dependencies as staging
+
+    monkeypatch.setattr(staging, "ROOT", tmp_path)
+    monkeypatch.setattr(staging, "version", lambda package: "12.3.0")
+    commands = []
+    monkeypatch.setattr(
+        staging.subprocess, "run", lambda args, **kwargs: commands.append((args, kwargs))
+    )
+    assert staging.main() == 0
+    command, options = commands[0]
+    assert command[:4] == [sys.executable, "-m", "pip", "download"]
+    assert (
+        "pillow==12.3.0" in command and "--no-deps" in command and "--only-binary=:all:" in command
+    )
+    assert options == {"check": True} and (tmp_path / "dist").is_dir()

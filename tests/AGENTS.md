@@ -4,3 +4,4 @@
 - 治理脚本需正反例，至少覆盖预算、架构、决策记录和生成漂移。
 - SDK 缺失不能描述成平台验证通过；骨架只验证构建和安全导入。
 - 业务落地后重点测试 ID、解析、错误语义、Repository 和双端消费契约。
+- AstrBot consumer tests must remain host-SDK-free; real AstrBot lifecycle needs a separate authorized host check.

@@ -1,0 +1,56 @@
+{
+  "menu": {
+    "width": 780,
+    "height": 1050,
+    "png_bytes": 111106,
+    "text_boxes": 23
+  },
+  "menu-admin": {
+    "width": 780,
+    "height": 1180,
+    "png_bytes": 116137,
+    "text_boxes": 25
+  },
+  "player": {
+    "width": 780,
+    "height": 850,
+    "png_bytes": 64711,
+    "text_boxes": 12
+  },
+  "recent-1": {
+    "width": 780,
+    "height": 1560,
+    "png_bytes": 148992,
+    "text_boxes": 49
+  },
+  "recent-2": {
+    "width": 780,
+    "height": 1560,
+    "png_bytes": 153118,
+    "text_boxes": 49
+  },
+  "status": {
+    "width": 780,
+    "height": 650,
+    "png_bytes": 44901,
+    "text_boxes": 7
+  },
+  "detail-radiant": {
+    "width": 780,
+    "height": 1540,
+    "png_bytes": 156107,
+    "text_boxes": 40
+  },
+  "detail-dire": {
+    "width": 780,
+    "height": 1540,
+    "png_bytes": 152909,
+    "text_boxes": 40
+  },
+  "recent-empty": {
+    "width": 780,
+    "height": 728,
+    "png_bytes": 66765,
+    "text_boxes": 11
+  }
+}

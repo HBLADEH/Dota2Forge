@@ -27,7 +27,7 @@ def config_path(tmp_path):
     path = tmp_path / "config.toml"
     path.write_text(
         'namespace="synthetic-deployment"\nstratz_token="synthetic-token"\n'
-        'timeout_seconds=2\n[platforms]\nonebot="qq"\ntelegram="telegram"\n',
+        'timeout_seconds=2\nreply_mode="text"\n[platforms]\nonebot="qq"\ntelegram="telegram"\n',
         encoding="utf-8",
     )
     return path

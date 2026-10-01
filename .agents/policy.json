@@ -19,6 +19,7 @@
   },
   "architecture": {
     "core_path": "packages/dota2forge-core",
+    "shared_paths": ["packages/dota2forge-renderer"],
     "adapter_paths": [
       "adapters/astrbot_plugin_dota2forge",
       "adapters/Dota2UID"
