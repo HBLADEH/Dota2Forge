@@ -14,13 +14,21 @@ from dota2forge_core import (
     BindingNotFoundError,
     Dota2Service,
     InvalidIdentityError,
+    MatchAnalysisService,
+    MatchAnalysisUnavailable,
     MatchDetail,
     MatchDetailService,
+    MatchId,
+    MatchReport,
     PlatformIdentity,
     PlayerBinding,
     ProviderError,
     RecentMatches,
     RepositoryError,
+    SQLiteSubscriptionRepository,
+    SubscriptionEvent,
+    SubscriptionRepositoryError,
+    SubscriptionService,
     ValidationError,
 )
 from dota2forge_core.infrastructure import SystemClock
@@ -36,16 +44,19 @@ from dota2forge_renderer import (
     RenderError,
     StatusCard,
 )
+from dota2forge_renderer.subscriptions import match_report_lines
 
 from .commands import Action, Caller, Command, CommandError, parse_command
 from .config import Config, ConfigurationError, load_config
 from .presentation import HELP, match_detail_text, player_text, provider_error_text, recent_text
 from .replies import ImageReply, Reply, TextReply
 from .selection import RecentSelectionStore, ResultKey, SelectionError, result_key
+from .subscription_routes import delivery_route, destination
+from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController, SubscriptionSend
 
 UNAVAILABLE = "Dota2UID 尚未就绪或已停用，请管理员检查配置并按文档重新加载。"
 LOGGER = logging.getLogger("Dota2UID")
-COMMAND_NAMES = frozenset(action.value for action in Action)
+COMMAND_NAMES = frozenset(action.value for action in Action) | frozenset(SUBSCRIPTION_COMMANDS)
 
 
 @dataclass(frozen=True, repr=False)
@@ -90,6 +101,7 @@ class Runtime:
         self._client: httpx.AsyncClient | None = None
         self._service: Dota2Service | None = None
         self._details: MatchDetailService | None = None
+        self._analysis: MatchAnalysisService | None = None
         self._lock = asyncio.Lock()
         self._state = State.NEW
         self._active: asyncio.Task[object] | None = None
@@ -102,6 +114,20 @@ class Runtime:
         self._selections = RecentSelectionStore(clock=selection_clock)
         self._renderer_factory = renderer_factory
         self._renderer: AsyncRenderer | None = None
+        self._subscriptions: SubscriptionController | None = None
+
+    @property
+    def subscriptions_enabled(self) -> bool:
+        return self._subscriptions is not None and self._subscriptions.enabled
+
+    def subscription_route(self, event: SubscriptionEvent) -> Caller:
+        if self._config is None:
+            raise InvalidIdentityError()
+        return delivery_route(event, self._config)
+
+    async def poll_subscriptions(self, send: SubscriptionSend) -> None:
+        if self._state == State.READY and self._subscriptions is not None:
+            await self._subscriptions.tick(send)
 
     @property
     def state(self) -> State:
@@ -124,7 +150,7 @@ class Runtime:
                 await asyncio.to_thread(config.database.parent.mkdir, parents=True, exist_ok=True)
                 repository = SQLiteBindingRepository(config.database)
                 await repository.initialize()
-                if self._state == State.STOPPING:
+                if self.state == State.STOPPING:
                     return
                 client = self._client_factory()
                 clock = SystemClock()
@@ -135,11 +161,35 @@ class Runtime:
                 self._client = client
                 self._service = Dota2Service(repository, provider, provider, clock)
                 self._details = MatchDetailService(provider)
+                self._analysis = MatchAnalysisService(provider)
+                subscription_repository = SQLiteSubscriptionRepository(
+                    config.database.with_name("subscriptions.sqlite3")
+                )
+                await subscription_repository.initialize()
+                if self._state == State.STOPPING:
+                    return
+                self._subscriptions = SubscriptionController(
+                    config.namespace,
+                    self._service,
+                    SubscriptionService(
+                        subscription_repository, provider, provider, clock, provider, provider
+                    ),
+                    subscription_repository,
+                    enabled=config.subscriptions_enabled,
+                    interval_seconds=config.subscription_interval_seconds,
+                    daily_hour=config.daily_report_hour,
+                )
                 self._renderer = self._renderer_factory() if config.reply_mode == "image" else None
                 self._state = State.READY
                 ready = True
                 LOGGER.info("lifecycle state=ready reply_mode=%s", config.reply_mode)
-            except (ConfigurationError, RepositoryError, OSError, ValidationError) as error:
+            except (
+                ConfigurationError,
+                RepositoryError,
+                SubscriptionRepositoryError,
+                OSError,
+                ValidationError,
+            ) as error:
                 # Expected boundary failures are fixed text, never host-logged tracebacks.
                 self._state = State.FAILED
                 LOGGER.warning("lifecycle state=failed error_type=%s", type(error).__name__)
@@ -168,6 +218,8 @@ class Runtime:
         async with self._lock:
             try:
                 try:
+                    if self._subscriptions is not None:
+                        await self._subscriptions.close()
                     if self._client is not None:
                         await self._client.aclose()
                 finally:
@@ -176,10 +228,12 @@ class Runtime:
             finally:
                 self._service = None
                 self._details = None
+                self._analysis = None
                 self._config = None
                 self._selections.clear()
                 self._pending_delivery = None
                 self._renderer = None
+                self._subscriptions = None
                 self._state = State.STOPPED
                 LOGGER.info("lifecycle state=stopped client_closed=true")
 
@@ -309,7 +363,8 @@ class Runtime:
     ) -> _CommandResult:
         command: Command | None = None
         try:
-            command = parse_command(keyword, text)
+            if keyword not in SUBSCRIPTION_COMMANDS:
+                command = parse_command(keyword, text)
             await self.start()
             async with self._lock:
                 if self._state != State.READY or self._config is None or self._service is None:
@@ -317,6 +372,18 @@ class Runtime:
                 identity = caller.identity(self._config)
                 self._active = asyncio.current_task()
                 try:
+                    if keyword in SUBSCRIPTION_COMMANDS:
+                        assert self._subscriptions is not None
+                        message = await self._subscriptions.handle(
+                            identity,
+                            destination(caller, self._config),
+                            caller.conversation_kind == "group",
+                            caller.is_admin,
+                            keyword,
+                            text,
+                        )
+                        return _CommandResult([message])
+                    assert command is not None
                     if command.action == Action.MATCH:
                         assert self._details is not None
                         binding = await self._binding(identity)
@@ -332,12 +399,23 @@ class Runtime:
                             match_id = command.match_id.value
                         result = await self._details.get_match_detail(match_id)
                         perspective = None if binding is None else binding.account_id
+                        analysis = (
+                            await self._analysis.get_match_analysis(match_id)
+                            if self._analysis is not None and isinstance(result, MatchDetail)
+                            else MatchAnalysisUnavailable(MatchId(match_id), result.metadata)
+                        )
+                        report = MatchReport(
+                            MatchId(match_id), result.metadata, perspective, None, result, analysis
+                        )
                         cards: tuple[Card, ...] = ()
                         fallback = match_detail_text(result, perspective)
+                        detail_page_count = len(fallback)
+                        if isinstance(result, MatchDetail):
+                            fallback.append("\n".join(match_report_lines(report)))
                         if isinstance(result, MatchDetail):
                             cards = tuple(
                                 MatchDetailCard(result, page + 1, perspective)
-                                for page in range(len(fallback))
+                                for page in range(detail_page_count)
                             )
                         return _CommandResult(fallback, cards=cards)
                     if command.action == Action.RECENT:
@@ -385,6 +463,9 @@ class Runtime:
                             identity, account_id=command.account
                         )
                         return _CommandResult([player_text(player)], cards=(PlayerCard(player),))
+                    if command.action in {Action.REBIND, Action.UNBIND}:
+                        assert self._subscriptions is not None
+                        await self._subscriptions.revoke(identity)
                     messages = await execute(self._service, identity, command)
                     if command.action in {Action.REBIND, Action.UNBIND}:
                         self._selections.invalidate(identity)
@@ -410,7 +491,7 @@ class Runtime:
             return _CommandResult(["你已绑定其他账号；如需替换，请使用 dota改绑 <ID>。"])
         except BindingNotFoundError:
             return _CommandResult(["你尚未绑定账号，请使用 dota绑定 <ID>，或显式查询账号。"])
-        except RepositoryError:
+        except (RepositoryError, SubscriptionRepositoryError):
             return _CommandResult(["账号绑定存储不可用，本次操作失败；请管理员检查。"])
         except SelectionError as error:
             return _CommandResult([str(error)])

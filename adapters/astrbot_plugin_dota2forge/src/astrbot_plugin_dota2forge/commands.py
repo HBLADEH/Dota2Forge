@@ -30,6 +30,8 @@ class AstrCommand:
     account: AccountId | None = None
     limit: int = 10
     match_id: MatchId | None = None
+    match_index: int | None = None
+    page: int | None = None
 
 
 def parse_command(keyword: str, text: str) -> AstrCommand:
@@ -59,10 +61,19 @@ def parse_command(keyword: str, text: str) -> AstrCommand:
     if action == AstrAction.MATCH:
         if len(tokens) != 1:
             raise AstrCommandError()
+        selected = re.fullmatch(r"第([1-9][0-9]{0,2})场", tokens[0])
+        if selected is not None:
+            if int(selected[1]) > 100:
+                raise AstrCommandError()
+            return AstrCommand(action, match_index=int(selected[1]))
         try:
             return AstrCommand(action, match_id=parse_match_id(tokens[0]))
         except ValueError:
             raise AstrCommandError() from None
+    if len(tokens) == 1 and (selected := re.fullmatch(r"第([1-9][0-9]?)页", tokens[0])):
+        if int(selected[1]) > 20:
+            raise AstrCommandError()
+        return AstrCommand(action, page=int(selected[1]))
     if len(tokens) > 2:
         raise AstrCommandError()
     value = tokens[-1] if tokens else "10"

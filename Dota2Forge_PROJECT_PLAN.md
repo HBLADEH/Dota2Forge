@@ -396,7 +396,7 @@ QQ消息
 
 | 数据源 | 职责 | 接入阶段 |
 | --- | --- | --- |
-| STRATZ | 默认主源：玩家、当前段位、最近比赛；后续按比赛 ID 查询详情、IMP 和时间序列 | 首个联网闭环 |
+| STRATZ | 默认主源：玩家、当前段位、最近比赛和按 ID 详情；经济/购买分析按独立契约接入，IMP专有模型保持未实现 | 首个联网闭环 |
 | OpenDota | 独立补充、基础战绩与交叉核验 | 首个宿主闭环之后 |
 | Valve Steam Web API | 按需补充账号解析和官方基础比赛数据 | 出现明确缺口时 |
 
@@ -425,7 +425,7 @@ class MatchProvider(Protocol):
     ) -> list[MatchSummary]: ...
 ```
 
-STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调。2026-10-01 新增独立 MatchDetailProvider/MatchDetailService 与最小详情模型，已只读核对列表外旧比赛；Dota2UID 的直接 ID、最后已发送列表序号/取页和图片/文本消费已离线验证。共享 Renderer/详情卡代码已实现，新命令/图片 QQ 验收仍依 [历史详情任务](.agents/tasks/active/2026-10-01-historical-match-detail.md) 推进。OpenDota 实现在后续补充阶段，当前尚未实现。
+STRATZ 的 PlayerProvider 和 MatchProvider 已实现基础概况、段位与最近比赛，并完成独立只读联调。2026-10-01 新增独立 MatchDetailProvider/MatchDetailService 与最小详情模型，已只读核对列表外旧比赛；Dota2UID的直接ID、最后已发送列表序号/取页和图片/文本消费已实现，GsCore/QQ单会话图片与生命周期已通过。AstrBot/OneBot绑定/查询/分页/序号详情图片及宿主生命周期也已验证。OpenDota独立三端口Provider和CrossCheckService已实现并禁网验证，保留两份来源和差异；尚未在线联调或注册新来源聊天命令，见[来源契约](docs/subsystems/opendota.md)。
 
 业务层只依赖：
 
@@ -1054,7 +1054,7 @@ ruff check .
 
 - Steam ID 工具（已有严格 Account ID / SteamID64 值与转换；新输入形式另行验证）
 - 首轮：STRATZ PlayerProvider / MatchProvider，先完成玩家、当前段位、最近比赛
-- 宿主基础闭环后：按比赛 ID 的 STRATZ 单场详情；IMP、经济/购买序列随后逐项核对；新增公共模型须先检查消费者
+- 宿主基础闭环后：按比赛 ID 的 STRATZ 单场详情；经济/购买序列已按独立分析契约逐项核对；IMP专有模型保持未实现，新增公共模型须先检查消费者
 - 后续：OpenDota 独立补充与交叉核验
 - 按需：Valve Steam Web API，不作为首轮必需依赖
 
@@ -1519,7 +1519,7 @@ adapters/
 
 Codex 不应一次性实现整个项目。
 
-Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4–5 的Dota2UID绑定/查询与真实宿主生命周期已完成，见 [接入任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。Step 6–8 的共享Renderer、图片命令、基础历史详情/列表选择已实现并离线验证；2026-10-02 GsCore图片版本冷启动/两轮stop-reload通过，QQ单会话菜单、账号、分页、序号和直接ID详情正常且图片可读，[证据](.agents/artifacts/gscore-image-lifecycle-v1/README.md)。Step 9已有AstrApplication无宿主消费者，AstrBot平台注册/生命周期/消息仍待实现验证；后续Step 10–15尚未完成。不重做已完成的Core和主源，在线证据不代表多账号/全平台保证。
+Step 1–3 已完成，见 [STRATZ 交付](.agents/tasks/done/2026-09-30-stratz-provider.md)。Step 4–5 的Dota2UID绑定/查询与真实宿主生命周期已完成，见 [接入任务](.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。Step 6–8 的共享Renderer、图片命令、基础历史详情/列表选择已实现并离线验证；2026-10-02 GsCore图片版本冷启动/两轮stop-reload通过，QQ单会话菜单、账号、分页、序号和直接ID详情正常且图片可读，[证据](.agents/artifacts/gscore-image-lifecycle-v1/README.md)。Step 9已实现 AstrApplication、AstrBot v4.28.2发现桥接、配置/身份/生命周期和无宿主消费者测试；本机发现/配置/冷启动/重载/关闭恢复，以及OneBot单会话菜单/绑定/玩家/20场/第3页/第1场详情图片通过且可读。直接ID与聊天管理员权限等剩余实机边界继续跟踪[任务](.agents/tasks/active/2026-10-02-astrbot-platform.md)。Step10的OpenDota独立Provider和显式交叉核验SDK已实现，详见[契约](docs/subsystems/opendota.md)，尚未部署到Bot或在线查询。Step11的Memory/SQLite TTL缓存、显式刷新和仅瞬时错误有限重试已实现并禁网验证，默认Bot仍未接入，详见[契约](docs/subsystems/cache-retry.md)。Step12已实现独立经济/购买分析端口：STRATZ净资产/购买事件、OpenDota金钱/经验/购买事件按来源语义保存；IMP等专有模型输出明确未实现，分析尚未部署到Bot，详见[契约](docs/subsystems/analysis.md)。Step13已实现Core新比赛/段位变化、北京时间每日有限观察、schema v2持久发送尝试及双端命令/权限/受控计时器；默认关闭、实际推送仍需用户验收，继续跟踪[任务](.agents/tasks/active/2026-10-02-subscriptions.md)和[契约](docs/subsystems/subscriptions.md)。Step14–15尚未完成。不重做已完成的Core和主源，在线证据不代表多账号/全平台保证。
 
 ```text
 Step 1

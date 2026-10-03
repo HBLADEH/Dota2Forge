@@ -218,8 +218,8 @@ class PillowRenderer:
             raise RenderError() from None
 
     def _menu(self, card: MenuCard) -> ImageArtifact:
-        with _Canvas(self, 1180 if card.include_admin else 1050) as canvas:
-            canvas.header("命令菜单", "Dota2UID")
+        with _Canvas(self, 1580 if card.include_admin else 1450) as canvas:
+            canvas.header("命令菜单", card.adapter_label)
             groups = (
                 (
                     "账号",
@@ -237,6 +237,15 @@ class PillowRenderer:
                         ("dota战绩 <ID> <条数>", "显式查询账号"),
                         ("dota比赛 <ID> / 第N场", "历史单局详情"),
                         ("dota战绩 第N页", "查看同次列表"),
+                    ),
+                ),
+                (
+                    "订阅（默认关闭）",
+                    (
+                        ("dota订阅玩家 / 比赛", "玩家ID或比赛ID"),
+                        ("dota订阅列表 [游标]", "本会话订阅和事件"),
+                        ("dota取消订阅 <订阅ID>", "取消自己的订阅"),
+                        ("dota重试推送 <事件ID>", "显式重试，可能重复"),
                     ),
                 ),
             )
@@ -257,6 +266,9 @@ class PillowRenderer:
                 36, y + 24, "ID：Dota 账号 ID 或 SteamID64；比赛 ID 独立。", size=24, color=MUTED
             )
             canvas.text(36, y + 64, "绑定只是查询偏好，不证明账号所有权。", size=24, color=MUTED)
+            canvas.text(
+                36, y + 104, "群订阅仅限 Bot 管理员；日报为有限观察。", size=24, color=MUTED
+            )
             return canvas.encode()
 
     def _player(self, card: PlayerCard) -> ImageArtifact:
@@ -346,7 +358,7 @@ class PillowRenderer:
 
     def _status(self, card: StatusCard) -> ImageArtifact:
         with _Canvas(self, 650) as canvas:
-            canvas.header("账号状态", "Dota2UID")
+            canvas.header("账号状态", card.adapter_label)
             canvas.paragraph(238, card.message)
             canvas.line(386)
             canvas.text(36, 420, "绑定仅是查询偏好，不证明账号所有权。", size=24, color=MUTED)
@@ -382,6 +394,11 @@ class PillowRenderer:
                 size=24,
             )
             stats = "未知" if detail.has_stats is None else "是" if detail.has_stats else "否"
+            marker = (
+                f"version {value_text(detail.parse_version)}"
+                if detail.metadata.source == DataSource.OPENDOTA
+                else f"isStats {stats}"
+            )
             parse_state = {
                 MatchParseState.UNKNOWN: "未知",
                 MatchParseState.UNPARSED: "未解析",
@@ -392,7 +409,7 @@ class PillowRenderer:
             canvas.text(
                 36,
                 395,
-                f"{detail.metadata.source.value.upper()} isStats {stats} · 状态 {parse_state}",
+                f"{detail.metadata.source.value.upper()} {marker} · 状态 {parse_state}",
                 size=24,
             )
             canvas.text(36, 438, f"解析时间 {timestamp(detail.parsed_at)}", size=26)

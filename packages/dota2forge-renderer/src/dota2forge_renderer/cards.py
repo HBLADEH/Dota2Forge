@@ -39,6 +39,7 @@ class ImageArtifact:
 @dataclass(frozen=True, slots=True)
 class MenuCard:
     include_admin: bool = False
+    adapter_label: str = "Dota2UID"
 
 
 @dataclass(frozen=True, slots=True)
@@ -55,6 +56,7 @@ class RecentMatchesCard:
 @dataclass(frozen=True, slots=True)
 class StatusCard:
     message: str
+    adapter_label: str = "Dota2UID"
 
 
 @dataclass(frozen=True, slots=True)

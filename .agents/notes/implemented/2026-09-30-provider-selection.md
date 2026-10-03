@@ -13,6 +13,8 @@ Related docs: [Core 契约](../../../docs/subsystems/core.md)
 ## Decision
 STRATZ 基础接入已实施并验收；迁入 implemented 仅确认已落地的主源选择和首轮边界。OpenDota、Valve、详情/IMP 仍是后续方向，不表示已实现。承接 [离线契约](2026-09-30-core-offline-contracts.md)，保留其身份、缺失值和错误语义；具体实现见 [HTTP 决策](2026-09-30-stratz-provider.md)。
 
+后续实施进展：历史详情已按[详情决策](2026-10-01-historical-match-contract.md)实现；OpenDota独立SDK与显式交叉核验见[补充源决策](2026-10-02-opendota-cross-check.md)，不改变STRATZ默认主源或本选型的禁止自动拼接/隐私回退原则。
+
 - STRATZ 为默认主源：先实现现有 PlayerProvider/MatchProvider 的玩家段位与最近比赛；单场详情、IMP、经济/购买序列随后扩展契约，不混入当前模型冒充已支持。
 - OpenDota 为后续独立补充与交叉核验来源；首轮不实现自动 fallback。来源冲突分别标注，不能取最高段位或用旧值覆盖主源；不能跨源拼接一个无字段来源的结果。明确隐私拒绝时不换源绕过限制。
 - Valve Web API 仅在账号解析或官方基础数据确有缺口时引入；Steam GC、自建全量采集、录像解析服务及 GSI 不作为首个闭环依赖。

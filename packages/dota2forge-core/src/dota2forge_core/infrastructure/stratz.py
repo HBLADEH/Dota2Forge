@@ -4,11 +4,13 @@ from dataclasses import replace
 
 import httpx
 
+from ..domain.analysis import MatchAnalysisResult
 from ..domain.errors import DataSource, ProviderErrorCode, ValidationError
 from ..domain.identity import AccountId
 from ..domain.match_detail import MatchDetailResult, MatchId
 from ..domain.models import DataMetadata, MatchSummary, PlayerProfile, RecentMatches
 from ..ports import Clock
+from ._analysis_mapping import stratz_analysis
 from ._stratz_detail import match_detail
 from ._stratz_http import StratzHTTP, failure
 from ._stratz_mapping import match_page, player_data, profile
@@ -50,6 +52,22 @@ query Dota2ForgeMatchDetail($matchId: Long!) {
       playerSlot steamAccountId steamAccount { id name }
       isRadiant heroId kills deaths assists goldPerMinute experiencePerMinute
       item0Id item1Id item2Id item3Id item4Id item5Id
+    }
+  }
+}
+"""
+
+MATCH_ANALYSIS_QUERY = """
+query Dota2ForgeMatchAnalysis($matchId: Long!) {
+  match(id: $matchId) {
+    id
+    players {
+      playerSlot
+      steamAccountId
+      stats {
+        networthPerMinute
+        itemPurchases { time itemId }
+      }
     }
   }
 }
@@ -121,6 +139,14 @@ class StratzProvider:
             MATCH_DETAIL_QUERY, {"matchId": match_id.value}
         )
         return match_detail(payload, match_id, DataMetadata(self.source, fetched_at))
+
+    async def get_match_analysis(self, match_id: MatchId) -> MatchAnalysisResult:
+        if not isinstance(match_id, MatchId):
+            raise ValidationError("Expected a MatchId")
+        payload, fetched_at = await self._http.request(
+            MATCH_ANALYSIS_QUERY, {"matchId": match_id.value}
+        )
+        return stratz_analysis(payload, match_id, DataMetadata(self.source, fetched_at))
 
     @staticmethod
     def _validate_account(account_id: AccountId) -> None:
