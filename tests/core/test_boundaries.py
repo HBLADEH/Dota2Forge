@@ -24,7 +24,12 @@ def test_domain_ports_and_use_cases_do_not_import_io_or_infrastructure():
         "socket",
         "infrastructure",
     }
-    for path in [*root.joinpath("domain").glob("*.py"), root / "ports.py", root / "use_cases.py"]:
+    for path in [
+        *root.joinpath("domain").glob("*.py"),
+        root / "ports.py",
+        root / "use_cases.py",
+        root / "subscriptions.py",
+    ]:
         tree = ast.parse(path.read_text("utf-8"))
         for name in imported_modules(tree):
             assert not forbidden.intersection(name.split(".")), (path.name, name)

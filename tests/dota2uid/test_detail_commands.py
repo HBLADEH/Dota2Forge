@@ -18,7 +18,7 @@ from dota2forge_core import (
     ProviderError,
     ProviderErrorCode,
 )
-from dota2forge_core.infrastructure.stratz import MATCH_DETAIL_QUERY
+from dota2forge_core.infrastructure.stratz import MATCH_ANALYSIS_QUERY, MATCH_DETAIL_QUERY
 from Dota2UID.commands import Action, CommandError, parse_command
 from Dota2UID.presentation import match_detail_text, provider_error_text
 from Dota2UID.runtime import Runtime, State
@@ -173,8 +173,30 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(config_path,
     def handler(request):
         payload = json.loads(request.content)
         requests.append(payload)
-        assert payload == {"query": MATCH_DETAIL_QUERY, "variables": {"matchId": 7000000001}}
-        return httpx.Response(200, json=detail_data())
+        if "Dota2ForgeMatchDetail" in payload["query"]:
+            assert payload == {"query": MATCH_DETAIL_QUERY, "variables": {"matchId": 7000000001}}
+            return httpx.Response(200, json=detail_data())
+        assert payload == {"query": MATCH_ANALYSIS_QUERY, "variables": {"matchId": 7000000001}}
+        return httpx.Response(
+            200,
+            json={
+                "data": {
+                    "match": {
+                        "id": 7000000001,
+                        "players": [
+                            {
+                                "playerSlot": 0,
+                                "steamAccountId": 123,
+                                "stats": {
+                                    "networthPerMinute": [100],
+                                    "itemPurchases": [],
+                                },
+                            }
+                        ],
+                    }
+                }
+            },
+        )
 
     client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
 
@@ -191,7 +213,7 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(config_path,
         assert "[我方]" not in "\n".join(other)
         before = len(requests)
         assert "参数不正确" in (await runtime.handle(caller, "dota比赛", "01"))[0]
-        assert len(requests) == before == 3
+        assert len(requests) == before == 6
         await runtime.close()
         assert runtime.state == State.STOPPED and client.is_closed and runtime._details is None
 

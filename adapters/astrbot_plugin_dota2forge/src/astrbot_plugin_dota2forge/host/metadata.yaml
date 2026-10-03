@@ -1,0 +1,7 @@
+name: astrbot_plugin_dota2forge
+display_name: Dota2Forge
+desc: Dota2Forge 账号绑定、玩家、近期战绩与单局详情
+version: 0.1.0a1
+author: HBLADEH
+repo: https://github.com/HBLADEH/Dota2Forge
+astrbot_version: ">=4.28.2,<4.29"

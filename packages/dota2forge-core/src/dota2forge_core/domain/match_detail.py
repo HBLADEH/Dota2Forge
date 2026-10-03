@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
 
-from .errors import ValidationError
+from .errors import DataSource, ValidationError
 from .identity import AccountId
 from .models import DataMetadata, require_aware_time, require_nonnegative
 
@@ -127,6 +127,7 @@ class MatchDetail:
     has_stats: bool | None = None
     parsed_at: datetime | None = None
     players: tuple[MatchParticipant, ...] | None = None
+    parse_version: int | None = None
 
     def __post_init__(self) -> None:
         require_match_metadata(self.match_id, self.metadata)
@@ -136,6 +137,7 @@ class MatchDetail:
             require_aware_time(self.parsed_at)
         require_nonnegative(self.duration_seconds)
         require_nonnegative(self.game_version_id)
+        require_nonnegative(self.parse_version)
         require_optional_bool(self.did_radiant_win)
         require_optional_bool(self.has_stats)
         if self.game_mode is not None and (
@@ -163,7 +165,7 @@ class MatchDetail:
 
     @property
     def missing_fields(self) -> tuple[str, ...]:
-        return tuple(
+        missing = tuple(
             name
             for name in (
                 "started_at",
@@ -177,6 +179,9 @@ class MatchDetail:
             )
             if getattr(self, name) is None
         )
+        if self.metadata.source == DataSource.OPENDOTA and self.parse_version is None:
+            return missing + ("parse_version",)
+        return missing
 
     @property
     def parse_state(self) -> MatchParseState:
@@ -185,12 +190,20 @@ class MatchDetail:
         ``UPSTREAM_PARSED`` records ``isStats=True``; it does not promise that
         every optional field is present. ``UNPARSED`` follows ``isStats=False``
         even when an upstream parse timestamp is present. Without either marker,
-        observed fields are conservatively classified as ``PARTIAL``.
+        observed fields are conservatively classified as ``PARTIAL``. OpenDota's
+        positive parse schema version is independent evidence of an upstream
+        parse; zero/null do not prove an unparsed match. It is not a game patch.
         """
 
         if self.has_stats is False:
             return MatchParseState.UNPARSED
         if self.has_stats is True:
+            return MatchParseState.UPSTREAM_PARSED
+        if (
+            self.metadata.source == DataSource.OPENDOTA
+            and self.parse_version is not None
+            and self.parse_version > 0
+        ):
             return MatchParseState.UPSTREAM_PARSED
         if self.parsed_at is not None or any(
             value is not None

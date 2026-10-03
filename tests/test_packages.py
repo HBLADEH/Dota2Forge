@@ -25,12 +25,18 @@ def test_workspace_package_installed(distribution, module):
 
 def test_core_keeps_http_optional_and_has_no_host_sdks():
     requirements = importlib.metadata.requires("dota2forge-core")
-    assert requirements is not None and len(requirements) == 1
-    dependency = Requirement(requirements[0])
-    assert dependency.name == "httpx"
-    assert dependency.marker is not None
-    assert not dependency.marker.evaluate({"extra": ""})
-    assert dependency.marker.evaluate({"extra": "stratz"})
+    assert requirements is not None and 1 <= len(requirements) <= 2
+    dependencies = [Requirement(value) for value in requirements]
+    assert {dependency.name for dependency in dependencies} == {"httpx"}
+    assert all(dependency.marker is not None for dependency in dependencies)
+    enabled_extras = {
+        extra
+        for dependency in dependencies
+        for extra in ("stratz", "opendota")
+        if dependency.marker.evaluate({"extra": extra})
+    }
+    assert "stratz" in enabled_extras
+    assert enabled_extras <= {"stratz", "opendota"}
     assert importlib.util.find_spec("astrbot") is None
     assert importlib.util.find_spec("gsuid_core") is None
 
