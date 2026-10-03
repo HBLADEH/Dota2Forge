@@ -37,11 +37,20 @@ dependencies = [
     { name = "dota2forge-renderer" },
 ]
 
+[package.optional-dependencies]
+stratz = [
+    { name = "dota2forge-core", extra = ["stratz"] },
+    { name = "httpx" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "dota2forge-core", editable = "packages/dota2forge-core" },
+    { name = "dota2forge-core", extras = ["stratz"], marker = "extra == 'stratz'", editable = "packages/dota2forge-core" },
     { name = "dota2forge-renderer", editable = "packages/dota2forge-renderer" },
+    { name = "httpx", marker = "extra == 'stratz'", specifier = ">=0.28.1,<1" },
 ]
+provides-extras = ["stratz"]
 
 [[package]]
 name = "attrs"
@@ -207,13 +216,19 @@ version = "0.1.0a1"
 source = { editable = "packages/dota2forge-core" }
 
 [package.optional-dependencies]
+opendota = [
+    { name = "httpx" },
+]
 stratz = [
     { name = "httpx" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "httpx", marker = "extra == 'stratz'", specifier = ">=0.28.1,<1" }]
-provides-extras = ["stratz"]
+requires-dist = [
+    { name = "httpx", marker = "extra == 'opendota'", specifier = ">=0.28.1,<1" },
+    { name = "httpx", marker = "extra == 'stratz'", specifier = ">=0.28.1,<1" },
+]
+provides-extras = ["stratz", "opendota"]
 
 [[package]]
 name = "dota2forge-renderer"

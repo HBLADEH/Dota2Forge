@@ -39,6 +39,10 @@ HELP = (
     "dota战绩 [条数] 或 dota战绩 <ID> <条数>\n"
     "dota比赛 <比赛ID>：直接查询历史单局详情\n"
     "dota比赛 第N场 / dota战绩 第N页：使用本会话最后有效列表\n"
+    "dota订阅 [比赛|段位|日报] [ID] / dota订阅列表 [游标]\n"
+    "dota订阅玩家 <玩家ID> / dota订阅比赛 <比赛ID>：完成后播报详情分析\n"
+    "dota取消订阅 <订阅ID> / dota重试推送 <事件ID>\n"
+    "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
     "条数 1–100，默认 10；只绑定自己，不支持 @ 他人。\n"
     "绑定只是查询偏好，不证明 Steam 账号所有权。"
 )
@@ -174,6 +178,11 @@ def match_detail_text(result: MatchDetailResult, perspective: AccountId | None =
         "未知" if result.did_radiant_win is None else "天辉" if result.did_radiant_win else "夜魇"
     )
     stats = "未知" if result.has_stats is None else "是" if result.has_stats else "否"
+    marker = (
+        f"version：{value_text(result.parse_version)}"
+        if result.metadata.source == DataSource.OPENDOTA
+        else f"isStats：{stats}"
+    )
     own = None if perspective is None else result.participant(perspective)
     header = (
         f"Dota2Forge 比赛 {result.match_id.value}\n"
@@ -181,10 +190,10 @@ def match_detail_text(result: MatchDetailResult, perspective: AccountId | None =
         f" | 时长：{detail_duration(result.duration_seconds)}\n"
         f"模式：{result.game_mode or '未知'} | 上游版本 ID：{value_text(result.game_version_id)}\n"
         f"胜方：{winner}\n"
-        f"{result.metadata.source.value.upper()} isStats：{stats}"
+        f"{result.metadata.source.value.upper()} {marker}"
         f" | 解析时间：{detail_timestamp(result.parsed_at)}\n"
         f"详情状态：{parse_state_text(result)}\n"
-        "isStats 与解析时间不证明详情字段完整。"
+        "解析标记与解析时间不证明详情字段完整。"
     )
     players = result.players
     if players is None or not players:

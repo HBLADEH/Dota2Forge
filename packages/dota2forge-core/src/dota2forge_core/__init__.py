@@ -1,8 +1,27 @@
 """Dota2Forge public binding and query contracts; import has no I/O side effects."""
 
+from .cross_check import (
+    ComparisonState,
+    CrossCheckResult,
+    CrossCheckService,
+    FieldComparison,
+    ObservationState,
+    ProviderFailure,
+    SourceObservation,
+)
+from .domain.analysis import (
+    MatchAnalysis,
+    MatchAnalysisResult,
+    MatchAnalysisUnavailable,
+    MetricSemantic,
+    MetricSeries,
+    ParticipantAnalysis,
+    PurchaseEvent,
+)
 from .domain.errors import (
     BindingConflictError,
     BindingNotFoundError,
+    CacheError,
     DataSource,
     Dota2ForgeError,
     InvalidIdentityError,
@@ -10,6 +29,8 @@ from .domain.errors import (
     ProviderError,
     ProviderErrorCode,
     RepositoryError,
+    SubscriptionCapacityError,
+    SubscriptionRepositoryError,
     ValidationError,
 )
 from .domain.identity import AccountId, PlatformIdentity, SteamId64, parse_account_id
@@ -22,35 +43,97 @@ from .domain.match_detail import (
     MatchParticipant,
     parse_match_id,
 )
+from .domain.match_reports import MatchReport
 from .domain.models import DataMetadata, MatchSummary, PlayerBinding, PlayerProfile, RecentMatches
-from .use_cases import Dota2Service, MatchDetailService
+from .domain.subscription_reports import BEIJING, DailyCoverage, DailyReport, report_bounds
+from .domain.subscriptions import (
+    DeliveryOutcome,
+    RankChange,
+    Subscription,
+    SubscriptionCheckpoint,
+    SubscriptionEvent,
+    SubscriptionKey,
+    SubscriptionKind,
+    SubscriptionPollResult,
+    SubscriptionPollState,
+    SubscriptionScope,
+)
+from .infrastructure.cache import CacheCodec, MemoryCache, SQLiteCache
+from .infrastructure.resilience import CachedProvider, RetryingProvider, RetryPolicy
+from .infrastructure.subscriptions import SQLiteSubscriptionRepository
+from .ports import CachePort, SubscriptionRepository
+from .subscriptions import SubscriptionService
+from .use_cases import Dota2Service, MatchAnalysisService, MatchDetailService
 
 __all__ = [
+    "DeliveryOutcome",
+    "BEIJING",
+    "DailyCoverage",
+    "DailyReport",
+    "report_bounds",
     "AccountId",
     "BindingConflictError",
     "BindingNotFoundError",
+    "CacheError",
+    "CacheCodec",
+    "CachePort",
+    "CachedProvider",
+    "ComparisonState",
+    "CrossCheckResult",
+    "CrossCheckService",
     "DataMetadata",
     "DataSource",
     "Dota2ForgeError",
     "Dota2Service",
+    "FieldComparison",
     "InvalidIdentityError",
     "InvalidSteamIdError",
     "MatchSummary",
     "MatchDetail",
     "MatchDetailResult",
     "MatchDetailService",
+    "MatchAnalysis",
+    "MatchAnalysisResult",
+    "MatchAnalysisService",
+    "MatchAnalysisUnavailable",
     "MatchDetailUnavailable",
+    "MatchReport",
     "MatchId",
     "MatchParticipant",
     "MatchParseState",
+    "MetricSemantic",
+    "MetricSeries",
+    "ObservationState",
     "PlatformIdentity",
+    "ParticipantAnalysis",
     "PlayerBinding",
     "PlayerProfile",
     "ProviderError",
     "ProviderErrorCode",
+    "ProviderFailure",
     "RecentMatches",
     "RepositoryError",
+    "PurchaseEvent",
+    "RetryPolicy",
+    "RetryingProvider",
     "SteamId64",
+    "MemoryCache",
+    "SQLiteCache",
+    "SourceObservation",
+    "RankChange",
+    "SQLiteSubscriptionRepository",
+    "Subscription",
+    "SubscriptionCapacityError",
+    "SubscriptionCheckpoint",
+    "SubscriptionEvent",
+    "SubscriptionKey",
+    "SubscriptionKind",
+    "SubscriptionPollResult",
+    "SubscriptionPollState",
+    "SubscriptionRepository",
+    "SubscriptionRepositoryError",
+    "SubscriptionScope",
+    "SubscriptionService",
     "ValidationError",
     "parse_account_id",
     "parse_match_id",

@@ -1,24 +1,34 @@
 """AstrBot-neutral application composition over Core and the shared Renderer.
 
-The module is safe to import without AstrBot installed. A future AstrBot hook
-should convert its trusted event into PlatformIdentity and send these replies.
+The module is safe to import without AstrBot installed. The host bridge converts
+trusted events into identities and sends these replies.
 """
 
+import asyncio
+import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Protocol
 
 from dota2forge_core import (
+    BindingConflictError,
     BindingNotFoundError,
     Dota2Service,
+    MatchAnalysisService,
+    MatchAnalysisUnavailable,
     MatchDetail,
     MatchDetailResult,
     MatchDetailService,
     MatchDetailUnavailable,
+    MatchId,
     MatchParseState,
+    MatchReport,
     PlatformIdentity,
+    PlayerBinding,
     PlayerProfile,
     ProviderError,
     RecentMatches,
+    RepositoryError,
 )
 from dota2forge_renderer import (
     AsyncRenderer,
@@ -39,8 +49,23 @@ from dota2forge_renderer.formatting import (
     timestamp,
     value_text,
 )
+from dota2forge_renderer.subscriptions import match_report_lines
 
 from .commands import AstrAction, AstrCommandError, parse_command
+from .selection import Key, SelectionError, SelectionStore, Session
+
+HELP = (
+    "Dota2Forge / AstrBot\n"
+    "dota菜单 / dota帮助\ndota绑定 <ID> / dota改绑 <ID>\n"
+    "dota账号 / dota解绑\ndota玩家 [ID]\n"
+    "dota战绩 [条数] / dota战绩 <ID> <条数>\n"
+    "dota战绩 第N页\ndota比赛 <ID> / dota比赛 第N场\n"
+    "dota订阅 [比赛|段位|日报] [ID] / dota订阅列表 [游标]\n"
+    "dota订阅玩家 <玩家ID> / dota订阅比赛 <比赛ID>：完成后播报详情分析\n"
+    "dota取消订阅 <订阅ID> / dota重试推送 <事件ID>\n"
+    "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
+    "ID 为规范十进制 Dota 账号 ID 或 SteamID64。绑定只是查询偏好。"
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -120,10 +145,16 @@ def detail_text(detail: MatchDetailResult) -> list[str]:
             f"Dota2Forge 比赛 {detail.match_id.value}\n"
             "本次没有返回详情；原因和隐私状态未知，不能判定为不存在或私密。\n"
             f"详情状态：{detail_state_text(detail)}\n"
+            f"来源：{source_label(detail.metadata.source.value)}\n"
             f"抓取时间：{timestamp(detail.metadata.fetched_at)}"
         ]
     winner = (
         "未知" if detail.did_radiant_win is None else "天辉" if detail.did_radiant_win else "夜魇"
+    )
+    marker = (
+        f"version {value_text(detail.parse_version)}"
+        if detail.metadata.source.value == "opendota"
+        else f"isStats {value_text(detail.has_stats)}"
     )
     header = (
         f"Dota2Forge 比赛 {detail.match_id.value}\n"
@@ -131,6 +162,7 @@ def detail_text(detail: MatchDetailResult) -> list[str]:
         f"模式：{detail.game_mode or '未知'} | 胜方：{winner}\n"
         f"来源：{source_label(detail.metadata.source.value)}\n"
         f"详情状态：{detail_state_text(detail)}\n"
+        f"解析标记：{marker}\n"
         f"解析时间：{timestamp(detail.parsed_at)} | "
         f"抓取时间：{timestamp(detail.metadata.fetched_at)}\n"
         "状态不代表详情字段完整。"
@@ -168,25 +200,63 @@ class AstrApplication:
         details: MatchDetailService,
         renderer: AsyncRenderer | None = None,
         *,
+        analysis: MatchAnalysisService | None = None,
         image_mode: bool = True,
+        selection_clock: Callable[[], float] = time.monotonic,
     ) -> None:
         self._service = service
         self._details = details
+        self._analysis = analysis
         self._renderer = renderer
         self._image_mode = image_mode
+        self._selections = SelectionStore(selection_clock)
+        self._dispatch_lock = asyncio.Lock()
+
+    async def _binding(self, identity: PlatformIdentity) -> PlayerBinding | None:
+        try:
+            return await self._service.get_binding(identity)
+        except BindingNotFoundError:
+            return None
 
     async def handle(self, identity: PlatformIdentity, keyword: str, text: str) -> list[AstrReply]:
+        """Prepare replies without committing a delivered list."""
+        replies, _ = await self._prepare(identity, keyword, text, None, False)
+        return replies
+
+    async def dispatch(
+        self,
+        identity: PlatformIdentity,
+        keyword: str,
+        text: str,
+        send: AstrSend,
+        session: Session | None = None,
+    ) -> None:
+        async with self._dispatch_lock:
+            key = (identity, session) if session is not None else None
+            replies, candidate = await self._prepare(identity, keyword, text, key, True)
+            for reply in replies:
+                await send(reply)
+            if candidate is not None and key is not None:
+                recent, binding = candidate
+                if binding == await self._binding(identity):
+                    self._selections.remember(key, recent, binding)
+
+    async def _prepare(
+        self,
+        identity: PlatformIdentity,
+        keyword: str,
+        text: str,
+        key: Key | None,
+        capture: bool,
+    ) -> tuple[list[AstrReply], tuple[RecentMatches, PlayerBinding | None] | None]:
         """Query once, then render; RenderError returns all same-data text replies."""
+        candidate = None
         try:
             command = parse_command(keyword, text)
             cards: tuple[Card, ...] = ()
             if command.action in {AstrAction.HELP, AstrAction.MENU}:
-                texts = [
-                    "Dota2Forge / AstrBot\n"
-                    "dota绑定 <ID>\ndota玩家 [ID]\n"
-                    "dota战绩 [条数]\ndota比赛 <ID>"
-                ]
-                cards = (MenuCard(),)
+                texts = [HELP]
+                cards = (MenuCard(adapter_label="Dota2Forge / AstrBot"),)
             elif command.action in {AstrAction.BIND, AstrAction.REBIND}:
                 assert command.account is not None
                 await self._service.bind_account(
@@ -195,57 +265,117 @@ class AstrApplication:
                     replace=command.action == AstrAction.REBIND,
                 )
                 texts = ["账号绑定已保存。绑定仅用于查询，不证明账号所有权。"]
-                cards = (StatusCard(texts[0]),)
+                self._selections.invalidate(identity)
+                cards = (StatusCard(texts[0], "Dota2Forge / AstrBot"),)
             elif command.action == AstrAction.BINDING:
-                await self._service.get_binding(identity)
-                texts = ["你已绑定 Dota 账号。"]
-                cards = (StatusCard(texts[0]),)
+                binding = await self._service.get_binding(identity)
+                texts = [f"你已绑定 Dota 账号 {binding.account_id.value}。"]
+                cards = (StatusCard(texts[0], "Dota2Forge / AstrBot"),)
             elif command.action == AstrAction.UNBIND:
                 removed = await self._service.unbind_account(identity)
                 texts = ["已解除你的账号绑定。" if removed else "你目前没有绑定账号。"]
-                cards = (StatusCard(texts[0]),)
+                self._selections.invalidate(identity)
+                cards = (StatusCard(texts[0], "Dota2Forge / AstrBot"),)
             elif command.action == AstrAction.PLAYER:
                 player = await self._service.get_player(identity, account_id=command.account)
                 texts = [player_text(player)]
                 cards = (PlayerCard(player),)
             elif command.action == AstrAction.RECENT:
-                recent = await self._service.get_recent_matches(
-                    identity, command.limit, account_id=command.account
-                )
-                texts = recent_text(recent)
-                cards = tuple(
-                    RecentMatchesCard(recent, index + 1) for index in range(min(2, len(texts)))
-                )
+                recent_binding: PlayerBinding | None = await self._binding(identity)
+                if command.page is not None:
+                    recent = self._selections.get(key, recent_binding)
+                    pages = recent_text(recent)
+                    if command.page > len(pages):
+                        return [AstrTextReply(f"该列表只有 {len(pages)} 页。")], None
+                    texts = [pages[command.page - 1]]
+                    cards = (RecentMatchesCard(recent, command.page),)
+                else:
+                    recent = await self._service.get_recent_matches(
+                        identity, command.limit, account_id=command.account
+                    )
+                    pages = recent_text(recent)
+                    texts = pages[:2]
+                    cards = tuple(
+                        RecentMatchesCard(recent, index + 1) for index in range(len(texts))
+                    )
+                    if capture and key is not None:
+                        candidate = (recent, recent_binding)
+                    if len(pages) > 2:
+                        texts.append(
+                            f"本次返回 {len(recent.matches)} 场、共 {len(pages)} 页。"
+                            "请用 dota战绩 第N页 查看其余结果。"
+                            if candidate is not None
+                            else "本次仅显示前 10 场；无法确认会话，不能保存后续页。"
+                        )
             else:
-                assert command.match_id is not None
-                result = await self._details.get_match_detail(command.match_id.value)
+                detail_binding: PlayerBinding | None = await self._binding(identity)
+                if command.match_index is not None:
+                    recent = self._selections.get(key, detail_binding)
+                    if command.match_index > len(recent.matches):
+                        return [AstrTextReply(f"该列表只有 {len(recent.matches)} 场。")], None
+                    match_id = recent.matches[command.match_index - 1].match_id
+                else:
+                    assert command.match_id is not None
+                    match_id = command.match_id.value
+                result = await self._details.get_match_detail(match_id)
+                analysis = (
+                    await self._analysis.get_match_analysis(match_id)
+                    if self._analysis is not None and isinstance(result, MatchDetail)
+                    else MatchAnalysisUnavailable(MatchId(match_id), result.metadata)
+                )
+                report = MatchReport(
+                    MatchId(match_id),
+                    result.metadata,
+                    detail_binding.account_id if detail_binding is not None else None,
+                    None,
+                    result,
+                    analysis,
+                )
                 texts = detail_text(result)
+                if isinstance(result, MatchDetail):
+                    texts[-1] += "\n" + "\n".join(match_report_lines(report))
                 if isinstance(result, MatchDetail):
                     groups = detail_groups(MatchDetailCard(result))
                     cards = tuple(
-                        MatchDetailCard(result, index + 1) for index in range(len(groups))
+                        MatchDetailCard(
+                            result,
+                            index + 1,
+                            None if detail_binding is None else detail_binding.account_id,
+                        )
+                        for index in range(len(groups))
                     )
             if not cards or not self._image_mode or self._renderer is None:
-                return [AstrTextReply(value) for value in texts]
+                return [AstrTextReply(value) for value in texts], candidate
             try:
                 images: list[AstrReply] = [
-                    AstrImageReply(await self._renderer.render(card)) for card in cards[:2]
+                    AstrImageReply(await self._renderer.render(card)) for card in cards
                 ]
                 if len(texts) > len(images):
-                    images.append(
-                        AstrTextReply(
-                            f"本次返回 {len(texts)} 页；AstrBot 会话翻页尚未接入，"
-                            "请使用比赛 ID 直接查询。"
-                        )
-                    )
-                return images
+                    images.extend(AstrTextReply(value) for value in texts[len(images) :])
+                return images, candidate
             except RenderError:
-                return [AstrTextReply(value) for value in texts]
-        except (AstrCommandError, BindingNotFoundError):
-            return [AstrTextReply("命令参数不正确或尚未绑定账号。")]
+                return [AstrTextReply(value) for value in texts], candidate
+        except AstrCommandError:
+            return [AstrTextReply("命令参数不正确。\n" + HELP)], None
+        except BindingNotFoundError:
+            return [AstrTextReply("你尚未绑定账号，请使用 dota绑定 <ID>。")], None
+        except BindingConflictError:
+            return [AstrTextReply("你已绑定其他账号；如需替换，请使用 dota改绑 <ID>。")], None
+        except SelectionError:
+            return [AstrTextReply("没有有效的已发送列表，请在本会话重新查询 dota战绩。")], None
+        except RepositoryError:
+            return [AstrTextReply("绑定存储不可用，请管理员检查本地数据目录。")], None
         except ProviderError as error:
-            return [AstrTextReply(f"{error.source.value.upper()} 查询失败：{error.code.value}。")]
+            wait = (
+                f" 请在 {error.retry_after_seconds} 秒后手动再试。"
+                if error.retry_after_seconds is not None
+                else ""
+            )
+            return [
+                AstrTextReply(f"{error.source.value.upper()} 查询失败：{error.code.value}。{wait}")
+            ], None
 
     async def close(self) -> None:
+        self._selections.clear()
         if self._renderer is not None:
             await self._renderer.close()
