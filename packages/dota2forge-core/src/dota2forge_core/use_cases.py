@@ -1,5 +1,6 @@
 """Public binding and query operations; dependencies are supplied by the host."""
 
+from .domain.analysis import MatchAnalysis, MatchAnalysisResult, MatchAnalysisUnavailable
 from .domain.errors import (
     BindingNotFoundError,
     ProviderError,
@@ -14,7 +15,14 @@ from .domain.match_detail import (
     parse_match_id,
 )
 from .domain.models import PlayerBinding, PlayerProfile, RecentMatches
-from .ports import BindingRepository, Clock, MatchDetailProvider, MatchProvider, PlayerProvider
+from .ports import (
+    BindingRepository,
+    Clock,
+    MatchAnalysisProvider,
+    MatchDetailProvider,
+    MatchProvider,
+    PlayerProvider,
+)
 
 MAX_RECENT_MATCHES = 100
 
@@ -34,6 +42,24 @@ class MatchDetailService:
             or result.metadata.source != self._details.source
         ):
             raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        return result
+
+
+class MatchAnalysisService:
+    """Validate an independent economics/purchases observation; no IMP derivation."""
+
+    def __init__(self, analysis: MatchAnalysisProvider) -> None:
+        self._analysis = analysis
+
+    async def get_match_analysis(self, match_id: int | str) -> MatchAnalysisResult:
+        target = parse_match_id(match_id)
+        result = await self._analysis.get_match_analysis(target)
+        if (
+            not isinstance(result, (MatchAnalysis, MatchAnalysisUnavailable))
+            or result.match_id != target
+            or result.metadata.source != self._analysis.source
+        ):
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._analysis.source)
         return result
 
 

@@ -77,6 +77,23 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     hooks = {name: [] for name in ("on_core_start", "on_core_start_before", "on_core_shutdown")}
     commands = {}
     routes = {}
+    jobs = {}
+
+    class Scheduler:
+        def add_job(self, callback, trigger, **options):
+            assert trigger == "interval" and options["max_instances"] == 1
+            assert options["coalesce"] is True and options["seconds"] == 60
+            jobs[options["id"]] = callback
+
+        def get_job(self, job_id):
+            return jobs.get(job_id)
+
+        def remove_job(self, job_id):
+            del jobs[job_id]
+
+    config_path.write_text(
+        "subscriptions_enabled=true\n" + config_path.read_text("utf-8"), encoding="utf-8"
+    )
 
     class App:
         def route(self, path, *, dependencies):
@@ -112,6 +129,8 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         "gsuid_core.models",
         "gsuid_core.server",
         "gsuid_core.sv",
+        "gsuid_core.aps",
+        "gsuid_core.logger",
         "fastapi",
         "gsuid_core.webconsole",
         "gsuid_core.webconsole.app_app",
@@ -121,6 +140,8 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     sys.modules["gsuid_core.bot"].Bot = CapturingBot
     sys.modules["gsuid_core.models"].Event = SyntheticEvent
     sys.modules["gsuid_core.sv"].SV = Service
+    sys.modules["gsuid_core.aps"].scheduler = Scheduler()
+    sys.modules["gsuid_core.logger"].logger = type("Logger", (), {"info": lambda *_: None})()
     sys.modules["gsuid_core.sv"].Plugins = lambda **kwargs: None
     sys.modules["fastapi"].Depends = lambda dependency: dependency
     sys.modules["gsuid_core.webconsole.app_app"].app = App()
@@ -166,12 +187,19 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
             "dota战绩",
             "dota比赛",
             "dota停用",
+            "dota订阅",
+            "dota订阅玩家",
+            "dota订阅比赛",
+            "dota订阅列表",
+            "dota取消订阅",
+            "dota重试推送",
         }
         assert commands["dota停用"][1] == 0
         assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
         assert await cold.status_dota2uid() == {"state": "new", "client_closed": True}
         await cold.start_dota2uid()
         await cold.start_dota2uid()
+        assert len(jobs) == 1 and cold.job_registered
         bot = CapturingBot()
         await cold.command_dota2uid(bot, SyntheticEvent())
         assert "绑定已保存" in bot.replies[-1] and len(clients) == 1
@@ -179,6 +207,7 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         assert cold.runtime.state == State.READY
         await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=0, text=""))
         assert cold.runtime.state == State.STOPPED and clients[-1].is_closed
+        assert not jobs and not cold.job_registered
         before = len(bot.replies)
         await cold.command_dota2uid(bot, SyntheticEvent())
         assert len(bot.replies) == before
@@ -190,9 +219,11 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         await hot.command_dota2uid(bot, SyntheticEvent(command="dota菜单", text=""))
         assert isinstance(bot.replies[-1], bytes) and bot.replies[-1].startswith(b"\x89PNG")
         await hot.start_dota2uid()
+        assert len(jobs) == 1
         assert len(clients) == 2
         assert await hot.close_dota2uid() == {"state": "stopped", "client_closed": True}
         await hot.stop_dota2uid()
         assert all(c.is_closed for c in clients)
+        assert not jobs
 
     run_async(check())

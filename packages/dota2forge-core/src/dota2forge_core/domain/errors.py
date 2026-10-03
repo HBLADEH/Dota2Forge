@@ -36,6 +36,21 @@ class RepositoryError(Dota2ForgeError):
         super().__init__("Binding storage is unavailable, incompatible, or contains invalid data")
 
 
+class CacheError(Dota2ForgeError):
+    def __init__(self) -> None:
+        super().__init__("Provider cache is unavailable or contains invalid data")
+
+
+class SubscriptionRepositoryError(Dota2ForgeError):
+    def __init__(self) -> None:
+        super().__init__("Subscription storage is unavailable, incompatible, or invalid")
+
+
+class SubscriptionCapacityError(Dota2ForgeError):
+    def __init__(self) -> None:
+        super().__init__("Subscription or pending-event capacity has been reached")
+
+
 class DataSource(StrEnum):
     FIXTURE = "fixture"
     STRATZ = "stratz"
