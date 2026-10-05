@@ -52,4 +52,4 @@
 
 ## 0.1.0a4双端更新
 
-生成器新增--astrbot-wheels，AstrBot可附固定版本/SHA256清单、共用显式安装器及INSTALL.md；只允许该插件仓库和三个匹配运行包，拒绝两端adapter互换。两个宿主都先停机安装组件再冷启动，依赖保留有版本约束，导入不联网。AstrBot首次公开渠道为GitHub Releases，Cloud已提交a4，等待安全检查，尚未获准上架；[安装指南](../cookbook/astrbot-public-install.md)、[发行任务](../../.agents/tasks/active/2026-10-06-a4-layout-release.md)。
+生成器新增--astrbot-wheels，AstrBot可附固定版本/SHA256清单、共用显式安装器及INSTALL.md；只允许该插件仓库和三个匹配运行包，拒绝两端adapter互换。两个宿主都先停机安装组件再冷启动，依赖保留有版本约束，导入不联网。AstrBot首次公开渠道为GitHub Releases，Cloud已提交a4，等待安全检查，尚未获准上架；[安装指南](../cookbook/astrbot-public-install.md)、[发行任务](../../.agents/tasks/done/2026-10-06-a4-layout-release.md)。

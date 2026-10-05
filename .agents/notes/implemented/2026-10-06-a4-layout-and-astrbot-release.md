@@ -1,7 +1,7 @@
 # 0.1.0a4 装备名称留白与双端公开分发
 
 Category: feature
-Related task: [发行任务](../../tasks/active/2026-10-06-a4-layout-release.md)
+Related task: [发行任务](../../tasks/done/2026-10-06-a4-layout-release.md)
 Related code: [图片引擎](../../../packages/dota2forge-renderer/src/dota2forge_renderer/engine.py)
 Related docs: [分发契约](../../../docs/subsystems/plugin-distribution.md)
 
@@ -26,4 +26,4 @@ AstrBot与Dota2UID各有独立分发仓库、安装文档及自己的adapter whe
 图片略变长，十人仍四页；具体宿主图片压缩效果待聊天验收。首次公开AstrBot为预览版，不扩大宿主>=4.28.2,<4.29兼容声明。公开组件安装、SDK实测、Cloud提交/审核分别记录。
 
 ## Verification
-整个装备表、已知简称/图纸、未知ID和新高度边界测试；手机合成预览、四包构建、双端隔离安装与统一检查由[发行任务](../../tasks/active/2026-10-06-a4-layout-release.md)记录。没有以旧a3或a2验收冒充新版本，未操作生产宿主。
+整个装备表、已知简称/图纸、未知ID和新高度边界测试；手机合成预览、四包构建、双端隔离安装与统一检查由[发行任务](../../tasks/done/2026-10-06-a4-layout-release.md)记录。没有以旧a3或a2验收冒充新版本，未操作生产宿主。
