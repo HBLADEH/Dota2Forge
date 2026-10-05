@@ -76,7 +76,7 @@ repository = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pyte
     def test_valid_repository_passes(repository):
 >       assert checks.check_repository(repository) == []
 E       AssertionError: assert ['.agents/art...eader-v2.png'] == []
-E         
+E
 E         Left contains 3 more items, first extra item: '.agents/artifacts/dota-style-v2/continue.md: broken local link ../../../output/imagegen/dota-forge-header-v2.png'
 E         Use -v to get more diff
 
@@ -93,7 +93,7 @@ repository = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pyte
         )
 >       assert checks.check_repository(repository) == []
 E       AssertionError: assert ['.agents/art...eader-v2.png'] == []
-E         
+E
 E         Left contains 3 more items, first extra item: '.agents/artifacts/dota-style-v2/continue.md: broken local link ../../../output/imagegen/dota-forge-header-v2.png'
 E         Use -v to get more diff
 
@@ -109,7 +109,7 @@ repository = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pyte
         path.write_text("import gsuid_core\nimport dota2forge_core")
 >       assert checks.check_repository(repository) == []
 E       AssertionError: assert ['.agents/art...eader-v2.png'] == []
-E         
+E
 E         Left contains 3 more items, first extra item: '.agents/artifacts/dota-style-v2/continue.md: broken local link ../../../output/imagegen/dota-forge-header-v2.png'
 E         Use -v to get more diff
 
@@ -123,7 +123,7 @@ repository = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pyte
         assert "requires a changed" in "\n".join(checks.check_repository(repository, changed))
 >       assert checks.check_repository(repository, changed | {NOTE}) == []
 E       AssertionError: assert ['.agents/art...eader-v2.png'] == []
-E         
+E
 E         Left contains 3 more items, first extra item: '.agents/artifacts/dota-style-v2/continue.md: broken local link ../../../output/imagegen/dota-forge-header-v2.png'
 E         Use -v to get more diff
 

@@ -83,7 +83,7 @@ run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop
         caplog, image_config, caller, run_async
     ):
         client = httpx.AsyncClient(transport=httpx.MockTransport(response))
-    
+
         async def check():
             runtime = Runtime(image_config, client_factory=lambda: client)
             with caplog.at_level(logging.INFO, logger="Dota2UID"):
@@ -96,10 +96,10 @@ run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop
             assert "image_sizes=780x850" in messages
             assert "delivery state=completed" in messages
             assert "synthetic-user" not in messages and "123" not in messages
-    
+
 >       run_async(check())
 
-tests\dota2uid\test_image_replies.py:141: 
+tests\dota2uid\test_image_replies.py:141:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
     return future.result()

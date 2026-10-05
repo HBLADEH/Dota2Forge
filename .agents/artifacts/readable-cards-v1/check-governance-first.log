@@ -127,7 +127,7 @@ tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest
             root / distribution.GS_INSTALL_GUIDE
         ).read_bytes()
 E       AssertionError: assert b'# Dota2UID ...xe3\x80\x82\n' == b'# Dota2UID ...3\x80\x82\r\n'
-E         
+E
 E         At index 32 diff: b'\n' != b'\r'
 E         Use -v to get more diff
 
