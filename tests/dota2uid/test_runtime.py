@@ -44,25 +44,25 @@ def test_complete_binding_query_journey_and_persistence(config_path, caller, run
     async def check():
         runtime = Runtime(config_path, client_factory=factory)
         assert runtime.state == State.NEW and not clients
-        assert "尚未绑定" in (await runtime.handle(caller, "dota玩家", ""))[0]
+        assert "尚未绑定" in (await runtime.handle(caller, "do查询", ""))[0]
         assert not requests
-        assert "绑定已保存" in (await runtime.handle(caller, "dota绑定", "123"))[0]
-        await runtime.handle(caller, "dota绑定", "123")
-        assert "其他账号" in (await runtime.handle(caller, "dota绑定", "456"))[0]
-        assert "已绑定" in (await runtime.handle(caller, "dota账号", ""))[0]
-        player = (await runtime.handle(caller, "dota玩家", ""))[0]
+        assert "绑定已保存" in (await runtime.handle(caller, "do绑定", "123"))[0]
+        await runtime.handle(caller, "do绑定", "123")
+        assert "其他账号" in (await runtime.handle(caller, "do绑定", "456"))[0]
+        assert "已绑定" in (await runtime.handle(caller, "do账号", ""))[0]
+        player = (await runtime.handle(caller, "do查询", ""))[0]
         assert "传奇 1 星" in player and "https://stratz.com/players/123" in player
         assert "数据观测时间：未知" in player and "抓取时间：" in player
-        assert "0 场" in (await runtime.handle(caller, "dota战绩", ""))[0]
-        assert "绑定已保存" in (await runtime.handle(caller, "dota改绑", "456"))[0]
+        assert "0 场" in (await runtime.handle(caller, "do战绩", ""))[0]
+        assert "绑定已保存" in (await runtime.handle(caller, "do改绑", "456"))[0]
         await runtime.close()
         assert runtime.client_closed and runtime.state == State.STOPPED
-        assert await runtime.handle(caller, "dota玩家", "") == [UNAVAILABLE]
+        assert await runtime.handle(caller, "do查询", "") == [UNAVAILABLE]
         restored = Runtime(config_path, client_factory=factory)
-        assert "players/456" in (await restored.handle(caller, "dota玩家", ""))[0]
-        assert "已解除" in (await restored.handle(caller, "dota解绑", ""))[0]
-        assert "没有绑定" in (await restored.handle(caller, "dota解绑", ""))[0]
-        assert "尚未绑定" in (await restored.handle(caller, "dota账号", ""))[0]
+        assert "players/456" in (await restored.handle(caller, "do查询", ""))[0]
+        assert "已解除" in (await restored.handle(caller, "do解绑", ""))[0]
+        assert "没有绑定" in (await restored.handle(caller, "do解绑", ""))[0]
+        assert "尚未绑定" in (await restored.handle(caller, "do账号", ""))[0]
         await restored.close()
         assert len(clients) == 2 and all(c.is_closed for c in clients)
 
@@ -76,14 +76,14 @@ def test_explicit_queries_do_not_bind_and_identity_failures_do_not_send(
 
     async def check():
         runtime = Runtime(config_path, client_factory=factory)
-        assert "players/123" in (await runtime.handle(caller, "dota玩家", "123"))[0]
-        assert "尚未绑定" in (await runtime.handle(caller, "dota账号", ""))[0]
+        assert "players/123" in (await runtime.handle(caller, "do查询", "123"))[0]
+        assert "尚未绑定" in (await runtime.handle(caller, "do账号", ""))[0]
         assert (
             "无法确认"
-            in (await runtime.handle(replace(caller, mentioned=True), "dota绑定", "123"))[0]
+            in (await runtime.handle(replace(caller, mentioned=True), "do绑定", "123"))[0]
         )
-        assert "格式不正确" in (await runtime.handle(caller, "dota绑定", "0123"))[0]
-        assert "参数不正确" in (await runtime.handle(caller, "dota战绩", "101"))[0]
+        assert "格式不正确" in (await runtime.handle(caller, "do绑定", "0123"))[0]
+        assert "参数不正确" in (await runtime.handle(caller, "do战绩", "101"))[0]
         assert len(requests) == 1
         await runtime.close()
         assert clients[0].is_closed
@@ -99,8 +99,8 @@ def test_concurrent_start_and_hot_first_command_create_one_client(config_path, c
         await asyncio.gather(
             runtime.start(),
             runtime.start(),
-            runtime.handle(caller, "dota玩家", "123"),
-            runtime.handle(caller, "dota战绩", "123 1"),
+            runtime.handle(caller, "do查询", "123"),
+            runtime.handle(caller, "do战绩", "123 1"),
         )
         assert len(clients) == 1 and len(requests) == 2
         await asyncio.gather(runtime.close(), runtime.close())
@@ -115,7 +115,7 @@ def test_failed_initialization_stays_unavailable_without_client(config_path, cal
 
     async def check():
         runtime = Runtime(config_path, client_factory=factory)
-        assert await runtime.handle(caller, "dota绑定", "123") == [UNAVAILABLE]
+        assert await runtime.handle(caller, "do绑定", "123") == [UNAVAILABLE]
         assert runtime.state == State.FAILED
         await runtime.start()
         assert not clients and not (config_path.parent / "bindings.sqlite3").exists()
@@ -130,7 +130,7 @@ def test_bad_storage_fails_before_http_allocation(config_path, caller, run_async
 
     async def check():
         runtime = Runtime(config_path, client_factory=factory)
-        assert await runtime.handle(caller, "dota绑定", "123") == [UNAVAILABLE]
+        assert await runtime.handle(caller, "do绑定", "123") == [UNAVAILABLE]
         assert runtime.state == State.FAILED and not clients
         await runtime.close()
 
@@ -147,9 +147,9 @@ def test_shutdown_cancels_inflight_query_and_closes_client(config_path, caller, 
 
         client = httpx.AsyncClient(transport=httpx.MockTransport(stalled))
         runtime = Runtime(config_path, client_factory=lambda: client)
-        query = asyncio.create_task(runtime.handle(caller, "dota玩家", "123"))
+        query = asyncio.create_task(runtime.handle(caller, "do查询", "123"))
         await started.wait()
-        queued = asyncio.create_task(runtime.handle(caller, "dota玩家", "123"))
+        queued = asyncio.create_task(runtime.handle(caller, "do查询", "123"))
         await runtime.close()
         with pytest.raises(asyncio.CancelledError):
             await query
@@ -191,11 +191,11 @@ def test_provider_failure_preserves_binding_and_quota_state(config_path, caller,
 
     async def check():
         runtime = Runtime(config_path, client_factory=factory)
-        await runtime.handle(caller, "dota绑定", "123")
+        await runtime.handle(caller, "do绑定", "123")
         for _ in range(2):
-            assert "额度已用尽" in (await runtime.handle(caller, "dota玩家", ""))[0]
+            assert "额度已用尽" in (await runtime.handle(caller, "do查询", ""))[0]
         assert len(requests) == 1 and len(clients) == 1
-        assert "已绑定" in (await runtime.handle(caller, "dota账号", ""))[0]
+        assert "已绑定" in (await runtime.handle(caller, "do账号", ""))[0]
         await runtime.close()
 
     run_async(check())
@@ -243,7 +243,7 @@ def test_unexpected_errors_propagate_and_close_still_works(config_path, caller, 
     async def check():
         runtime = Runtime(config_path, client_factory=factory)
         with pytest.raises(RuntimeError, match="synthetic bug"):
-            await runtime.handle(caller, "dota玩家", "123")
+            await runtime.handle(caller, "do查询", "123")
         await runtime.close()
         assert clients[0].is_closed
 

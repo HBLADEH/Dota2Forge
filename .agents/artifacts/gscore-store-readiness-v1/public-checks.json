@@ -1,0 +1,99 @@
+{
+  "checked_at": "2026-10-06T01:10:02.043837+08:00",
+  "anonymous_requests": true,
+  "host_head": "87c06f11ae10c12b3bb8e76b3c6f420c831282a8",
+  "docs_head": "0b04c492105a1d1e53c66d1727e8dd5deaa62e3e",
+  "results": {
+    "runtime_index": {
+      "url": "https://docs.sayu-bot.com/plugin_list.json",
+      "status": 200,
+      "bytes": 19949,
+      "sha256": "0ce9a040a6b9d36091cdb1d4c6ddb1270ba13c5987c5b76a0b885a498bc9056b",
+      "plugin_count": 42,
+      "contains_dota2uid": false,
+      "contains_mingchaobq": true,
+      "game_query_examples_in_tool_plugins": [
+        "GenshinUID",
+        "CS2UID"
+      ]
+    },
+    "source_index": {
+      "url": "https://raw.githubusercontent.com/Genshin-bots/GenshinUID-docs/0b04c492105a1d1e53c66d1727e8dd5deaa62e3e/docs/public/plugin_list.json",
+      "status": 200,
+      "bytes": 19949,
+      "sha256": "0ce9a040a6b9d36091cdb1d4c6ddb1270ba13c5987c5b76a0b885a498bc9056b",
+      "plugin_count": 42,
+      "contains_dota2uid": false,
+      "contains_mingchaobq": true,
+      "game_query_examples_in_tool_plugins": [
+        "GenshinUID",
+        "CS2UID"
+      ]
+    },
+    "target_repository": {
+      "url": "https://github.com/HBLADEH/Dota2UID",
+      "status": 404
+    },
+    "target_entry": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/__init__.py",
+      "status": 404
+    },
+    "target_manifest": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/pyproject.toml",
+      "status": 404
+    },
+    "target_icon": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/ICON.png",
+      "status": 404
+    },
+    "pypi_core": {
+      "url": "https://pypi.org/pypi/dota2forge-core/json",
+      "status": 404
+    },
+    "pypi_renderer": {
+      "url": "https://pypi.org/pypi/dota2forge-renderer/json",
+      "status": 404
+    },
+    "pypi_adapter": {
+      "url": "https://pypi.org/pypi/dota2uid/json",
+      "status": 404
+    },
+    "pypi_pillow": {
+      "url": "https://pypi.org/pypi/pillow/json",
+      "status": 200,
+      "bytes": 3260194,
+      "sha256": "81b232ef242999ca15e2979a8edf4df719134e0ec6283f2008497016ceacdb72",
+      "project": "pillow",
+      "latest_version": "12.3.0",
+      "has_project_version_0_1_0a2": false,
+      "required_constraint": "pillow<13,>=12.3",
+      "compatible_release_available": true,
+      "latest_compatible_release": "12.3.0"
+    },
+    "pypi_httpx": {
+      "url": "https://pypi.org/pypi/httpx/json",
+      "status": 200,
+      "bytes": 119911,
+      "sha256": "bb69a37ba295d008ec1ae05b324c4f5e64fba48b7276189ebf2a2920dd2f1fc8",
+      "project": "httpx",
+      "latest_version": "0.28.1",
+      "has_project_version_0_1_0a2": false,
+      "required_constraint": "httpx<1,>=0.28.1",
+      "compatible_release_available": true,
+      "latest_compatible_release": "0.28.1"
+    },
+    "host_server": {
+      "url": "https://raw.githubusercontent.com/Genshin-bots/gsuid_core/87c06f11ae10c12b3bb8e76b3c6f420c831282a8/gsuid_core/server.py",
+      "status": 200,
+      "bytes": 37460,
+      "sha256": "493275e47efa94f1bdfef757b4160eeafc41afa254b41075ea2c978a7e318bc6"
+    },
+    "host_installer": {
+      "url": "https://raw.githubusercontent.com/Genshin-bots/gsuid_core/87c06f11ae10c12b3bb8e76b3c6f420c831282a8/gsuid_core/utils/plugins_update/_plugins.py",
+      "status": 200,
+      "bytes": 30980,
+      "sha256": "db30b5aaf62fca95bbfa30bff5a5a1b4d08fb5786f61a84c3015d27d8acb0a27"
+    },
+    "index_semantic_match": true
+  }
+}

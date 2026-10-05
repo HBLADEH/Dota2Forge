@@ -5,6 +5,7 @@ from typing import Protocol, TypeVar
 
 from .domain.analysis import MatchAnalysisResult
 from .domain.errors import DataSource
+from .domain.hero_items import Hero, HeroItemStatistics
 from .domain.identity import AccountId, PlatformIdentity
 from .domain.match_detail import MatchDetailResult, MatchId
 from .domain.models import PlayerBinding, PlayerProfile, RecentMatches
@@ -54,6 +55,13 @@ class PlayerProvider(Protocol):
     async def get_player(self, account_id: AccountId) -> PlayerProfile:
         """Raise a classified ProviderError for missing, private or failed requests."""
         ...
+
+
+class HeroItemProvider(Protocol):
+    @property
+    def source(self) -> DataSource: ...
+
+    async def get_hero_item_statistics(self, hero: Hero) -> HeroItemStatistics: ...
 
 
 class MatchProvider(Protocol):

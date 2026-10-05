@@ -78,6 +78,13 @@ def test_participant_preserves_zero_false_unknown_and_six_slots():
     assert player.item_ids[0] == 0 and player.item_ids[2] is None
     assert player.missing_fields == (
         "experience_per_minute",
+        "level",
+        "last_hits",
+        "denies",
+        "net_worth",
+        "hero_damage",
+        "tower_damage",
+        "hero_healing",
         "item_ids[2]",
         "item_ids[4]",
     )
@@ -94,6 +101,13 @@ def test_participant_preserves_zero_false_unknown_and_six_slots():
         "assists",
         "gold_per_minute",
         "experience_per_minute",
+        "level",
+        "last_hits",
+        "denies",
+        "net_worth",
+        "hero_damage",
+        "tower_damage",
+        "hero_healing",
     ],
 )
 @pytest.mark.parametrize("invalid", [-1, True, 1.5, "1"])

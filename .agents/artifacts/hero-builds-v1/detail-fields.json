@@ -1,0 +1,343 @@
+{
+  "MatchPlayerType": {
+    "fields": [
+      {
+        "name": "matchId"
+      },
+      {
+        "name": "match"
+      },
+      {
+        "name": "playerSlot"
+      },
+      {
+        "name": "steamAccountId"
+      },
+      {
+        "name": "steamAccount"
+      },
+      {
+        "name": "isRadiant"
+      },
+      {
+        "name": "isVictory"
+      },
+      {
+        "name": "heroId"
+      },
+      {
+        "name": "gameVersionId"
+      },
+      {
+        "name": "hero"
+      },
+      {
+        "name": "kills"
+      },
+      {
+        "name": "deaths"
+      },
+      {
+        "name": "assists"
+      },
+      {
+        "name": "leaverStatus"
+      },
+      {
+        "name": "numLastHits"
+      },
+      {
+        "name": "numDenies"
+      },
+      {
+        "name": "goldPerMinute"
+      },
+      {
+        "name": "networth"
+      },
+      {
+        "name": "experiencePerMinute"
+      },
+      {
+        "name": "level"
+      },
+      {
+        "name": "gold"
+      },
+      {
+        "name": "goldSpent"
+      },
+      {
+        "name": "heroDamage"
+      },
+      {
+        "name": "towerDamage"
+      },
+      {
+        "name": "heroHealing"
+      },
+      {
+        "name": "partyId"
+      },
+      {
+        "name": "isRandom"
+      },
+      {
+        "name": "lane"
+      },
+      {
+        "name": "position"
+      },
+      {
+        "name": "streakPrediction"
+      },
+      {
+        "name": "intentionalFeeding"
+      },
+      {
+        "name": "role"
+      },
+      {
+        "name": "roleBasic"
+      },
+      {
+        "name": "imp"
+      },
+      {
+        "name": "award"
+      },
+      {
+        "name": "item0Id"
+      },
+      {
+        "name": "item1Id"
+      },
+      {
+        "name": "item2Id"
+      },
+      {
+        "name": "item3Id"
+      },
+      {
+        "name": "item4Id"
+      },
+      {
+        "name": "item5Id"
+      },
+      {
+        "name": "backpack0Id"
+      },
+      {
+        "name": "backpack1Id"
+      },
+      {
+        "name": "backpack2Id"
+      },
+      {
+        "name": "neutral0Id"
+      },
+      {
+        "name": "behavior"
+      },
+      {
+        "name": "stats"
+      },
+      {
+        "name": "playbackData"
+      },
+      {
+        "name": "heroAverage"
+      },
+      {
+        "name": "additionalUnit"
+      },
+      {
+        "name": "dotaPlus"
+      },
+      {
+        "name": "abilities"
+      },
+      {
+        "name": "invisibleSeconds"
+      },
+      {
+        "name": "dotaPlusHeroXp"
+      },
+      {
+        "name": "variant"
+      }
+    ]
+  },
+  "MatchType": {
+    "fields": [
+      {
+        "name": "id"
+      },
+      {
+        "name": "didRadiantWin"
+      },
+      {
+        "name": "durationSeconds"
+      },
+      {
+        "name": "startDateTime"
+      },
+      {
+        "name": "endDateTime"
+      },
+      {
+        "name": "towerStatusRadiant"
+      },
+      {
+        "name": "towerStatusDire"
+      },
+      {
+        "name": "barracksStatusRadiant"
+      },
+      {
+        "name": "barracksStatusDire"
+      },
+      {
+        "name": "clusterId"
+      },
+      {
+        "name": "firstBloodTime"
+      },
+      {
+        "name": "lobbyType"
+      },
+      {
+        "name": "numHumanPlayers"
+      },
+      {
+        "name": "gameMode"
+      },
+      {
+        "name": "replaySalt"
+      },
+      {
+        "name": "isStats"
+      },
+      {
+        "name": "tournamentId"
+      },
+      {
+        "name": "tournamentRound"
+      },
+      {
+        "name": "actualRank"
+      },
+      {
+        "name": "averageRank"
+      },
+      {
+        "name": "averageImp"
+      },
+      {
+        "name": "parsedDateTime"
+      },
+      {
+        "name": "statsDateTime"
+      },
+      {
+        "name": "leagueId"
+      },
+      {
+        "name": "league"
+      },
+      {
+        "name": "radiantTeamId"
+      },
+      {
+        "name": "radiantTeam"
+      },
+      {
+        "name": "direTeamId"
+      },
+      {
+        "name": "direTeam"
+      },
+      {
+        "name": "seriesId"
+      },
+      {
+        "name": "series"
+      },
+      {
+        "name": "gameVersionId"
+      },
+      {
+        "name": "regionId"
+      },
+      {
+        "name": "sequenceNum"
+      },
+      {
+        "name": "rank"
+      },
+      {
+        "name": "bracket"
+      },
+      {
+        "name": "analysisOutcome"
+      },
+      {
+        "name": "predictedOutcomeWeight"
+      },
+      {
+        "name": "players"
+      },
+      {
+        "name": "radiantNetworthLeads"
+      },
+      {
+        "name": "radiantExperienceLeads"
+      },
+      {
+        "name": "radiantKills"
+      },
+      {
+        "name": "direKills"
+      },
+      {
+        "name": "pickBans"
+      },
+      {
+        "name": "towerStatus"
+      },
+      {
+        "name": "laneReport"
+      },
+      {
+        "name": "winRates"
+      },
+      {
+        "name": "predictedWinRates"
+      },
+      {
+        "name": "chatEvents"
+      },
+      {
+        "name": "towerDeaths"
+      },
+      {
+        "name": "playbackData"
+      },
+      {
+        "name": "spectators"
+      },
+      {
+        "name": "bottomLaneOutcome"
+      },
+      {
+        "name": "midLaneOutcome"
+      },
+      {
+        "name": "topLaneOutcome"
+      },
+      {
+        "name": "didRequestDownload"
+      }
+    ]
+  }
+}

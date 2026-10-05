@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dota2forge-core"
-version = "0.1.0a1"
+version = "0.1.0a4"
 description = "Dota2Forge Core — reusable Dota 2 capabilities"
 license = "MIT"
 license-files = ["LICENSE"]

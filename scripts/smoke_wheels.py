@@ -44,6 +44,8 @@ def main() -> int:
                 "MatchDetail, MatchDetailUnavailable, MatchId, MatchParseState; "
                 "assert MatchId(1).value == 1; "
                 "assert MatchParseState.NO_DATA.value == 'no_data'; "
+                "from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog; "
+                "assert load_hero_catalog().resolve('AM').hero_id == 1; "
                 "import importlib.util; "
                 "assert importlib.util.find_spec('astrbot') is None; "
                 "assert importlib.util.find_spec('gsuid_core') is None"
@@ -52,7 +54,7 @@ def main() -> int:
                 smoke += (
                     "; from Dota2UID.commands import parse_command; "
                     "from importlib.resources import files; "
-                    "assert parse_command('dota帮助', '').limit == 10; "
+                    "assert parse_command('do帮助', '').limit == 10; "
                     "assert files('Dota2UID').joinpath('host_entry.py.template').is_file()"
                 )
             if module == "dota2forge_renderer":
@@ -60,6 +62,8 @@ def main() -> int:
                     "; from dota2forge_renderer import PillowRenderer, MenuCard; "
                     "from importlib.resources import files; "
                     "assert files('dota2forge_renderer').joinpath('assets/v1/OFL.txt').is_file(); "
+                    "from dota2forge_renderer.hero_items import item_name; "
+                    "assert item_name(1) == '闪烁匕首'; "
                     "renderer = PillowRenderer(); image = renderer.render(MenuCard()); "
                     "assert image.data.startswith(b'\\x89PNG') and image.width == 780; "
                     "renderer.close()"

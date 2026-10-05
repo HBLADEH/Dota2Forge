@@ -1,0 +1,29 @@
+{
+  "command": "uv run --locked python scripts/check_governance.py --all",
+  "attempts": [
+    {
+      "log": "offline-checks.log",
+      "exit_code": 1,
+      "passed": false,
+      "sha256": "f1d614f7d4f4daebd8e62ae98e1afd9f40b7f97b5da12e909c09a83f80b32065",
+      "failure_reason": "Dota2UID cookbook document budget exceeded before offline test commands; removed duplicate paragraph added in this deployment run"
+    },
+    {
+      "log": "offline-checks-retry.log",
+      "exit_code": 0,
+      "passed": true,
+      "sha256": "c3126609b6d1abaf563c7072ff27dffabde0029174b0be074b4fa713337d38f8",
+      "failure_reason": null
+    }
+  ],
+  "passed_tests": 1144,
+  "aggregate_coverage_percent": 92.72,
+  "scripts_coverage_percent": 97,
+  "core_coverage_percent": 92,
+  "ruff_format_and_lint_passed": true,
+  "mypy_passed": true,
+  "mypy_source_files": 62,
+  "four_package_build_passed": true,
+  "four_isolated_wheel_smoke_checks_passed": true,
+  "tests_policy_governance_scripts_or_thresholds_changed": false
+}

@@ -17,7 +17,7 @@ class SelectionError(Exception):
         super().__init__(
             "无法确认会话，不能使用战绩序号或页码。"
             if invalid_session
-            else "该会话战绩列表不存在、已过期或绑定已变化，请重新查询 dota战绩。"
+            else "该会话战绩列表不存在、已过期或绑定已变化，请重新查询 do战绩。"
         )
 
 

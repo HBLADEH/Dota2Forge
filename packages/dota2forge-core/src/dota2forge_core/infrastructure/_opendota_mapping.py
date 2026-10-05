@@ -129,6 +129,13 @@ def participant(raw: object, match_id: MatchId) -> MatchParticipant:
         assists=optional_integer(row.get("assists")),
         gold_per_minute=optional_integer(row.get("gold_per_min")),
         experience_per_minute=optional_integer(row.get("xp_per_min")),
+        level=optional_integer(row.get("level")),
+        last_hits=optional_integer(row.get("last_hits")),
+        denies=optional_integer(row.get("denies")),
+        net_worth=optional_integer(row.get("net_worth")),
+        hero_damage=optional_integer(row.get("hero_damage")),
+        tower_damage=optional_integer(row.get("tower_damage")),
+        hero_healing=optional_integer(row.get("hero_healing")),
         item_ids=tuple(optional_integer(row.get(f"item_{index}")) for index in range(6)),
     )
 

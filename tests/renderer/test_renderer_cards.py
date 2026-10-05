@@ -30,10 +30,34 @@ from dota2forge_renderer import (
     StatusCard,
 )
 from dota2forge_renderer.engine import FONT_SHA256, _Canvas
+from dota2forge_renderer.formatting import mmr_estimate_text
 from PIL import Image
 
 META = DataMetadata(DataSource.FIXTURE, datetime(2026, 10, 1, tzinfo=UTC))
 ACCOUNT = AccountId(123)
+
+
+@pytest.mark.parametrize("rank", [None, 0, 11, 45, 51, 65, 71, 75, 80, 81, 999])
+def test_player_card_keeps_full_mmr_estimate_disclaimer_and_source(monkeypatch, rank):
+    captured = []
+    original = _Canvas.text
+
+    def capture(canvas, x, y, value, **kwargs):
+        if value.startswith("预估 MMR：") or "非精确分数" in value:
+            kwargs["truncate"] = False
+        captured.append(value)
+        return original(canvas, x, y, value, **kwargs)
+
+    monkeypatch.setattr(_Canvas, "text", capture)
+    renderer = PillowRenderer()
+    try:
+        artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, rank_tier=rank)))
+        assert artifact.height == 960
+        assert f"预估 MMR：{mmr_estimate_text(rank)}" in captured
+        assert "按段位区间估算，非精确分数；段位可能滞后。" in captured
+        assert any("来源 FIXTURE" in text for text in captured)
+    finally:
+        renderer.close()
 
 
 def recent(count=10):
@@ -90,7 +114,7 @@ def detail():
 def test_real_cards_encode_nonblank_bounded_png_and_text_bounds(card):
     renderer = PillowRenderer()
     artifact = renderer.render(card)
-    assert artifact.mime == "image/png" and artifact.width == 780 and artifact.height <= 1600
+    assert artifact.mime == "image/png" and artifact.width == 780 and artifact.height <= 1800
     assert len(artifact.data) <= 2 * 1024 * 1024 and "合成玩家" not in repr(artifact)
     with Image.open(io.BytesIO(artifact.data)) as image:
         image.load()
@@ -106,7 +130,7 @@ def test_full_hundred_match_pages_are_bounded_and_never_blank():
     data = recent(100)
     for page in range(1, 21):
         artifact = renderer.render(RecentMatchesCard(data, page))
-        assert artifact.height <= 1600 and len(artifact.data) <= 2 * 1024 * 1024
+        assert artifact.height <= 1800 and len(artifact.data) <= 2 * 1024 * 1024
     renderer.close()
 
 
@@ -118,7 +142,7 @@ def test_full_hundred_match_pages_are_bounded_and_never_blank():
         RecentMatchesCard(recent(), True),
         RecentMatchesCard(recent(101)),
         MatchDetailCard(detail(), 0),
-        MatchDetailCard(detail(), 3),
+        MatchDetailCard(detail(), 5),
     ],
 )
 def test_invalid_page_or_excess_data_raises_render_error(card):
@@ -162,7 +186,7 @@ def test_text_and_canvas_bounds_errors_release_images():
     renderer = PillowRenderer()
     renderer.render(MenuCard())
     with pytest.raises(RenderError):
-        _Canvas(renderer, 1601)
+        _Canvas(renderer, 1801)
     with _Canvas(renderer, 200) as canvas:
         with pytest.raises(RenderError):
             canvas.text(760, 20, "溢出")
@@ -194,7 +218,7 @@ def test_png_encoding_failure_and_programming_errors_are_distinct(monkeypatch):
         {"data": b"\x89PNG\r\n\x1a\n" + b"x" * (2 * 1024 * 1024)},
         {"width": True},
         {"width": 781},
-        {"height": 1601},
+        {"height": 1801},
         {"height": 0},
         {"mime": "image/jpeg"},
     ],

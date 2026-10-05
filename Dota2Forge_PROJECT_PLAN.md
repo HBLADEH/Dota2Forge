@@ -606,33 +606,33 @@ SteamID转换
 建议 MVP：
 
 ```text
-/dota help
+/do help
 
-/dota bind <SteamID>
-/dota unbind
-/dota me
+/do bind <SteamID>
+/do unbind
+/do me
 
-/dota recent
-/dota recent 20
+/do recent
+/do recent 20
 
-/dota match <MatchID>
+/do match <MatchID>
 
-/dota hero <Hero>
+/do hero <Hero>
 
-/dota rank
+/do rank
 ```
 
 中文别名：
 
 ```text
-dota帮助
-dota绑定
-dota解绑
-dota战绩
-dota最近
-dota比赛
-dota英雄
-dota段位
+do帮助
+do绑定
+do解绑
+do战绩
+do最近
+do比赛
+do英雄
+do段位
 ```
 
 ---
@@ -1174,13 +1174,13 @@ astrbot_plugin_dota2forge
 命令：
 
 ```text
-dota绑定
-dota解绑
-dota战绩
-dota最近
-dota比赛
-dota英雄
-dota段位
+do绑定
+do解绑
+do战绩
+do最近
+do比赛
+do英雄
+do段位
 ```
 
 实现：

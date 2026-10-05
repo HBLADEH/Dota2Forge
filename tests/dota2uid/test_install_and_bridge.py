@@ -10,6 +10,8 @@ import pytest
 from Dota2UID.install import install_bridge
 from Dota2UID.runtime import Runtime, State
 
+from scripts.build_plugin_distributions import build_distributions
+
 
 def test_installer_is_idempotent_and_preserves_local_config(tmp_path):
     server = tmp_path / "gsuid_core" / "server.py"
@@ -56,8 +58,9 @@ class SyntheticEvent:
     WS_BOT_ID: str = "synthetic-connection"
     at_list: list[str] = field(default_factory=list)
     at: str | None = None
-    command: str = "dota绑定"
+    command: str = "do绑定"
     text: str = "123"
+    regex_dict: dict[str, str] = field(default_factory=dict)
     user_pm: int = 6
     user_type: str = "direct"
     group_id: str | None = None
@@ -71,11 +74,13 @@ class CapturingBot:
         self.replies.append(text)
 
 
+@pytest.mark.parametrize("store_entry", [False, True])
 def test_host_bridge_cold_hot_stop_reload_and_command_registration(
-    tmp_path, config_path, monkeypatch, run_async
+    tmp_path, config_path, monkeypatch, run_async, store_entry
 ):
     hooks = {name: [] for name in ("on_core_start", "on_core_start_before", "on_core_shutdown")}
     commands = {}
+    regex_handlers = {}
     routes = {}
     jobs = {}
 
@@ -123,6 +128,13 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
 
             return register
 
+        def on_regex(self, pattern, **kwargs):
+            def register(func):
+                regex_handlers[pattern] = func
+                return func
+
+            return register
+
     for name in (
         "gsuid_core",
         "gsuid_core.bot",
@@ -157,6 +169,14 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     server.parent.mkdir(parents=True)
     server.write_text("", encoding="utf-8")
     entry, _ = install_bridge(tmp_path / "host")
+    if store_entry:
+        candidate = build_distributions(
+            Path(__file__).resolve().parents[2],
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            "https://github.com/HBLADEH/Dota2UID",
+        )
+        entry = candidate / "Dota2UID/__init__.py"
     clients = []
 
     def factory():
@@ -167,9 +187,15 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         return client
 
     def load():
-        spec = importlib.util.spec_from_file_location("synthetic_host_bridge", entry)
+        spec = importlib.util.spec_from_file_location(
+            "synthetic_host_bridge", entry, submodule_search_locations=[str(entry.parent)]
+        )
         module = importlib.util.module_from_spec(spec)
+        monkeypatch.setitem(sys.modules, "synthetic_host_bridge", module)
         spec.loader.exec_module(module)
+        monkeypatch.delitem(
+            sys.modules, "synthetic_host_bridge._dota2forge_bootstrap", raising=False
+        )
         module.runtime = Runtime(config_path, client_factory=factory)
         return module
 
@@ -177,24 +203,26 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         cold = load()
         assert cold.runtime.state == State.NEW
         assert set(commands) == {
-            "dota帮助",
-            "dota菜单",
-            "dota绑定",
-            "dota改绑",
-            "dota账号",
-            "dota解绑",
-            "dota玩家",
-            "dota战绩",
-            "dota比赛",
-            "dota停用",
-            "dota订阅",
-            "dota订阅玩家",
-            "dota订阅比赛",
-            "dota订阅列表",
-            "dota取消订阅",
-            "dota重试推送",
+            "do帮助",
+            "do菜单",
+            "do绑定",
+            "do改绑",
+            "do账号",
+            "do解绑",
+            "do查询",
+            "do战绩",
+            "do比赛",
+            "do出装",
+            "do停用",
+            "do订阅",
+            "do订阅玩家",
+            "do订阅比赛",
+            "do订阅列表",
+            "do取消订阅",
+            "do重试推送",
         }
-        assert commands["dota停用"][1] == 0
+        assert commands["do停用"][1] == 0
+        assert list(regex_handlers) == [r"^do(?P<hero>.{1,64})出装$"]
         assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
         assert await cold.status_dota2uid() == {"state": "new", "client_closed": True}
         await cold.start_dota2uid()
@@ -203,6 +231,18 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         bot = CapturingBot()
         await cold.command_dota2uid(bot, SyntheticEvent())
         assert "绑定已保存" in bot.replies[-1] and len(clients) == 1
+        dispatched = []
+
+        async def capture(caller, keyword, text, send):
+            dispatched.append((keyword, text))
+
+        with monkeypatch.context() as patch:
+            patch.setattr(cold.runtime, "dispatch", capture)
+            await regex_handlers[r"^do(?P<hero>.{1,64})出装$"](
+                bot, SyntheticEvent(command="AM", text="", regex_dict={"hero": "AM"})
+            )
+            await cold.command_dota2uid(bot, SyntheticEvent(command="do出装", text="斧王"))
+        assert dispatched == [("do出装", "AM"), ("do出装", "斧王")]
         await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=6, text=""))
         assert cold.runtime.state == State.READY
         await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=0, text=""))
@@ -216,7 +256,7 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
             encoding="utf-8",
         )
         hot = load()
-        await hot.command_dota2uid(bot, SyntheticEvent(command="dota菜单", text=""))
+        await hot.command_dota2uid(bot, SyntheticEvent(command="do菜单", text=""))
         assert isinstance(bot.replies[-1], bytes) and bot.replies[-1].startswith(b"\x89PNG")
         await hot.start_dota2uid()
         assert len(jobs) == 1

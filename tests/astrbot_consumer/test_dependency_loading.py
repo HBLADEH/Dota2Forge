@@ -58,7 +58,7 @@ try:
             application = AstrApplication(object(), object(), renderer)
             try:
                 replies = await application.handle(
-                    PlatformIdentity("test", "qq", "bot", "user"), "dota菜单", ""
+                    PlatformIdentity("test", "qq", "bot", "user"), "do菜单", ""
                 )
                 assert len(replies) == 1 and isinstance(replies[0], AstrImageReply)
                 assert replies[0].artifact.data.startswith(bytes([137, 80, 78, 71]))

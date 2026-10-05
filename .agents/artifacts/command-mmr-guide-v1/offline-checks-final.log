@@ -1,0 +1,13 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+unformatted: File would be reformatted
+   --> tests\dota2uid\test_image_replies.py:137:49
+    |
+136 |         assert "delivery state=prepared" in messages and "images=1" in messages
+    -         assert "image_sizes=780x960" in messages
+137 +         assert "image_sizes=780x960" in messages
+138 |         assert "delivery state=completed" in messages
+    |
+
+1 file would be reformatted, 220 files already formatted
+Required command failed: ruff

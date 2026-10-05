@@ -1,0 +1,17 @@
+{
+  "date_local": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "mode": "imagegen CLI via CC Switch 3.20.4",
+  "proxy_health": "healthy",
+  "provider": "弘连Codex",
+  "endpoint": "/v1/images/generations",
+  "requested_model": "gpt-image-2",
+  "requested_size": "1536x1024",
+  "requested_quality": "medium",
+  "requested_output_format": "png",
+  "http_status": 403,
+  "error_code": "cc_switch_upstream_error",
+  "upstream_message": "Image generation is not enabled for this group",
+  "generated": false,
+  "next_step": "Enable Images for the supplier group or select an Images-enabled supplier; retry the existing CLI after the change."
+}

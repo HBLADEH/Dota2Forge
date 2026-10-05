@@ -1,0 +1,28 @@
+{
+  "host_head": "87c06f11ae10c12b3bb8e76b3c6f420c831282a8",
+  "actual_upstream_functions_executed": [
+    "check_pyproject",
+    "process_dependencies",
+    "flush_pending_installs",
+    "reload_plugin"
+  ],
+  "missing_project_dependencies": [
+    "dota2forge-core",
+    "dota2forge-renderer",
+    "dota2uid"
+  ],
+  "auto_install_enabled": true,
+  "hot_install_collected_dependencies": true,
+  "hot_install_flushed_before_import": false,
+  "hot_install_guard_rejected_missing_packages": true,
+  "explicit_flush_control_passed_version_guard": true,
+  "network_disabled": true,
+  "sdk_registries_paths_and_installer_effects_synthetic": true,
+  "actual_host_modified": false,
+  "actual_store_install_verified": false,
+  "source_sha256": {
+    "host_server.py": "493275e47efa94f1bdfef757b4160eeafc41afa254b41075ea2c978a7e318bc6",
+    "host_reload.py": "c8b213778328bccfe35fdd35a69f41f53bf8313d7c0a45746b5429bcd43cac86"
+  },
+  "reload_source_url": "https://github.com/Genshin-bots/gsuid_core/blob/87c06f11ae10c12b3bb8e76b3c6f420c831282a8/gsuid_core/utils/plugins_update/reload_plugin.py"
+}

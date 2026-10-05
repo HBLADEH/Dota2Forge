@@ -1,0 +1,40 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-rxsb6icc\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-rxsb6icc\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-rxsb6icc\venv
+Resolved 11 packages in 60ms
+Prepared 11 packages in 357ms
+Installed 11 packages in 234ms
+ + anyio==4.15.1
+ + astrbot-plugin-dota2forge==0.1.0a3
+ + certifi==2026.7.22
+ + dota2forge-core==0.1.0a3
+ + dota2forge-renderer==0.1.0a3
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, first configuration, shutdown and binding persistence passed.
+SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-qil4iqqr\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-qil4iqqr\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-qil4iqqr\venv
+Resolved 11 packages in 16ms
+Prepared 11 packages in 363ms
+Installed 11 packages in 270ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + dota2forge-core==0.1.0a3
+ + dota2forge-renderer==0.1.0a3
+ + dota2uid==0.1.0a3
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, first configuration, shutdown and binding persistence passed.
+SDK-free local distribution smoke passed: Dota2UID

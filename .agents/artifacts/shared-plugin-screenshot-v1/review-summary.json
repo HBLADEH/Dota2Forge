@@ -1,0 +1,32 @@
+{
+  "source_platform": "AstrBot",
+  "source_sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde",
+  "image_size": [
+    780,
+    1530
+  ],
+  "image_bytes": 302705,
+  "original_image_preserved": true,
+  "all_manifest_digests_verified": true,
+  "candidate": "dist/plugin-distributions/0.1.0a2-shared-showcase-v1",
+  "archives": {
+    "Dota2UID": {
+      "bytes": 1915995,
+      "sha256": "4ebc942413b2088f479a0aca606d7fc3d26796af531fcc2f5b421adc66abaada",
+      "local_image_verified": true,
+      "reproducible": true
+    },
+    "astrbot_plugin_dota2forge": {
+      "bytes": 1917604,
+      "sha256": "f005c7d2e84a149d89ea9c188878af0ddbd3c47dcf75b50a7abb8771ba63ee22",
+      "local_image_verified": true,
+      "reproducible": true
+    }
+  },
+  "installed_gscore_readme_and_image_match": true,
+  "installed_bridge_config_and_databases_preserved": true,
+  "installed_docs_backup": "D:\\bot\\gsuid_core\\data\\Dota2UID\\backups\\shared-showcase-v1-20261006-004148",
+  "runtime_restarted": false,
+  "gscore_chat_verification_added": false,
+  "remote_publication": false
+}

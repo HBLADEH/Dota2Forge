@@ -1,0 +1,83 @@
+{
+  "backup_tag": "rank-icons-v1-20261005-142516",
+  "hosts": {
+    "gscore": {
+      "backup_directory": "D:\\bot\\gsuid_core\\data\\Dota2UID\\backups\\rank-icons-v1-20261005-142516",
+      "illustration_path": "D:\\bot\\gsuid_core\\data\\Dota2UID\\illustrations-v2",
+      "new_png_verified": 15,
+      "existing_png_verified_unchanged": 543,
+      "original_config_and_database_fingerprints_unchanged": true,
+      "backup_after_host_stop": true,
+      "installed_renderer_verification": {
+        "host": "gscore",
+        "Pillow": "12.3.0",
+        "httpx": "0.28.1",
+        "player_width": 780,
+        "player_height": 850,
+        "player_png_bytes": 227624,
+        "player_sha256": "94437b4db30ea2d985c10a0251a7aa4cb7a4daeaa5359855c41343d354654afc",
+        "new_medal_stars_gold_and_existing_header_decoded": true
+      },
+      "installed_packages_and_bridges_match_wheels_sources": true,
+      "renderer_wheel_reinstalled_without_dependency_changes": true,
+      "config_and_databases_unchanged_after_install_before_start": true,
+      "cold_start_runtime_ready": true,
+      "fresh_plugin_render_or_configuration_errors": []
+    },
+    "astrbot": {
+      "backup_directory": "C:\\Users\\BLADE\\.astrbot\\data\\plugin_data\\astrbot_plugin_dota2forge\\backups\\rank-icons-v1-20261005-142516",
+      "illustration_path": "C:\\Users\\BLADE\\.astrbot\\data\\plugin_data\\astrbot_plugin_dota2forge\\illustrations-v2",
+      "new_png_verified": 15,
+      "existing_png_verified_unchanged": 543,
+      "original_config_and_database_fingerprints_unchanged": true,
+      "backup_after_host_stop": true,
+      "installed_renderer_verification": {
+        "host": "astrbot",
+        "Pillow": "12.3.0",
+        "httpx": "0.28.1",
+        "player_width": 780,
+        "player_height": 850,
+        "player_png_bytes": 227624,
+        "player_sha256": "94437b4db30ea2d985c10a0251a7aa4cb7a4daeaa5359855c41343d354654afc",
+        "new_medal_stars_gold_and_existing_header_decoded": true
+      },
+      "installed_packages_and_bridges_match_wheels_sources": true,
+      "renderer_wheel_reinstalled_without_dependency_changes": true,
+      "config_and_databases_unchanged_after_install_before_start": true,
+      "cold_start_runtime_ready": true,
+      "fresh_plugin_render_or_configuration_errors": []
+    }
+  },
+  "real_chat_verified": false,
+  "stop_log_offsets": {
+    "gscore_log_before_stop": 98904,
+    "astrbot_log_before_stop": 91165
+  },
+  "startup_log_offsets": {
+    "astrbot_backend": 91876,
+    "gscore": 0
+  },
+  "startup_log_paths": {
+    "astrbot_backend": "C:/Users/BLADE/.astrbot/logs/backend.log",
+    "gscore": "D:/bot/gsuid_core/data/Dota2UID/rank-icons-v1-host.stdout.log"
+  },
+  "shutdown_observations": {
+    "gscore": [
+      "lifecycle state=stopping",
+      "lifecycle state=stopped"
+    ],
+    "gscore_graceful_console_interrupt": true,
+    "astrbot": [
+      "Dota2Forge terminated state=stopped"
+    ],
+    "astrbot_desktop_window_close_hid_to_tray": true,
+    "astrbot_desktop_and_backend_stopped_after_plugin_termination": true
+  },
+  "astrbot_dota2forge_plugin_restored_enabled": true,
+  "astrbot_gscore_bridge_kept_disabled": true,
+  "onebot_reverse_websocket_connected": true,
+  "gscore_bridge_websocket_connected": false,
+  "post_update_astrbot_static_command_names": [],
+  "post_update_plugin_render_or_configuration_error_markers": [],
+  "client_feedback_for_new_rank_icons": "pending; no client-display success inferred from prior menu confirmation or synthetic host rendering"
+}

@@ -1,0 +1,93 @@
+{
+  "version": "0.1.0a2",
+  "uploaded": true,
+  "artifacts": [
+    {
+      "name": "dota2forge_core-0.1.0a2-py3-none-any.whl",
+      "bytes": 66974,
+      "sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00",
+      "distribution": "dota2forge-core",
+      "version": "0.1.0a2",
+      "members": 39,
+      "requires_python": ">=3.12",
+      "dependencies": [
+        "httpx<1,>=0.28.1; extra == 'opendota'",
+        "httpx<1,>=0.28.1; extra == 'stratz'"
+      ],
+      "matches_previously_verified_wheel": true
+    },
+    {
+      "name": "dota2forge_core-0.1.0a2.tar.gz",
+      "bytes": 47314,
+      "sha256": "0a0874a40ab5094d7d056ab150385498ecbd2fea024beb5e46a2987f8747387a",
+      "distribution": "dota2forge-core",
+      "version": "0.1.0a2",
+      "members": 40,
+      "requires_python": ">=3.12",
+      "dependencies": [
+        "httpx<1,>=0.28.1; extra == 'opendota'",
+        "httpx<1,>=0.28.1; extra == 'stratz'"
+      ]
+    },
+    {
+      "name": "dota2forge_renderer-0.1.0a2-py3-none-any.whl",
+      "bytes": 13725493,
+      "sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41",
+      "distribution": "dota2forge-renderer",
+      "version": "0.1.0a2",
+      "members": 20,
+      "requires_python": ">=3.12",
+      "dependencies": [
+        "dota2forge-core<0.2,>=0.1.0a2",
+        "pillow<13,>=12.3"
+      ],
+      "matches_previously_verified_wheel": true
+    },
+    {
+      "name": "dota2forge_renderer-0.1.0a2.tar.gz",
+      "bytes": 13717116,
+      "sha256": "2a34e0d5ee58892ef093b1695a227fe7bb1934aca792ba576a2fb3caf331ef8d",
+      "distribution": "dota2forge-renderer",
+      "version": "0.1.0a2",
+      "members": 20,
+      "requires_python": ">=3.12",
+      "dependencies": [
+        "dota2forge-core<0.2,>=0.1.0a2",
+        "pillow<13,>=12.3"
+      ]
+    },
+    {
+      "name": "dota2uid-0.1.0a2-py3-none-any.whl",
+      "bytes": 24924,
+      "sha256": "1168eb33bbae3e937ea06391a4dedcd7e807d02a0651ae18db55ca711b475949",
+      "distribution": "dota2uid",
+      "version": "0.1.0a2",
+      "members": 15,
+      "requires_python": ">=3.12",
+      "dependencies": [
+        "dota2forge-core<0.2,>=0.1.0a2",
+        "dota2forge-renderer<0.2,>=0.1.0a2",
+        "dota2forge-core[stratz]<0.2,>=0.1.0a2; extra == 'stratz'",
+        "httpx<1,>=0.28.1; extra == 'stratz'"
+      ],
+      "matches_previously_verified_wheel": true
+    },
+    {
+      "name": "dota2uid-0.1.0a2.tar.gz",
+      "bytes": 24085,
+      "sha256": "145d20f423a78d5b8cc5e137b53e02eb979feac82c2babd83d102924d8d40b27",
+      "distribution": "dota2uid",
+      "version": "0.1.0a2",
+      "members": 18,
+      "requires_python": ">=3.12",
+      "dependencies": [
+        "dota2forge-core<0.2,>=0.1.0a2",
+        "dota2forge-renderer<0.2,>=0.1.0a2",
+        "dota2forge-core[stratz]<0.2,>=0.1.0a2; extra == 'stratz'",
+        "httpx<1,>=0.28.1; extra == 'stratz'"
+      ]
+    }
+  ],
+  "channel": "github_releases",
+  "release_url": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a2"
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "label": "items-full",
+    "width": 780,
+    "height": 1530,
+    "bytes": 170110,
+    "all_boxes_inside": true
+  },
+  {
+    "label": "items-partial",
+    "width": 780,
+    "height": 1530,
+    "bytes": 136315,
+    "all_boxes_inside": true
+  },
+  {
+    "label": "menu",
+    "width": 780,
+    "height": 1450,
+    "bytes": 174035,
+    "all_boxes_inside": true
+  },
+  {
+    "label": "menu-admin",
+    "width": 780,
+    "height": 1580,
+    "bytes": 178647,
+    "all_boxes_inside": true
+  }
+]
