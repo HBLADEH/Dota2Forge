@@ -2,12 +2,13 @@
 
 from dataclasses import dataclass, field
 
-from dota2forge_core import AccountId, MatchDetail, PlayerProfile, RecentMatches
+from dota2forge_core import AccountId, HeroItemStatistics, MatchDetail, PlayerProfile, RecentMatches
 
 WIDTH = 780
-MAX_HEIGHT = 1600
+MAX_HEIGHT = 1800
 MAX_BYTES = 2 * 1024 * 1024
 PER_PAGE = 5
+DETAIL_PER_PAGE = 3
 
 
 class RenderError(Exception):
@@ -48,6 +49,11 @@ class PlayerCard:
 
 
 @dataclass(frozen=True, slots=True)
+class HeroItemsCard:
+    statistics: HeroItemStatistics
+
+
+@dataclass(frozen=True, slots=True)
 class RecentMatchesCard:
     recent: RecentMatches
     page: int = 1
@@ -66,4 +72,4 @@ class MatchDetailCard:
     perspective: AccountId | None = field(default=None, repr=False)
 
 
-type Card = MenuCard | PlayerCard | RecentMatchesCard | StatusCard | MatchDetailCard
+type Card = MenuCard | PlayerCard | HeroItemsCard | RecentMatchesCard | StatusCard | MatchDetailCard

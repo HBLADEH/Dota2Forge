@@ -1,6 +1,7 @@
 """AstrBot discovery bridge; installed separately from the SDK-free library."""
 
 import asyncio
+import re
 
 from astrbot.api import AstrBotConfig, logger
 from astrbot.api.event import AstrMessageEvent, filter
@@ -129,43 +130,53 @@ class Dota2ForgePlugin(Star):
             return await event.send(result)
         await self.runtime.dispatch(caller_from_event(event), keyword, text, send)
 
-    @filter.command("dota帮助")
+    @filter.command("do帮助")
     async def help(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota帮助", text)
+        await self._command(event, "do帮助", text)
 
-    @filter.command("dota菜单")
+    @filter.command("do菜单")
     async def menu(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota菜单", text)
+        await self._command(event, "do菜单", text)
 
-    @filter.command("dota绑定")
+    @filter.command("do绑定")
     async def bind(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota绑定", text)
+        await self._command(event, "do绑定", text)
 
-    @filter.command("dota改绑")
+    @filter.command("do改绑")
     async def rebind(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota改绑", text)
+        await self._command(event, "do改绑", text)
 
-    @filter.command("dota账号")
+    @filter.command("do账号")
     async def binding(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota账号", text)
+        await self._command(event, "do账号", text)
 
-    @filter.command("dota解绑")
+    @filter.command("do解绑")
     async def unbind(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota解绑", text)
+        await self._command(event, "do解绑", text)
 
-    @filter.command("dota玩家", alias={"dota段位"})
+    @filter.command("do查询", alias={"do段位"})
     async def player(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota玩家", text)
+        await self._command(event, "do查询", text)
 
-    @filter.command("dota战绩", alias={"dota最近"})
+    @filter.command("do战绩", alias={"do最近"})
     async def recent(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota战绩", text)
+        await self._command(event, "do战绩", text)
 
-    @filter.command("dota比赛")
+    @filter.command("do比赛")
     async def match(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota比赛", text)
+        await self._command(event, "do比赛", text)
 
-    @filter.command("dota状态")
+    @filter.command("do出装")
+    async def items(self, event: AstrMessageEvent, text: GreedyStr):
+        await self._command(event, "do出装", text)
+
+    @filter.regex(r"^/?do(?P<hero>.{1,64})出装$")
+    async def named_items(self, event: AstrMessageEvent):
+        selected = re.fullmatch(r"/?do(?P<hero>.{1,64})出装", event.get_message_str().strip())
+        if selected is not None:
+            await self._command(event, "do出装", selected["hero"])
+
+    @filter.command("do状态")
     @filter.permission_type(filter.PermissionType.ADMIN)
     async def status(self, event: AstrMessageEvent, text: GreedyStr):
         event.stop_event()
@@ -179,31 +190,31 @@ class Dota2ForgePlugin(Star):
             f"Dota2Forge state={state} client_closed={closed} subscription_timer={timer}"
         ))
 
-    @filter.command("dota订阅")
+    @filter.command("do订阅")
     async def subscribe(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota订阅", text)
+        await self._command(event, "do订阅", text)
 
-    @filter.command("dota订阅玩家")
+    @filter.command("do订阅玩家")
     async def subscribe_player(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota订阅玩家", text)
+        await self._command(event, "do订阅玩家", text)
 
-    @filter.command("dota订阅比赛")
+    @filter.command("do订阅比赛")
     async def subscribe_match(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota订阅比赛", text)
+        await self._command(event, "do订阅比赛", text)
 
-    @filter.command("dota订阅列表")
+    @filter.command("do订阅列表")
     async def subscriptions(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota订阅列表", text)
+        await self._command(event, "do订阅列表", text)
 
-    @filter.command("dota取消订阅")
+    @filter.command("do取消订阅")
     async def unsubscribe(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota取消订阅", text)
+        await self._command(event, "do取消订阅", text)
 
-    @filter.command("dota重试推送")
+    @filter.command("do重试推送")
     async def retry(self, event: AstrMessageEvent, text: GreedyStr):
-        await self._command(event, "dota重试推送", text)
+        await self._command(event, "do重试推送", text)
 
-    @filter.command("dota停用")
+    @filter.command("do停用")
     @filter.permission_type(filter.PermissionType.ADMIN)
     async def stop(self, event: AstrMessageEvent, text: GreedyStr):
         event.stop_event()

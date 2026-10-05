@@ -1,0 +1,109 @@
+{
+  "checked_at": "2026-10-06T03:29:13.419390+08:00",
+  "anonymous_requests": true,
+  "results": {
+    "repository": {
+      "url": "https://api.github.com/repos/HBLADEH/Dota2UID",
+      "status": 200,
+      "bytes": 5111,
+      "private": false,
+      "default_branch": "main"
+    },
+    "__init__.py": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/__init__.py",
+      "status": 200,
+      "bytes": 4892,
+      "matches_candidate": true,
+      "sha256": "79f7e016d515679ee32e8baf7e40f9928245c10ccaa6cd120cdd2954e570249d"
+    },
+    "_dota2forge_bootstrap.py": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/_dota2forge_bootstrap.py",
+      "status": 200,
+      "bytes": 2010,
+      "matches_candidate": true,
+      "sha256": "461f2afa15a053ad4f9602b23d276022820fa9e8a490b080906ba09f30283d7b"
+    },
+    "config.example.toml": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/config.example.toml",
+      "status": 200,
+      "bytes": 469,
+      "matches_candidate": true,
+      "sha256": "de2ad8ef9e51f5a5517c766fa9b639ec2ca5f7b856b77567ba6f6dac7fdee59e"
+    },
+    "ICON.png": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/ICON.png",
+      "status": 200,
+      "bytes": 1627903,
+      "matches_candidate": true,
+      "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059"
+    },
+    "INSTALL.md": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/INSTALL.md",
+      "status": 200,
+      "bytes": 4611,
+      "matches_candidate": true,
+      "sha256": "e7cf5ad5aa849d81dbb449e01caaca23dcc53bf12fe58423583258364bb288e0"
+    },
+    "install_runtime.py": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/install_runtime.py",
+      "status": 200,
+      "bytes": 6578,
+      "matches_candidate": true,
+      "sha256": "a805b6d4d1d3f4f96fb5b49a8d1745838e1fd391f651f6bb0ad912533e99fea1"
+    },
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/LICENSE",
+      "status": 200,
+      "bytes": 1080,
+      "matches_candidate": true,
+      "sha256": "9567fb54f833d13b9cce4a7dc6d198c1d9678d6d7de37072384182bccaa38ca2"
+    },
+    "pyproject.toml": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/pyproject.toml",
+      "status": 200,
+      "bytes": 362,
+      "matches_candidate": true,
+      "sha256": "eb5d1b35bfb832695c382faa3159adcfc999c77cf9fe07ba8fb79721a225d435"
+    },
+    "README.md": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/README.md",
+      "status": 200,
+      "bytes": 7121,
+      "matches_candidate": true,
+      "sha256": "a177cec807d7cf6a3edb833962935760f12d1154b375a4b17eab6c0e888891bb"
+    },
+    "release.json": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/release.json",
+      "status": 200,
+      "bytes": 169,
+      "matches_candidate": true,
+      "sha256": "d9173ed18e6f70886b2415ec70ebb791d3a2a8b505259a23c7d4cfec56de337a"
+    },
+    "runtime-wheels.json": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/runtime-wheels.json",
+      "status": 200,
+      "bytes": 653,
+      "matches_candidate": true,
+      "sha256": "752d534b365841d0ea443bf028075ba7110f23751e02c17be3e41307b3c956e1"
+    },
+    "screenshots/hero-items.png": {
+      "url": "https://raw.githubusercontent.com/HBLADEH/Dota2UID/main/screenshots/hero-items.png",
+      "status": 200,
+      "bytes": 302705,
+      "matches_candidate": true,
+      "sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde"
+    },
+    "pypi_dota2forge-core": {
+      "url": "https://pypi.org/pypi/dota2forge-core/json",
+      "status": 404
+    },
+    "pypi_dota2forge-renderer": {
+      "url": "https://pypi.org/pypi/dota2forge-renderer/json",
+      "status": 404
+    },
+    "pypi_dota2uid": {
+      "url": "https://pypi.org/pypi/dota2uid/json",
+      "status": 404
+    }
+  }
+}

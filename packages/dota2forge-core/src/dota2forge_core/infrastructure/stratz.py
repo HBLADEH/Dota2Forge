@@ -51,6 +51,7 @@ query Dota2ForgeMatchDetail($matchId: Long!) {
     players {
       playerSlot steamAccountId steamAccount { id name }
       isRadiant heroId kills deaths assists goldPerMinute experiencePerMinute
+      level numLastHits numDenies networth heroDamage towerDamage heroHealing
       item0Id item1Id item2Id item3Id item4Id item5Id
     }
   }

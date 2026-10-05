@@ -13,6 +13,8 @@ from dota2forge_core import (
     BindingConflictError,
     BindingNotFoundError,
     Dota2Service,
+    HeroItemService,
+    HeroResolutionError,
     InvalidIdentityError,
     MatchAnalysisService,
     MatchAnalysisUnavailable,
@@ -32,22 +34,27 @@ from dota2forge_core import (
     ValidationError,
 )
 from dota2forge_core.infrastructure import SystemClock
+from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog
+from dota2forge_core.infrastructure.opendota import OpenDotaProvider
 from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
 from dota2forge_core.infrastructure.stratz import StratzProvider
 from dota2forge_renderer import (
     AsyncRenderer,
     Card,
+    HeroItemsCard,
     MatchDetailCard,
     MenuCard,
+    PillowRenderer,
     PlayerCard,
     RecentMatchesCard,
     RenderError,
     StatusCard,
 )
+from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
 from dota2forge_renderer.subscriptions import match_report_lines
 
 from .commands import Action, Caller, Command, CommandError, parse_command
-from .config import Config, ConfigurationError, load_config
+from .config import Config, ConfigurationError, ConfigurationPending, ensure_config, load_config
 from .presentation import HELP, match_detail_text, player_text, provider_error_text, recent_text
 from .replies import ImageReply, Reply, TextReply
 from .selection import RecentSelectionStore, ResultKey, SelectionError, result_key
@@ -55,6 +62,10 @@ from .subscription_routes import delivery_route, destination
 from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController, SubscriptionSend
 
 UNAVAILABLE = "Dota2UID 尚未就绪或已停用，请管理员检查配置并按文档重新加载。"
+AWAITING_CONFIG = (
+    "Dota2UID 等待配置：请管理员在 data/Dota2UID/config.toml 填写 STRATZ Token，"
+    "确认部署 namespace 后重载插件；请勿在聊天中发送 Token。"
+)
 LOGGER = logging.getLogger("Dota2UID")
 COMMAND_NAMES = frozenset(action.value for action in Action) | frozenset(SUBSCRIPTION_COMMANDS)
 
@@ -77,6 +88,7 @@ class State(StrEnum):
     NEW = "new"
     STARTING = "starting"
     READY = "ready"
+    AWAITING_CONFIG = "awaiting_config"
     FAILED = "failed"
     STOPPING = "stopping"
     STOPPED = "stopped"
@@ -93,7 +105,7 @@ class Runtime:
         *,
         client_factory: Callable[[], httpx.AsyncClient] = make_client,
         selection_clock: Callable[[], float] = time.monotonic,
-        renderer_factory: Callable[[], AsyncRenderer] = AsyncRenderer,
+        renderer_factory: Callable[[], AsyncRenderer] | None = None,
     ) -> None:
         self._config_path = config_path
         self._client_factory = client_factory
@@ -102,6 +114,7 @@ class Runtime:
         self._service: Dota2Service | None = None
         self._details: MatchDetailService | None = None
         self._analysis: MatchAnalysisService | None = None
+        self._items: HeroItemService | None = None
         self._lock = asyncio.Lock()
         self._state = State.NEW
         self._active: asyncio.Task[object] | None = None
@@ -146,6 +159,7 @@ class Runtime:
             client: httpx.AsyncClient | None = None
             ready = False
             try:
+                await asyncio.to_thread(ensure_config, self._config_path)
                 config = await asyncio.to_thread(load_config, self._config_path)
                 await asyncio.to_thread(config.database.parent.mkdir, parents=True, exist_ok=True)
                 repository = SQLiteBindingRepository(config.database)
@@ -162,6 +176,10 @@ class Runtime:
                 self._service = Dota2Service(repository, provider, provider, clock)
                 self._details = MatchDetailService(provider)
                 self._analysis = MatchAnalysisService(provider)
+                self._items = HeroItemService(
+                    OpenDotaProvider(client, clock=clock, timeout_seconds=config.timeout_seconds),
+                    load_hero_catalog(),
+                )
                 subscription_repository = SQLiteSubscriptionRepository(
                     config.database.with_name("subscriptions.sqlite3")
                 )
@@ -179,10 +197,21 @@ class Runtime:
                     interval_seconds=config.subscription_interval_seconds,
                     daily_hour=config.daily_report_hour,
                 )
-                self._renderer = self._renderer_factory() if config.reply_mode == "image" else None
+                if config.reply_mode == "image":
+                    self._renderer = (
+                        self._renderer_factory()
+                        if self._renderer_factory is not None
+                        else AsyncRenderer(
+                            PillowRenderer(illustration_path=config.illustration_path)
+                        )
+                    )
                 self._state = State.READY
                 ready = True
                 LOGGER.info("lifecycle state=ready reply_mode=%s", config.reply_mode)
+            except ConfigurationPending:
+                if self._state == State.STARTING:
+                    self._state = State.AWAITING_CONFIG
+                    LOGGER.info("lifecycle state=awaiting_config")
             except (
                 ConfigurationError,
                 RepositoryError,
@@ -229,6 +258,7 @@ class Runtime:
                 self._service = None
                 self._details = None
                 self._analysis = None
+                self._items = None
                 self._config = None
                 self._selections.clear()
                 self._pending_delivery = None
@@ -368,7 +398,9 @@ class Runtime:
             await self.start()
             async with self._lock:
                 if self._state != State.READY or self._config is None or self._service is None:
-                    return _CommandResult([UNAVAILABLE])
+                    return _CommandResult(
+                        [AWAITING_CONFIG if self._state == State.AWAITING_CONFIG else UNAVAILABLE]
+                    )
                 identity = caller.identity(self._config)
                 self._active = asyncio.current_task()
                 try:
@@ -384,6 +416,12 @@ class Runtime:
                         )
                         return _CommandResult([message])
                     assert command is not None
+                    if command.action == Action.ITEMS:
+                        assert self._items is not None and command.hero_name is not None
+                        result_items = await self._items.get_items(command.hero_name)
+                        return _CommandResult(
+                            [hero_items_text(result_items)], cards=(HeroItemsCard(result_items),)
+                        )
                     if command.action == Action.MATCH:
                         assert self._details is not None
                         binding = await self._binding(identity)
@@ -447,7 +485,7 @@ class Runtime:
                             pages = pages[:2] + [
                                 f"本次返回 {len(recent.matches)} 场、共 "
                                 f"{(len(recent.matches) + 4) // 5} 页。"
-                                "请用 dota战绩 第N页 查看其余结果。"
+                                "请用 do战绩 第N页 查看其余结果。"
                                 if candidate is not None
                                 else "本次仅显示前 10 场；无法确认会话，不能保存后续页。"
                             ]
@@ -456,7 +494,7 @@ class Runtime:
                         return _CommandResult(pages, candidate, cards)
                     if command.action in {Action.HELP, Action.MENU}:
                         admin = caller.is_admin is True
-                        text_help = HELP + ("\ndota停用：关闭插件（管理员）。" if admin else "")
+                        text_help = HELP + ("\ndo停用：关闭插件（管理员）。" if admin else "")
                         return _CommandResult([text_help], cards=(MenuCard(admin),))
                     if command.action == Action.PLAYER:
                         player = await self._service.get_player(
@@ -479,6 +517,8 @@ class Runtime:
                     self._active = None
         except CommandError:
             return _CommandResult(["命令参数不正确。\n" + HELP])
+        except HeroResolutionError as error:
+            return _CommandResult([hero_resolution_text(error)])
         except InvalidIdentityError:
             return _CommandResult(
                 ["无法确认调用者的平台与机器人身份，或包含 @ 他人；本次操作未执行。"]
@@ -488,9 +528,9 @@ class Runtime:
                 ["账号格式不正确，请使用规范的 Dota 账号 ID 或 SteamID64 十进制数字。"]
             )
         except BindingConflictError:
-            return _CommandResult(["你已绑定其他账号；如需替换，请使用 dota改绑 <ID>。"])
+            return _CommandResult(["你已绑定其他账号；如需替换，请使用 do改绑 <ID>。"])
         except BindingNotFoundError:
-            return _CommandResult(["你尚未绑定账号，请使用 dota绑定 <ID>，或显式查询账号。"])
+            return _CommandResult(["你尚未绑定账号，请使用 do绑定 <ID>，或显式查询账号。"])
         except (RepositoryError, SubscriptionRepositoryError):
             return _CommandResult(["账号绑定存储不可用，本次操作失败；请管理员检查。"])
         except SelectionError as error:
@@ -502,6 +542,8 @@ class Runtime:
                         error,
                         subject="比赛"
                         if command is not None and command.action == Action.MATCH
+                        else "英雄出装"
+                        if command is not None and command.action == Action.ITEMS
                         else "玩家",
                     )
                 ]
@@ -519,7 +561,7 @@ async def execute(service: Dota2Service, identity: PlatformIdentity, command: Co
         return ["账号绑定已保存。绑定仅用于查询，不证明 Steam 账号所有权。"]
     if command.action == Action.BINDING:
         await service.get_binding(identity)
-        return ["你已绑定 Dota 账号。可用 dota玩家 / dota战绩 查询，或 dota改绑 <ID> 替换。"]
+        return ["你已绑定 Dota 账号。可用 do查询 / do战绩 查询，或 do改绑 <ID> 替换。"]
     if command.action == Action.UNBIND:
         removed = await service.unbind_account(identity)
         return ["已解除你的账号绑定。" if removed else "你目前没有绑定账号。"]

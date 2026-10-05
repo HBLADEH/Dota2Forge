@@ -1,0 +1,22 @@
+{
+  "heroes": {
+    "available": 127,
+    "missing": 0
+  },
+  "items": {
+    "available": 415,
+    "missing": 129
+  },
+  "catalogs": {
+    "heroes": {
+      "source": "https://www.dota2.com/datafeed/herolist?language=schinese",
+      "response_sha256": "c3d7e9ac5b145aa066857645dd89612f51643dd8b3354d2beccf41ddebb0f054"
+    },
+    "items": {
+      "source": "https://www.dota2.com/datafeed/itemlist?language=schinese",
+      "response_sha256": "54d52d8c14529129f7564c05180b638766c11574e0770348066b646c3a9d832a"
+    }
+  },
+  "downloaded_at": "2026-10-04T10:54:54.922607+00:00",
+  "rights": "Dota 2 artwork © Valve Corporation. All rights reserved; no redistribution license claimed."
+}

@@ -37,7 +37,7 @@ pending按sequence读1–100条，不删；deliverable跳过已有发送尝试�
 
 ## 两端组合
 
-六个订阅入口：dota订阅玩家 <玩家ID>、dota订阅比赛 <比赛ID>、dota订阅 [比赛|段位|日报] [ID]、dota订阅列表 [游标]、dota取消订阅 <订阅ID>、dota重试推送 <事件ID>。dota比赛 <比赛ID>同时查询详情和分析数据。目标只从可信当前事件构造，投递时复核所有者、bot/连接与私聊目标。群创建/投递/重试要求当前Bot管理员；不等于任意群管理员。
+六个订阅入口：do订阅玩家 <玩家ID>、do订阅比赛 <比赛ID>、do订阅 [比赛|段位|日报] [ID]、do订阅列表 [游标]、do取消订阅 <订阅ID>、do重试推送 <事件ID>。do比赛 <比赛ID>同时查询详情和分析数据。目标只从可信当前事件构造，投递时复核所有者、bot/连接与私聊目标。群创建/投递/重试要求当前Bot管理员；不等于任意群管理员。
 
 GsCore用gsuid_core.aps.scheduler显式注册唯一interval job；AstrBot initialize拥有唯一asyncio timer，主动推送目前仅支持OneBot v11反向WebSocket，用明确self_id发送，避免Context.send_message无法选择同连接bot。连接表按本机SDK版本核对；其他AstrBot平台创建/重试明确拒绝。
 

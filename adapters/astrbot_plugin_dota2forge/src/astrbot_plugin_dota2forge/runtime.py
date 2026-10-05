@@ -9,6 +9,7 @@ from pathlib import Path
 import httpx
 from dota2forge_core import (
     Dota2Service,
+    HeroItemService,
     InvalidIdentityError,
     MatchAnalysisService,
     MatchDetailService,
@@ -20,25 +21,32 @@ from dota2forge_core import (
     ValidationError,
 )
 from dota2forge_core.infrastructure import SystemClock
+from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog
+from dota2forge_core.infrastructure.opendota import OpenDotaProvider
 from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
 from dota2forge_core.infrastructure.stratz import StratzProvider
-from dota2forge_renderer import AsyncRenderer
+from dota2forge_renderer import AsyncRenderer, PillowRenderer
 
 from .application import AstrApplication, AstrSend, AstrTextReply
 from .commands import AstrCommandError, parse_command
-from .config import Config, ConfigurationError, load_config
+from .config import Config, ConfigurationError, ConfigurationPending, load_config
 from .identity import Caller
 from .subscription_routes import delivery_route, destination
 from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController, SubscriptionSend
 
 LOGGER = logging.getLogger("Dota2Forge.AstrBot")
 UNAVAILABLE = "Dota2Forge 尚未就绪，请管理员检查插件配置并重新加载。"
+AWAITING_CONFIG = (
+    "Dota2Forge 等待配置：请管理员在 AstrBot 插件配置填写 STRATZ Token，"
+    "确认部署 namespace 后重载插件；请勿在聊天中发送 Token。"
+)
 
 
 class State(StrEnum):
     NEW = "new"
     STARTING = "starting"
     READY = "ready"
+    AWAITING_CONFIG = "awaiting_config"
     FAILED = "failed"
     STOPPING = "stopping"
     STOPPED = "stopped"
@@ -55,7 +63,7 @@ class Runtime:
         data_dir: Path,
         *,
         client_factory: Callable[[], httpx.AsyncClient] = make_client,
-        renderer_factory: Callable[[], AsyncRenderer] = AsyncRenderer,
+        renderer_factory: Callable[[], AsyncRenderer] | None = None,
     ) -> None:
         self._raw_config = dict(raw_config)
         self._data_dir = data_dir
@@ -116,13 +124,22 @@ class Runtime:
             provider = StratzProvider(
                 client, token=config.token, clock=clock, timeout_seconds=config.timeout_seconds
             )
-            renderer = self._renderer_factory() if config.reply_mode == "image" else None
+            if config.reply_mode == "image":
+                renderer = (
+                    self._renderer_factory()
+                    if self._renderer_factory is not None
+                    else AsyncRenderer(PillowRenderer(illustration_path=config.illustration_path))
+                )
             bindings = Dota2Service(repository, provider, provider, clock)
             application = AstrApplication(
                 bindings,
                 MatchDetailService(provider),
                 renderer,
                 analysis=MatchAnalysisService(provider),
+                items=HeroItemService(
+                    OpenDotaProvider(client, clock=clock, timeout_seconds=config.timeout_seconds),
+                    load_hero_catalog(),
+                ),
                 image_mode=config.reply_mode == "image",
             )
             subscription_repository = SQLiteSubscriptionRepository(
@@ -146,6 +163,10 @@ class Runtime:
             self._state = State.READY
             ready = True
             LOGGER.info("lifecycle state=ready reply_mode=%s", config.reply_mode)
+        except ConfigurationPending:
+            if self._state == State.STARTING:
+                self._state = State.AWAITING_CONFIG
+                LOGGER.info("lifecycle state=awaiting_config")
         except (
             ConfigurationError,
             RepositoryError,
@@ -194,17 +215,18 @@ class Runtime:
             await send(AstrTextReply("无法确认调用者身份或包含 @ 他人；本次操作未执行。"))
             return
         if self._state != State.READY or self._application is None:
-            await send(AstrTextReply(UNAVAILABLE))
+            await send(
+                AstrTextReply(
+                    AWAITING_CONFIG if self._state == State.AWAITING_CONFIG else UNAVAILABLE
+                )
+            )
             return
         assert self._subscriptions is not None and self._config is not None
-        if keyword in SUBSCRIPTION_COMMANDS or keyword in {"dota改绑", "dota解绑"}:
+        if keyword in SUBSCRIPTION_COMMANDS or keyword in {"do改绑", "do解绑"}:
             async with self._subscription_commands_lock:
                 try:
                     if keyword in SUBSCRIPTION_COMMANDS:
-                        if (
-                            keyword in {"dota订阅", "dota重试推送"}
-                            and caller.platform != "aiocqhttp"
-                        ):
+                        if keyword in {"do订阅", "do重试推送"} and caller.platform != "aiocqhttp":
                             await send(
                                 AstrTextReply("当前主动订阅仅支持 OneBot v11 反向 WebSocket。")
                             )

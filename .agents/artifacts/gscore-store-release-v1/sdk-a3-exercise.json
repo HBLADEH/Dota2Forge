@@ -1,0 +1,92 @@
+{
+  "actual_sdk": true,
+  "sdk_functions_replaced": false,
+  "actual_chat_verified": false,
+  "production_host_modified": false,
+  "external_sockets_disabled": true,
+  "provider_data": "synthetic HTTP fixtures",
+  "outbound_transport": "in-memory WebSocket frame collector",
+  "sdk_version": "0.11.0",
+  "pillow": "11.3.0",
+  "versions": {
+    "dota2forge-core": "0.1.0a3",
+    "dota2forge-renderer": "0.1.0a3",
+    "dota2uid": "0.1.0a3"
+  },
+  "empty_config_awaiting_without_client_or_job": true,
+  "admin_endpoints_reject_unauthenticated_requests": true,
+  "actual_sdk_reload_recovers_configuration": true,
+  "actual_trigger_bot_png_cards": {
+    "do菜单": [
+      {
+        "width": 780,
+        "height": 1450,
+        "bytes": 174035,
+        "sha256": "11d83ab69bf92cb4b67d4af2736648c70059d870ca68acfa6e18d2f22f20d940"
+      }
+    ],
+    "do绑定": [
+      {
+        "width": 780,
+        "height": 650,
+        "bytes": 46217,
+        "sha256": "6fc0fbcdd1a26991a08dd7ce67bb42f5e1a94627b3362d288f7ff362877a33a3"
+      }
+    ],
+    "do查询": [
+      {
+        "width": 780,
+        "height": 960,
+        "bytes": 72375,
+        "sha256": "a944d47f7f3dcd7198804d3a772f1d2a6d5b895883e629802fea1ee67e33d36b"
+      }
+    ],
+    "do战绩": [
+      {
+        "width": 780,
+        "height": 1560,
+        "bytes": 147828,
+        "sha256": "23312a14862e1298837e954958ae6f7318b64a6fdc1fc9a13f6f1a111d5c2277"
+      },
+      {
+        "width": 780,
+        "height": 1560,
+        "bytes": 147872,
+        "sha256": "8e54ec02b7035f7fe2893d6941833fb02631e6de36469d65003ea66f70818e26"
+      }
+    ],
+    "do比赛": [
+      {
+        "width": 780,
+        "height": 890,
+        "bytes": 94663,
+        "sha256": "1e9dc30291762247970465496e143e7c938b1638e833413af1fc6bd8d2544524"
+      }
+    ],
+    "do主宰出装": [
+      {
+        "width": 780,
+        "height": 1530,
+        "bytes": 105416,
+        "sha256": "d67aeaa6165f71e7b0cebecc1212c72ab1e01102abc66229b1e8a414fac91bee"
+      }
+    ]
+  },
+  "sdk_admin_permission_denied": true,
+  "admin_stop_closes_clients": true,
+  "scheduler_registers_once_when_enabled": true,
+  "text_mode_and_provider_failure_verified": true,
+  "shutdown_removes_job_and_closes_all_clients": true,
+  "data_for_update_verification": {
+    "bindings.sqlite3": "b9b1d7140b5376ac66ef83e88a98e7f7232549870da99b0b74a3dd4312d518b5",
+    "config.toml": "f7e85619e4f558c317caad94fcdd2d1e2e917cc1410db44d751125353be31a14",
+    "subscriptions.sqlite3": "39b5ecaefa9dc5a677aec57775b1da64b58873a5316be76d80e4129578904b77"
+  },
+  "provider_operations": [
+    "hero_items",
+    "match_analysis_unavailable",
+    "match_detail_or_analysis",
+    "player",
+    "recent"
+  ]
+}

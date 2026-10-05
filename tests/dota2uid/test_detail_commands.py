@@ -60,7 +60,7 @@ def detail_data():
 
 @pytest.mark.parametrize("value", ["1", "7000000001", "9223372036854775807"])
 def test_exact_direct_match_command(value):
-    command = parse_command("dota比赛", value)
+    command = parse_command("do比赛", value)
     assert command.action == Action.MATCH and command.match_id == MatchId(int(value))
     assert command.account is None
 
@@ -83,7 +83,7 @@ def test_exact_direct_match_command(value):
 )
 def test_invalid_match_command_is_not_account_or_recent_query(value):
     with pytest.raises(CommandError):
-        parse_command("dota比赛", value)
+        parse_command("do比赛", value)
 
 
 def test_detail_text_preserves_anonymity_zero_false_and_proven_perspective():
@@ -202,17 +202,17 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(config_path,
 
     async def check():
         runtime = Runtime(config_path, client_factory=lambda: client)
-        direct = await runtime.handle(caller, "dota比赛", "7000000001")
+        direct = await runtime.handle(caller, "do比赛", "7000000001")
         assert "比赛 7000000001" in direct[0] and "[我方]" not in "\n".join(direct)
-        assert "尚未绑定" in (await runtime.handle(caller, "dota账号", ""))[0]
-        await runtime.handle(caller, "dota绑定", "123")
-        own = await runtime.handle(caller, "dota比赛", "7000000001")
+        assert "尚未绑定" in (await runtime.handle(caller, "do账号", ""))[0]
+        await runtime.handle(caller, "do绑定", "123")
+        own = await runtime.handle(caller, "do比赛", "7000000001")
         assert "[我方]" in "\n".join(own)
-        await runtime.handle(caller, "dota改绑", "456")
-        other = await runtime.handle(caller, "dota比赛", "7000000001")
+        await runtime.handle(caller, "do改绑", "456")
+        other = await runtime.handle(caller, "do比赛", "7000000001")
         assert "[我方]" not in "\n".join(other)
         before = len(requests)
-        assert "参数不正确" in (await runtime.handle(caller, "dota比赛", "01"))[0]
+        assert "参数不正确" in (await runtime.handle(caller, "do比赛", "01"))[0]
         assert len(requests) == before == 6
         await runtime.close()
         assert runtime.state == State.STOPPED and client.is_closed and runtime._details is None
@@ -227,7 +227,7 @@ def test_runtime_null_detail_uses_unavailable_text_and_closes(config_path, calle
 
     async def check():
         runtime = Runtime(config_path, client_factory=lambda: client)
-        text = (await runtime.handle(caller, "dota比赛", "1"))[0]
+        text = (await runtime.handle(caller, "do比赛", "1"))[0]
         assert "没有返回" in text and "隐私状态未知" in text
         await runtime.close()
         assert client.is_closed
@@ -247,7 +247,7 @@ def test_runtime_detail_quota_failure_is_not_retried(config_path, caller, run_as
     async def check():
         runtime = Runtime(config_path, client_factory=lambda: client)
         for _ in range(2):
-            assert "额度已用尽" in (await runtime.handle(caller, "dota比赛", "1"))[0]
+            assert "额度已用尽" in (await runtime.handle(caller, "do比赛", "1"))[0]
         assert len(calls) == 1
         await runtime.close()
         assert client.is_closed
@@ -265,7 +265,7 @@ def test_runtime_stop_cancels_detail_and_retains_client_ownership(config_path, c
 
         client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
         runtime = Runtime(config_path, client_factory=lambda: client)
-        query = asyncio.create_task(runtime.handle(caller, "dota比赛", "1"))
+        query = asyncio.create_task(runtime.handle(caller, "do比赛", "1"))
         await started.wait()
         await runtime.close()
         with pytest.raises(asyncio.CancelledError):

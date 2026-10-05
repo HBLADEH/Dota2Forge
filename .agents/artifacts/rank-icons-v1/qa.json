@@ -1,0 +1,392 @@
+{
+  "rank_cases": {
+    "rank-0": {
+      "rank_tier": 0,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 215347,
+      "text_boxes": 12,
+      "sha256": "5d64956571ce2d5c5df9fe29b427783f02e3a3e9f442d11757b97af6f6c0ef5a"
+    },
+    "rank-11": {
+      "rank_tier": 11,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 213843,
+      "text_boxes": 12,
+      "sha256": "53c9e2017d60bba7f1bd79da7f5760566a9daa9f92bb3719a8dd61764bf960c4"
+    },
+    "rank-12": {
+      "rank_tier": 12,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 215275,
+      "text_boxes": 12,
+      "sha256": "14e030184cbc3737e522f8660b34589d4734642c40b6f4f2d633529acb0083ed"
+    },
+    "rank-13": {
+      "rank_tier": 13,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 216416,
+      "text_boxes": 12,
+      "sha256": "eddf65e325d1601e61326a7dffe33dc7543d8d92da8b445df2bce1296bc5f11c"
+    },
+    "rank-14": {
+      "rank_tier": 14,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 216396,
+      "text_boxes": 12,
+      "sha256": "ea7e51eb3d9af9914352995a588c58e07d60eb99a063e5d61d4881e53ef840c8"
+    },
+    "rank-15": {
+      "rank_tier": 15,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 217870,
+      "text_boxes": 12,
+      "sha256": "3bc0c8b19675e8571c2beeb0501accf51d691ab80d27cb2548725a9a64deea4b"
+    },
+    "rank-21": {
+      "rank_tier": 21,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 213148,
+      "text_boxes": 12,
+      "sha256": "09aba182d63ae44dff99a8cf5298f8aac69d8e410c04cdcb54f002ef56c01ec6"
+    },
+    "rank-22": {
+      "rank_tier": 22,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 214601,
+      "text_boxes": 12,
+      "sha256": "6922277c60083dc0e0aa3c2ff19f1871098326a376fae567c5d1210c38b7dee8"
+    },
+    "rank-23": {
+      "rank_tier": 23,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 215616,
+      "text_boxes": 12,
+      "sha256": "2716bc151a6eb92883c7e3f38e21af569a60d2b7e4830f9f0e3dc51dfc04a577"
+    },
+    "rank-24": {
+      "rank_tier": 24,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 215732,
+      "text_boxes": 12,
+      "sha256": "725aea97110103085dafa08b6e5afef945bf9522d8f1218a4d2ff2693257d7d6"
+    },
+    "rank-25": {
+      "rank_tier": 25,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 217196,
+      "text_boxes": 12,
+      "sha256": "767b660af6b0dcbb93b02b5a96197af0e21040c5faa2ab49978d279bb29e8d24"
+    },
+    "rank-31": {
+      "rank_tier": 31,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 219780,
+      "text_boxes": 12,
+      "sha256": "7c93fcbafabe7587af509a7f5d00ba02ec93b02f13ff33234e71f78dd49d268f"
+    },
+    "rank-32": {
+      "rank_tier": 32,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 221081,
+      "text_boxes": 12,
+      "sha256": "f907c4c78ef8de4c5082b21dc6b1b52c01056a5f482f168a2a72862e705ff851"
+    },
+    "rank-33": {
+      "rank_tier": 33,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 222111,
+      "text_boxes": 12,
+      "sha256": "a403183db5e998031e00685287ef61e68bb2f15e8ed8a00dfe41d4878ddc88c0"
+    },
+    "rank-34": {
+      "rank_tier": 34,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 222129,
+      "text_boxes": 12,
+      "sha256": "29e00b674138dd48305b11076e1db6626b669c4699af5c81439efb2663ef8b28"
+    },
+    "rank-35": {
+      "rank_tier": 35,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 223581,
+      "text_boxes": 12,
+      "sha256": "d992dfdf8867fb02b7728eae50c422a0b39366b0579f2779344a070454a6d3ec"
+    },
+    "rank-41": {
+      "rank_tier": 41,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 221979,
+      "text_boxes": 12,
+      "sha256": "78b7e0f92a843c80aff999587da02abf4348508557f16ae6eecdfe6dd7a92e3f"
+    },
+    "rank-42": {
+      "rank_tier": 42,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 223312,
+      "text_boxes": 12,
+      "sha256": "225b588da514670739b84d45477fa727d4e95e89110b4353c914fdc7a4a09b7a"
+    },
+    "rank-43": {
+      "rank_tier": 43,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 224408,
+      "text_boxes": 12,
+      "sha256": "ba7361a6d37cf75b07d6b44efc59931d784268ac725d4b855d4cda503125b7c4"
+    },
+    "rank-44": {
+      "rank_tier": 44,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 224468,
+      "text_boxes": 12,
+      "sha256": "726d5e55a5739adcaff24a7f6a4b4e578f1f2994c04c27aafa8466f587c7542d"
+    },
+    "rank-45": {
+      "rank_tier": 45,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 226044,
+      "text_boxes": 12,
+      "sha256": "db42333014acd0d0dae29c30c6eaface9d4851106371d07ae84864ec2e5e3ac1"
+    },
+    "rank-51": {
+      "rank_tier": 51,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 227624,
+      "text_boxes": 12,
+      "sha256": "94437b4db30ea2d985c10a0251a7aa4cb7a4daeaa5359855c41343d354654afc"
+    },
+    "rank-52": {
+      "rank_tier": 52,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 228870,
+      "text_boxes": 12,
+      "sha256": "0d550e64fcfe9655ef94936535f7c2e3f70d7858c5604b291f1c3c9216dd8657"
+    },
+    "rank-53": {
+      "rank_tier": 53,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 229949,
+      "text_boxes": 12,
+      "sha256": "cff5159dc71288c318d966a68e40f4a2689eaab0b983473ae1afb45e065cd60c"
+    },
+    "rank-54": {
+      "rank_tier": 54,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 230152,
+      "text_boxes": 12,
+      "sha256": "bd3c5ffc0014ad2589211a003e982349be8bf59de5c1118a371f150c1db36455"
+    },
+    "rank-55": {
+      "rank_tier": 55,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 231204,
+      "text_boxes": 12,
+      "sha256": "428bafdfc548101bf662f14efc99c1e04bba1d102c21caa3406ac4548b557b7c"
+    },
+    "rank-61": {
+      "rank_tier": 61,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 236643,
+      "text_boxes": 12,
+      "sha256": "914436d6f81537941c2da77556688044011d4d956d83a885daec00e4dca90c08"
+    },
+    "rank-62": {
+      "rank_tier": 62,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 237801,
+      "text_boxes": 12,
+      "sha256": "222690edb3144df0995f08438c4c21f09373ecb375029a54495f652d734384f4"
+    },
+    "rank-63": {
+      "rank_tier": 63,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 238773,
+      "text_boxes": 12,
+      "sha256": "42a266a678b14a2a54c897c3013a0738b38706d842bd510330f7beb180fcaa5a"
+    },
+    "rank-64": {
+      "rank_tier": 64,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 238869,
+      "text_boxes": 12,
+      "sha256": "be3f70956eccb49c572a322dc65f24bd368d7c5f63ce2756024e960f0730ed91"
+    },
+    "rank-65": {
+      "rank_tier": 65,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 240239,
+      "text_boxes": 12,
+      "sha256": "0139102448cda71e5e909ee46b479c5cb0372032f29a3bc8626735f3827e31c8"
+    },
+    "rank-71": {
+      "rank_tier": 71,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 233850,
+      "text_boxes": 12,
+      "sha256": "b2705fd290912d08d4451154a9d7ea1524f266b8650c7abe95cbb7c75dcbe838"
+    },
+    "rank-72": {
+      "rank_tier": 72,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 235102,
+      "text_boxes": 12,
+      "sha256": "0b926098374ab2e404f839d55c78606991a44001a799a2b4031be9f42022098a"
+    },
+    "rank-73": {
+      "rank_tier": 73,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 235995,
+      "text_boxes": 12,
+      "sha256": "c2de363fe4130bc66123bdd4a141a78103f340283104b7e86fc4febdcfba857b"
+    },
+    "rank-74": {
+      "rank_tier": 74,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 236140,
+      "text_boxes": 12,
+      "sha256": "afa0b48aedb8aca4ae4c88bea467c484102f85d7d4aa0878aa170d0df2677297"
+    },
+    "rank-75": {
+      "rank_tier": 75,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 237463,
+      "text_boxes": 12,
+      "sha256": "a896f31738ea1eb3b6fd993454a16fb382c03168c73e2f2612d8d3579c7027ad"
+    },
+    "rank-80": {
+      "rank_tier": 80,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 242449,
+      "text_boxes": 12,
+      "sha256": "573a972c51077a548df390aa6043173ba348fe3eb693beb82a9a8995e25408fe"
+    },
+    "rank-unknown": {
+      "rank_tier": null,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 191755,
+      "text_boxes": 12,
+      "sha256": "dfd800249823e62fc7847be745b9b498e4fe4475485c603aca553a9722cc3eb4"
+    },
+    "rank-16": {
+      "rank_tier": 16,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 196981,
+      "text_boxes": 12,
+      "sha256": "b3ed52056c6364ca085d74f7b6ebc00c79dcba81f1d7c1726243beab6f1e4d8a"
+    },
+    "rank-81": {
+      "rank_tier": 81,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 197140,
+      "text_boxes": 12,
+      "sha256": "febd511960c303ec16ed60cab91a938b300a1c497e069063611bd2077a14667b"
+    },
+    "rank-999": {
+      "rank_tier": 999,
+      "width": 780,
+      "height": 850,
+      "png_bytes": 196897,
+      "text_boxes": 12,
+      "sha256": "416a706c986cd7ade627b7659477724e276615684eb6c92bb0c96bccd0519c74"
+    }
+  },
+  "card_cases": {
+    "menu": {
+      "width": 780,
+      "height": 1450,
+      "png_bytes": 309068,
+      "text_boxes": 33
+    },
+    "menu-admin": {
+      "width": 780,
+      "height": 1580,
+      "png_bytes": 314116,
+      "text_boxes": 35
+    },
+    "player": {
+      "width": 780,
+      "height": 850,
+      "png_bytes": 237959,
+      "text_boxes": 12
+    },
+    "recent-1": {
+      "width": 780,
+      "height": 1560,
+      "png_bytes": 350292,
+      "text_boxes": 45
+    },
+    "recent-2": {
+      "width": 780,
+      "height": 1560,
+      "png_bytes": 356054,
+      "text_boxes": 45
+    },
+    "status": {
+      "width": 780,
+      "height": 650,
+      "png_bytes": 182893,
+      "text_boxes": 7
+    },
+    "detail-radiant": {
+      "width": 780,
+      "height": 1594,
+      "png_bytes": 426545,
+      "text_boxes": 87
+    },
+    "detail-dire": {
+      "width": 780,
+      "height": 1594,
+      "png_bytes": 418034,
+      "text_boxes": 87
+    },
+    "recent-empty": {
+      "width": 780,
+      "height": 728,
+      "png_bytes": 204628,
+      "text_boxes": 11
+    }
+  },
+  "manual_visual_qa_passed": true,
+  "checked_mobile_width": 390,
+  "actual_downloaded_icons_used": true,
+  "real_chat_verified": false
+}

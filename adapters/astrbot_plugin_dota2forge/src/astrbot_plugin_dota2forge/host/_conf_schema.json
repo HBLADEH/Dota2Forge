@@ -32,6 +32,12 @@
     "default": 10,
     "hint": "有限正数，最大 60；不自动重试。"
   },
+  "illustration_path": {
+    "description": "本地英雄与装备素材目录",
+    "type": "string",
+    "default": "",
+    "hint": "填写显式下载的素材包目录；相对路径以插件数据目录为基准。留空显示占位，不自动联网。"
+  },
   "reply_mode": {
     "description": "回复模式",
     "type": "string",

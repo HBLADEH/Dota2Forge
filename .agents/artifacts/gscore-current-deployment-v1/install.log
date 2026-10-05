@@ -1,0 +1,14 @@
+Using Python 3.13.2 environment at: D:\bot\gsuid_core\.venv
+Resolved 3 packages in 49ms
+Prepared 3 packages in 192ms
+Uninstalled 3 packages in 129ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 3 packages in 42ms
+ - dota2forge-core==0.1.0a1 (from file:///D:/workstation/Dota2Forge/dist/dota2forge_core-0.1.0a1-py3-none-any.whl)
+ + dota2forge-core==0.1.0a2 (from file:///D:/workstation/Dota2Forge/.tmp/gscore-current-wheels/dota2forge_core-0.1.0a2-py3-none-any.whl)
+ - dota2forge-renderer==0.1.0a1 (from file:///D:/workstation/Dota2Forge/dist/dota2forge_renderer-0.1.0a1-py3-none-any.whl)
+ + dota2forge-renderer==0.1.0a2 (from file:///D:/workstation/Dota2Forge/.tmp/gscore-current-wheels/dota2forge_renderer-0.1.0a2-py3-none-any.whl)
+ - dota2uid==0.1.0a1 (from file:///D:/workstation/Dota2Forge/dist/dota2uid-0.1.0a1-py3-none-any.whl)
+ + dota2uid==0.1.0a2 (from file:///D:/workstation/Dota2Forge/.tmp/gscore-current-wheels/dota2uid-0.1.0a2-py3-none-any.whl)

@@ -1,0 +1,23 @@
+{
+  "actual_sdk": true,
+  "sdk_functions_replaced": false,
+  "actual_chat_verified": false,
+  "production_host_modified": false,
+  "external_sockets_disabled": true,
+  "provider_data": "synthetic HTTP fixtures",
+  "outbound_transport": "in-memory WebSocket frame collector",
+  "sdk_version": "0.11.0",
+  "pillow": "11.3.0",
+  "versions": {
+    "dota2forge-core": "0.1.0a3",
+    "dota2forge-renderer": "0.1.0a3",
+    "dota2uid": "0.1.0a3"
+  },
+  "fresh_process_after_uninstall": true,
+  "data_preserved": {
+    "bindings.sqlite3": "b9b1d7140b5376ac66ef83e88a98e7f7232549870da99b0b74a3dd4312d518b5",
+    "config.toml": "f7e85619e4f558c317caad94fcdd2d1e2e917cc1410db44d751125353be31a14",
+    "subscriptions.sqlite3": "39b5ecaefa9dc5a677aec57775b1da64b58873a5316be76d80e4129578904b77"
+  },
+  "provider_operations": []
+}

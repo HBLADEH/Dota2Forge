@@ -1,14 +1,16 @@
-"""Explicit, public OpenDota provider implementing the existing three ports."""
+"""Explicit public player, match, analysis and hero item-statistics provider."""
 
 import httpx
 
 from ..domain.analysis import MatchAnalysisResult
 from ..domain.errors import DataSource, ProviderErrorCode, ValidationError
+from ..domain.hero_items import Hero, HeroItemStatistics
 from ..domain.identity import AccountId
 from ..domain.match_detail import MatchDetailResult, MatchId
 from ..domain.models import DataMetadata, PlayerProfile, RecentMatches
 from ..ports import Clock
 from ._analysis_mapping import opendota_analysis
+from ._hero_items_mapping import item_statistics
 from ._opendota_http import OpenDotaHTTP, failure
 from ._opendota_mapping import detail, match_rows, profile
 
@@ -39,6 +41,12 @@ class OpenDotaProvider:
             raise ValidationError("Expected a validated account")
         payload, fetched_at = await self._http.request(f"/players/{account_id.value}")
         return profile(payload, account_id, DataMetadata(self.source, fetched_at))
+
+    async def get_hero_item_statistics(self, hero: Hero) -> HeroItemStatistics:
+        if not isinstance(hero, Hero):
+            raise ValidationError("Expected a validated hero")
+        payload, fetched_at = await self._http.request(f"/heroes/{hero.hero_id}/itemPopularity")
+        return item_statistics(payload, hero, DataMetadata(self.source, fetched_at))
 
     async def get_recent_matches(self, account_id: AccountId, limit: int) -> RecentMatches:
         if not isinstance(account_id, AccountId) or type(limit) is not int or not 1 <= limit <= 100:

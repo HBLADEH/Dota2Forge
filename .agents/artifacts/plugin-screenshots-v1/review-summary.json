@@ -1,0 +1,30 @@
+{
+  "image": {
+    "file": "docs/assets/screenshots/astrbot/hero-items.png",
+    "size": [
+      780,
+      1530
+    ],
+    "bytes": 302705,
+    "sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde",
+    "matches_user_source": true,
+    "png_metadata_empty": true
+  },
+  "all_candidate_source_and_file_hashes_match": true,
+  "deterministic_rebuild": true,
+  "archives": {
+    "astrbot_plugin_dota2forge": {
+      "bytes": 1917604,
+      "sha256": "f005c7d2e84a149d89ea9c188878af0ddbd3c47dcf75b50a7abb8771ba63ee22"
+    },
+    "Dota2UID": {
+      "bytes": 1622100,
+      "sha256": "eba4600e30b245145e61a93fd6dd21b4dac9c51bb8335778f2f0bd0c83a0673e"
+    }
+  },
+  "installed_astrbot_readme_and_image_synced": true,
+  "installed_readme_sha256": "0342dda2ab23025fe7745ed6d28a918450193e3040c4074c2105489fa249188b",
+  "runtime_restart_needed": false,
+  "source_images_modified": false,
+  "real_chat_messages_sent": false
+}

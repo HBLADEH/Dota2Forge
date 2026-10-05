@@ -1,0 +1,124 @@
+{
+  "recorded_at": "2026-10-05T04:06:50.940507+08:00",
+  "initial_host_processes_running": false,
+  "initial_host_listeners_present": false,
+  "user_authorized_deployment_and_chat_testing": true,
+  "hosts": {
+    "gscore": {
+      "reply_mode": "image",
+      "illustration_path_before": null,
+      "subscriptions_enabled_unchanged": true,
+      "credential_configured": true,
+      "python": "D:\\bot\\gsuid_core\\.venv\\Scripts\\python.exe",
+      "site_packages": "D:\\bot\\gsuid_core\\.venv\\Lib\\site-packages",
+      "dependency_versions_before": {
+        "python": "3.13.2",
+        "Pillow": "12.3.0",
+        "httpx": "0.28.1"
+      },
+      "backup_directory": "D:/bot/gsuid_core/data/Dota2UID/backups/dota-style-v2-20261005-041210",
+      "illustration_path": "D:/bot/gsuid_core/data/Dota2UID/illustrations-v2",
+      "assets_copied_and_verified": 543,
+      "only_illustration_path_config_changed": true,
+      "databases_unchanged_before_start": true,
+      "wheels_installed_offline_without_dependency_changes": true,
+      "installed_packages_and_bridge_match_sources": true,
+      "installed_renderer_verification": {
+        "Pillow": "12.3.0",
+        "httpx": "0.28.1",
+        "menu_width": 780,
+        "menu_height": 1450,
+        "menu_png_bytes": 309068,
+        "local_header_loaded": true,
+        "header_sha256": "6a93f16fdf84bdaca97f9f21983c05c4acd6346b9218773f52b8a899ed1232fe"
+      },
+      "cold_start_runtime_ready": true,
+      "fresh_runtime_failure_marker": false
+    },
+    "astrbot": {
+      "reply_mode": "image",
+      "illustration_path_before": null,
+      "subscriptions_enabled_unchanged": true,
+      "credential_configured": true,
+      "python": "D:\\AstrBot\\backend\\python\\python.exe",
+      "site_packages": "C:\\Users\\BLADE\\.astrbot\\data\\site-packages",
+      "dependency_versions_before": {
+        "python": "3.12.12",
+        "Pillow": "12.3.0",
+        "httpx": "0.28.1"
+      },
+      "backup_directory": "C:/Users/BLADE/.astrbot/data/plugin_data/astrbot_plugin_dota2forge/backups/dota-style-v2-20261005-041210",
+      "illustration_path": "C:/Users/BLADE/.astrbot/data/plugin_data/astrbot_plugin_dota2forge/illustrations-v2",
+      "assets_copied_and_verified": 543,
+      "only_illustration_path_config_changed": true,
+      "databases_unchanged_before_start": true,
+      "wheels_installed_offline_without_dependency_changes": true,
+      "installed_packages_and_bridge_match_sources": true,
+      "installed_renderer_verification": {
+        "Pillow": "12.3.0",
+        "httpx": "0.28.1",
+        "menu_width": 780,
+        "menu_height": 1450,
+        "menu_png_bytes": 310192,
+        "local_header_loaded": true,
+        "header_sha256": "6a93f16fdf84bdaca97f9f21983c05c4acd6346b9218773f52b8a899ed1232fe"
+      },
+      "cold_start_runtime_ready": true,
+      "fresh_runtime_failure_marker": false
+    }
+  },
+  "backup_tag": "dota-style-v2-20261005-041210",
+  "four_package_build": true,
+  "four_isolated_wheel_smoke_checks": true,
+  "startup_log_offsets": {
+    "gscore": 0,
+    "astrbot_backend": 83451
+  },
+  "chat_baseline_log_sizes": {
+    "gscore": 33544,
+    "astrbot_backend": 89894
+  },
+  "real_chat_validation": {
+    "astrbot": {
+      "status": "user-confirmed normal menu and other tested command images/icons",
+      "user_sent_commands": true,
+      "user_confirmed_menu_image_display": true,
+      "user_confirmed_other_tested_command_icons": true,
+      "menu_command": "/dota菜单",
+      "server_log_audit": {
+        "bytes_since_chat_baseline": 1137,
+        "observed_static_command_names": [
+          "dota帮助",
+          "dota战绩",
+          "dota玩家"
+        ],
+        "plugin_render_or_configuration_error_markers": [],
+        "raw_messages_retained": false
+      },
+      "per_reply_send_metrics_available": false,
+      "onebot_connection_established": true,
+      "individual_paging_five_player_detail_and_mobile_readability_confirmed": false
+    },
+    "gscore": {
+      "status": "installed and ready; real chat not verified",
+      "astrbot_gscore_bridge_enabled_as_observed_in_plugin_ui": false,
+      "bridge_enabled_state_changed_in_this_run": false,
+      "server_log_audit": {
+        "bytes_since_chat_baseline": 2403,
+        "observed_static_command_names": [],
+        "plugin_render_or_configuration_error_markers": [],
+        "raw_messages_retained": false
+      },
+      "gscore_connection_established": false
+    },
+    "raw_chat_messages_or_screenshots_saved_in_repository": false
+  },
+  "chat_checked_at": "2026-10-05T04:55:06+08:00",
+  "latest_transport_observation": {
+    "gscore_listening_8765": true,
+    "astrbot_listening_6185": true,
+    "onebot_listening_6199": true,
+    "onebot_connection_established": true,
+    "gscore_connection_established": false
+  }
+}

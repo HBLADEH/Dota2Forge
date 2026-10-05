@@ -30,7 +30,7 @@ wheels = [
 
 [[package]]
 name = "astrbot-plugin-dota2forge"
-version = "0.1.0a1"
+version = "0.1.0a4"
 source = { editable = "adapters/astrbot_plugin_dota2forge" }
 dependencies = [
     { name = "dota2forge-core" },
@@ -212,7 +212,7 @@ wheels = [
 
 [[package]]
 name = "dota2forge-core"
-version = "0.1.0a1"
+version = "0.1.0a4"
 source = { editable = "packages/dota2forge-core" }
 
 [package.optional-dependencies]
@@ -232,7 +232,7 @@ provides-extras = ["stratz", "opendota"]
 
 [[package]]
 name = "dota2forge-renderer"
-version = "0.1.0a1"
+version = "0.1.0a4"
 source = { editable = "packages/dota2forge-renderer" }
 dependencies = [
     { name = "dota2forge-core" },
@@ -242,12 +242,12 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "dota2forge-core", editable = "packages/dota2forge-core" },
-    { name = "pillow", specifier = ">=12.3,<13" },
+    { name = "pillow", specifier = ">=11.3,<13" },
 ]
 
 [[package]]
 name = "dota2forge-workspace"
-version = "0.1.0a1"
+version = "0.1.0a3"
 source = { virtual = "." }
 
 [package.dev-dependencies]
@@ -284,7 +284,7 @@ dev = [
 
 [[package]]
 name = "dota2uid"
-version = "0.1.0a1"
+version = "0.1.0a4"
 source = { editable = "adapters/Dota2UID" }
 dependencies = [
     { name = "dota2forge-core" },

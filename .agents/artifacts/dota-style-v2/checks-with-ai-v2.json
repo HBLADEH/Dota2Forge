@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-05T03:43:55.114375+08:00",
+  "command": "uv run --locked python scripts/check_governance.py --all",
+  "exit_code": 0,
+  "tests": {
+    "passed": 1144,
+    "failed": 0,
+    "network_disabled": true,
+    "elapsed_seconds": 116.83
+  },
+  "ruff_format": "pass: 206 files",
+  "ruff_lint": "pass",
+  "mypy": "pass: 62 source files",
+  "coverage": {
+    "aggregate_percent": 92.72,
+    "scripts_reported_percent": 97,
+    "core_reported_percent": 92,
+    "threshold_percent": 80
+  },
+  "passed_log": {
+    "file": "offline-checks-v2-retry.log",
+    "sha256": "d17069b5a1bbbbad91740dd21f78ed00c7b38eac19962de8800b728d8d9f0052"
+  },
+  "initial_attempt": {
+    "passed": 1139,
+    "failed": 5,
+    "exit_code": 1,
+    "reason": "Three documentation links referenced output/imagegen, which the governance-test repository fixture does not copy.",
+    "fix": "Documented the retained original path as inline code; tests, policy and gates unchanged.",
+    "log": "offline-checks-v2.log",
+    "log_sha256": "c32514dcc02455e8384e2c0d8c4814ce881fc06695e18aab2563cb015e8bbe5b"
+  },
+  "build": "Not repeated this turn: no package code/configuration/dependency changes; existing four-package build and wheel smoke results retained.",
+  "deployment": "Not performed; new theme/background host lifecycle and chat/client compression remain unverified.",
+  "archive_governance_check": "pass: check_repository after task archive and final document/link updates",
+  "post_archive_isolated_repository_test": {
+    "command": "uv run --locked pytest tests/test_governance.py::test_valid_repository_passes --no-cov",
+    "result": "pass: 1 test; final docs also validated in the standard isolated repository fixture",
+    "coverage_note": "Supplemental document/link test; the full offline coverage gates already passed and were not changed."
+  }
+}

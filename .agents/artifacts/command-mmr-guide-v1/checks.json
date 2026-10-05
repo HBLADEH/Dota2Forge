@@ -1,0 +1,25 @@
+{
+  "checked_on": "2026-10-05",
+  "offline_gate": {
+    "exit_code": 0,
+    "tests_passed": 1254,
+    "aggregate_coverage_percent": 92.79,
+    "mypy_source_files": 63,
+    "ruff_format_and_lint": "passed",
+    "scripts_and_core_independent_coverage_gates": "passed",
+    "rank_estimate_domain_coverage_percent": 100
+  },
+  "targeted_tests_passed": 262,
+  "built_packages": 4,
+  "isolated_wheel_smoke_packages": 4,
+  "synthetic_cards": 43,
+  "manual_mobile_visual_checks": [
+    "menu",
+    "player-51",
+    "player-80"
+  ],
+  "host_deployed": false,
+  "chat_validated": false,
+  "hero_guide_implemented": false,
+  "final_static_governance": "passed"
+}

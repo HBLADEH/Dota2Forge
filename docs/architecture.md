@@ -2,6 +2,8 @@
 
 仓库采用 Python 3.12+ 与 uv workspace。四个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
+当前四包为0.1.0a4预览版源码；双端a4已公开预览，发布/审核状态见[发行任务](../.agents/tasks/active/2026-10-06-a4-layout-release.md)。显式[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、锁定依赖及校验清单，不复制业务源码、不执行宿主。生成入口早期核对Python/项目库版本；两端新增awaiting_config，合法空Token等待本机配置后重载。公开分发和真实商店安装仍待验收，见[发行步骤](cookbook/plugin-release.md)。
+
 ```text
 astrbot_plugin_dota2forge ──┐
                           ├──依赖──> dota2forge_core

@@ -1,0 +1,36 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 424 items
+
+tests\renderer\test_hero_items_card.py .                                 [  0%]
+tests\renderer\test_illustrations.py ................................... [  8%]
+.......................                                                  [ 13%]
+tests\renderer\test_renderer_cards.py .................................. [ 21%]
+.......                                                                  [ 23%]
+tests\renderer\test_renderer_worker.py ..                                [ 24%]
+tests\dota2uid\test_commands.py ........................................ [ 33%]
+..............                                                           [ 36%]
+tests\dota2uid\test_detail_commands.py ..........................        [ 42%]
+tests\dota2uid\test_gscore_first_configuration.py ....                   [ 43%]
+tests\dota2uid\test_image_replies.py ............                        [ 46%]
+tests\dota2uid\test_install_and_bridge.py .....                          [ 47%]
+tests\dota2uid\test_presentation.py .................................... [ 56%]
+.................                                                        [ 60%]
+tests\dota2uid\test_runtime.py ...........                               [ 62%]
+tests\dota2uid\test_selection.py ....................................... [ 72%]
+....                                                                     [ 73%]
+tests\astrbot_consumer\test_application.py ..                            [ 73%]
+tests\astrbot_consumer\test_astr_commands.py ......................      [ 78%]
+tests\astrbot_consumer\test_astr_first_configuration.py ..               [ 79%]
+tests\astrbot_consumer\test_astr_platform.py ...............             [ 82%]
+tests\astrbot_consumer\test_delivery.py ......                           [ 84%]
+tests\astrbot_consumer\test_dependency_loading.py .                      [ 84%]
+tests\astrbot_consumer\test_host_bridge.py ..                            [ 84%]
+tests\test_gscore_public_runtime.py .....................                [ 89%]
+tests\test_plugin_distributions.py ....................................  [ 98%]
+tests\test_packages.py .......                                           [100%]
+
+============================ 424 passed in 56.72s =============================
