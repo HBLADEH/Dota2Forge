@@ -30,7 +30,7 @@ wheels = [
 
 [[package]]
 name = "astrbot-plugin-dota2forge"
-version = "0.1.0a4"
+version = "0.1.0a5"
 source = { editable = "adapters/astrbot_plugin_dota2forge" }
 dependencies = [
     { name = "dota2forge-core" },

@@ -103,6 +103,22 @@ def archive(contents: dict[str, bytes]) -> bytes:
     return buffer.getvalue()
 
 
+def astrbot_version(version: str) -> str:
+    """Translate supported Python package versions to Cloud's SemVer notation."""
+    match = re.fullmatch(
+        r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:(a|b|rc)(0|[1-9][0-9]*))?", version
+    )
+    if match is None:
+        raise ValueError("AstrBot version requires a release or supported prerelease")
+    base = ".".join(match.group(1, 2, 3))
+    stage = match.group(4)
+    return (
+        base
+        if stage is None
+        else base + "-" + {"a": "alpha", "b": "beta", "rc": "rc"}[stage] + "." + match.group(5)
+    )
+
+
 def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: bool = False) -> bytes:
     adapter = "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
     content = (root / PACKAGES[adapter] / "README.md").read_text(encoding="utf-8")
@@ -147,9 +163,19 @@ def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: boo
         )
     content = content.replace("](../../LICENSE)", "](LICENSE)")
     content = content.replace("](../../", f"]({PROJECT_SOURCE_URL}/")
+    display_version = astrbot_version(version) if plugin.startswith("astrbot") else version
     content = content.replace(
-        marker, f"> 发行版本：`{version}` · [目标分发仓库]({repo})。由主仓同一源码生成。"
+        marker,
+        f"> 发行版本：`{display_version}` · [目标分发仓库]({repo})。由主仓同一源码生成。",
     )
+    if plugin.startswith("astrbot"):
+        # Cloud renders repository-relative URLs against its own page origin.
+        raw = repo.replace("https://github.com/", "https://raw.githubusercontent.com/")
+        content = content.replace(f'src="{icon_name}"', f'src="{raw}/main/{icon_name}"')
+        for name in SHOWCASE_IMAGES.get(plugin, {}):
+            content = content.replace(f"](screenshots/{name})", f"]({raw}/main/screenshots/{name})")
+        for name in ("INSTALL.md", "LICENSE"):
+            content = content.replace(f"]({name})", f"]({repo}/blob/main/{name})")
     return content.encode("utf-8")
 
 
@@ -248,7 +274,7 @@ def distribution_files(
             for key, value in {
                 "repo": repo,
                 "author": author,
-                "version": release_versions[adapter],
+                "version": astrbot_version(release_versions[adapter]),
             }.items():
                 metadata, count = re.subn(rf"(?m)^{key}: .+$", f"{key}: {value}", metadata)
                 if count != 1:

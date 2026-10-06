@@ -16,13 +16,13 @@
 
 根 pyproject 是 package=false、dependencies=[] 的 uv 开发 workspace；宿主不会自动执行 uv workspace 或本项目安装器。[AstrBot 安装器](../../adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/install.py)只打包 main.py、metadata.yaml、_conf_schema.json、requirements.txt，依赖 astrbot-plugin-dota2forge==0.1.0a2；元数据 repo 仍指向本开发仓库。[Dota2UID 安装器](../../adapters/Dota2UID/src/Dota2UID/install.py)另写数据目录配置，普通 Git 克隆不会执行安装器。新生成的候选入口另含根发现文件、版本guard和宿主依赖清单，Runtime启动独立处理首次配置。
 
-首次调研时四包为0.1.0a1，现已升为0.1.0a2候选。2026-10-05请求PyPI四项目JSON接口均404；2026-10-06复核GsCore所需三个项目仍404，不推断名称一定可注册，也不排除其他私有索引。
+首次调研时四包为0.1.0a1，现已升为0.1.0a2候选。2026-10-05请求PyPI四项目JSON接口均404；2026-10-06复核GsCore所需三个项目仍404，不推断名称可注册。
 
 ## GsCore 收录与安装
 
 运行索引为[plugin_list.json](https://docs.sayu-bot.com/plugin_list.json)，源码在 Genshin-bots/GenshinUID-docs 的 vp 分支、docs/public/plugin_list.json。现场 HTTP 200，42 条插件，包含 MingChaoBQ，尚无 Dota2UID；与固定提交 0b04c49 的 JSON 解析结果相同。
 
-[MingChaoBQ PR #39](https://github.com/Genshin-bots/GenshinUID-docs/pull/39/files)于 2026-09-27 合并到 vp，仅改该文件，+13/-1：plugins 新增条目，并将 ID 加到 fun_plugins。这证明当前有向文档仓库提交 PR 的收录路径；合并仍由维护者决定，不推断审核时长或完整审核规则。
+[MingChaoBQ PR #39](https://github.com/Genshin-bots/GenshinUID-docs/pull/39/files)于 2026-09-27 合并到 vp，仅改该文件，+13/-1：plugins 新增条目，并将 ID 加到 fun_plugins。收录由维护者审核，不推断审核时长。
 
 条目实例包含 link、avatar、cover、branch、type、content、info、installMsg、alias。Dota2UID 属于游戏查询，现有 tool_plugins 包含 GenshinUID、CS2UID 等同类，是合理候选分类，需维护者认可；不能照抄表情包的 fun_plugins。
 
@@ -40,7 +40,7 @@
 
 [开发指南](https://docs.astrbot.app/dev/star/plugin-new.html)要求插件元数据及第三方依赖清单；现有模板具备这些内容，但位于 src 下且 main.py 是模板。当前[市场规范](https://docs.astrbot.app/dev/plugin-market/2026-06-27.html)允许 GitHub 仓库 URL 或分支 URL，禁止子目录 URL；可用 HTTPS download_url 指定 ZIP，包内 author/name/version 必须匹配市场记录。直接登记 adapters 子目录链接不可行；download_url 是规范/源码支持，不等于 Cloud 表单已确认开放该字段。
 
-本次远端 master 为 42972e9。[更新器](https://github.com/AstrBotDevs/AstrBot/blob/42972e932a64f01d96e2e0708579b0f79dd6f792/astrbot/core/star/updater.py)读取仓库根元数据、取得仓库或下载 ZIP；管理器从插件根目录发现 main.py 并读取 requirements.txt，不递归寻找 adapters。现有插件兼容声明仍为 >=4.28.2,<4.29；检查较新源码不扩大已验证的[宿主兼容范围](astrbot-host.md)。
+AstrBot更新器读取仓库根元数据、取得仓库或ZIP，管理器从根发现main.py和requirements.txt，不递归查找adapters。当前兼容声明仍为>=4.28.2,<4.29；检查较新源码不扩大[宿主兼容范围](astrbot-host.md)。
 
 现有 dist 中 Renderer wheel 为 13,725,493 bytes，字体源为 16,437,364 bytes；这些仅为已有文件大小，不是本次重建或最终商店 ZIP 验收。桥接很小不代表完整运行产物很小；若选择携带源码/资源，须实际压缩测量。Pillow/HTTPX 可用依赖清单取得，不应直接塞入跨平台 ZIP。
 
@@ -53,3 +53,7 @@
 ## 0.1.0a4双端更新
 
 生成器新增--astrbot-wheels，AstrBot可附固定版本/SHA256清单、共用显式安装器及INSTALL.md；只允许该插件仓库和三个匹配运行包，拒绝两端adapter互换。两个宿主都先停机安装组件再冷启动，依赖保留有版本约束，导入不联网。AstrBot首次公开渠道为GitHub Releases，Cloud已提交a4，等待安全检查，尚未获准上架；[安装指南](../cookbook/astrbot-public-install.md)、[发行任务](../../.agents/tasks/done/2026-10-06-a4-layout-release.md)。
+
+AstrBot分发README为兼容Cloud渲染，图片使用本仓raw.githubusercontent.com/main完整地址，INSTALL.md/LICENSE使用GitHub完整地址；图片仍随ZIP提供。GsCore继续相对路径。Cloud不会将相对资源自动解析到GitHub，修复见[任务](../../.agents/tasks/done/2026-10-06-cloud-readme-images.md)。
+
+Cloud要求更新版号使用SemVer：AstrBot宿主/README为0.1.0-alpha.5，对应Python适配器0.1.0a5；Core/Renderer继续a4。release.json/requirements/运行包tag使用Python版号。生成器将a/b/rc转为alpha/beta/rc，未知格式拒绝，见[决策](../../.agents/notes/implemented/2026-10-06-cloud-readme-version.md)。

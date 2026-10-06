@@ -185,11 +185,12 @@ def test_cli_only_reports_success_after_installation(manifests, monkeypatch, cap
 def write_wheels(directory: Path, *, wrong_version: bool = False):
     directory.mkdir()
     for name in (*NAMES, "astrbot-plugin-dota2forge"):
-        filename = f"{name.replace('-', '_')}-0.1.0a4-py3-none-any.whl"
-        version = "0.1.0a1" if wrong_version else "0.1.0a4"
+        pinned = "0.1.0a5" if name == "astrbot-plugin-dota2forge" else "0.1.0a4"
+        filename = f"{name.replace('-', '_')}-{pinned}-py3-none-any.whl"
+        version = "0.1.0a1" if wrong_version else pinned
         with ZipFile(directory / filename, "w") as wheel:
             wheel.writestr(
-                f"{name.replace('-', '_')}-0.1.0a4.dist-info/METADATA",
+                f"{name.replace('-', '_')}-{pinned}.dist-info/METADATA",
                 f"Name: {name}\nVersion: {version}\nRequires-Python: >=3.12\n",
             )
 
@@ -258,10 +259,12 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
     assert (astr / "INSTALL.md").read_text("utf-8") == (
         root / distribution.ASTR_INSTALL_GUIDE
     ).read_text("utf-8")
-    assert "](INSTALL.md)" in (astr / "README.md").read_text("utf-8")
+    assert "https://github.com/HBLADEH/astrbot_plugin_dota2forge/blob/main/INSTALL.md" in (
+        astr / "README.md"
+    ).read_text("utf-8")
     assert "dota2uid" not in (astr / "runtime-wheels.json").read_text("utf-8")
     manifest_sources = json.loads((candidate / "manifest.json").read_text("utf-8"))["source_sha256"]
-    assert "wheels/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl" in manifest_sources
+    assert "wheels/astrbot_plugin_dota2forge-0.1.0a5-py3-none-any.whl" in manifest_sources
     plain = distribution.build_distributions(
         root, tmp_path / "plain", "https://github.com/HBLADEH/astrbot_plugin_dota2forge", REPO
     )
