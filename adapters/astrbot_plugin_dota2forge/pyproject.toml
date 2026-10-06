@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "astrbot-plugin-dota2forge"
-version = "0.1.0a4"
+version = "0.1.0a5"
 description = "Dota2Forge AstrBot adapter with explicit host discovery bridge"
 license = "MIT"
 license-files = ["LICENSE"]
