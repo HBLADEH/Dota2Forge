@@ -21,7 +21,7 @@ from packaging.requirements import Requirement
 def test_workspace_package_installed(distribution, module):
     assert importlib.import_module(module).__doc__
     assert importlib.metadata.version(distribution) == (
-        "0.1.0a5" if distribution == "astrbot-plugin-dota2forge" else "0.1.0a4"
+        "0.1.0a6" if distribution == "astrbot-plugin-dota2forge" else "0.1.0a4"
     )
 
 

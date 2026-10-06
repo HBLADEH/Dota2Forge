@@ -4,7 +4,7 @@
 
 Step13玩家/指定比赛订阅、日报、主动推送和受控timer已接入；配置、权限、失败人工重试和共享wheel停机升级见[订阅接入](subscriptions.md)。主动推送目前只支持OneBot v11反向WebSocket，不宣称全平台可用。
 
-AstrBot 适配器是 `astrbot-plugin-dota2forge`，宿主桥接只负责事件、身份、权限、消息和生命周期；账号、Provider、SQLite 绑定和图片 Renderer 仍由 Dota2Forge 共享组件提供。当前桥接按 AstrBot `>=4.28.2,<4.29` 验证。
+AstrBot 适配器是 `astrbot-plugin-dota2forge`，宿主桥接只负责事件、身份、权限、消息和生命周期；账号、Provider、SQLite 绑定和图片 Renderer 仍由 Dota2Forge 共享组件提供。声明支持 AstrBot `>=4.5.0`；4.5.0 公开 API 已核对，真实宿主测试目前在4.28.2完成。
 
 ## 安装
 

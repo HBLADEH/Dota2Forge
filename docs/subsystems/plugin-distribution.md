@@ -40,7 +40,7 @@
 
 [开发指南](https://docs.astrbot.app/dev/star/plugin-new.html)要求插件元数据及第三方依赖清单；现有模板具备这些内容，但位于 src 下且 main.py 是模板。当前[市场规范](https://docs.astrbot.app/dev/plugin-market/2026-06-27.html)允许 GitHub 仓库 URL 或分支 URL，禁止子目录 URL；可用 HTTPS download_url 指定 ZIP，包内 author/name/version 必须匹配市场记录。直接登记 adapters 子目录链接不可行；download_url 是规范/源码支持，不等于 Cloud 表单已确认开放该字段。
 
-AstrBot更新器读取仓库根元数据、取得仓库或ZIP，管理器从根发现main.py和requirements.txt，不递归查找adapters。当前兼容声明仍为>=4.28.2,<4.29；检查较新源码不扩大[宿主兼容范围](astrbot-host.md)。
+AstrBot更新器读取仓库根元数据、取得仓库或ZIP，管理器从根发现main.py和requirements.txt，不递归查找adapters。兼容声明为>=4.5.0：4.5.0公开API已核对，真实宿主验收仍见[宿主兼容范围](astrbot-host.md)。
 
 现有 dist 中 Renderer wheel 为 13,725,493 bytes，字体源为 16,437,364 bytes；这些仅为已有文件大小，不是本次重建或最终商店 ZIP 验收。桥接很小不代表完整运行产物很小；若选择携带源码/资源，须实际压缩测量。Pillow/HTTPX 可用依赖清单取得，不应直接塞入跨平台 ZIP。
 
