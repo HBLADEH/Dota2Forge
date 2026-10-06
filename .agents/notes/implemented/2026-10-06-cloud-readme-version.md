@@ -1,7 +1,7 @@
 # AstrBot Cloud 文档图片与版本格式
 
 Category: bug-fix
-Related task: [修复任务](../../tasks/active/2026-10-06-cloud-readme-images.md)
+Related task: [修复任务](../../tasks/done/2026-10-06-cloud-readme-images.md)
 Related code: [分发生成器](../../../scripts/build_plugin_distributions.py)
 Related docs: [分发契约](../../../docs/subsystems/plugin-distribution.md)
 

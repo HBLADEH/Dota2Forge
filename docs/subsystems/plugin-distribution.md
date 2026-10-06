@@ -54,6 +54,6 @@ AstrBot更新器读取仓库根元数据、取得仓库或ZIP，管理器从根�
 
 生成器新增--astrbot-wheels，AstrBot可附固定版本/SHA256清单、共用显式安装器及INSTALL.md；只允许该插件仓库和三个匹配运行包，拒绝两端adapter互换。两个宿主都先停机安装组件再冷启动，依赖保留有版本约束，导入不联网。AstrBot首次公开渠道为GitHub Releases，Cloud已提交a4，等待安全检查，尚未获准上架；[安装指南](../cookbook/astrbot-public-install.md)、[发行任务](../../.agents/tasks/done/2026-10-06-a4-layout-release.md)。
 
-AstrBot分发README为兼容Cloud渲染，图片使用本仓raw.githubusercontent.com/main完整地址，INSTALL.md/LICENSE使用GitHub完整地址；图片仍随ZIP提供。GsCore继续相对路径。Cloud不会将相对资源自动解析到GitHub，修复见[任务](../../.agents/tasks/active/2026-10-06-cloud-readme-images.md)。
+AstrBot分发README为兼容Cloud渲染，图片使用本仓raw.githubusercontent.com/main完整地址，INSTALL.md/LICENSE使用GitHub完整地址；图片仍随ZIP提供。GsCore继续相对路径。Cloud不会将相对资源自动解析到GitHub，修复见[任务](../../.agents/tasks/done/2026-10-06-cloud-readme-images.md)。
 
 Cloud要求更新版号使用SemVer：AstrBot宿主/README为0.1.0-alpha.5，对应Python适配器0.1.0a5；Core/Renderer继续a4。release.json/requirements/运行包tag使用Python版号。生成器将a/b/rc转为alpha/beta/rc，未知格式拒绝，见[决策](../../.agents/notes/implemented/2026-10-06-cloud-readme-version.md)。
