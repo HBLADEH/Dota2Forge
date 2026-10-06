@@ -4,4 +4,4 @@ desc: 查刀塔战绩、比赛详情和英雄热门出装，查看段位与预�
 version: 0.1.0-alpha.5
 author: HBLADEH
 repo: https://github.com/HBLADEH/astrbot_plugin_dota2forge
-astrbot_version: ">=4.28.2,<4.29"
+astrbot_version: ">=4.5.0"

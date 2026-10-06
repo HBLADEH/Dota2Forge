@@ -1,0 +1,37 @@
+[
+  {
+    "name": "dota2forge_core-0.1.0a4-py3-none-any.whl",
+    "bytes": 67453,
+    "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+  },
+  {
+    "name": "dota2forge_core-0.1.0a4.tar.gz",
+    "bytes": 47789,
+    "sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77"
+  },
+  {
+    "name": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+    "bytes": 13727339,
+    "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+  },
+  {
+    "name": "dota2forge_renderer-0.1.0a4.tar.gz",
+    "bytes": 13718574,
+    "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034"
+  },
+  {
+    "name": "astrbot_plugin_dota2forge-0.1.0a6-py3-none-any.whl",
+    "bytes": 26153,
+    "sha256": "f065ed85ddf9c6d42e2547d8e37d686293943a4bf8863885097149f6578cd848"
+  },
+  {
+    "name": "astrbot_plugin_dota2forge-0.1.0a6.tar.gz",
+    "bytes": 23725,
+    "sha256": "e21a91bc2937081287436fdf71798a3d485140e82ad01e9a5099208bed012725"
+  },
+  {
+    "name": "astrbot_plugin_dota2forge.zip",
+    "bytes": 1922146,
+    "sha256": "cd57f244eaeaa1c316f7d22e62933ce824d9b5d35e93ae0fb99b4365deaf7e18"
+  }
+]
