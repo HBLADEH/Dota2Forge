@@ -251,7 +251,13 @@ def test_plugin_readmes_and_icons_remain_usable_outside_the_workspace(candidate)
     ):
         folder = candidate / plugin
         content = (folder / "README.md").read_text("utf-8")
-        assert f'src="{icon_name}"' in content
+        icon_url = (
+            repo.replace("https://github.com/", "https://raw.githubusercontent.com/")
+            + f"/main/{icon_name}"
+            if plugin.startswith("astrbot")
+            else icon_name
+        )
+        assert f'src="{icon_url}"' in content
         assert "0.1.0a4" in content and repo in content
         assert "待实机截图" in content and "尚未上架商店" in content
         assert "<!-- distribution-release -->" not in content
@@ -309,7 +315,13 @@ def test_reviewed_screenshot_is_local_in_zip_and_covered_by_both_digests(
     target = f"{plugin}/screenshots/hero-items.png"
     original = (ROOT / source).read_bytes()
     content = (candidate / plugin / "README.md").read_text("utf-8")
-    assert f"![{caption}](screenshots/hero-items.png)" in content
+    image_url = (
+        ASTR_REPO.replace("https://github.com/", "https://raw.githubusercontent.com/")
+        + "/main/screenshots/hero-items.png"
+        if plugin.startswith("astrbot")
+        else "screenshots/hero-items.png"
+    )
+    assert f"![{caption}]({image_url})" in content
     if plugin == "Dota2UID":
         assert "复用此前 AstrBot 实机原图" in content and "不构成 GsCore 聊天收发" in content
     assert (candidate / target).read_bytes() == original
