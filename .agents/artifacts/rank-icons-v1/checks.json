@@ -1,0 +1,31 @@
+{
+  "command": "uv run --locked python scripts/check_governance.py --all",
+  "attempts": [
+    {
+      "log": "offline-checks.log",
+      "exit_code": 1,
+      "sha256": "d0bbe7fbb68224b61f3dffcae03507d3e66cee9ebad2085f537eb8f577fc2d7e",
+      "failure_reason": "engine formatting check failed before tests; ruff format corrected whitespace"
+    },
+    {
+      "log": "offline-checks-retry.log",
+      "exit_code": 0,
+      "sha256": "578f53a6366a92f9e36915ce64b4b759fcaa424907be16ed6aa3e2de14bcc0ab",
+      "failure_reason": null
+    }
+  ],
+  "related_offline_tests": 68,
+  "full_offline_tests_passed": 1195,
+  "aggregate_coverage_percent": 92.74,
+  "scripts_coverage_percent": 97,
+  "core_coverage_percent": 92,
+  "ruff_format_and_lint_passed": true,
+  "mypy_passed": true,
+  "mypy_source_files": 62,
+  "four_package_build_passed": true,
+  "four_isolated_wheel_checks_passed": true,
+  "tests_policy_governance_scripts_or_thresholds_changed": false,
+  "post_archive_repository_governance_passed": true,
+  "post_archive_valid_repository_fixture_test_passed": true,
+  "git_diff_check_passed": true
+}

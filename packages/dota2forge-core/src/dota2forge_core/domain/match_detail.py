@@ -59,6 +59,14 @@ class MatchParticipant:
     experience_per_minute: int | None = None
     item_ids: tuple[int | None, ...] = (None,) * 6
 
+    level: int | None = None
+    last_hits: int | None = None
+    denies: int | None = None
+    net_worth: int | None = None
+    hero_damage: int | None = None
+    tower_damage: int | None = None
+    hero_healing: int | None = None
+
     def __post_init__(self) -> None:
         if self.account_id is not None and not isinstance(self.account_id, AccountId):
             raise ValidationError("Expected a validated participant account")
@@ -80,6 +88,13 @@ class MatchParticipant:
             "assists",
             "gold_per_minute",
             "experience_per_minute",
+            "level",
+            "last_hits",
+            "denies",
+            "net_worth",
+            "hero_damage",
+            "tower_damage",
+            "hero_healing",
         ):
             require_nonnegative(getattr(self, name))
         if self.player_slot is not None and self.player_slot > 255:
@@ -107,6 +122,13 @@ class MatchParticipant:
                 "assists",
                 "gold_per_minute",
                 "experience_per_minute",
+                "level",
+                "last_hits",
+                "denies",
+                "net_worth",
+                "hero_damage",
+                "tower_damage",
+                "hero_healing",
             )
             if getattr(self, name) is None
         )

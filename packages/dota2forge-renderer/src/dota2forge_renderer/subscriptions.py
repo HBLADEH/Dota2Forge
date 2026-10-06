@@ -31,7 +31,7 @@ def subscription_event_text(event: SubscriptionEvent) -> str:
                 f"开始时间：{timestamp(payload.started_at)}",
                 f"英雄ID {value_text(payload.hero_id)} | K/D/A "
                 f"{value_text(payload.kills)}/{value_text(payload.deaths)}/{value_text(payload.assists)}",
-                f"详情：dota比赛 {payload.match_id}",
+                f"详情：do比赛 {payload.match_id}",
             ]
         )
     elif isinstance(payload, RankChange):

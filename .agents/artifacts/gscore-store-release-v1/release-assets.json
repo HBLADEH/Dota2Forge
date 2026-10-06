@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-10-06T02:38:18.502960+08:00",
+  "release_url": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a2",
+  "prerelease": true,
+  "anonymous_requests": true,
+  "assets": [
+    {
+      "name": "dota2forge_core-0.1.0a2-py3-none-any.whl",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/dota2forge_core-0.1.0a2-py3-none-any.whl",
+      "anonymous_download": true,
+      "bytes": 66974,
+      "sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00"
+    },
+    {
+      "name": "dota2forge_core-0.1.0a2.tar.gz",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/dota2forge_core-0.1.0a2.tar.gz",
+      "anonymous_download": true,
+      "bytes": 47314,
+      "sha256": "0a0874a40ab5094d7d056ab150385498ecbd2fea024beb5e46a2987f8747387a"
+    },
+    {
+      "name": "dota2forge_renderer-0.1.0a2-py3-none-any.whl",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/dota2forge_renderer-0.1.0a2-py3-none-any.whl",
+      "anonymous_download": true,
+      "bytes": 13725493,
+      "sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41"
+    },
+    {
+      "name": "dota2forge_renderer-0.1.0a2.tar.gz",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/dota2forge_renderer-0.1.0a2.tar.gz",
+      "anonymous_download": true,
+      "bytes": 13717116,
+      "sha256": "2a34e0d5ee58892ef093b1695a227fe7bb1934aca792ba576a2fb3caf331ef8d"
+    },
+    {
+      "name": "dota2uid-0.1.0a2-py3-none-any.whl",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/dota2uid-0.1.0a2-py3-none-any.whl",
+      "anonymous_download": true,
+      "bytes": 24924,
+      "sha256": "1168eb33bbae3e937ea06391a4dedcd7e807d02a0651ae18db55ca711b475949"
+    },
+    {
+      "name": "dota2uid-0.1.0a2.tar.gz",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/dota2uid-0.1.0a2.tar.gz",
+      "anonymous_download": true,
+      "bytes": 24085,
+      "sha256": "145d20f423a78d5b8cc5e137b53e02eb979feac82c2babd83d102924d8d40b27"
+    },
+    {
+      "name": "Dota2UID.zip",
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a2/Dota2UID.zip",
+      "anonymous_download": true,
+      "bytes": 1920553,
+      "sha256": "0a4aad727a98778da04ca5a6e6df8be75fcce58e48d4130a4e155854bc6c567f"
+    }
+  ]
+}

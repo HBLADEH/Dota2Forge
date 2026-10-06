@@ -1,10 +1,11 @@
 """Install the GsCore discovery bridge without importing or restarting GsCore."""
 
 import argparse
-import json
 import os
 from importlib.resources import files
 from pathlib import Path
+
+from .config import ensure_config
 
 
 def install_bridge(host_root: Path, *, token: str = "") -> tuple[Path, Path]:
@@ -25,15 +26,7 @@ def install_bridge(host_root: Path, *, token: str = "") -> tuple[Path, Path]:
     destination.mkdir(parents=True, exist_ok=True)
     config_dir.mkdir(parents=True, exist_ok=True)
     config = config_dir / "config.toml"
-    if not config.exists():
-        config.write_text(
-            'namespace = "dota2uid-local"\nstratz_token = '
-            + json.dumps(token)
-            + '\ntimeout_seconds = 10\nreply_mode = "image"\n\n[platforms]\n'
-            'onebot = "qq"\nqq = "qq"\n'
-            'telegram = "telegram"\n',
-            encoding="utf-8",
-        )
+    ensure_config(config, token=token)
     if not entry.exists():
         entry.write_text(source, encoding="utf-8")
     return entry, config

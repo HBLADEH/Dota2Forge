@@ -1,0 +1,126 @@
+{
+  "checked_on": "2026-10-05",
+  "results": {
+    "d2pt_heroes": {
+      "url": "https://dota2protracker.com/api/heroes/list",
+      "status": 403,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 5519,
+      "final_url": "https://dota2protracker.com/api/heroes/list"
+    },
+    "d2pt_antimage_carry": {
+      "url": "https://dota2protracker.com/api/hero/1/builds?position=pos%201",
+      "status": 403,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 5612,
+      "final_url": "https://dota2protracker.com/api/hero/1/builds?position=pos%201"
+    },
+    "spectral_latest_commit": {
+      "url": "https://api.github.com/repos/leamare/nerds-builds/commits?per_page=1",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "bytes": 3223,
+      "final_url": "https://api.github.com/repos/leamare/nerds-builds/commits?per_page=1",
+      "top_level": "list",
+      "keys_or_count": 1,
+      "commit": "a43125c77cd2a349f1114518eb09017d0a10f334",
+      "updated_at": "2026-08-09T01:05:52Z"
+    },
+    "spectral_build_directory": {
+      "url": "https://api.github.com/repos/leamare/nerds-builds/contents/builds",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "bytes": 112689,
+      "final_url": "https://api.github.com/repos/leamare/nerds-builds/contents/builds",
+      "top_level": "list",
+      "keys_or_count": 123,
+      "first_row_keys": [
+        "name",
+        "path",
+        "sha",
+        "size",
+        "url",
+        "html_url",
+        "git_url",
+        "download_url",
+        "type",
+        "_links"
+      ],
+      "sample_filenames": [
+        "abaddon_1576617440.build",
+        "abyssal_underlord_1683736699.build",
+        "alchemist_1533216412.build",
+        "alchemist_1576617675.build",
+        "antimage_1616347489.build",
+        "antimage_1650302742.build",
+        "arc_warden_1517796471.build",
+        "arc_warden_1517796629.build"
+      ],
+      "first_download_url": "https://raw.githubusercontent.com/leamare/nerds-builds/master/builds/abaddon_1576617440.build"
+    },
+    "spectral_license": {
+      "url": "https://raw.githubusercontent.com/leamare/nerds-builds/master/LICENSE.md",
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "bytes": 21250,
+      "final_url": "https://raw.githubusercontent.com/leamare/nerds-builds/master/LICENSE.md",
+      "license_title": "Attribution-NonCommercial-ShareAlike 3.0 Unported"
+    },
+    "spectral_sample": {
+      "url": "https://raw.githubusercontent.com/leamare/nerds-builds/master/builds/antimage_1616347489.build",
+      "status": 200,
+      "bytes": 3133,
+      "fields": [
+        "AbilityBuild",
+        "AbilityOrder",
+        "AbilityTooltips",
+        "GameplayVersion",
+        "Hero",
+        "ItemBuild",
+        "ItemTooltips",
+        "Role",
+        "TimePublished",
+        "TimeUpdated",
+        "Title"
+      ],
+      "Title": "Nerds Support Antimage",
+      "Hero": "antimage",
+      "GameplayVersion": "7.41e",
+      "TimeUpdated": "0x000000006A762798",
+      "TimePublished": "0x000000006A762798"
+    },
+    "opendota_spec": {
+      "url": "https://raw.githubusercontent.com/odota/core/master/spec/api.json",
+      "status": 404,
+      "bytes": 14
+    },
+    "rank_calculator": {
+      "url": "https://gamemapa.com/en/dota-2/tools/mmr-calculator/",
+      "status": 200,
+      "bytes": 36384,
+      "threshold_statement_found": true
+    },
+    "d2pt_robots": {
+      "url": "https://dota2protracker.com/robots.txt",
+      "status": 200,
+      "bytes": 97
+    },
+    "opendota_item_popularity": {
+      "url": "https://api.opendota.com/api/heroes/1/itemPopularity",
+      "status": 200,
+      "bytes": 842,
+      "keys": [
+        "start_game_items",
+        "early_game_items",
+        "mid_game_items",
+        "late_game_items"
+      ],
+      "bucket_counts": {
+        "start_game_items": 15,
+        "early_game_items": 12,
+        "mid_game_items": 34,
+        "late_game_items": 35
+      }
+    }
+  }
+}

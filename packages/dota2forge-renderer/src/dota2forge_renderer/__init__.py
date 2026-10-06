@@ -2,6 +2,7 @@
 
 from .cards import (
     Card,
+    HeroItemsCard,
     ImageArtifact,
     MatchDetailCard,
     MenuCard,
@@ -14,6 +15,7 @@ from .engine import PillowRenderer
 from .worker import AsyncRenderer
 
 __all__ = [
+    "HeroItemsCard",
     "AsyncRenderer",
     "Card",
     "ImageArtifact",

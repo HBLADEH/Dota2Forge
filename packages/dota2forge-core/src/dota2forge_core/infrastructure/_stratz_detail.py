@@ -51,6 +51,13 @@ def participant(raw: object) -> MatchParticipant:
         assists=optional_integer(field(row, "assists")),
         gold_per_minute=optional_integer(field(row, "goldPerMinute")),
         experience_per_minute=optional_integer(field(row, "experiencePerMinute")),
+        level=optional_integer(row.get("level")),
+        last_hits=optional_integer(row.get("numLastHits")),
+        denies=optional_integer(row.get("numDenies")),
+        net_worth=optional_integer(row.get("networth")),
+        hero_damage=optional_integer(row.get("heroDamage")),
+        tower_damage=optional_integer(row.get("towerDamage")),
+        hero_healing=optional_integer(row.get("heroHealing")),
         item_ids=tuple(optional_integer(field(row, f"item{index}Id")) for index in range(6)),
     )
 

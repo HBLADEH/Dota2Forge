@@ -1,0 +1,82 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment with seed packages at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-a4-public-kdfcaod6\venv
+ + pip==26.2.1
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-a4-public-kdfcaod6\venv\Scripts\activate
+Collecting dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68 (from dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading dota2forge_core-0.1.0a4-py3-none-any.whl (67 kB)
+Collecting dota2forge-renderer @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_renderer-0.1.0a4-py3-none-any.whl#sha256=c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6
+  Downloading dota2forge_renderer-0.1.0a4-py3-none-any.whl (13.7 MB)
+     ---------------------------------------- 13.7/13.7 MB 7.8 MB/s  0:00:02
+Collecting dota2uid @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2uid-0.1.0a4-py3-none-any.whl#sha256=48536158b1b2814ed09bd85187e63a3867e042ad4247246c4955221681ae2d0d (from dota2uid[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2uid-0.1.0a4-py3-none-any.whl#sha256=48536158b1b2814ed09bd85187e63a3867e042ad4247246c4955221681ae2d0d)
+  Downloading dota2uid-0.1.0a4-py3-none-any.whl (25 kB)
+Collecting pillow<13,>=11.3 (from dota2forge-renderer @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_renderer-0.1.0a4-py3-none-any.whl#sha256=c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6)
+  Downloading pillow-12.3.0-cp312-cp312-win_amd64.whl.metadata (9.3 kB)
+Collecting httpx<1,>=0.28.1 (from dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting anyio (from httpx<1,>=0.28.1->dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+Collecting certifi (from httpx<1,>=0.28.1->dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+Collecting httpcore==1.* (from httpx<1,>=0.28.1->dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting idna (from httpx<1,>=0.28.1->dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting h11>=0.16 (from httpcore==1.*->httpx<1,>=0.28.1->dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting typing_extensions>=4.16.0 (from anyio->httpx<1,>=0.28.1->dota2forge-core @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68->dota2forge-core[stratz] @ https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+Downloading pillow-12.3.0-cp312-cp312-win_amd64.whl (7.2 MB)
+   ---------------------------------------- 7.2/7.2 MB 9.3 MB/s  0:00:01
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+Installing collected packages: typing_extensions, pillow, idna, h11, dota2forge-core, certifi, httpcore, dota2forge-renderer, anyio, httpx, dota2uid
+
+Successfully installed anyio-4.15.1 certifi-2026.7.22 dota2forge-core-0.1.0a4 dota2forge-renderer-0.1.0a4 dota2uid-0.1.0a4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 pillow-12.3.0 typing_extensions-4.16.0
+No broken requirements found.
+Pinned public runtime installed. Cold-start the host to load the new libraries.
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment with seed packages at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-a4-public-2vg1d9ai\venv
+ + pip==26.2.1
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-a4-public-2vg1d9ai\venv\Scripts\activate
+Collecting astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e (from astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl (26 kB)
+Collecting dota2forge-core @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68 (from dota2forge-core[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/dota2forge_core-0.1.0a4-py3-none-any.whl#sha256=badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68)
+  Downloading dota2forge_core-0.1.0a4-py3-none-any.whl (67 kB)
+Collecting dota2forge-renderer @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/dota2forge_renderer-0.1.0a4-py3-none-any.whl#sha256=c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6
+  Downloading dota2forge_renderer-0.1.0a4-py3-none-any.whl (13.7 MB)
+     ---------------------------------------- 13.7/13.7 MB 9.4 MB/s  0:00:01
+Collecting pillow<13,>=11.3 (from dota2forge-renderer @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/dota2forge_renderer-0.1.0a4-py3-none-any.whl#sha256=c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6)
+  Downloading pillow-12.3.0-cp312-cp312-win_amd64.whl.metadata (9.3 kB)
+Collecting httpx<1,>=0.28.1 (from astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting anyio (from httpx<1,>=0.28.1->astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+Collecting certifi (from httpx<1,>=0.28.1->astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+Collecting httpcore==1.* (from httpx<1,>=0.28.1->astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting idna (from httpx<1,>=0.28.1->astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting h11>=0.16 (from httpcore==1.*->httpx<1,>=0.28.1->astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting typing_extensions>=4.16.0 (from anyio->httpx<1,>=0.28.1->astrbot-plugin-dota2forge @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e->astrbot-plugin-dota2forge[stratz] @ https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl#sha256=27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e)
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+Downloading pillow-12.3.0-cp312-cp312-win_amd64.whl (7.2 MB)
+   ---------------------------------------- 7.2/7.2 MB 7.8 MB/s  0:00:01
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+Installing collected packages: typing_extensions, pillow, idna, h11, dota2forge-core, certifi, httpcore, dota2forge-renderer, anyio, httpx, astrbot-plugin-dota2forge
+
+Successfully installed anyio-4.15.1 astrbot-plugin-dota2forge-0.1.0a4 certifi-2026.7.22 dota2forge-core-0.1.0a4 dota2forge-renderer-0.1.0a4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 pillow-12.3.0 typing_extensions-4.16.0
+No broken requirements found.
+Pinned public runtime installed. Cold-start the host to load the new libraries.

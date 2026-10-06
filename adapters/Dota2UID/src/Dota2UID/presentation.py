@@ -14,8 +14,10 @@ from dota2forge_core import (
     ProviderErrorCode,
     RecentMatches,
 )
+from dota2forge_renderer.cards import DETAIL_PER_PAGE
 from dota2forge_renderer.formatting import (
     duration_text,
+    mmr_estimate_text,
 )
 from dota2forge_renderer.formatting import (
     rank_text as rank_text,
@@ -29,19 +31,21 @@ from dota2forge_renderer.formatting import (
 from dota2forge_renderer.formatting import (
     value_text as value_text,
 )
+from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
 
 HELP = (
     "Dota2Forge / Dota2UID\n"
-    "dota绑定 <Dota账号ID或SteamID64>\n"
-    "dota改绑 <ID>：替换自己的绑定\n"
-    "dota账号 / dota解绑\n"
-    "dota玩家 [ID]\n"
-    "dota战绩 [条数] 或 dota战绩 <ID> <条数>\n"
-    "dota比赛 <比赛ID>：直接查询历史单局详情\n"
-    "dota比赛 第N场 / dota战绩 第N页：使用本会话最后有效列表\n"
-    "dota订阅 [比赛|段位|日报] [ID] / dota订阅列表 [游标]\n"
-    "dota订阅玩家 <玩家ID> / dota订阅比赛 <比赛ID>：完成后播报详情分析\n"
-    "dota取消订阅 <订阅ID> / dota重试推送 <事件ID>\n"
+    "do绑定 <Dota账号ID或SteamID64>\n"
+    "do改绑 <ID>：替换自己的绑定\n"
+    "do账号 / do解绑\n"
+    "do查询 [ID]\n"
+    "do[英雄名或简称]出装：OpenDota职业比赛热门出装统计\n"
+    "do战绩 [条数] 或 do战绩 <ID> <条数>\n"
+    "do比赛 <比赛ID>：直接查询历史单局详情\n"
+    "do比赛 第N场 / do战绩 第N页：使用本会话最后有效列表\n"
+    "do订阅 [比赛|段位|日报] [ID] / do订阅列表 [游标]\n"
+    "do订阅玩家 <玩家ID> / do订阅比赛 <比赛ID>：完成后播报详情分析\n"
+    "do取消订阅 <订阅ID> / do重试推送 <事件ID>\n"
     "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
     "条数 1–100，默认 10；只绑定自己，不支持 @ 他人。\n"
     "绑定只是查询偏好，不证明 Steam 账号所有权。"
@@ -64,6 +68,8 @@ def player_text(player: PlayerProfile) -> str:
     return (
         f"Dota2Forge 玩家\n昵称：{safe_name(player.display_name)}\n"
         f"段位：{rank_text(player.rank_tier)}\n"
+        f"预估 MMR：{mmr_estimate_text(player.rank_tier)}\n"
+        "按段位区间估算，非精确分数；段位可能滞后。\n"
         f"抓取时间：{timestamp(player.metadata.fetched_at)}\n"
         f"数据观测时间：{observed}\n"
         f"来源：{player_source_text(player.metadata.source, player.account_id)}"
@@ -95,7 +101,7 @@ def recent_text(recent: RecentMatches) -> list[str]:
                 f" | 时长 {detail_duration(match.duration_seconds)}\n"
                 f"GPM {value_text(match.gold_per_minute)}"
                 f" / XPM {value_text(match.experience_per_minute)}\n"
-                f"比赛 ID {match.match_id} | dota比赛 {match.match_id}"
+                f"比赛 ID {match.match_id} | do比赛 {match.match_id}"
                 + (
                     f"\nhttps://stratz.com/matches/{match.match_id}"
                     if match.metadata.source == DataSource.STRATZ
@@ -205,9 +211,9 @@ def match_detail_text(result: MatchDetailResult, perspective: AccountId | None =
     pages: list[str] = []
     for side, label in ((True, "天辉"), (False, "夜魇"), (None, "阵营未知")):
         team = tuple(player for player in players if player.is_radiant is side)
-        for offset in range(0, len(team), 5):
+        for offset in range(0, len(team), DETAIL_PER_PAGE):
             lines = [header, label]
-            for player in team[offset : offset + 5]:
+            for player in team[offset : offset + DETAIL_PER_PAGE]:
                 name = (
                     "匿名参赛者"
                     if player.is_anonymous is True
@@ -228,6 +234,7 @@ def match_detail_text(result: MatchDetailResult, perspective: AccountId | None =
                     f"K/D/A {kda} | GPM {value_text(player.gold_per_minute)}"
                     f" / XPM {value_text(player.experience_per_minute)}\n装备 ID {items}"
                 )
+                lines.extend((participant_stats_text(player), participant_items_text(player)))
             lines.append(detail_footer(result))
             pages.append("\n".join(lines))
     return pages

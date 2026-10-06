@@ -55,17 +55,17 @@ def test_complete_delivery_controls_selection_and_binding_invalidation(
             replies.append(reply.text)
 
         session = ("GroupMessage", "group")
-        await app.dispatch(identity, "dota战绩", "100", send, session)
+        await app.dispatch(identity, "do战绩", "100", send, session)
         assert len(replies) == 3 and "20 页" in replies[-1]
         count = len(provider.calls)
-        await app.dispatch(identity, "dota战绩", "第20页", send, session)
+        await app.dispatch(identity, "do战绩", "第20页", send, session)
         assert "第 100 场" in replies[-1] and len(provider.calls) == count
-        await app.dispatch(identity, "dota比赛", "第100场", send, session)
+        await app.dispatch(identity, "do比赛", "第100场", send, session)
         assert provider.calls[-1] == ("detail", MatchId(100))
-        await app.dispatch(identity, "dota战绩", "第2页", send, ("GroupMessage", "other"))
+        await app.dispatch(identity, "do战绩", "第2页", send, ("GroupMessage", "other"))
         assert "没有有效" in replies[-1]
         another = PlatformIdentity(identity.namespace, identity.platform, identity.bot_id, "other")
-        await app.dispatch(another, "dota比赛", "第1场", send, session)
+        await app.dispatch(another, "do比赛", "第1场", send, session)
         assert "没有有效" in replies[-1]
 
         current[0] = RecentMatches(AccountId(123), (), metadata)
@@ -76,16 +76,16 @@ def test_complete_delivery_controls_selection_and_binding_invalidation(
             raise OSError("synthetic transport failure")
 
         with pytest.raises(OSError):
-            await app.dispatch(identity, "dota战绩", "100", broken, session)
+            await app.dispatch(identity, "do战绩", "100", broken, session)
         assert len(partial) == 1
-        await app.dispatch(identity, "dota比赛", "第100场", send, session)
+        await app.dispatch(identity, "do比赛", "第100场", send, session)
         assert provider.calls[-1] == ("detail", MatchId(100))
-        await app.dispatch(identity, "dota战绩", "100", send, session)
+        await app.dispatch(identity, "do战绩", "100", send, session)
         assert "0 场" in replies[-1]
-        await app.dispatch(identity, "dota比赛", "第1场", send, session)
+        await app.dispatch(identity, "do比赛", "第1场", send, session)
         assert "只有 0 场" in replies[-1]
-        await app.dispatch(identity, "dota改绑", "124", send, session)
-        await app.dispatch(identity, "dota比赛", "第1场", send, session)
+        await app.dispatch(identity, "do改绑", "124", send, session)
+        await app.dispatch(identity, "do比赛", "第1场", send, session)
         assert "没有有效" in replies[-1]
         await app.close()
 
@@ -101,7 +101,7 @@ def test_source_errors_and_render_fallback_do_not_trigger_second_query(
         engine = AsyncRenderer()
         engine._engine.render = lambda _: (_ for _ in ()).throw(RenderError())
         app = AstrApplication(service, MatchDetailService(provider), engine)
-        replies = await app.handle(identity, "dota玩家", "")
+        replies = await app.handle(identity, "do查询", "")
         assert isinstance(replies[0], AstrTextReply) and "Synthetic" in replies[0].text
         assert len(provider.calls) == 1
 
@@ -111,18 +111,18 @@ def test_source_errors_and_render_fallback_do_not_trigger_second_query(
             )
 
         provider.get_player = limited
-        replies = await app.handle(identity, "dota玩家", "")
+        replies = await app.handle(identity, "do查询", "")
         assert "rate_limited" in replies[0].text and "5 秒" in replies[0].text
         assert "没有战绩" not in replies[0].text
-        await app.handle(identity, "dota绑定", "124")
-        conflict = await app.handle(identity, "dota绑定", "124")
-        assert "dota改绑" in conflict[0].text
+        await app.handle(identity, "do绑定", "124")
+        conflict = await app.handle(identity, "do绑定", "124")
+        assert "do改绑" in conflict[0].text
 
         async def unavailable(_):
             raise RepositoryError()
 
         repository.get = unavailable
-        assert "存储不可用" in (await app.handle(identity, "dota账号", ""))[0].text
+        assert "存储不可用" in (await app.handle(identity, "do账号", ""))[0].text
         await app.close()
 
     run_async(check())
@@ -150,7 +150,7 @@ def test_real_detail_model_is_rendered_for_each_side(
         provider.get_match_detail = get_detail
         renderer = AsyncRenderer()
         app = AstrApplication(service, MatchDetailService(provider), renderer)
-        replies = await app.handle(identity, "dota比赛", "17")
+        replies = await app.handle(identity, "do比赛", "17")
         assert len(replies) == 2 and all(isinstance(reply, AstrImageReply) for reply in replies)
         await app.close()
 
@@ -208,14 +208,14 @@ def test_stop_cancels_work_and_new_lifecycle_owns_new_resources(tmp_path, run_as
         if stage == "query":
             runtime._application.handle = blocked
             runtime._application._prepare = blocked
-        task = asyncio.create_task(runtime.dispatch(caller, "dota菜单", "", blocked))
+        task = asyncio.create_task(runtime.dispatch(caller, "do菜单", "", blocked))
         await started.wait()
         await runtime.close()
         with pytest.raises(asyncio.CancelledError):
             await task
         assert runtime.state == State.STOPPED and clients[0].is_closed
         assert renderers[0]._closed
-        await runtime.dispatch(caller, "dota菜单", "", blocked)
+        await runtime.dispatch(caller, "do菜单", "", blocked)
         await runtime.close()
         replacement = Runtime(raw, tmp_path, client_factory=factory, renderer_factory=rendering)
         await replacement.start()

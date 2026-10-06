@@ -1,0 +1,8 @@
+{
+  "scope": "tracked and nonignored workspace source, docs and evidence",
+  "credential_pattern_hits": 0,
+  "steam64_hits_reviewed": "base identity constant and synthetic tests only",
+  "screenshots": "existing reviewed identity-free hero card and synthetic FIXTURE previews",
+  "excluded": [".env", "databases", "local artwork pack", "dist", "temporary clones"],
+  "limitations": "pattern scan and source review are not a complete secret detector"
+}

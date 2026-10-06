@@ -1,0 +1,22 @@
+{
+  "plugins": {
+    "Dota2UID": {
+      "alias": [
+        "dota2",
+        "dota2forge",
+        "刀塔"
+      ],
+      "avatar": "https://github.com/HBLADEH.png",
+      "branch": "main",
+      "content": "普通",
+      "cover": "https://github.com/HBLADEH.png",
+      "info": "Dota2Forge：Dota 2 账号绑定、玩家、战绩与单局图片查询",
+      "installMsg": "请填写本地 STRATZ Token，确认 namespace 后重新加载。",
+      "link": "https://github.com/HBLADEH/Dota2UID",
+      "type": "tip"
+    }
+  },
+  "tool_plugins": [
+    "Dota2UID"
+  ]
+}

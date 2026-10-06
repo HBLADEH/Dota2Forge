@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: background illustration for a Dota2Forge bot card header
+Primary request: original dark fantasy game UI art inspired by Dota 2's atmospheric presentation: weathered basalt, aged bronze edges, subtle red embers and muted jade mist.
+Scene/backdrop: an ancient stone forge, seen as a quiet material backdrop with shallow carved angular details.
+Style/medium: polished painterly game environment art, restrained texture, crisp silhouettes.
+Composition/framing: landscape composition with important details confined to the far right and edges. The central horizontal strip remains dark and uncluttered for UI text. The image will be cropped to 780x174 pixels.
+Lighting/mood: low-key cinematic lighting, small warm ember accents, deep readable shadows.
+Color palette: charcoal blue-black, weathered bronze, muted Dire red and Radiant jade.
+Constraints: no heroes, no creatures, no equipment icons, no rank medals, no Dota logo, no text, no letters, no numbers, no watermark. Do not render a UI screenshot. Background only; all text and data will be added by code.

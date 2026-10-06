@@ -25,12 +25,12 @@ from dota2forge_core import (
 from dota2forge_renderer.subscriptions import subscription_event_text
 
 SUBSCRIPTION_COMMANDS = (
-    "dota订阅",
-    "dota订阅玩家",
-    "dota订阅比赛",
-    "dota订阅列表",
-    "dota取消订阅",
-    "dota重试推送",
+    "do订阅",
+    "do订阅玩家",
+    "do订阅比赛",
+    "do订阅列表",
+    "do取消订阅",
+    "do重试推送",
 )
 KINDS = {
     "比赛": SubscriptionKind.NEW_MATCH,
@@ -95,7 +95,7 @@ class SubscriptionController:
         if (
             is_group
             and is_admin is not True
-            and keyword in {"dota订阅", "dota订阅玩家", "dota订阅比赛", "dota重试推送"}
+            and keyword in {"do订阅", "do订阅玩家", "do订阅比赛", "do重试推送"}
         ):
             return "群聊创建订阅或重试推送仅限 Bot 管理员；普通用户可在私聊订阅。"
         async with self._lock:
@@ -103,7 +103,7 @@ class SubscriptionController:
                 return "订阅已停用。"
             tokens = text.split()
             try:
-                if keyword == "dota订阅":
+                if keyword == "do订阅":
                     if len(tokens) > 2 or (tokens and tokens[0] not in KINDS):
                         raise ValidationError("Invalid subscription grammar")
                     kind = KINDS[tokens[0]] if tokens else SubscriptionKind.NEW_MATCH
@@ -121,21 +121,21 @@ class SubscriptionController:
                         f"日报北京时间次日{self.daily_hour:02d}:00起观察。\n"
                         "账号为创建时快照；改绑/解绑会先取消该身份全部订阅。"
                     )
-                if keyword == "dota订阅玩家":
+                if keyword == "do订阅玩家":
                     if len(tokens) != 1:
                         raise ValidationError("Expected one player ID")
                     subscription = await self.service.subscribe(
                         identity, tokens[0], destination, kind=SubscriptionKind.NEW_MATCH
                     )
                     return f"已保存玩家对局订阅：{subscription.subscription_id}"
-                if keyword == "dota订阅比赛":
+                if keyword == "do订阅比赛":
                     if len(tokens) != 1:
                         raise ValidationError("Expected one match ID")
                     subscription = await self.service.subscribe_match(
                         identity, tokens[0], destination
                     )
                     return f"已保存指定比赛订阅：{subscription.subscription_id}"
-                if keyword == "dota订阅列表":
+                if keyword == "do订阅列表":
                     if len(tokens) > 1:
                         raise ValidationError("Invalid subscription cursor")
                     subscriptions = await self.service.list_subscriptions(
@@ -157,10 +157,10 @@ class SubscriptionController:
                         for item in subscriptions
                     )
                     if len(subscriptions) == 10:
-                        lines.append(f"下一页：dota订阅列表 {subscriptions[-1].subscription_id}")
+                        lines.append(f"下一页：do订阅列表 {subscriptions[-1].subscription_id}")
                     pending = await self.service.pending_events(identity, limit=100)
                     lines.extend(
-                        f"未确认事件：{event.event_id}（重试可能重复；确认后用 dota重试推送）"
+                        f"未确认事件：{event.event_id}（重试可能重复；确认后用 do重试推送）"
                         for event in [
                             event for event in pending if event.key.destination == destination
                         ][:5]
@@ -172,12 +172,12 @@ class SubscriptionController:
                     )
                 if len(tokens) != 1:
                     raise ValidationError("Expected one opaque subscription or event ID")
-                if keyword == "dota取消订阅":
+                if keyword == "do取消订阅":
                     removed = await self.service.unsubscribe(identity, tokens[0])
                     return (
                         "已取消你的订阅及其未确认事件。" if removed else "该订阅不存在或不属于你。"
                     )
-                if keyword == "dota重试推送":
+                if keyword == "do重试推送":
                     released = await self.service.retry_event(identity, tokens[0])
                     return (
                         "已允许下一轮显式重试；若此前已送达，可能产生重复。"
@@ -186,12 +186,12 @@ class SubscriptionController:
                     )
                 raise ValidationError("Unknown subscription command")
             except BindingNotFoundError:
-                return "你尚未绑定账号；先 dota绑定 <ID>，或 dota订阅 比赛/段位/日报 <ID>。"
+                return "你尚未绑定账号；先 do绑定 <ID>，或 do订阅 比赛/段位/日报 <ID>。"
             except ValidationError:
                 return (
-                    "参数不正确：dota订阅玩家 <玩家ID>；dota订阅比赛 <比赛ID>；"
-                    "dota订阅 [比赛|段位|日报] [ID]；"
-                    "dota取消订阅 <订阅ID>；dota重试推送 <事件ID>。"
+                    "参数不正确：do订阅玩家 <玩家ID>；do订阅比赛 <比赛ID>；"
+                    "do订阅 [比赛|段位|日报] [ID]；"
+                    "do取消订阅 <订阅ID>；do重试推送 <事件ID>。"
                 )
             except (SubscriptionRepositoryError, SubscriptionCapacityError):
                 return "订阅存储不可用或容量已满；未确认事件不会自动丢弃，请管理员检查。"

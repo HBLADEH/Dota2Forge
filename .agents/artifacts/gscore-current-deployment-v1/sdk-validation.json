@@ -1,0 +1,29 @@
+{
+  "sdk_version": "0.10.7",
+  "python": "3.13.2",
+  "real_sv_event_trigger": true,
+  "query_commands": 16,
+  "admin_commands": 1,
+  "named_items_regex_and_bridge": true,
+  "scheduler_single_job_and_remove": true,
+  "initialize_stop_twice": true,
+  "client_closed": true,
+  "menu_size": [
+    780,
+    1450
+  ],
+  "new_card_sizes": {
+    "synthetic-player": [
+      780,
+      960
+    ],
+    "synthetic-hero-items": [
+      780,
+      1530
+    ]
+  },
+  "synthetic_data_only": true,
+  "network_disabled": true,
+  "real_platform_messages": false,
+  "http_routes_and_host_hook_registry_isolated": true
+}

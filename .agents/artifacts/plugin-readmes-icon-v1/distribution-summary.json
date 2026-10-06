@@ -1,0 +1,15 @@
+{
+  "status": "local_candidate",
+  "candidate": "dist/plugin-distributions/0.1.0a2-readmes-icon-v1",
+  "archives": {
+    "astrbot_plugin_dota2forge.zip": {
+      "bytes": 1623752,
+      "sha256": "0a28f050c418ca7ef3b15775feb649060a652d943f870031c33d6cd4f2253190"
+    },
+    "Dota2UID.zip": {
+      "bytes": 1622100,
+      "sha256": "eba4600e30b245145e61a93fd6dd21b4dac9c51bb8335778f2f0bd0c83a0673e"
+    }
+  },
+  "all_manifest_digests_match": true
+}

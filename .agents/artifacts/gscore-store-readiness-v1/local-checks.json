@@ -1,0 +1,104 @@
+{
+  "candidate": "dist/plugin-distributions/0.1.0a2-shared-showcase-v1",
+  "all_source_and_output_digests_match": true,
+  "root_entry_dependencies_and_version_guard": true,
+  "readme_local_links_and_shared_provenance": true,
+  "license_icon_and_empty_configuration_present": true,
+  "configuration_or_databases_bundled": false,
+  "gscore_archive_bytes": 1915995,
+  "project_dependencies": [
+    "dota2forge-core[stratz]==0.1.0a2",
+    "dota2forge-renderer==0.1.0a2",
+    "dota2uid[stratz]==0.1.0a2",
+    "httpx>=0.28.1,<1",
+    "pillow>=12.3,<13"
+  ],
+  "declared_python": ">=3.12",
+  "documented_dist_wheels": {
+    "dota2forge_core": {
+      "available": true,
+      "sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00",
+      "bytes": 66974,
+      "files_checked": 35,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    },
+    "dota2forge_renderer": {
+      "available": true,
+      "sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41",
+      "bytes": 13725493,
+      "files_checked": 15,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    },
+    "dota2uid": {
+      "available": true,
+      "sha256": "1168eb33bbae3e937ea06391a4dedcd7e807d02a0651ae18db55ca711b475949",
+      "bytes": 24924,
+      "files_checked": 11,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    },
+    "astrbot_plugin_dota2forge": {
+      "available": true,
+      "sha256": "305298c9e20c7e11f34394f167c3945531adfe5a751b28a265483341161c62c1",
+      "bytes": 25954,
+      "files_checked": 14,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    }
+  },
+  "fresh_audit_wheels": {
+    "dota2forge_core": {
+      "available": true,
+      "sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00",
+      "bytes": 66974,
+      "files_checked": 35,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    },
+    "dota2forge_renderer": {
+      "available": true,
+      "sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41",
+      "bytes": 13725493,
+      "files_checked": 15,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    },
+    "dota2uid": {
+      "available": true,
+      "sha256": "1168eb33bbae3e937ea06391a4dedcd7e807d02a0651ae18db55ca711b475949",
+      "bytes": 24924,
+      "files_checked": 11,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    },
+    "astrbot_plugin_dota2forge": {
+      "available": true,
+      "sha256": "305298c9e20c7e11f34394f167c3945531adfe5a751b28a265483341161c62c1",
+      "bytes": 25954,
+      "files_checked": 14,
+      "matches_current_source": true,
+      "changed_files": [],
+      "extra_old_files": [],
+      "missing_current_files": []
+    }
+  },
+  "fresh_build_and_documented_wheel_sha256_match": true,
+  "sdk_free_offline_install_exit_code": 0,
+  "sdk_free_offline_install_is_store_install": false
+}

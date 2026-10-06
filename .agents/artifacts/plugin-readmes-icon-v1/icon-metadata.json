@@ -1,0 +1,26 @@
+{
+  "path": "docs/assets/branding/juggernaut-icon-v1.png",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "visible_bounds": [
+    0,
+    8,
+    1218,
+    1214
+  ],
+  "corner_alpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "bytes": 1627903,
+  "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059"
+}

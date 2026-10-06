@@ -1,0 +1,77 @@
+{
+  "checked_on": "2026-10-05",
+  "stratz": [
+    {
+      "hero_id": 1,
+      "requested_position": "POSITION_1",
+      "fetched_at": "2026-10-05T08:48:18.254865+00:00",
+      "groups": [
+        {
+          "match_count": 3374,
+          "guides": [
+            {
+              "item_ids_state": "null",
+              "match_player_state": "populated",
+              "match_player_hero_matches": true,
+              "match_player_position": "POSITION_1",
+              "ability_state": "populated",
+              "ability_count": 17,
+              "talent_count": 2,
+              "purchase_state": "populated",
+              "purchase_count": 20,
+              "purchase_times_present": true,
+              "game_version_id": 190,
+              "created_date_time": 1791187160,
+              "match_version_present": true,
+              "observed_time_present": true,
+              "selected_players": [
+                {
+                  "position": "POSITION_1",
+                  "ability_state": "not_requested",
+                  "end_item_count": 6
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "hero_id": 2,
+      "requested_position": "POSITION_3",
+      "fetched_at": "2026-10-05T08:48:18.464715+00:00",
+      "groups": [
+        {
+          "match_count": 5226,
+          "guides": [
+            {
+              "item_ids_state": "null",
+              "match_player_state": "populated",
+              "match_player_hero_matches": true,
+              "match_player_position": "POSITION_3",
+              "ability_state": "populated",
+              "ability_count": 19,
+              "talent_count": 4,
+              "purchase_state": "populated",
+              "purchase_count": 24,
+              "purchase_times_present": true,
+              "game_version_id": 190,
+              "created_date_time": 1791189030,
+              "match_version_present": true,
+              "observed_time_present": true,
+              "selected_players": [
+                {
+                  "position": "POSITION_3",
+                  "ability_state": "not_requested",
+                  "end_item_count": 6
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "opendota": [],
+  "client_closed": true
+}

@@ -1,0 +1,53 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+unformatted: File would be reformatted
+   --> adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\runtime.py:209:28
+    |
+208 |                     if keyword in SUBSCRIPTION_COMMANDS:
+    -                         if (
+    -                             keyword in {"do订阅", "do重试推送"}
+    -                             and caller.platform != "aiocqhttp"
+    -                         ):
+209 +                         if keyword in {"do订阅", "do重试推送"} and caller.platform != "aiocqhttp":
+210 |                             await send(
+    |
+
+unformatted: File would be reformatted
+  --> tests\core\test_subscription_adapters.py:46:46
+   |
+45 |         assert "管理员" in denied and not await subscriptions.list_subscriptions(identity)
+   -         assert "尚未绑定" in await worker.handle(
+   -             identity, "synthetic", False, False, "do订阅", ""
+   -         )
+46 +         assert "尚未绑定" in await worker.handle(identity, "synthetic", False, False, "do订阅", "")
+47 |         await service.bind_account(identity, 123)
+48 |         reply = await worker.handle(identity, "synthetic", False, False, "do订阅", "")
+49 |         assert "已保存比赛" in reply
+   -         player_reply = await worker.handle(
+   -             identity, "synthetic", False, False, "do订阅玩家", "123"
+   -         )
+50 +         player_reply = await worker.handle(identity, "synthetic", False, False, "do订阅玩家", "123")
+51 |         assert "已保存玩家对局订阅" in player_reply
+   -         match_reply = await worker.handle(
+   -             identity, "synthetic", False, False, "do订阅比赛", "9001"
+   -         )
+52 +         match_reply = await worker.handle(identity, "synthetic", False, False, "do订阅比赛", "9001")
+53 |         assert "已保存指定比赛订阅" in match_reply
+--------------------------------------------------------------------------------
+57 |         )
+   -         assert "没有订阅" in await worker.handle(
+   -             identity, "other", False, False, "do订阅列表", ""
+   -         )
+58 +         assert "没有订阅" in await worker.handle(identity, "other", False, False, "do订阅列表", "")
+59 |         for text in ["比赛 01", "日报 123 extra", "unknown", "段位 -1"]:
+--------------------------------------------------------------------------------
+81 |         await worker.close()
+   -         assert "停用" in await worker.handle(
+   -             identity, "synthetic", False, False, "do订阅列表", ""
+   -         )
+82 +         assert "停用" in await worker.handle(identity, "synthetic", False, False, "do订阅列表", "")
+83 |
+   |
+
+2 files would be reformatted, 218 files already formatted
+Required command failed: ruff

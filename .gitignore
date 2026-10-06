@@ -17,3 +17,5 @@ build/
 .playwright-mcp/
 *.db
 *.sqlite*
+.dota2forge-assets/
+.tmp/

@@ -333,6 +333,13 @@ def detail_dict(value: object) -> dict[str, object]:
                 "assists": player.assists,
                 "gold_per_minute": player.gold_per_minute,
                 "experience_per_minute": player.experience_per_minute,
+                "level": player.level,
+                "last_hits": player.last_hits,
+                "denies": player.denies,
+                "net_worth": player.net_worth,
+                "hero_damage": player.hero_damage,
+                "tower_damage": player.tower_damage,
+                "hero_healing": player.hero_healing,
                 "item_ids": player.item_ids,
             }
             for player in value.players
@@ -367,6 +374,13 @@ def decode_detail(value: object) -> MatchDetail | MatchDetailUnavailable:
                 assists=_optional_integer(row["assists"]),
                 gold_per_minute=_optional_integer(row["gold_per_minute"]),
                 experience_per_minute=_optional_integer(row["experience_per_minute"]),
+                level=_optional_integer(row.get("level")),
+                last_hits=_optional_integer(row.get("last_hits")),
+                denies=_optional_integer(row.get("denies")),
+                net_worth=_optional_integer(row.get("net_worth")),
+                hero_damage=_optional_integer(row.get("hero_damage")),
+                tower_damage=_optional_integer(row.get("tower_damage")),
+                hero_healing=_optional_integer(row.get("hero_healing")),
                 item_ids=tuple(_optional_integer(item) for item in _list(row["item_ids"])),
             )
             for row_value in players

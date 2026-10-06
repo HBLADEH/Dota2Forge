@@ -4,6 +4,8 @@
 
 ## 发现与配置
 
+0.1.0a2本地候选的合法空Token进入awaiting_config，给出配置提示且不创建客户端/业务库；非法配置保持failed。填写后通过保存/重载的新实例恢复。商店生成入口另含早期项目库版本核对；本轮仅SDK桩与本地wheel隔离验收，不更新本机宿主兼容证据。见[发行步骤](../cookbook/plugin-release.md)。
+
 [安装器](../../adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/install.py)生成独立发现桥接的 main.py、metadata.yaml、_conf_schema.json、requirements.txt。Python src 库导入不依赖 AstrBot，不联网、不读取环境、不创建客户端或后台任务。ZIP 仅含桥接，未发布包须先以本地 wheel 安装；requirements.txt 让桌面版宿主选择 data/site-packages 的已安装依赖。宿主递归展开依赖并依次清除/导入顶层模块，库顶层公开导出按需加载，防止提前捕获旧Core/Renderer类型；Core/Renderer依赖仍由wheel元数据声明。
 
 配置由AstrBot传入，Runtime验证namespace、stratz_token、timeout_seconds、reply_mode及subscriptions_enabled/轮询间隔/日报小时；未知键失败。Token repr隐藏；超时有限正数至多60秒，image/text。bindings.sqlite3和subscriptions.sqlite3固定放专用plugin_data目录，不复用GsCore数据库。订阅默认关闭，主动推送当前仅OneBot v11反向WebSocket，权限/尝试/调度边界见[订阅契约](subscriptions.md)。配置修改需重新加载。
@@ -12,7 +14,7 @@
 
 可信事件的 get_platform_name/get_platform_id/get_self_id/get_sender_id 先校验；namespace/platform 保留其 Core 标识语义，bot_id 为连接ID与机器人ID的确定性 SHA256 编码，避免同类型多连接串用。原始字段不进入日志。命令和 AI 参数不能指定目标平台用户。允许 @ 当前机器人触发，@ 他人和 @ 全体拒绝。
 
-普通命令为帮助、菜单、绑定、改绑、账号、解绑、玩家、战绩、比赛；dota段位是玩家别名、dota最近是战绩别名。Core 严格校验 Dota账号ID/比赛ID，不接受未实现的英雄查询。命令遵循宿主唤醒前缀；GreedyStr 保留全部参数后交给解析器，禁止宿主整数转换绕过前导零/额外参数校验。管理员 dota状态/dota停用同时使用宿主权限过滤器和 event.is_admin() 检查，不注册 AI Tool。
+普通命令为帮助、菜单、绑定、改绑、账号、解绑、玩家、战绩、比赛；do段位是玩家别名、do最近是战绩别名。Core 严格校验 Dota账号ID/比赛ID，不接受未实现的英雄查询。命令遵循宿主唤醒前缀；GreedyStr 保留全部参数后交给解析器，禁止宿主整数转换绕过前导零/额外参数校验。管理员 do状态/do停用同时使用宿主权限过滤器和 event.is_admin() 检查，不注册 AI Tool。
 
 ## 发送与选择
 
