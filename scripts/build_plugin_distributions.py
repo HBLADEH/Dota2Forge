@@ -150,6 +150,14 @@ def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: boo
     content = content.replace(
         marker, f"> 发行版本：`{version}` · [目标分发仓库]({repo})。由主仓同一源码生成。"
     )
+    if plugin.startswith("astrbot"):
+        # Cloud renders repository-relative URLs against its own page origin.
+        raw = repo.replace("https://github.com/", "https://raw.githubusercontent.com/")
+        content = content.replace(f'src="{icon_name}"', f'src="{raw}/main/{icon_name}"')
+        for name in SHOWCASE_IMAGES.get(plugin, {}):
+            content = content.replace(f"](screenshots/{name})", f"]({raw}/main/screenshots/{name})")
+        for name in ("INSTALL.md", "LICENSE"):
+            content = content.replace(f"]({name})", f"]({repo}/blob/main/{name})")
     return content.encode("utf-8")
 
 
