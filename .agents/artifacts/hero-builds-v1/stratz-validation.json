@@ -1,0 +1,116 @@
+{
+  "checked_on": "2026-10-05",
+  "samples": [
+    {
+      "hero_id": 1,
+      "position": "POSITION_1",
+      "fetched_at": "2026-10-05T08:20:41.246719+00:00",
+      "itemFullPurchase": {
+        "rows": 508,
+        "sample_fields": [
+          "itemId",
+          "matchCount",
+          "winCount",
+          "time"
+        ],
+        "zero_match_rows": 0
+      },
+      "talent": {
+        "rows": 9,
+        "sample_fields": [
+          "abilityId",
+          "matchCount",
+          "winCount"
+        ],
+        "zero_match_rows": 0
+      },
+      "abilityMinLevel": {
+        "rows": 185,
+        "sample_fields": [
+          "abilityId",
+          "level",
+          "matchCount",
+          "winCount"
+        ],
+        "zero_match_rows": 0
+      },
+      "guide_groups": 1,
+      "guides": [
+        {
+          "item_count": 0,
+          "created_at_present": true,
+          "match_version_present": true,
+          "observed_time_present": true,
+          "position_matches": false,
+          "ability_count": 0,
+          "talent_count": 0
+        },
+        {
+          "item_count": 0,
+          "created_at_present": true,
+          "match_version_present": true,
+          "observed_time_present": true,
+          "position_matches": false,
+          "ability_count": 0,
+          "talent_count": 0
+        }
+      ]
+    },
+    {
+      "hero_id": 2,
+      "position": "POSITION_3",
+      "fetched_at": "2026-10-05T08:20:41.916694+00:00",
+      "itemFullPurchase": {
+        "rows": 711,
+        "sample_fields": [
+          "itemId",
+          "matchCount",
+          "winCount",
+          "time"
+        ],
+        "zero_match_rows": 0
+      },
+      "talent": {
+        "rows": 9,
+        "sample_fields": [
+          "abilityId",
+          "matchCount",
+          "winCount"
+        ],
+        "zero_match_rows": 0
+      },
+      "abilityMinLevel": {
+        "rows": 195,
+        "sample_fields": [
+          "abilityId",
+          "level",
+          "matchCount",
+          "winCount"
+        ],
+        "zero_match_rows": 0
+      },
+      "guide_groups": 1,
+      "guides": [
+        {
+          "item_count": 0,
+          "created_at_present": true,
+          "match_version_present": true,
+          "observed_time_present": true,
+          "position_matches": false,
+          "ability_count": 0,
+          "talent_count": 0
+        },
+        {
+          "item_count": 0,
+          "created_at_present": true,
+          "match_version_present": true,
+          "observed_time_present": true,
+          "position_matches": false,
+          "ability_count": 0,
+          "talent_count": 0
+        }
+      ]
+    }
+  ],
+  "client_closed": true
+}

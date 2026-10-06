@@ -3,6 +3,8 @@
 import unicodedata
 from datetime import datetime, timedelta, timezone
 
+from dota2forge_core import estimate_rank_mmr
+
 BEIJING = timezone(timedelta(hours=8))
 
 
@@ -50,3 +52,25 @@ def rank_text(rank: int | None) -> str:
     if rank == 80:
         return "冠绝一世"
     return f"未知段位编码 {rank}"
+
+
+def mmr_estimate_text(rank: int | None) -> str:
+    estimate = estimate_rank_mmr(rank)
+    if estimate is None:
+        return "无法估算（未定级）" if rank == 0 else "未知（无有效段位）"
+    if estimate.upper_bound is None:
+        return f"{estimate.lower_bound}+ 分（仅下界）"
+    return f"{estimate.lower_bound}–{estimate.upper_bound} 分"
+
+
+def game_mode_text(mode: str | None) -> str:
+    return {
+        "ALL_PICK": "全英雄选择",
+        "RANKED_ALL_PICK": "全英雄选择（天梯）",
+        "CAPTAINS_MODE": "队长模式",
+        "TURBO": "加速模式",
+        "OPENDOTA_1": "全英雄选择",
+        "OPENDOTA_2": "队长模式",
+        "OPENDOTA_22": "全英雄选择（天梯）",
+        "OPENDOTA_23": "加速模式",
+    }.get(mode or "", mode or "未知")

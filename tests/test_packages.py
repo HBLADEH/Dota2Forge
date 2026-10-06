@@ -20,7 +20,7 @@ from packaging.requirements import Requirement
 )
 def test_workspace_package_installed(distribution, module):
     assert importlib.import_module(module).__doc__
-    assert importlib.metadata.version(distribution) == "0.1.0a1"
+    assert importlib.metadata.version(distribution) == "0.1.0a4"
 
 
 def test_core_keeps_http_optional_and_has_no_host_sdks():

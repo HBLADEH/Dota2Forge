@@ -13,11 +13,15 @@
 
 ## 插件加载边界
 
+0.1.0a2本地候选已有商店根目录生成器及独立宿主依赖清单；Runtime首启可独占创建空配置，合法空Token为awaiting_config，不创建业务库/客户端。填写后停用/重载的新实例恢复；已有配置不覆盖。版本guard只附加到生成商店入口，商店安装/升级尚未验收，见[发行步骤](../cookbook/plugin-release.md)。
+
 `gsuid_core/server.py` 的 GsServer.load_plugins 扫描 gsuid_core/plugins 与 buildin_plugins。load_plugin 识别目录根部的 __init__.py、__full__.py，或 __nest__.py/同名嵌套目录；发现阶段检查插件 pyproject，随后集中处理依赖再导入模块。
 
 本仓库 [Dota2UID](../../adapters/Dota2UID/) 保留 src 库包布局，显式安装器将分发模板放入 plugins/Dota2UID/__init__.py，SV 在该桥接中构造以满足调用栈归属。仅安装 wheel 不注册命令，宿主须再加载发现入口。详见 [安装步骤](../cookbook/dota2uid.md)。
 
 2026-10-02修复失败重载/不完整wheel安装后，宿主冷启动和两轮管理员stop/reload通过，最终ready/image。Core/Renderer/Dota2UID/Pillow内容逐文件匹配wheel，Pillow为12.3.0；配置/绑定库/发现入口指纹未变。用户随后确认QQ菜单、账号和直接ID详情均正常、图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。该结果更新10-01的会话过期/尚未验证状态，不推广为多账号或全平台保证。
+
+10-05原宿主已停止，备份后手动离线安装同次三个0.1.0a2 wheel并更新do桥接/README/ICON，冷启动ready/image。配置、绑定/订阅库和558素材指纹保持；保留订阅开关。实际SV/Event/Trigger/APScheduler隔离验证17条静态命令、英雄正则及新卡，宿主版本模块常量0.10.7与发行元数据0.11.0分别记录。[证据](../../.agents/artifacts/gscore-current-deployment-v1/README.md)未观察到客户端连接，AstrBot GsCore桥接仍关闭；当前管理员接口、聊天和截图未验收，不能由合成卡推断。原宿主已停，本轮未执行真实关闭钩子。
 
 ## 身份与 UID
 

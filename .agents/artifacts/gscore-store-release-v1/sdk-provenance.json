@@ -1,0 +1,22 @@
+{
+  "sdk_commit": "87c06f11ae10c12b3bb8e76b3c6f420c831282a8",
+  "sdk_tracked_source_unchanged": true,
+  "source_workspace_imported": false,
+  "libraries": [
+    {
+      "distribution": "dota2forge-core",
+      "version": "0.1.0a3",
+      "installed_inside_sdk_venv": true
+    },
+    {
+      "distribution": "dota2forge-renderer",
+      "version": "0.1.0a3",
+      "installed_inside_sdk_venv": true
+    },
+    {
+      "distribution": "dota2uid",
+      "version": "0.1.0a3",
+      "installed_inside_sdk_venv": true
+    }
+  ]
+}

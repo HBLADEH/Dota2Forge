@@ -1,0 +1,16 @@
+{
+  "Dota2UID": {
+    "fresh_public_install": true,
+    "pip_check": true,
+    "exact_versions": "0.1.0a4",
+    "menu_png": true,
+    "host_sdk": false
+  },
+  "astrbot_plugin_dota2forge": {
+    "fresh_public_install": true,
+    "pip_check": true,
+    "exact_versions": "0.1.0a4",
+    "menu_png": true,
+    "host_sdk": false
+  }
+}

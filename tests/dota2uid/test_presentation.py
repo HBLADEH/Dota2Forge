@@ -37,6 +37,29 @@ def test_rank_display_does_not_promise_mmr(rank, expected):
     assert "MMR" not in rank_text(rank)
 
 
+@pytest.mark.parametrize(
+    "rank,expected",
+    [
+        (11, "0–153 分"),
+        (51, "3080–3233 分"),
+        (80, "5620+ 分（仅下界）"),
+        (0, "无法估算（未定级）"),
+        (None, "未知（无有效段位）"),
+        (81, "未知（无有效段位）"),
+    ],
+)
+def test_both_adapters_text_fallback_exposes_estimate_without_exact_score(rank, expected):
+    from astrbot_plugin_dota2forge.application import player_text as astr_player_text
+
+    metadata = DataMetadata(DataSource.FIXTURE, datetime(2026, 10, 5, tzinfo=UTC))
+    player = PlayerProfile(AccountId(123), metadata, rank_tier=rank)
+    for text in (player_text(player), astr_player_text(player)):
+        assert f"预估 MMR：{expected}" in text
+        assert "按段位区间估算，非精确分数" in text
+        assert "段位可能滞后" in text
+        assert "FIXTURE" in text
+
+
 def test_nickname_does_not_inject_chat_markup():
     name = safe_name("[CQ:at,qq=all]\n<b>Hi</b>\x1b\u202e" + "x" * 100)
     assert len(name) <= 48

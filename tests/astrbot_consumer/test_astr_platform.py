@@ -18,6 +18,13 @@ def test_config_identity_and_selection_boundaries(tmp_path):
         {"namespace": "test", "stratz_token": "token", "timeout_seconds": 3}, tmp_path
     )
     assert config.database == tmp_path.resolve() / "bindings.sqlite3"
+    assert config.illustration_path is None
+    assert (
+        load_config(
+            {"stratz_token": "synthetic-token", "illustration_path": "art"}, tmp_path
+        ).illustration_path
+        == tmp_path / "art"
+    )
     with pytest.raises(ConfigurationError):
         load_config({"namespace": "test", "stratz_token": ""}, tmp_path)
 
@@ -36,6 +43,22 @@ def test_config_identity_and_selection_boundaries(tmp_path):
         store.get(key, None)
 
 
+def test_local_art_directory_reaches_shared_renderer_without_eager_io(tmp_path, run_async):
+    async def check():
+        raw = {"stratz_token": "synthetic-token", "illustration_path": "art"}
+        client = httpx.AsyncClient(transport=httpx.MockTransport(lambda _: pytest.fail("network")))
+        runtime = Runtime(raw, tmp_path, client_factory=lambda: client)
+        try:
+            await runtime.start()
+            renderer = runtime._application._renderer
+            assert renderer._engine._illustrations.path == tmp_path / "art"
+            assert not renderer._engine._illustrations._loaded
+        finally:
+            await runtime.close()
+
+    run_async(check())
+
+
 @pytest.mark.parametrize(
     "override",
     [
@@ -47,6 +70,8 @@ def test_config_identity_and_selection_boundaries(tmp_path):
         {"timeout_seconds": float("nan")},
         {"reply_mode": "other"},
         {"unknown": 1},
+        {"illustration_path": 1},
+        {"illustration_path": "bad\0path"},
     ],
 )
 def test_invalid_config_has_safe_errors(tmp_path, override):
@@ -124,7 +149,7 @@ def test_runtime_lifecycle_and_image_dispatch(tmp_path, run_async):
         async def send(reply):
             replies.append(reply)
 
-        await runtime.dispatch(caller, "dota菜单", "", send)
+        await runtime.dispatch(caller, "do菜单", "", send)
         assert replies and getattr(replies[0], "artifact", None) is not None
         await runtime.close()
         await runtime.close()

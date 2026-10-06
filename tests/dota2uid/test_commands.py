@@ -9,18 +9,18 @@ from Dota2UID.config import ConfigurationError, load_config
 @pytest.mark.parametrize(
     ("keyword", "text", "account", "limit"),
     [
-        ("dota帮助", "", None, 10),
-        ("dota账号", "", None, 10),
-        ("dota解绑", "", None, 10),
-        ("dota绑定", "123", AccountId(123), 10),
-        ("dota改绑", "123", AccountId(123), 10),
-        ("dota绑定", str(AccountId(123).to_steam_id64().value), AccountId(123), 10),
-        ("dota玩家", "", None, 10),
-        ("dota玩家", "123", AccountId(123), 10),
-        ("dota战绩", "", None, 10),
-        ("dota战绩", "1", None, 1),
-        ("dota战绩", "100", None, 100),
-        ("dota战绩", "123 10", AccountId(123), 10),
+        ("do帮助", "", None, 10),
+        ("do账号", "", None, 10),
+        ("do解绑", "", None, 10),
+        ("do绑定", "123", AccountId(123), 10),
+        ("do改绑", "123", AccountId(123), 10),
+        ("do绑定", str(AccountId(123).to_steam_id64().value), AccountId(123), 10),
+        ("do查询", "", None, 10),
+        ("do查询", "123", AccountId(123), 10),
+        ("do战绩", "", None, 10),
+        ("do战绩", "1", None, 1),
+        ("do战绩", "100", None, 100),
+        ("do战绩", "123 10", AccountId(123), 10),
     ],
 )
 def test_exact_command_grammar(keyword, text, account, limit):
@@ -28,23 +28,29 @@ def test_exact_command_grammar(keyword, text, account, limit):
     assert result.action == Action(keyword) and result.account == account and result.limit == limit
 
 
+@pytest.mark.parametrize("keyword", ["dota帮助", "dota玩家", "dota战绩", "do玩家"])
+def test_replaced_command_names_are_no_longer_accepted(keyword):
+    with pytest.raises(CommandError):
+        parse_command(keyword, "")
+
+
 @pytest.mark.parametrize(
     ("keyword", "text"),
     [
         ("绑定", "123"),
-        ("dota帮助", "123"),
-        ("dota账号", "123"),
-        ("dota解绑", "123"),
-        ("dota绑定", ""),
-        ("dota绑定", "123 456"),
-        ("dota玩家", "123 456"),
-        ("dota战绩", "123 10 20"),
-        ("dota战绩", "0"),
-        ("dota战绩", "-1"),
-        ("dota战绩", "101"),
-        ("dota战绩", "01"),
-        ("dota战绩", "１０"),
-        ("dota战绩", "1.0"),
+        ("do帮助", "123"),
+        ("do账号", "123"),
+        ("do解绑", "123"),
+        ("do绑定", ""),
+        ("do绑定", "123 456"),
+        ("do查询", "123 456"),
+        ("do战绩", "123 10 20"),
+        ("do战绩", "0"),
+        ("do战绩", "-1"),
+        ("do战绩", "101"),
+        ("do战绩", "01"),
+        ("do战绩", "１０"),
+        ("do战绩", "1.0"),
     ],
 )
 def test_invalid_command_does_not_guess_input(keyword, text):
@@ -57,7 +63,7 @@ def test_invalid_command_does_not_guess_input(keyword, text):
 )
 def test_bind_uses_core_strict_id_parser(text):
     with pytest.raises(InvalidSteamIdError):
-        parse_command("dota绑定", text)
+        parse_command("do绑定", text)
 
 
 @pytest.mark.parametrize(

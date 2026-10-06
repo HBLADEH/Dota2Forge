@@ -1,0 +1,176 @@
+{
+  "Dota2UID": [
+    {
+      "file": "config.example.toml",
+      "sha256": "de2ad8ef9e51f5a5517c766fa9b639ec2ca5f7b856b77567ba6f6dac7fdee59e"
+    },
+    {
+      "file": "ICON.png",
+      "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059"
+    },
+    {
+      "file": "INSTALL.md",
+      "sha256": "e7cf5ad5aa849d81dbb449e01caaca23dcc53bf12fe58423583258364bb288e0"
+    },
+    {
+      "file": "install_runtime.py",
+      "sha256": "544e4f73fa7dd6ecef3034df2819c5a6dbdb2aaec9dfd9c87c22a100581dfef2"
+    },
+    {
+      "file": "LICENSE",
+      "sha256": "9567fb54f833d13b9cce4a7dc6d198c1d9678d6d7de37072384182bccaa38ca2"
+    },
+    {
+      "file": "pyproject.toml",
+      "sha256": "d338a7eb1610c53c2aa4ba45daaed5c77f58cd2b9cb8915621d8f33391cc4d84"
+    },
+    {
+      "file": "README.md",
+      "sha256": "c0cf770a817379beacc718d25fd44b102f61720fccf1f927342e51f8d49ceab1"
+    },
+    {
+      "file": "release.json",
+      "sha256": "ef3edbdbac5f0c23cef0a12ba6b95f603f07940ec6d0bb0b5acaaef76e41c409"
+    },
+    {
+      "file": "runtime-wheels.json",
+      "sha256": "017e88df3fa8c501bc14c4b89383cb23dfcc186ba8aad6bff55f0069b5fa47da"
+    },
+    {
+      "file": "_dota2forge_bootstrap.py",
+      "sha256": "461f2afa15a053ad4f9602b23d276022820fa9e8a490b080906ba09f30283d7b"
+    },
+    {
+      "file": "__init__.py",
+      "sha256": "79f7e016d515679ee32e8baf7e40f9928245c10ccaa6cd120cdd2954e570249d"
+    },
+    {
+      "file": "screenshots/hero-items.png",
+      "sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde"
+    },
+    {
+      "asset": "dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "bytes": 67453,
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+    },
+    {
+      "asset": "dota2forge_core-0.1.0a4.tar.gz",
+      "bytes": 47789,
+      "sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77"
+    },
+    {
+      "asset": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "bytes": 13727339,
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "asset": "dota2forge_renderer-0.1.0a4.tar.gz",
+      "bytes": 13718574,
+      "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034"
+    },
+    {
+      "asset": "dota2uid-0.1.0a4-py3-none-any.whl",
+      "bytes": 25003,
+      "sha256": "48536158b1b2814ed09bd85187e63a3867e042ad4247246c4955221681ae2d0d"
+    },
+    {
+      "asset": "dota2uid-0.1.0a4.tar.gz",
+      "bytes": 24170,
+      "sha256": "716b54c857785b0d5290ee1afe594664b13b9d7ae9a9d78a0f5e9f0eed27830c"
+    },
+    {
+      "asset": "Dota2UID.zip",
+      "bytes": 1921527,
+      "sha256": "73619784573b97facbcd817c39a5fadaa21bc82ff64f1cc4d1588f1a578c053b"
+    }
+  ],
+  "astrbot_plugin_dota2forge": [
+    {
+      "file": "INSTALL.md",
+      "sha256": "001daea19c1055e00ae7aaf7707a2212e0e7d3ede11d43575a1a554021710c3c"
+    },
+    {
+      "file": "install_runtime.py",
+      "sha256": "544e4f73fa7dd6ecef3034df2819c5a6dbdb2aaec9dfd9c87c22a100581dfef2"
+    },
+    {
+      "file": "LICENSE",
+      "sha256": "9567fb54f833d13b9cce4a7dc6d198c1d9678d6d7de37072384182bccaa38ca2"
+    },
+    {
+      "file": "logo.png",
+      "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059"
+    },
+    {
+      "file": "main.py",
+      "sha256": "c631e8ee93b2cd19fabb1ea695239f95eef1511f8d720d7651ac621627c54ed3"
+    },
+    {
+      "file": "metadata.yaml",
+      "sha256": "e46e9809659d94794e58d89ffeeb78c49950275a9bc48fa7627ee8a6d7c29ebf"
+    },
+    {
+      "file": "README.md",
+      "sha256": "0a096d30ca0782f5deaccbad2fbea5ea2d29d1fe9d5d04302217959658ab92c4"
+    },
+    {
+      "file": "release.json",
+      "sha256": "f37fb92555147f8a7f0fc8e11a8b4ea5bc1a93605f01541f9f7111662a886c51"
+    },
+    {
+      "file": "requirements.txt",
+      "sha256": "6ba737738e55bcd359475a8d31733ac89e5c06b99af3fa5ca1bcc924e93f0130"
+    },
+    {
+      "file": "runtime-wheels.json",
+      "sha256": "6f531e7f4ffa153319ee13416182b151de56263a63af53cec5962c09eb330ad7"
+    },
+    {
+      "file": "_conf_schema.json",
+      "sha256": "322818ce02db6f85712045dc0f2341877892c80944a0bbdc11a011a57231e0f2"
+    },
+    {
+      "file": "_dota2forge_bootstrap.py",
+      "sha256": "461f2afa15a053ad4f9602b23d276022820fa9e8a490b080906ba09f30283d7b"
+    },
+    {
+      "file": "screenshots/hero-items.png",
+      "sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde"
+    },
+    {
+      "asset": "dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "bytes": 67453,
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+    },
+    {
+      "asset": "dota2forge_core-0.1.0a4.tar.gz",
+      "bytes": 47789,
+      "sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77"
+    },
+    {
+      "asset": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "bytes": 13727339,
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "asset": "dota2forge_renderer-0.1.0a4.tar.gz",
+      "bytes": 13718574,
+      "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034"
+    },
+    {
+      "asset": "astrbot_plugin_dota2forge-0.1.0a4-py3-none-any.whl",
+      "bytes": 26152,
+      "sha256": "27251e78b8a610dacdcffb912e55235f32a84948df535cbdec85b63d58ffa60e"
+    },
+    {
+      "asset": "astrbot_plugin_dota2forge-0.1.0a4.tar.gz",
+      "bytes": 23581,
+      "sha256": "9f15fb88d8f858a34cf4fbdbec3c33b18202c7e0db1fea27d1523c8b177a001f"
+    },
+    {
+      "asset": "astrbot_plugin_dota2forge.zip",
+      "bytes": 1921901,
+      "sha256": "04b57c21c0e080b1b7d69470c9a2c8c718bb1ac2f4c9b1bfa8ac8260e23085d6"
+    }
+  ]
+}

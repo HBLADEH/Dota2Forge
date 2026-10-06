@@ -90,6 +90,7 @@ async def stop_dota2uid() -> None:
 
 
 @queries.on_command(tuple(action.value for action in Action) + SUBSCRIPTION_COMMANDS, block=True)
+@queries.on_regex(r"^do(?P<hero>.{1,64})出装$", block=True)
 async def command_dota2uid(bot: Bot, ev: Event) -> None:
     caller = Caller(
         ev.bot_id, ev.bot_self_id, ev.user_id, ev.WS_BOT_ID,
@@ -99,10 +100,11 @@ async def command_dota2uid(bot: Bot, ev: Event) -> None:
     )
     async def send(reply: Reply) -> object:
         return await bot.send(reply.artifact.data if isinstance(reply, ImageReply) else reply.text)
-    await runtime.dispatch(caller, ev.command, ev.text, send)
+    hero = ev.regex_dict.get("hero")
+    await runtime.dispatch(caller, "do出装" if hero else ev.command, hero if hero else ev.text, send)
 
 
-@admin.on_command("dota停用", block=True)
+@admin.on_command("do停用", block=True)
 async def disable_dota2uid(bot: Bot, ev: Event) -> None:
     if type(ev.user_pm) is not int or ev.user_pm != 0 or ev.text.strip() or ev.at_list:
         return

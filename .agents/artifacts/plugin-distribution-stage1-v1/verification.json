@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-05",
+  "version": "0.1.0a2",
+  "status": "local_candidate",
+  "snapshot": "Preserved dirty workspace; not a published Git revision",
+  "python": "3.12.9",
+  "platform": "Windows",
+  "artifacts": [
+    {
+      "path": "dist/astrbot_plugin_dota2forge-0.1.0a2-py3-none-any.whl",
+      "bytes": 25954,
+      "sha256": "305298c9e20c7e11f34394f167c3945531adfe5a751b28a265483341161c62c1"
+    },
+    {
+      "path": "dist/astrbot_plugin_dota2forge-0.1.0a2.tar.gz",
+      "bytes": 19886,
+      "sha256": "38466fdb050ebf7e05fa7fb6bc72147bc306d5fcbee339a41cee1c255d5ec9ad"
+    },
+    {
+      "path": "dist/dota2forge_core-0.1.0a2-py3-none-any.whl",
+      "bytes": 66974,
+      "sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00"
+    },
+    {
+      "path": "dist/dota2forge_core-0.1.0a2.tar.gz",
+      "bytes": 47314,
+      "sha256": "0a0874a40ab5094d7d056ab150385498ecbd2fea024beb5e46a2987f8747387a"
+    },
+    {
+      "path": "dist/dota2forge_renderer-0.1.0a2-py3-none-any.whl",
+      "bytes": 13725493,
+      "sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41"
+    },
+    {
+      "path": "dist/dota2forge_renderer-0.1.0a2.tar.gz",
+      "bytes": 13717116,
+      "sha256": "2a34e0d5ee58892ef093b1695a227fe7bb1934aca792ba576a2fb3caf331ef8d"
+    },
+    {
+      "path": "dist/dota2uid-0.1.0a2-py3-none-any.whl",
+      "bytes": 24924,
+      "sha256": "1168eb33bbae3e937ea06391a4dedcd7e807d02a0651ae18db55ca711b475949"
+    },
+    {
+      "path": "dist/dota2uid-0.1.0a2.tar.gz",
+      "bytes": 20628,
+      "sha256": "afc87d76ee2a35f82c9229eedeefa3938d15cb58fcbf1a6a82d212f3f2990ac6"
+    },
+    {
+      "path": "dist/plugin-distributions/0.1.0a2/astrbot_plugin_dota2forge.zip",
+      "bytes": 6960,
+      "sha256": "3f1066886a708aa6dd8b063011388189907440e8a6b2f46d96767b2fd5886bd3"
+    },
+    {
+      "path": "dist/plugin-distributions/0.1.0a2/Dota2UID.zip",
+      "bytes": 5497,
+      "sha256": "e13ca0eede1d0224fe13d260d3fb3a69bbd0994c164529bdf5e91da7a885abba"
+    }
+  ],
+  "checks": {
+    "first_unified_offline_gate": {
+      "exit_code": 0,
+      "tests_passed": 1372,
+      "total_coverage_percent": 93.28,
+      "scripts_report_percent": 96,
+      "core_report_percent": 93,
+      "mypy_source_files": 71
+    },
+    "final_unified_offline_gate": {
+      "exit_code": 0,
+      "tests_passed": 1372,
+      "test_seconds": 137.17,
+      "total_coverage_percent": 93.28,
+      "scripts_report_percent": 96,
+      "core_report_percent": 93,
+      "mypy_source_files": 71,
+      "ruff_formatted_files": 251,
+      "log": ".agents/artifacts/plugin-distribution-stage1-v1/offline-checks.log"
+    },
+    "four_package_build": "passed; sdist and wheel",
+    "four_sdk_free_wheel_smokes": "passed",
+    "two_sdk_free_dependency_list_smokes_after_bytecode_fix": "passed",
+    "byte_identical_rebuild_after_smoke": "passed",
+    "stale_dependency_guard": "offline tests reject missing and 0.1.0a1 libraries before SDK imports"
+  },
+  "not_verified": [
+    "Public dependency download",
+    "Real host 0.1.0a2 installation",
+    "Real host upgrade/uninstall/data migration",
+    "Linux and other interpreters",
+    "New commands in real chat",
+    "Store acceptance"
+  ],
+  "external_publication": false,
+  "generated_cache_fix": "First smoke left two bootstrap .pyc files; switched child interpreter to -B, removed only those files and verified exact rebuild."
+}

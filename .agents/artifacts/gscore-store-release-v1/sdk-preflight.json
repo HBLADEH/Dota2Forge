@@ -1,0 +1,18 @@
+{
+  "actual_sdk": true,
+  "sdk_version": "0.11.0",
+  "public_clone_commit": "52b4d63171942a6fd6332dd10a1e42232625d3b5",
+  "root_entry_recognized": true,
+  "project_packages_initially_absent": true,
+  "dependencies_collected": [
+    "dota2forge-core[stratz]==0.1.0a2",
+    "dota2forge-renderer==0.1.0a2",
+    "dota2uid[stratz]==0.1.0a2"
+  ],
+  "import_rejected_before_runtime_registration": true,
+  "public_dependencies_installed": false,
+  "sdk_functions_replaced": false,
+  "network_disabled_during_probe": true,
+  "production_host_modified": false,
+  "actual_chat_verified": false
+}

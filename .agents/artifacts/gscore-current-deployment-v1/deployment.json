@@ -1,0 +1,75 @@
+{
+  "initial_host_running": false,
+  "backup_after_host_stop": true,
+  "backup_directory": "D:\\bot\\gsuid_core\\data\\Dota2UID\\backups\\current-do-v1-20261005-231445",
+  "shutdown_hook_exercised_this_run": false,
+  "installed_versions_before": {
+    "dota2forge-core": "0.1.0a1",
+    "dota2forge-renderer": "0.1.0a1",
+    "dota2uid": "0.1.0a1",
+    "gsuid-core": "0.11.0",
+    "httpx": "0.28.1",
+    "pillow": "12.3.0"
+  },
+  "bridge_uses_current_do_before": false,
+  "reply_mode": "image",
+  "credential_configured": true,
+  "subscriptions_enabled_before": true,
+  "assets_verified": 558,
+  "core_command_prefix_configured": false,
+  "astrbot_config_preserved_baseline": true,
+  "real_chat_verified": false,
+  "installed_versions_after": {
+    "dota2forge-core": {
+      "version": "0.1.0a2",
+      "wheel_sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00",
+      "installed_files_verified": 35
+    },
+    "dota2forge-renderer": {
+      "version": "0.1.0a2",
+      "wheel_sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41",
+      "installed_files_verified": 15
+    },
+    "dota2uid": {
+      "version": "0.1.0a2",
+      "wheel_sha256": "1168eb33bbae3e937ea06391a4dedcd7e807d02a0651ae18db55ca711b475949",
+      "installed_files_verified": 11
+    }
+  },
+  "bridge_matches_built_wheel": true,
+  "icon_sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059",
+  "configuration_valid": true,
+  "config_and_database_byte_preserved_before_start": true,
+  "assets_preserved": 558,
+  "startup_markers": [
+    "Dota2UID initialized state=ready subscriptions_enabled=True job_registered=True",
+    "Dota2UID initialized state=ready subscriptions_enabled=True job_registered=True"
+  ],
+  "ready_observed": true,
+  "framework_distribution_version": "0.11.0",
+  "http_status": {
+    "webconsole": 200,
+    "plugin_status_anonymous": 401
+  },
+  "config_and_database_byte_preserved_after_start": true,
+  "assets_preserved_after_start": true,
+  "astrbot_host_config_preserved": true,
+  "astrbot_plugin_config_preserved": true,
+  "websocket_accepts_in_this_startup_log": 0,
+  "admin_status_verified": false,
+  "astrbot_gscore_adapter_disabled": true,
+  "astrbot_independent_plugin_enabled": true,
+  "persisted_query_permission": 6,
+  "persisted_admin_permission": 0,
+  "persisted_query_enabled": true,
+  "additional_plugin_prefix_configured": false,
+  "empty_plugin_prefix_allowed": true,
+  "offline_checks": {
+    "command": "uv run --locked python scripts/check_governance.py --all",
+    "exit_code": 0,
+    "tests_passed": 1376,
+    "elapsed_test_seconds": 227.33,
+    "governance_tools_coverage_percent": 96,
+    "core_coverage_percent": 93
+  }
+}

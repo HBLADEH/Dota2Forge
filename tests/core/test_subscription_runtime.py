@@ -61,8 +61,8 @@ def test_runtime_permissions_rebinding_and_unbinding_revoke_before_change(
     async def scenario():
         await runtime.start()
         assert runtime.subscriptions_enabled
-        await runtime.dispatch(caller, "dota绑定", "123", send)
-        await runtime.dispatch(caller, "dota订阅", "", send)
+        await runtime.dispatch(caller, "do绑定", "123", send)
+        await runtime.dispatch(caller, "do订阅", "", send)
         assert "已保存比赛订阅" in replies[-1]
         if adapter == "Dota2UID":
             identity = caller.identity(runtime._config)
@@ -75,12 +75,12 @@ def test_runtime_permissions_rebinding_and_unbinding_revoke_before_change(
             )
             bindings = runtime._application._service
         worker = runtime._subscriptions
-        await runtime.dispatch(group, "dota订阅", "日报", send)
+        await runtime.dispatch(group, "do订阅", "日报", send)
         assert "仅限 Bot 管理员" in replies[-1]
-        await runtime.dispatch(replace(group, is_admin=True), "dota订阅", "日报", send)
+        await runtime.dispatch(replace(group, is_admin=True), "do订阅", "日报", send)
         assert "已保存日报" in replies[-1]
         assert len(await worker.service.list_subscriptions(identity)) == 2
-        await runtime.dispatch(caller, "dota改绑", "01", send)
+        await runtime.dispatch(caller, "do改绑", "01", send)
         assert len(await worker.service.list_subscriptions(identity)) == 2
         entered, release = asyncio.Event(), asyncio.Event()
         original = worker.revoke
@@ -91,9 +91,9 @@ def test_runtime_permissions_rebinding_and_unbinding_revoke_before_change(
             await original(owner)
 
         monkeypatch.setattr(worker, "revoke", blocked_revoke)
-        rebind = asyncio.create_task(runtime.dispatch(caller, "dota改绑", "456", send))
+        rebind = asyncio.create_task(runtime.dispatch(caller, "do改绑", "456", send))
         await entered.wait()
-        subscribe = asyncio.create_task(runtime.dispatch(caller, "dota订阅", "段位", send))
+        subscribe = asyncio.create_task(runtime.dispatch(caller, "do订阅", "段位", send))
         await asyncio.sleep(0)
         assert not subscribe.done()
         release.set()
@@ -106,11 +106,11 @@ def test_runtime_permissions_rebinding_and_unbinding_revoke_before_change(
             raise SubscriptionRepositoryError()
 
         monkeypatch.setattr(worker, "revoke", unavailable)
-        await runtime.dispatch(caller, "dota改绑", "789", send)
+        await runtime.dispatch(caller, "do改绑", "789", send)
         assert "不可用" in replies[-1]
         assert (await bindings.get_binding(identity)).account_id.value == 456
         monkeypatch.setattr(worker, "revoke", original)
-        await runtime.dispatch(caller, "dota解绑", "", send)
+        await runtime.dispatch(caller, "do解绑", "", send)
         assert not await worker.service.list_subscriptions(identity)
         await runtime.close()
         await runtime.close()

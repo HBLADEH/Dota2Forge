@@ -1,0 +1,29 @@
+{
+  "sdk_version": "4.28.2",
+  "python": "3.12.12",
+  "commands": 18,
+  "greedy_parameters": true,
+  "named_items_bridge": true,
+  "initialize_terminate": true,
+  "client_closed": true,
+  "menu_size": [
+    780,
+    1450
+  ],
+  "new_card_sizes": {
+    "synthetic-player": [
+      780,
+      960
+    ],
+    "synthetic-hero-items": [
+      780,
+      1530
+    ]
+  },
+  "dependencies": {
+    "httpx": "0.28.1",
+    "Pillow": "12.3.0"
+  },
+  "real_platform_messages": false,
+  "synthetic_data_only": true
+}

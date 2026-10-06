@@ -12,7 +12,7 @@ parse_account_id 接受整数或规范 ASCII 十进制字符串的 Dota account 
 
 PlatformIdentity 由 namespace、platform、bot_id、user_id 四部分组成。前两项为小写 ASCII 标识，后两项为 1–128 字符、无空白及控制字符的不透明值，保留大小写。namespace 由部署固定，须区分适配器和需要隔离的实例。同一用户号在不同平台、机器人、部署下互不影响；不同身份允许绑定同一 Dota 账号。
 
-Dota2Service 提供 bind_account、get_binding、unbind_account、get_player、get_recent_matches。适配器必须从可信宿主事件构造调用者身份；禁止从命令参数或 AI 参数接受写入目标身份。Core 不验证平台登录，也不证明 Steam 账号所有权；绑定仅是查询偏好。
+Dota2Service 提供绑定/查询/解绑/玩家/近期用例。适配器必须从可信宿主事件构造调用者身份；禁止从命令参数或 AI 参数接受写入目标身份。Core 不验证平台登录，也不证明 Steam 账号所有权；绑定仅是查询偏好。
 
 每个身份只有一个绑定。重复绑定同一账号返回原记录并保留 bound_at；改绑必须显式 replace=True。解绑返回是否删除，重复解绑返回 False。查询默认解析已有绑定，未绑定抛 BindingNotFoundError；显式 AccountId 查询不写绑定。最近比赛 limit 为 1–100，默认 10；基础服务本身无重试、缓存或自动数据源切换。组合入口可按[缓存/重试契约](cache-retry.md)显式装饰 Provider。
 
@@ -20,11 +20,11 @@ Dota2Service 提供 bind_account、get_binding、unbind_account、get_player、g
 
 PlayerProvider、MatchProvider 返回不可变归一化模型。DataMetadata 包含 source、带时区 fetched_at、可缺省 observed_at 和 patch；未知时间/版本保留 None。每条比赛保存自己的元数据，RecentMatches 同时保存本次结果的元数据。
 
-PlayerProfile 的未知昵称/段位与比赛的未知统计使用 None；missing_fields 列出数据字段缺口，0 和 False 保持原义。比赛列表要求同一玩家、同一来源、无重复 ID、按 started_at 从新到旧；条数不能超过请求值。非法模型被拒绝，Provider 实现负责将原始响应解析失败转换为 INVALID_RESPONSE。
+PlayerProfile及比赛未知字段使用None；missing_fields记录缺口，0/False保留。比赛列表须同玩家/来源、无重复ID、按started_at降序且不超请求条数；非法模型拒绝，Provider解析失败为INVALID_RESPONSE。独立[MMR估算](ranks.md)不改原数据或来源。
 
 有效空结果是带元数据的空 tuple。ProviderError.code 区分 NOT_FOUND、PRIVATE、RATE_LIMITED、TIMEOUT、UNAVAILABLE、AUTHENTICATION 和 INVALID_RESPONSE。限流可附非负整秒 retry_after_seconds；Core 不据此自动重试。来源不匹配、错玩家、过量或错误返回类型由用例拒绝。异常不转换为空列表，取消与意外程序错误继续传播。
 
-错误文本不接收完整身份、令牌或原始响应。身份、账号、绑定和昵称的 repr 隐藏敏感字段；这不等于允许直接记录其序列化字典。项目无运行时日志系统。
+错误文本不含身份、令牌或原始响应；repr隐藏敏感字段，不代表允许记录原始字典。项目无运行时日志系统。
 
 ## SQLite 与生命周期
 
@@ -40,9 +40,9 @@ SQL 使用参数绑定；BEGIN IMMEDIATE 将读取旧绑定、冲突检查与写
 
 MatchDetail 保留可缺省开始/解析时间、时长、模式枚举、game_version_id、胜方、has_stats 和实际参赛者；末尾可选parse_version为OpenDota解析格式版本，正数仅对该来源派生已标记解析，0/null不证明未解析，不映射为has_stats或补丁。人数最多十人，重复已知槽位/账号失败；players=None、空 tuple 与不足十人可区分。解析时间不等于 observed_at，版本 ID 不等于补丁名称，has_stats 不证明字段完整。`parse_state` 只摘要上游证据：`UNPARSED`、`UPSTREAM_PARSED`、`PARTIAL`、`UNKNOWN`；显式 null 结果为 `NO_DATA`，原因/隐私仍未知。
 
-MatchParticipant 保留阵营/槽位、英雄/KDA/GPM/XPM 和六个装备槽；0/False 有效，None 为缺失。账号哨兵 0/4294967295 是匿名，null 账号的匿名状态未知；均禁止携带昵称。已知账号与嵌套 steamAccount ID 必须一致；仅实际参赛账号可取得 participant 视角，绑定不证明参赛。账号/昵称 repr 隐藏，missing_fields 记录未知字段和装备槽。
+MatchParticipant 保留阵营/槽位、英雄/KDA/GPM/XPM、六装备槽，末尾新增可选等级/补刀/反补/净资产/英雄伤害/建筑伤害/治疗量；非负整数且禁止bool，0与None区分，旧构造兼容。新增字段缺失/null为未知，订阅JSON保留新增字段，旧记录缺键为None，SQLite schema不变。账号哨兵0/4294967295为匿名，null身份未知，均不得携带昵称；已知账号须与嵌套steamAccount一致。仅实际参赛者有participant视角，repr隐藏身份，missing_fields保留缺口。映射及消费者见[决策](../../.agents/notes/implemented/2026-10-06-readable-cards-and-detail-stats.md)，新增选择未在线联调。
 
-无 GraphQL errors 的显式 null match 返回 MatchDetailUnavailable，保留 ID/source/fetched_at，原因及隐私未知，不能解释成明确不存在/拒绝或正常比赛。缺字段、非法类型、重复玩家和 GraphQL errors 仍为 INVALID_RESPONSE；明确的 NOT_FOUND/PRIVATE 保持 ProviderError 契约，当前 STRATZ 没有该细化证据。原始Provider共用同一实例的限流、超时、取消和客户端所有权，不重试/换源；可选装饰器的重试与缓存不改变这些错误语义。
+无 GraphQL errors 的显式 null match 返回 MatchDetailUnavailable，保留 ID/source/fetched_at，原因及隐私未知，不能解释成明确不存在/拒绝或正常比赛。缺字段、非法类型、重复玩家和 GraphQL errors 仍为 INVALID_RESPONSE；明确的 NOT_FOUND/PRIVATE 保持 ProviderError 契约，当前STRATZ尚无细化证据。原始Provider共享限流/超时/客户端，不重试或换源；装饰器保留错误语义。
 
 ## 实现范围
 
@@ -54,6 +54,6 @@ HTTP 401 与已核实的缺 Bearer JSON 提示为认证失败；429/限额耗尽
 
 已独立只读联调概况、100场及偏移100旧比赛详情：source=stratz、10名参赛者、绑定账号确实参赛和client关闭均核对。has_stats=False但parsed_at存在，不能据单一标记推断完整；装备缺失保持None。Dota2UID详情/序号/取页及共享Renderer图片代码已验证，GsCore/QQ单会话直接ID/序号/分页图片与宿主生命周期已通过；临时列表仍在适配器。独立MatchAnalysisProvider已保存STRATZ净资产/购买事件和OpenDota金钱/经验/购买事件，按来源语义区分；IMP等专有模型输出仍未实现。详情见[决策](../../.agents/notes/implemented/2026-10-01-historical-match-contract.md)、[分析契约](analysis.md)，图片见[Renderer契约](../subsystems/renderer.md)。
 
-操作见 [离线闭环](../cookbook/core-offline.md)，原因见 [Core 决策](../../.agents/notes/implemented/2026-09-30-core-offline-contracts.md)。
+操作见 [离线闭环](../cookbook/core-offline.md)。
 
-OpenDotaProvider实现相同三端口，CrossCheckService显式返回两个来源的独立观察、错误及可比较字段差异；已有Dota2Service/详情服务构造不变，Bot默认STRATZ。来源解析/模式编号不混用，不自动回退或跨源补字段，明确PRIVATE不继续请求补充源。契约及使用范围见[OpenDota](opendota.md)，SDK组合见[步骤](../cookbook/opendota.md)；未在线联调或注册新来源聊天命令。
+OpenDotaProvider实现玩家/比赛/详情及[英雄出装](hero-items.md)端口；玩家默认STRATZ。CrossCheckService独立返回两源观察、错误和差异；不混用解析/模式、不自动回退或跨源补字段，明确PRIVATE不查补充源。出装已双端接入并匿名联调，其他补充SDK未在线联调。见[OpenDota契约](opendota.md)和[组合](../cookbook/opendota.md)。

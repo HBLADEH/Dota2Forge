@@ -1,0 +1,50 @@
+{
+  "checked_on": "2026-10-05",
+  "stratz": [
+    {
+      "hero_id": 1,
+      "requested_position": "POSITION_1",
+      "fetched_at": "2026-10-05T08:43:49.614434+00:00",
+      "error": "graphql_error",
+      "error_messages": [
+        "Query is too complex to execute. Complexity is 748062; maximum allowed on this endpoint is 310000."
+      ]
+    },
+    {
+      "hero_id": 2,
+      "requested_position": "POSITION_3",
+      "fetched_at": "2026-10-05T08:43:49.830382+00:00",
+      "error": "graphql_error",
+      "error_messages": [
+        "Query is too complex to execute. Complexity is 748062; maximum allowed on this endpoint is 310000."
+      ]
+    }
+  ],
+  "opendota": [
+    {
+      "hero_id": 1,
+      "fetched_at": "2026-10-05T08:43:50.471941+00:00",
+      "observed_at": null,
+      "stages": {
+        "start_game_items": 15,
+        "early_game_items": 12,
+        "mid_game_items": 34,
+        "late_game_items": 35
+      },
+      "missing_fields": []
+    },
+    {
+      "hero_id": 2,
+      "fetched_at": "2026-10-05T08:43:50.737304+00:00",
+      "observed_at": null,
+      "stages": {
+        "start_game_items": 16,
+        "early_game_items": 16,
+        "mid_game_items": 30,
+        "late_game_items": 41
+      },
+      "missing_fields": []
+    }
+  ],
+  "client_closed": true
+}

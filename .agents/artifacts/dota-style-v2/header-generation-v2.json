@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-05T03:22:22.573281+08:00",
+  "generation": {
+    "name_loc": "原创暗黑锻造标题背景 v2",
+    "source": "OpenAI built-in image_gen tool; original generated decoration",
+    "status": "available",
+    "file": "decor/header.png",
+    "sha256": "6a93f16fdf84bdaca97f9f21983c05c4acd6346b9218773f52b8a899ed1232fe",
+    "fetched_at": "2026-10-05T03:22:22.573281+08:00",
+    "width": 1536,
+    "height": 512,
+    "generation_method": "built-in image_gen",
+    "tool": "image_gen__imagegen",
+    "model": null,
+    "model_status": "Tool did not return the actual model identifier.",
+    "prompt_file": ".agents/artifacts/dota-style-v2/header-prompt-v2.txt",
+    "prompt_file_sha256": "8a895e18c7f87b4688edea5b9105fe50230ecb776f2a8cd327da56426521591d",
+    "prompt": "用途：为 Dota2Forge 的 Bot 图片卡片生成一张原创标题区装饰背景。\n\n画面风格：借鉴 Dota 2 的暗黑奇幻氛围与游戏界面质感，精致的游戏环境绘画。以风化玄武岩、暗色石材和少量陈旧青铜为主，带克制的红色余烬与淡翡翠色雾光；材质真实，纹理清晰但低对比度，整体沉稳、古老、有锻造感。\n\n构图：横向全幅、纯背景。石材表面可有少量浅刻的几何凹痕，青铜与余烬细节集中在最右侧和画面边缘。画面左侧约 70% 保持深暗、安静、连续的低频纹理，便于后续叠加白色品牌文字和中文标题。中央水平带必须完整可用，因为最终会以中心裁切方式作为 780×174 像素的卡片标题背景。不要在画面中央放置任何主体。\n\n光照与颜色：低调的电影感侧光；主色为蓝黑、炭灰，辅助色为古铜金、暗红、低饱和翡翠绿。光源柔和，只在右边缘留少量余烬亮点；避免大面积火焰、强光、高对比裂纹和明亮中心。压缩到手机显示尺寸后仍需干净、清晰。\n\n输出：一张无文字的光栅背景图，PNG。工具支持时优先使用 1536×512 横幅；若只支持标准横向尺寸，使用 1536×1024，并保持中间水平带符合上述构图。不要直接生成完整卡片或 UI 截图。\n\n禁止出现：文字、字母、数字、Logo、Dota 标志、水印、按钮、数据面板、英雄、人物、怪物、武器或装备图标、段位徽章、任何战绩信息。不要复制 Dota 2 的现有宣传图或官方界面。这里只生成原创环境材质背景，所有文字、图标和数据由程序及已下载的官方素材绘制。",
+    "transparent_background": false,
+    "processing": "Uniform Lanczos resize from 2172x724 to 1536x512; no content edits.",
+    "original": {
+      "file": "output/imagegen/dota-forge-header-v2.png",
+      "sha256": "8fa0d6ab9d83dbb1318146a9a220a7549696a24db338b23753e22818675b4a1c",
+      "width": 2172,
+      "height": 724,
+      "png_bytes": 2251001
+    },
+    "rights": "AI-generated original decorative background; separate from Valve hero/item artwork."
+  },
+  "original": {
+    "file": "output/imagegen/dota-forge-header-v2.png",
+    "sha256": "8fa0d6ab9d83dbb1318146a9a220a7549696a24db338b23753e22818675b4a1c",
+    "width": 2172,
+    "height": 724,
+    "png_bytes": 2251001
+  },
+  "integrated": {
+    "file": ".dota2forge-assets/decor/header.png",
+    "sha256": "6a93f16fdf84bdaca97f9f21983c05c4acd6346b9218773f52b8a899ed1232fe",
+    "width": 1536,
+    "height": 512,
+    "png_bytes": 1102811
+  },
+  "manifest": ".dota2forge-assets/manifest.json",
+  "manifest_backup": ".dota2forge-assets/manifest-before-ai-v2.json",
+  "preservation": {
+    "heroes": 127,
+    "items": 544,
+    "existing_non_decor_manifest_fields_unchanged": true,
+    "builtin_original_left_in_place": true
+  },
+  "runtime": {
+    "renderer_header": [
+      780,
+      174
+    ],
+    "center_crop": true,
+    "dark_overlay_blend": 0.6,
+    "layout_or_runtime_code_changed": false
+  }
+}

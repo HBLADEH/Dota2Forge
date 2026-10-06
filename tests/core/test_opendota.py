@@ -386,7 +386,7 @@ def test_both_adapters_and_renderer_preserve_opendota_marker(
             MatchDetailService(provider),
             image_mode=False,
         )
-        replies = await application.handle(identity, "dota比赛", "1001")
+        replies = await application.handle(identity, "do比赛", "1001")
         assert (
             isinstance(replies[0], AstrTextReply) and f"version {parse_version}" in replies[0].text
         )

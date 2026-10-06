@@ -1,0 +1,214 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+282 files already formatted
+RUN ruff check .
+All checks passed!
+RUN mypy
+Success: no issues found in 72 source files
+RUN pytest
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 1398 items
+
+tests\astrbot_consumer\test_application.py ..                            [  0%]
+tests\astrbot_consumer\test_astr_commands.py ......................      [  1%]
+tests\astrbot_consumer\test_astr_first_configuration.py ..               [  1%]
+tests\astrbot_consumer\test_astr_platform.py ...............             [  2%]
+tests\astrbot_consumer\test_delivery.py ......                           [  3%]
+tests\astrbot_consumer\test_dependency_loading.py .                      [  3%]
+tests\astrbot_consumer\test_host_bridge.py ..                            [  3%]
+tests\core\test_analysis.py ..........                                   [  4%]
+tests\core\test_boundaries.py .                                          [  4%]
+tests\core\test_cache_retry.py .........                                 [  5%]
+tests\core\test_cross_check.py ...................                       [  6%]
+tests\core\test_hero_item_consumers.py ............                      [  7%]
+tests\core\test_hero_items.py .......................................... [ 10%]
+........................                                                 [ 11%]
+tests\core\test_identity.py ............................................ [ 15%]
+...................................                                      [ 17%]
+tests\core\test_match_detail.py ........................................ [ 20%]
+.....................................................................    [ 25%]
+tests\core\test_match_report_subscriptions.py ..                         [ 25%]
+tests\core\test_models.py .............................................. [ 28%]
+.......                                                                  [ 29%]
+tests\core\test_opendota.py ............................................ [ 32%]
+.................                                                        [ 33%]
+tests\core\test_rank_mmr.py ..................................           [ 36%]
+tests\core\test_repository.py ...........................                [ 38%]
+tests\core\test_stratz.py .............................................. [ 41%]
+............................................                             [ 44%]
+tests\core\test_stratz_check.py ........                                 [ 45%]
+tests\core\test_stratz_detail.py ....................................... [ 47%]
+...                                                                      [ 48%]
+tests\core\test_stratz_http.py ......................................... [ 51%]
+.................                                                        [ 52%]
+tests\core\test_subscription_adapters.py ..........................      [ 54%]
+tests\core\test_subscription_delivery_daily.py ....................      [ 55%]
+tests\core\test_subscription_host_senders.py ..                          [ 55%]
+tests\core\test_subscription_repository.py ............................. [ 57%]
+....................................................                     [ 61%]
+tests\core\test_subscription_runtime.py .........                        [ 62%]
+tests\core\test_subscriptions.py ....................................... [ 64%]
+...........                                                              [ 65%]
+tests\core\test_workflow.py ...............................              [ 67%]
+tests\dota2uid\test_commands.py ........................................ [ 70%]
+..............                                                           [ 71%]
+tests\dota2uid\test_detail_commands.py ..........................        [ 73%]
+tests\dota2uid\test_gscore_first_configuration.py ....                   [ 73%]
+tests\dota2uid\test_image_replies.py ............                        [ 74%]
+tests\dota2uid\test_install_and_bridge.py .....                          [ 75%]
+tests\dota2uid\test_presentation.py .................................... [ 77%]
+.................                                                        [ 78%]
+tests\dota2uid\test_runtime.py ...........                               [ 79%]
+tests\dota2uid\test_selection.py ....................................... [ 82%]
+....                                                                     [ 82%]
+tests\renderer\test_hero_items_card.py .                                 [ 82%]
+tests\renderer\test_illustrations.py ................................... [ 85%]
+.......................                                                  [ 86%]
+tests\renderer\test_renderer_cards.py .................................. [ 89%]
+.......                                                                  [ 89%]
+tests\renderer\test_renderer_worker.py ..                                [ 90%]
+tests\test_download_dota_assets.py ..........                            [ 90%]
+tests\test_governance.py ............................................... [ 94%]
+..................                                                       [ 95%]
+tests\test_gscore_public_runtime.py .....................                [ 96%]
+tests\test_packages.py .......                                           [ 97%]
+tests\test_plugin_distributions.py ....................................  [100%]
+
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.9-final-0 _______________
+
+Name                                                                                      Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------------------------------------------------------
+adapters\Dota2UID\src\Dota2UID\__init__.py                                                    0      0      0      0   100%
+adapters\Dota2UID\src\Dota2UID\commands.py                                                  101      3     40      1    97%   71, 81-82
+adapters\Dota2UID\src\Dota2UID\config.py                                                     57      1     14      1    97%   39
+adapters\Dota2UID\src\Dota2UID\install.py                                                    40     14     10      2    68%   21, 36-47, 51
+adapters\Dota2UID\src\Dota2UID\presentation.py                                               72      0     20      0   100%
+adapters\Dota2UID\src\Dota2UID\replies.py                                                     9      0      0      0   100%
+adapters\Dota2UID\src\Dota2UID\runtime.py                                                   352     15    106      5    94%   98, 137-139, 142-143, 188, 212->226, 343-346, 555, 568-574
+adapters\Dota2UID\src\Dota2UID\selection.py                                                  63      0     18      0   100%
+adapters\Dota2UID\src\Dota2UID\subscription_routes.py                                        33      1     12      1    96%   34
+adapters\Dota2UID\src\Dota2UID\subscriptions.py                                             153     13     70     10    90%   103, 126, 133, 140, 160, 187, 196-197, 220, 237, 269->271, 275, 286-287
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\__init__.py                  8      5      2      0    30%   14-24
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\application.py             184      7     62      5    95%   179, 251->exit, 282-283, 295, 306, 371, 380
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\commands.py                 90      7     36      3    92%   43, 53-54, 69, 76, 99-100
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\config.py                   38      0      4      0   100%
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\identity.py                 32      0      6      0   100%
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\install.py                  51     19     20      4    65%   22, 26, 31, 52-69, 73
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\runtime.py                 190     20     56     12    85%   88-90, 93-94, 108->exit, 121, 150, 167->179, 183, 186, 194-202, 230-233, 254, 266, 275, 276->279, 281->283
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\selection.py                39      0      6      1    98%   47->49
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\subscription_routes.py      29      1     10      1    95%   22
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\subscriptions.py           153     13     70     10    90%   103, 126, 133, 140, 160, 187, 196-197, 220, 237, 269->271, 275, 286-287
+packages\dota2forge-core\src\dota2forge_core\__init__.py                                     19      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\cross_check.py                                 100      0     20      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\__init__.py                               0      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\analysis.py                              90     15     36     14    77%   28, 30, 32, 54, 68, 71, 75, 77, 83, 94, 96, 102, 110, 114, 124
+packages\dota2forge-core\src\dota2forge_core\domain\errors.py                                50      0      4      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\hero_items.py                            97      1     46      1    99%   33
+packages\dota2forge-core\src\dota2forge_core\domain\identity.py                              45      0     20      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\match_detail.py                         145      1     62      1    99%   183
+packages\dota2forge-core\src\dota2forge_core\domain\match_reports.py                         41      7     18      7    76%   23, 27, 33, 35, 37, 42, 47
+packages\dota2forge-core\src\dota2forge_core\domain\models.py                                96      0     36      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\ranks.py                                 26      0     10      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\subscription_reports.py                  48      2     12      2    93%   42, 46
+packages\dota2forge-core\src\dota2forge_core\domain\subscriptions.py                        186      6     98      5    95%   78, 115, 156, 163-165
+packages\dota2forge-core\src\dota2forge_core\hero_items.py                                   15      0      4      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\__init__.py                       4      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_analysis_mapping.py            123     23     56     18    77%   29, 31, 36, 46, 59, 61, 65, 73, 76, 80, 83-84, 94, 105, 112, 115-116, 130, 138, 141, 144, 146, 165
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_hero_items_mapping.py           27      0     14      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_http.py                95      2     36      1    96%   35->39, 117-118
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_mapping.py             87      3     36      3    95%   82, 110, 116
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_detail.py                48      0     18      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_http.py                 110      0     48      1    99%   134->138
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_mapping.py               64      0     24      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_subscription_codec.py          144     16     50     16    84%   50, 64, 70, 80, 86, 234, 247, 288, 302, 308, 348, 351, 393, 399, 442, 445
+packages\dota2forge-core\src\dota2forge_core\infrastructure\cache.py                        170     28     30      4    84%   72-73, 108, 110, 145-150, 159, 161-166, 169-174, 180-181, 191, 229-230
+packages\dota2forge-core\src\dota2forge_core\infrastructure\hero_catalog.py                   8      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\opendota.py                      48      1     10      1    97%   75
+packages\dota2forge-core\src\dota2forge_core\infrastructure\resilience.py                   122     22     42     11    77%   50, 52, 67-68, 82, 89, 102, 108, 111, 121, 123, 154, 166, 176, 179, 184-186, 202, 206, 218, 225
+packages\dota2forge-core\src\dota2forge_core\infrastructure\sqlite.py                        98      0     26      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\stratz.py                        64      1     18      1    98%   145
+packages\dota2forge-core\src\dota2forge_core\infrastructure\subscriptions.py                283      7    110      8    96%   145, 214, 216, 338, 458, 462, 464->466, 596
+packages\dota2forge-core\src\dota2forge_core\ports.py                                        30      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\subscriptions.py                               240     20     96     10    91%   54, 71, 82, 160, 173-179, 189-194, 208, 368-374, 382, 403-404, 408, 412, 416-417
+packages\dota2forge-core\src\dota2forge_core\use_cases.py                                    70      1     20      1    98%   62
+packages\dota2forge-renderer\src\dota2forge_renderer\__init__.py                              4      0      0      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\cards.py                                42      0      2      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\engine.py                              337      2     90      3    99%   117->exit, 198, 238
+packages\dota2forge-renderer\src\dota2forge_renderer\formatting.py                           39      0     16      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\hero_items.py                           30      0      8      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\illustrations.py                        90      6     38      6    91%   44, 49, 80, 100, 103, 116
+packages\dota2forge-renderer\src\dota2forge_renderer\subscriptions.py                        44      4     20      5    86%   26, 28, 41->55, 72-73, 90->101
+packages\dota2forge-renderer\src\dota2forge_renderer\worker.py                               46      0     10      1    98%   26->exit
+scripts\build_plugin_distributions.py                                                       192      6     70      6    95%   84, 89, 176, 229, 345, 386
+scripts\check_governance.py                                                                 240      2    120      3    99%   18, 163->151, 323
+scripts\check_stratz.py                                                                      32      1      2      1    94%   64
+scripts\download_dota_assets.py                                                             123      5     32      5    94%   59, 77, 116, 141, 220
+scripts\generate_reference.py                                                                49      1     16      1    97%   80
+scripts\gscore_public_runtime.py                                                             71      1     28      1    98%   173
+scripts\plugin_bootstrap.py                                                                  34      0     16      0   100%
+scripts\smoke_plugin_distributions.py                                                        44      2     10      1    94%   155, 159
+scripts\smoke_wheels.py                                                                      25      1     10      1    94%   91
+scripts\stage_wheel_dependencies.py                                                          12      1      2      1    86%   32
+-------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                      5941    307   2052    196    93%
+Required test coverage of 80% reached. Total coverage: 93.38%
+====================== 1398 passed in 213.63s (0:03:33) =======================
+RUN python -m coverage report --include=scripts/* --fail-under=80
+Name                                    Stmts   Miss Branch BrPart  Cover
+-------------------------------------------------------------------------
+scripts\build_plugin_distributions.py     192      6     70      6    95%
+scripts\check_governance.py               240      2    120      3    99%
+scripts\check_stratz.py                    32      1      2      1    94%
+scripts\download_dota_assets.py           123      5     32      5    94%
+scripts\generate_reference.py              49      1     16      1    97%
+scripts\gscore_public_runtime.py           71      1     28      1    98%
+scripts\plugin_bootstrap.py                34      0     16      0   100%
+scripts\smoke_plugin_distributions.py      44      2     10      1    94%
+scripts\smoke_wheels.py                    25      1     10      1    94%
+scripts\stage_wheel_dependencies.py        12      1      2      1    86%
+-------------------------------------------------------------------------
+TOTAL                                     822     20    306     20    96%
+RUN python -m coverage report --include=packages/dota2forge-core/* --fail-under=80
+Name                                                                                 Stmts   Miss Branch BrPart  Cover
+----------------------------------------------------------------------------------------------------------------------
+packages\dota2forge-core\src\dota2forge_core\__init__.py                                19      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\cross_check.py                            100      0     20      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\__init__.py                          0      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\analysis.py                         90     15     36     14    77%
+packages\dota2forge-core\src\dota2forge_core\domain\errors.py                           50      0      4      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\hero_items.py                       97      1     46      1    99%
+packages\dota2forge-core\src\dota2forge_core\domain\identity.py                         45      0     20      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\match_detail.py                    145      1     62      1    99%
+packages\dota2forge-core\src\dota2forge_core\domain\match_reports.py                    41      7     18      7    76%
+packages\dota2forge-core\src\dota2forge_core\domain\models.py                           96      0     36      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\ranks.py                            26      0     10      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\subscription_reports.py             48      2     12      2    93%
+packages\dota2forge-core\src\dota2forge_core\domain\subscriptions.py                   186      6     98      5    95%
+packages\dota2forge-core\src\dota2forge_core\hero_items.py                              15      0      4      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\__init__.py                  4      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_analysis_mapping.py       123     23     56     18    77%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_hero_items_mapping.py      27      0     14      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_http.py           95      2     36      1    96%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_mapping.py        87      3     36      3    95%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_detail.py           48      0     18      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_http.py            110      0     48      1    99%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_mapping.py          64      0     24      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_subscription_codec.py     144     16     50     16    84%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\cache.py                   170     28     30      4    84%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\hero_catalog.py              8      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\opendota.py                 48      1     10      1    97%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\resilience.py              122     22     42     11    77%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\sqlite.py                   98      0     26      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\stratz.py                   64      1     18      1    98%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\subscriptions.py           283      7    110      8    96%
+packages\dota2forge-core\src\dota2forge_core\ports.py                                   30      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\subscriptions.py                          240     20     96     10    91%
+packages\dota2forge-core\src\dota2forge_core\use_cases.py                               70      1     20      1    98%
+----------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                 2793    156   1000    105    93%

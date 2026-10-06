@@ -14,6 +14,8 @@ from dota2forge_core import (
     BindingConflictError,
     BindingNotFoundError,
     Dota2Service,
+    HeroItemService,
+    HeroResolutionError,
     MatchAnalysisService,
     MatchAnalysisUnavailable,
     MatchDetail,
@@ -33,6 +35,7 @@ from dota2forge_core import (
 from dota2forge_renderer import (
     AsyncRenderer,
     Card,
+    HeroItemsCard,
     ImageArtifact,
     MatchDetailCard,
     MenuCard,
@@ -41,14 +44,18 @@ from dota2forge_renderer import (
     RenderError,
     StatusCard,
 )
+from dota2forge_renderer.cards import DETAIL_PER_PAGE
 from dota2forge_renderer.engine import detail_groups
 from dota2forge_renderer.formatting import (
     duration_text,
+    mmr_estimate_text,
     rank_text,
     safe_name,
     timestamp,
     value_text,
 )
+from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
+from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
 from dota2forge_renderer.subscriptions import match_report_lines
 
 from .commands import AstrAction, AstrCommandError, parse_command
@@ -56,13 +63,14 @@ from .selection import Key, SelectionError, SelectionStore, Session
 
 HELP = (
     "Dota2Forge / AstrBot\n"
-    "dota菜单 / dota帮助\ndota绑定 <ID> / dota改绑 <ID>\n"
-    "dota账号 / dota解绑\ndota玩家 [ID]\n"
-    "dota战绩 [条数] / dota战绩 <ID> <条数>\n"
-    "dota战绩 第N页\ndota比赛 <ID> / dota比赛 第N场\n"
-    "dota订阅 [比赛|段位|日报] [ID] / dota订阅列表 [游标]\n"
-    "dota订阅玩家 <玩家ID> / dota订阅比赛 <比赛ID>：完成后播报详情分析\n"
-    "dota取消订阅 <订阅ID> / dota重试推送 <事件ID>\n"
+    "do菜单 / do帮助\ndo绑定 <ID> / do改绑 <ID>\n"
+    "do账号 / do解绑\ndo查询 [ID]\n"
+    "do[英雄名或简称]出装：OpenDota职业比赛热门出装统计\n"
+    "do战绩 [条数] / do战绩 <ID> <条数>\n"
+    "do战绩 第N页\ndo比赛 <ID> / do比赛 第N场\n"
+    "do订阅 [比赛|段位|日报] [ID] / do订阅列表 [游标]\n"
+    "do订阅玩家 <玩家ID> / do订阅比赛 <比赛ID>：完成后播报详情分析\n"
+    "do取消订阅 <订阅ID> / do重试推送 <事件ID>\n"
     "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
     "ID 为规范十进制 Dota 账号 ID 或 SteamID64。绑定只是查询偏好。"
 )
@@ -93,6 +101,8 @@ def player_text(player: PlayerProfile) -> str:
     return (
         f"Dota2Forge 玩家\n昵称：{safe_name(player.display_name)}\n"
         f"段位：{rank_text(player.rank_tier)}\n"
+        f"预估 MMR：{mmr_estimate_text(player.rank_tier)}\n"
+        "按段位区间估算，非精确分数；段位可能滞后。\n"
         f"抓取时间：{timestamp(player.metadata.fetched_at)}\n"
         f"数据观测时间：{timestamp(player.metadata.observed_at)}\n"
         f"来源：{source_label(player.metadata.source.value)}"
@@ -118,7 +128,7 @@ def recent_text(recent: RecentMatches) -> list[str]:
                 f"K/D/A {value_text(match.kills)}/{value_text(match.deaths)}/"
                 f"{value_text(match.assists)}"
                 f" | 时长 {duration_text(match.duration_seconds)}\n"
-                f"比赛 ID {match.match_id} | dota比赛 {match.match_id}"
+                f"比赛 ID {match.match_id} | do比赛 {match.match_id}"
             )
         lines.append(
             f"来源：{source_label(recent.metadata.source.value)}；"
@@ -174,9 +184,9 @@ def detail_text(detail: MatchDetailResult) -> list[str]:
         players = tuple(player for player in detail.players if player.is_radiant is side)
         if not players:
             continue
-        for offset in range(0, len(players), 5):
+        for offset in range(0, len(players), DETAIL_PER_PAGE):
             lines = [header, label]
-            for player in players[offset : offset + 5]:
+            for player in players[offset : offset + DETAIL_PER_PAGE]:
                 name = (
                     "匿名参赛者"
                     if player.is_anonymous is True
@@ -189,6 +199,11 @@ def detail_text(detail: MatchDetailResult) -> list[str]:
                     f"K/D/A {value_text(player.kills)}/{value_text(player.deaths)}/"
                     f"{value_text(player.assists)}"
                 )
+                lines.append(
+                    f"GPM {value_text(player.gold_per_minute)} / "
+                    f"XPM {value_text(player.experience_per_minute)}"
+                )
+                lines.extend((participant_stats_text(player), participant_items_text(player)))
             pages.append("\n".join(lines))
     return pages or [header + "\n本次返回 0 名参赛者。"]
 
@@ -201,12 +216,14 @@ class AstrApplication:
         renderer: AsyncRenderer | None = None,
         *,
         analysis: MatchAnalysisService | None = None,
+        items: HeroItemService | None = None,
         image_mode: bool = True,
         selection_clock: Callable[[], float] = time.monotonic,
     ) -> None:
         self._service = service
         self._details = details
         self._analysis = analysis
+        self._items = items
         self._renderer = renderer
         self._image_mode = image_mode
         self._selections = SelectionStore(selection_clock)
@@ -280,6 +297,13 @@ class AstrApplication:
                 player = await self._service.get_player(identity, account_id=command.account)
                 texts = [player_text(player)]
                 cards = (PlayerCard(player),)
+            elif command.action == AstrAction.ITEMS:
+                if self._items is None:
+                    return [AstrTextReply("英雄出装服务尚未配置。")], None
+                assert command.hero_name is not None
+                result_items = await self._items.get_items(command.hero_name)
+                texts = [hero_items_text(result_items)]
+                cards = (HeroItemsCard(result_items),)
             elif command.action == AstrAction.RECENT:
                 recent_binding: PlayerBinding | None = await self._binding(identity)
                 if command.page is not None:
@@ -303,7 +327,7 @@ class AstrApplication:
                     if len(pages) > 2:
                         texts.append(
                             f"本次返回 {len(recent.matches)} 场、共 {len(pages)} 页。"
-                            "请用 dota战绩 第N页 查看其余结果。"
+                            "请用 do战绩 第N页 查看其余结果。"
                             if candidate is not None
                             else "本次仅显示前 10 场；无法确认会话，不能保存后续页。"
                         )
@@ -357,12 +381,14 @@ class AstrApplication:
                 return [AstrTextReply(value) for value in texts], candidate
         except AstrCommandError:
             return [AstrTextReply("命令参数不正确。\n" + HELP)], None
+        except HeroResolutionError as error:
+            return [AstrTextReply(hero_resolution_text(error))], None
         except BindingNotFoundError:
-            return [AstrTextReply("你尚未绑定账号，请使用 dota绑定 <ID>。")], None
+            return [AstrTextReply("你尚未绑定账号，请使用 do绑定 <ID>。")], None
         except BindingConflictError:
-            return [AstrTextReply("你已绑定其他账号；如需替换，请使用 dota改绑 <ID>。")], None
+            return [AstrTextReply("你已绑定其他账号；如需替换，请使用 do改绑 <ID>。")], None
         except SelectionError:
-            return [AstrTextReply("没有有效的已发送列表，请在本会话重新查询 dota战绩。")], None
+            return [AstrTextReply("没有有效的已发送列表，请在本会话重新查询 do战绩。")], None
         except RepositoryError:
             return [AstrTextReply("绑定存储不可用，请管理员检查本地数据目录。")], None
         except ProviderError as error:

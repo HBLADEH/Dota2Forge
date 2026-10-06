@@ -1,5 +1,6 @@
 """Explicit local configuration; importing the adapter performs no I/O."""
 
+import json
 import math
 import re
 import tomllib
@@ -12,6 +13,30 @@ from types import MappingProxyType
 class ConfigurationError(Exception):
     def __init__(self) -> None:
         super().__init__("Dota2UID configuration is missing or invalid")
+
+
+class ConfigurationPending(ConfigurationError):
+    """The otherwise valid configuration still needs a local STRATZ Token."""
+
+
+def ensure_config(path: Path, *, token: str = "") -> None:
+    """Explicit startup preparation; exclusive creation preserves existing configuration."""
+    if path.is_dir():
+        raise IsADirectoryError("Dota2UID configuration path must be a file")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with path.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(
+                'namespace = "dota2uid-local"\nstratz_token = '
+                + json.dumps(token)
+                + '\ntimeout_seconds = 10\nreply_mode = "image"\nillustration_path = ""\n'
+                "subscriptions_enabled = false\nsubscription_interval_seconds = 300\n"
+                'daily_report_hour = 9\n\n[platforms]\nonebot = "qq"\nqq = "qq"\n'
+                'telegram = "telegram"\n'
+            )
+    except FileExistsError:
+        if not path.is_file():
+            raise
 
 
 def identifier(value: str) -> bool:
@@ -29,11 +54,11 @@ class Config:
     subscriptions_enabled: bool = False
     subscription_interval_seconds: int = 300
     daily_report_hour: int = 9
+    illustration_path: Path | None = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
         if (
             not identifier(self.namespace)
-            or not self.token
             or not self.token.isascii()
             or any(not 33 <= ord(char) <= 126 for char in self.token)
             or not self.database.is_absolute()
@@ -48,8 +73,11 @@ class Config:
             or not 60 <= self.subscription_interval_seconds <= 86400
             or type(self.daily_report_hour) is not int
             or not 0 <= self.daily_report_hour <= 23
+            or (self.illustration_path is not None and not self.illustration_path.is_absolute())
         ):
             raise ConfigurationError()
+        if not self.token:
+            raise ConfigurationPending()
         object.__setattr__(self, "platforms", MappingProxyType(dict(self.platforms)))
 
 
@@ -67,6 +95,7 @@ def load_config(path: Path) -> Config:
                 "subscriptions_enabled",
                 "subscription_interval_seconds",
                 "daily_report_hour",
+                "illustration_path",
             }
         ):
             raise ConfigurationError()
@@ -86,7 +115,13 @@ def load_config(path: Path) -> Config:
         ):
             raise ConfigurationError()
         reply_mode = raw.get("reply_mode", "image")
-        if not isinstance(reply_mode, str):
+        illustration = raw.get("illustration_path", "")
+        if (
+            not isinstance(reply_mode, str)
+            or not isinstance(illustration, str)
+            or len(illustration) > 2048
+            or any(ord(char) < 32 for char in illustration)
+        ):
             raise ConfigurationError()
         return Config(
             namespace,
@@ -98,6 +133,7 @@ def load_config(path: Path) -> Config:
             raw.get("subscriptions_enabled", False),
             raw.get("subscription_interval_seconds", 300),
             raw.get("daily_report_hour", 9),
+            (path.resolve().parent / illustration).resolve() if illustration else None,
         )
     except (OSError, ValueError):
         raise ConfigurationError() from None

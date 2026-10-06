@@ -1,0 +1,74 @@
+{
+  "hero-items": {
+    "width": 780,
+    "height": 1674,
+    "bytes": 468382,
+    "text_boxes": 61
+  },
+  "match-1": {
+    "width": 780,
+    "height": 1706,
+    "bytes": 501181,
+    "text_boxes": 72
+  },
+  "match-2": {
+    "width": 780,
+    "height": 1366,
+    "bytes": 401378,
+    "text_boxes": 53
+  },
+  "match-3": {
+    "width": 780,
+    "height": 1706,
+    "bytes": 497198,
+    "text_boxes": 72
+  },
+  "match-4": {
+    "width": 780,
+    "height": 1366,
+    "bytes": 403250,
+    "text_boxes": 53
+  },
+  "match-missing": {
+    "width": 780,
+    "height": 1026,
+    "bytes": 259929,
+    "text_boxes": 40
+  },
+  "hero-items-no-art": {
+    "width": 780,
+    "height": 1674,
+    "bytes": 149285,
+    "text_boxes": 79
+  },
+  "match-1-no-art": {
+    "width": 780,
+    "height": 1706,
+    "bytes": 206590,
+    "text_boxes": 93
+  },
+  "match-2-no-art": {
+    "width": 780,
+    "height": 1366,
+    "bytes": 162442,
+    "text_boxes": 67
+  },
+  "match-3-no-art": {
+    "width": 780,
+    "height": 1706,
+    "bytes": 203409,
+    "text_boxes": 93
+  },
+  "match-4-no-art": {
+    "width": 780,
+    "height": 1366,
+    "bytes": 158528,
+    "text_boxes": 67
+  },
+  "match-missing-no-art": {
+    "width": 780,
+    "height": 1026,
+    "bytes": 114307,
+    "text_boxes": 41
+  }
+}

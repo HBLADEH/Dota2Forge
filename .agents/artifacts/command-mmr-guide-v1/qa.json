@@ -1,0 +1,260 @@
+{
+  "menu": {
+    "width": 780,
+    "height": 1450,
+    "bytes": 302501,
+    "text_boxes": 33
+  },
+  "menu-admin": {
+    "width": 780,
+    "height": 1580,
+    "bytes": 306963,
+    "text_boxes": 35
+  },
+  "player-None": {
+    "width": 780,
+    "height": 960,
+    "bytes": 206582,
+    "text_boxes": 13
+  },
+  "player-0": {
+    "width": 780,
+    "height": 960,
+    "bytes": 229714,
+    "text_boxes": 13
+  },
+  "player-11": {
+    "width": 780,
+    "height": 960,
+    "bytes": 225107,
+    "text_boxes": 13
+  },
+  "player-12": {
+    "width": 780,
+    "height": 960,
+    "bytes": 227105,
+    "text_boxes": 13
+  },
+  "player-13": {
+    "width": 780,
+    "height": 960,
+    "bytes": 228837,
+    "text_boxes": 13
+  },
+  "player-14": {
+    "width": 780,
+    "height": 960,
+    "bytes": 227973,
+    "text_boxes": 13
+  },
+  "player-15": {
+    "width": 780,
+    "height": 960,
+    "bytes": 229081,
+    "text_boxes": 13
+  },
+  "player-21": {
+    "width": 780,
+    "height": 960,
+    "bytes": 225165,
+    "text_boxes": 13
+  },
+  "player-22": {
+    "width": 780,
+    "height": 960,
+    "bytes": 226513,
+    "text_boxes": 13
+  },
+  "player-23": {
+    "width": 780,
+    "height": 960,
+    "bytes": 227857,
+    "text_boxes": 13
+  },
+  "player-24": {
+    "width": 780,
+    "height": 960,
+    "bytes": 227701,
+    "text_boxes": 13
+  },
+  "player-25": {
+    "width": 780,
+    "height": 960,
+    "bytes": 229912,
+    "text_boxes": 13
+  },
+  "player-31": {
+    "width": 780,
+    "height": 960,
+    "bytes": 232611,
+    "text_boxes": 13
+  },
+  "player-32": {
+    "width": 780,
+    "height": 960,
+    "bytes": 233298,
+    "text_boxes": 13
+  },
+  "player-33": {
+    "width": 780,
+    "height": 960,
+    "bytes": 233887,
+    "text_boxes": 13
+  },
+  "player-34": {
+    "width": 780,
+    "height": 960,
+    "bytes": 233438,
+    "text_boxes": 13
+  },
+  "player-35": {
+    "width": 780,
+    "height": 960,
+    "bytes": 236565,
+    "text_boxes": 13
+  },
+  "player-41": {
+    "width": 780,
+    "height": 960,
+    "bytes": 234249,
+    "text_boxes": 13
+  },
+  "player-42": {
+    "width": 780,
+    "height": 960,
+    "bytes": 234677,
+    "text_boxes": 13
+  },
+  "player-43": {
+    "width": 780,
+    "height": 960,
+    "bytes": 236173,
+    "text_boxes": 13
+  },
+  "player-44": {
+    "width": 780,
+    "height": 960,
+    "bytes": 235938,
+    "text_boxes": 13
+  },
+  "player-45": {
+    "width": 780,
+    "height": 960,
+    "bytes": 238703,
+    "text_boxes": 13
+  },
+  "player-51": {
+    "width": 780,
+    "height": 960,
+    "bytes": 239601,
+    "text_boxes": 13
+  },
+  "player-52": {
+    "width": 780,
+    "height": 960,
+    "bytes": 240790,
+    "text_boxes": 13
+  },
+  "player-53": {
+    "width": 780,
+    "height": 960,
+    "bytes": 241763,
+    "text_boxes": 13
+  },
+  "player-54": {
+    "width": 780,
+    "height": 960,
+    "bytes": 242859,
+    "text_boxes": 13
+  },
+  "player-55": {
+    "width": 780,
+    "height": 960,
+    "bytes": 243736,
+    "text_boxes": 13
+  },
+  "player-61": {
+    "width": 780,
+    "height": 960,
+    "bytes": 249047,
+    "text_boxes": 13
+  },
+  "player-62": {
+    "width": 780,
+    "height": 960,
+    "bytes": 249214,
+    "text_boxes": 13
+  },
+  "player-63": {
+    "width": 780,
+    "height": 960,
+    "bytes": 250536,
+    "text_boxes": 13
+  },
+  "player-64": {
+    "width": 780,
+    "height": 960,
+    "bytes": 250990,
+    "text_boxes": 13
+  },
+  "player-65": {
+    "width": 780,
+    "height": 960,
+    "bytes": 251554,
+    "text_boxes": 13
+  },
+  "player-71": {
+    "width": 780,
+    "height": 960,
+    "bytes": 246799,
+    "text_boxes": 13
+  },
+  "player-72": {
+    "width": 780,
+    "height": 960,
+    "bytes": 247887,
+    "text_boxes": 13
+  },
+  "player-73": {
+    "width": 780,
+    "height": 960,
+    "bytes": 247888,
+    "text_boxes": 13
+  },
+  "player-74": {
+    "width": 780,
+    "height": 960,
+    "bytes": 248244,
+    "text_boxes": 13
+  },
+  "player-75": {
+    "width": 780,
+    "height": 960,
+    "bytes": 250125,
+    "text_boxes": 13
+  },
+  "player-80": {
+    "width": 780,
+    "height": 960,
+    "bytes": 256929,
+    "text_boxes": 13
+  },
+  "player-16": {
+    "width": 780,
+    "height": 960,
+    "bytes": 211647,
+    "text_boxes": 13
+  },
+  "player-81": {
+    "width": 780,
+    "height": 960,
+    "bytes": 211807,
+    "text_boxes": 13
+  },
+  "player-999": {
+    "width": 780,
+    "height": 960,
+    "bytes": 211573,
+    "text_boxes": 13
+  }
+}

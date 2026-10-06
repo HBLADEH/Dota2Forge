@@ -1,0 +1,22 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+unformatted: File would be reformatted
+   --> packages\dota2forge-renderer\src\dota2forge_renderer\engine.py:500:65
+    |
+499 |                 )
+    -                 canvas.icon("ui", "gold", 484, y + 87, (30, 30))
+    -                 canvas.text(
+    -                     522,
+500 +                 canvas.icon("ui", "gold", 484, y + 87, (30, 30))
+501 +                 canvas.text(
+502 +                     522,
+503 |                     y + 86,
+504 |                     f"GPM {value_text(player.gold_per_minute)}",
+505 |                     size=24,
+    -                     width=222,
+506 +                     width=222,
+507 |                 )
+    |
+
+1 file would be reformatted, 212 files already formatted
+Required command failed: ruff

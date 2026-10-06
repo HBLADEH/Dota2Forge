@@ -1,0 +1,52 @@
+{
+  "backup_directory": "C:\\Users\\BLADE\\.astrbot\\data\\plugin_data\\astrbot_plugin_dota2forge\\backups\\screenshot-update-v1-20261005-210127",
+  "initial_astrbot_running": false,
+  "backup_after_host_stop": true,
+  "shutdown_hook_exercised_this_run": true,
+  "original_assets_verified": 558,
+  "reply_mode": "image",
+  "subscriptions_enabled_before": true,
+  "credential_configured": true,
+  "astrbot_log_offset_before_start": 107715,
+  "real_chat_verified": false,
+  "terminated_client_closed": true,
+  "initial_backup_directory": "C:\\Users\\BLADE\\.astrbot\\data\\plugin_data\\astrbot_plugin_dota2forge\\backups\\screenshot-update-v1-20261005-204729",
+  "installed_packages": {
+    "dota2forge_core": {
+      "version": "0.1.0a2",
+      "sha256": "f8f8027806092fbb187d3c6ff5545c5b1c9e66dc350954d8f72724933654ed00",
+      "verified_files": 35
+    },
+    "dota2forge_renderer": {
+      "version": "0.1.0a2",
+      "sha256": "faf622622baec9dd65ab176dd52e859a89a3022fc8df77e36af8f5e16e4a8f41",
+      "verified_files": 15
+    },
+    "astrbot_plugin_dota2forge": {
+      "version": "0.1.0a2",
+      "sha256": "305298c9e20c7e11f34394f167c3945531adfe5a751b28a265483341161c62c1",
+      "verified_files": 14
+    }
+  },
+  "bridge_matches_installed_wheel": true,
+  "logo_sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059",
+  "private_files_preserved_before_start": true,
+  "assets_preserved_before_start": 558,
+  "manual_bridge_installation": true,
+  "runtime_ready_image": true,
+  "plugin_initialized_ready": true,
+  "onebot_connected": true,
+  "plugin_failure_after_start": false,
+  "configuration_preserved_after_start": true,
+  "host_configuration_restored": true,
+  "binding_rows_preserved": true,
+  "subscription_database_rows_preserved": true,
+  "assets_preserved_after_start": 558,
+  "ports_listening": {
+    "6185": true,
+    "6199": true
+  },
+  "desktop_plugin_version_observed": "0.1.0a2",
+  "desktop_logo_observed": true,
+  "desktop_plugin_enabled_observed": true
+}

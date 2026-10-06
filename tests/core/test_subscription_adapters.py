@@ -41,55 +41,45 @@ def test_subscription_commands_default_snapshot_permissions_and_grammar(
     worker, subscriptions, _repository, _monotonic, _module = controller
 
     async def scenario():
-        denied = await worker.handle(identity, "synthetic", True, False, "dota订阅", "比赛 123")
+        denied = await worker.handle(identity, "synthetic", True, False, "do订阅", "比赛 123")
         assert "管理员" in denied and not await subscriptions.list_subscriptions(identity)
-        assert "尚未绑定" in await worker.handle(
-            identity, "synthetic", False, False, "dota订阅", ""
-        )
+        assert "尚未绑定" in await worker.handle(identity, "synthetic", False, False, "do订阅", "")
         await service.bind_account(identity, 123)
-        reply = await worker.handle(identity, "synthetic", False, False, "dota订阅", "")
+        reply = await worker.handle(identity, "synthetic", False, False, "do订阅", "")
         assert "已保存比赛" in reply
-        player_reply = await worker.handle(
-            identity, "synthetic", False, False, "dota订阅玩家", "123"
-        )
+        player_reply = await worker.handle(identity, "synthetic", False, False, "do订阅玩家", "123")
         assert "已保存玩家对局订阅" in player_reply
-        match_reply = await worker.handle(
-            identity, "synthetic", False, False, "dota订阅比赛", "9001"
-        )
+        match_reply = await worker.handle(identity, "synthetic", False, False, "do订阅比赛", "9001")
         assert "已保存指定比赛订阅" in match_reply
         first = (await subscriptions.list_subscriptions(identity))[0]
         assert "本会话订阅" in await worker.handle(
-            identity, "synthetic", False, False, "dota订阅列表", ""
+            identity, "synthetic", False, False, "do订阅列表", ""
         )
-        assert "没有订阅" in await worker.handle(
-            identity, "other", False, False, "dota订阅列表", ""
-        )
+        assert "没有订阅" in await worker.handle(identity, "other", False, False, "do订阅列表", "")
         for text in ["比赛 01", "日报 123 extra", "unknown", "段位 -1"]:
             assert "参数不正确" in await worker.handle(
-                identity, "synthetic", False, False, "dota订阅", text
+                identity, "synthetic", False, False, "do订阅", text
             )
         other = replace(identity, user_id="other-synthetic")
         assert "不属于你" in await worker.handle(
-            other, "synthetic", False, False, "dota取消订阅", first.subscription_id
+            other, "synthetic", False, False, "do取消订阅", first.subscription_id
         )
         assert "已取消" in await worker.handle(
-            identity, "synthetic", False, False, "dota取消订阅", first.subscription_id
+            identity, "synthetic", False, False, "do取消订阅", first.subscription_id
         )
         assert "参数不正确" in await worker.handle(
-            identity, "synthetic", False, False, "dota取消订阅", ""
+            identity, "synthetic", False, False, "do取消订阅", ""
         )
         assert "未被占用" in await worker.handle(
-            identity, "synthetic", False, False, "dota重试推送", "a" * 32
+            identity, "synthetic", False, False, "do重试推送", "a" * 32
         )
         worker.enabled = False
         assert "未启用" in await worker.handle(
-            identity, "synthetic", False, False, "dota订阅", "比赛 123"
+            identity, "synthetic", False, False, "do订阅", "比赛 123"
         )
         worker.enabled = True
         await worker.close()
-        assert "停用" in await worker.handle(
-            identity, "synthetic", False, False, "dota订阅列表", ""
-        )
+        assert "停用" in await worker.handle(identity, "synthetic", False, False, "do订阅列表", "")
 
     run_async(scenario())
 
@@ -125,10 +115,10 @@ def test_claim_before_send_and_explicit_manual_retry(
             await worker.tick(send)
             assert calls == [event]
             assert "管理员" in await worker.handle(
-                identity, "synthetic", True, False, "dota重试推送", event.event_id
+                identity, "synthetic", True, False, "do重试推送", event.event_id
             )
             assert "可能产生重复" in await worker.handle(
-                identity, "synthetic", False, False, "dota重试推送", event.event_id
+                identity, "synthetic", False, False, "do重试推送", event.event_id
             )
             monotonic[0] += 300
             await worker.tick(send)

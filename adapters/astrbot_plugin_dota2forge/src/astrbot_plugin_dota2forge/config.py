@@ -13,6 +13,10 @@ class ConfigurationError(Exception):
         super().__init__("Dota2Forge AstrBot configuration is missing or invalid")
 
 
+class ConfigurationPending(ConfigurationError):
+    """The otherwise valid host configuration still needs a local STRATZ Token."""
+
+
 @dataclass(frozen=True, repr=False)
 class Config:
     namespace: str
@@ -23,6 +27,7 @@ class Config:
     subscriptions_enabled: bool = False
     subscription_interval_seconds: int = 300
     daily_report_hour: int = 9
+    illustration_path: Path | None = field(default=None, repr=False)
 
 
 def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
@@ -33,6 +38,7 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
     enabled = raw.get("subscriptions_enabled", False)
     interval = raw.get("subscription_interval_seconds", 300)
     daily_hour = raw.get("daily_report_hour", 9)
+    illustration = raw.get("illustration_path", "")
     if (
         set(raw)
         - {
@@ -43,10 +49,10 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
             "subscriptions_enabled",
             "subscription_interval_seconds",
             "daily_report_hour",
+            "illustration_path",
         }
         or not isinstance(namespace, str)
         or not isinstance(token, str)
-        or not token
         or not token.isascii()
         or any(not 33 <= ord(char) <= 126 for char in token)
         or type(timeout) not in {int, float}
@@ -61,12 +67,17 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
         or not isinstance(daily_hour, int)
         or isinstance(daily_hour, bool)
         or not 0 <= daily_hour <= 23
+        or not isinstance(illustration, str)
+        or len(illustration) > 2048
+        or any(ord(char) < 32 for char in illustration)
     ):
         raise ConfigurationError()
     try:
         PlatformIdentity(namespace, "astrbot", "validation", "validation")
     except ValidationError:
         raise ConfigurationError() from None
+    if not token:
+        raise ConfigurationPending()
     return Config(
         namespace,
         token,
@@ -76,4 +87,5 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
         enabled,
         interval,
         daily_hour,
+        (data_dir.resolve() / illustration).resolve() if illustration else None,
     )

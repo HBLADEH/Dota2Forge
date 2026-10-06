@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "previews_directory": ".dota2forge-assets/previews-with-ai-v2",
+  "cards": {
+    "menu": {
+      "width": 780,
+      "height": 1450,
+      "png_bytes": 309068,
+      "text_boxes": 33,
+      "sha256": "0f1b34662b1a27ad2accad001733d4d390c2e3b2a9d57de1629660be44003a4c",
+      "mobile_width": 390,
+      "mobile_height": 725,
+      "mobile_sha256": "070d6a9378845829774975b8c2494c608a9c6e17f1723c0d592e5c6f5b4a4c1c",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "menu-admin": {
+      "width": 780,
+      "height": 1580,
+      "png_bytes": 314116,
+      "text_boxes": 35,
+      "sha256": "a72498fb7fcf5eefed50770b1752cd734979cf878c57ab9e637cbb50b0962e06",
+      "mobile_width": 390,
+      "mobile_height": 790,
+      "mobile_sha256": "5a56b3899098515c646312878380605f47063804aceceb0025c05108e655718a",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "player": {
+      "width": 780,
+      "height": 850,
+      "png_bytes": 202157,
+      "text_boxes": 12,
+      "sha256": "3d73a40b290b4cf83b4f433d215fb376fa35199d3a1ec859972ff527ede2d5ee",
+      "mobile_width": 390,
+      "mobile_height": 425,
+      "mobile_sha256": "c30fb4653c20facd9216ec05a29d12d4fa0d075310486c254d485447d507b7d0",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "recent-1": {
+      "width": 780,
+      "height": 1560,
+      "png_bytes": 344343,
+      "text_boxes": 45,
+      "sha256": "15bc60c54b010ef19b24ff49b865bc0c77fe4a1e8d37c729ef1e2f40473ccedf",
+      "mobile_width": 390,
+      "mobile_height": 780,
+      "mobile_sha256": "77e3c0f13dc7b5060f647702f25ee5a7a2a4263ba7e99090321b021fa4ef8538",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "recent-2": {
+      "width": 780,
+      "height": 1560,
+      "png_bytes": 350092,
+      "text_boxes": 45,
+      "sha256": "22a9acea60afcf764123b7c0a9d843ad2b7f5274b1af23dae1e96a32e7f93f67",
+      "mobile_width": 390,
+      "mobile_height": 780,
+      "mobile_sha256": "24efcd31d1fde901145eaec26479cdbe809ff15e340d1800f462c3173ac7725c",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "status": {
+      "width": 780,
+      "height": 650,
+      "png_bytes": 182893,
+      "text_boxes": 7,
+      "sha256": "f519487bac1a2abd055c4fdbf0ba04c6f76c5a5917c5fc57ea1cfc9cce5fc3b9",
+      "mobile_width": 390,
+      "mobile_height": 325,
+      "mobile_sha256": "b1802301010bad00127ae2336a149ff3c4b5855e45466e137863780b0d31c2ea",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "detail-radiant": {
+      "width": 780,
+      "height": 1594,
+      "png_bytes": 420756,
+      "text_boxes": 87,
+      "sha256": "151a2fdf4b0fd2fc6efd7bf5008a24a60b282b55830b0ea9b241b7fb342c4c89",
+      "mobile_width": 390,
+      "mobile_height": 797,
+      "mobile_sha256": "749ae2010827a8886e0129950fc8bc2ddb739a0513b07ebe1f47986e64d1a3ae",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "detail-dire": {
+      "width": 780,
+      "height": 1594,
+      "png_bytes": 413080,
+      "text_boxes": 87,
+      "sha256": "b615ad73b5cc0508e768ff7adea3405a7e567b0dbae4348d417e17f5e9570a15",
+      "mobile_width": 390,
+      "mobile_height": 797,
+      "mobile_sha256": "87bc4c50f3fc039cdc15496f3bbc9f0bae891cdc8b748e60f835d6c9b28591ca",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    },
+    "recent-empty": {
+      "width": 780,
+      "height": 728,
+      "png_bytes": 204628,
+      "text_boxes": 11,
+      "sha256": "3114ae54377db353f0814ab4169b58fd0079edf90ce62e0ea76c0d83b4676f34",
+      "mobile_width": 390,
+      "mobile_height": 364,
+      "mobile_sha256": "49f4d8d664f4be4717b24386e50ece977fa7338bfb758b04167fd21bcb855c99",
+      "changed_bounds_vs_approved_preview": [
+        9,
+        0,
+        780,
+        175
+      ],
+      "pixels_below_title_drawing_region_unchanged": true
+    }
+  },
+  "card_count": 9,
+  "max_height": 1594,
+  "max_png_bytes": 420756,
+  "available_assets_verified": 543,
+  "heroes_items_catalogs_and_other_non_decor_fields_unchanged": true,
+  "approved_layout_and_pixels_below_title_drawing_region_unchanged_on_all_nine_cards": true,
+  "title_boundary_note": "Existing placeholder polygon includes y=174 at x=494..779. Differences are confined to y=0..174; all pixels from y=175 down are identical.",
+  "manifest_prompt_matches_actual_tool_prompt": true,
+  "visual_qa": {
+    "original_background": "pass: no text, logo, heroes, characters, creatures, icons or data; dark left text area, right bronze/embers",
+    "all_nine_mobile_previews": "pass: clean readable headers; menu/admin, player, both match pages, status, both five-person sides and empty list inspected",
+    "header_crop": "pass: 780x174 center crop and actual shaded header inspected; left brand/title area and subtitle remain clear"
+  },
+  "runtime_deployment_verified": false,
+  "chat_or_client_compression_verified": false
+}

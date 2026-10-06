@@ -1,25 +1,26 @@
 # Dota2UID 本机接入
 
-[适配器](../../adapters/Dota2UID/src/Dota2UID/runtime.py) 复用 Core 绑定/查询用例；无宿主 SDK 的普通 import Dota2UID 不联网、不读取配置或注册命令。宿主发现入口是包内模板，经显式安装器放入插件目录。
+[适配器](../../adapters/Dota2UID/src/Dota2UID/runtime.py)复用Core用例；普通导入不联网、读配置或注册命令。显式安装器将包内模板写入宿主插件目录。
 
 ## 安装与配置
-先完成 [开发检查](development.md) 并 uv build --all-packages。在 GsCore 的 Python 环境安装本仓库生成的 dota2forge-core、dota2forge-renderer wheel 和 dota2uid[stratz] wheel（允许 0.1.0a1 预发布）。dota2uid 运行时依赖共享 Renderer/Pillow；stratz extra 安装 HTTPX 和 Core 联网 extra；本阶段不要求将插件上传包索引。
+先完成[开发检查](development.md)并uv build --all-packages，在GsCore环境安装同次Core、Renderer和dota2uid[stratz] wheel（允许0.1.0a2预发布）。stratz extra需要HTTPX，Renderer需要Pillow；本阶段不上传包索引。
 
-本阶段包版本仍为 0.1.0a1；重复构建安装须用明确 wheel 路径并禁用旧缓存，例如在 workspace 运行：
+同版本重建须明确wheel路径并禁用缓存，在workspace运行：
 
 ~~~powershell
-uv pip install --no-cache --python D:/bot/gsuid_core/.venv/Scripts/python.exe --find-links dist --reinstall-package dota2uid --reinstall-package dota2forge-core --reinstall-package dota2forge-renderer "dist/dota2uid-0.1.0a1-py3-none-any.whl[stratz]" dist/dota2forge_core-0.1.0a1-py3-none-any.whl dist/dota2forge_renderer-0.1.0a1-py3-none-any.whl
+$gsPython = 'D:/bot/gsuid_core/.venv/Scripts/python.exe'
+uv pip install --offline --no-index --no-deps --no-cache --python $gsPython --reinstall dist/dota2uid-0.1.0a2-py3-none-any.whl dist/dota2forge_core-0.1.0a2-py3-none-any.whl dist/dota2forge_renderer-0.1.0a2-py3-none-any.whl
 ~~~
 
-首次安装可能联网；已有依赖可加 --no-index。相同版本号不证明模块已更新。升级前先stop确认关闭；旧进程已导入共享包时须冷启动。Pillow DLL升级须在宿主退出后执行，避免文件占用留下不完整安装。见[恢复记录](../../.agents/notes/implemented/2026-10-02-gscore-wheel-recovery.md)。
+上例要求HTTPX/Pillow已安装；首次补依赖可能联网。相同版本号不证明内容更新。升级前stop确认关闭并退出宿主，备份配置/两库/入口再安装、冷启动。Pillow DLL须停机更新，见[恢复记录](../../.agents/notes/implemented/2026-10-02-gscore-wheel-recovery.md)。
 
-在 Dota2Forge workspace 中执行：
+首次安装桥接：
 
 ~~~powershell
 uv run --env-file .env --locked python -m Dota2UID.install --host-root D:/bot/gsuid_core --token-from-env
 ~~~
 
-安装器只创建 gsuid_core/plugins/Dota2UID/__init__.py 与 data/Dota2UID/config.toml，不加载宿主、不重启、不覆盖已有不同入口或配置。参数 --token-from-env 从进程 STRATZ_TOKEN 注入初始配置，不输出 Token；省略时写空值待本机填写。已有配置必须人工修改；安装命令不会静默轮换凭据。适配器库升级与发现模板更新分别处理。
+安装器创建发现桥接和专用配置，不加载/重启宿主、不覆盖已有不同内容；--token-from-env 注入本机凭据，不输出Token。首次Runtime启动也可独占创建空配置：合法但空Token为awaiting_config，填写后停用/重载；非法配置仍failed。已有配置不自动改写，发行候选见[步骤](plugin-release.md)。
 
 配置以 [空模板](../../adapters/Dota2UID/config.example.toml) 为准：namespace 是部署隔离标识，stratz_token 为本机密钥，timeout_seconds 为 0–60 范围内的有限正数。platforms 的键必须对应可信 Event.bot_id；值为 Core 平台标识。默认 onebot/qq→qq、telegram→telegram，其他标识需核实后显式添加。机器人账号使用 Event.bot_self_id，不是 bot_id 或 WS 连接号。
 
@@ -28,17 +29,18 @@ uv run --env-file .env --locked python -m Dota2UID.install --host-root D:/bot/gs
 ## 命令
 | 命令 | 行为 |
 | --- | --- |
-| dota帮助 | 显示用法 |
-| dota绑定 ID | 绑定自己；重复相同 ID 幂等，其他账号拒绝覆盖 |
-| dota改绑 ID | 显式替换自己的绑定 |
-| dota账号 / dota解绑 | 查询是否绑定 / 幂等解绑 |
-| dota玩家 [ID] | 查询绑定或显式账号，不写入新绑定 |
-| dota战绩 [条数] | 查询自己，1–100 默认 10 |
-| dota战绩 ID 条数 | 查询指定账号，不改绑定 |
-| dota比赛 比赛ID | 直接按 ID 查历史单局，不要求绑定或出现在近期列表 |
-| dota比赛 第N场 | 使用当前会话最后有效战绩的绝对序号，1–100 |
-| dota战绩 第N页 | 读取同次返回结果的第 N 页，不重新查 Provider |
-| dota停用 | 仅宿主主人权限 0；关闭运行期资源，权限 1 不可执行；WebConsole 管理员使用下文接口 |
+| do帮助 | 显示用法 |
+| do绑定 ID | 绑定自己；重复相同 ID 幂等，其他账号拒绝覆盖 |
+| do改绑 ID | 显式替换自己的绑定 |
+| do账号 / do解绑 | 查询是否绑定 / 幂等解绑 |
+| do查询 [ID] | 查询玩家及[预估MMR](../subsystems/ranks.md)，不改绑定 |
+| do英雄名出装 | [热门出装](hero-items.md)，免绑定 |
+| do战绩 [条数] | 查询自己，1–100 默认 10 |
+| do战绩 ID 条数 | 查询指定账号，不改绑定 |
+| do比赛 比赛ID | 直接按 ID 查历史单局，不要求绑定或出现在近期列表 |
+| do比赛 第N场 | 使用当前会话最后有效战绩的绝对序号，1–100 |
+| do战绩 第N页 | 读取同次返回结果的第 N 页，不重新查 Provider |
+| do停用 | 仅宿主主人权限 0；关闭运行期资源，权限 1 不可执行；WebConsole 管理员使用下文接口 |
 
 ID 接受规范 Dota account ID/SteamID64 数字，不解析 URL/vanity/@他人。绑定不证明账号所有权。未知统计显示未知，0 与负场有效；分段回复保留 STRATZ 来源、抓取时间和历史不完整提示。不会把认证/限流/HTML 拦截或陌生 GraphQL 错误展示成无战绩。
 
@@ -46,10 +48,10 @@ ID 接受规范 Dota account ID/SteamID64 数字，不解析 URL/vanity/@他人�
 
 战绩每页五场，最多先发两页；11–100场可显式取第3–20页。序号用最后完整发送列表，取页不重查Provider；无绑定可用显式账号列表。状态按部署/平台/机器人/调用者/连接和群或私聊隔离，容量128、TTL10分钟，读取不续期；改绑/解绑、连接变化、停用/重载失效。缺失会话及channel/sub_channel拒绝选择；直接ID不依赖列表。用户已确认基础图片、第二页、序号和直接ID详情；10-02停用/重载后复测图片回复正常、文字可读。
 
-配置 `reply_mode = "image"`（默认；旧配置省略时也使用 image）启用图片优先回复；设为 `text` 可保留纯文本模式。图片资源、尺寸限制、线程关闭和回退边界见 [Renderer 契约](../subsystems/renderer.md)。
+`reply_mode`默认image（含旧配置省略），text为纯文本；图片限制/关闭/回退见[Renderer契约](../subsystems/renderer.md)，官方资源见[素材目录配置](illustrations.md)。
 
 ## 生命周期
-首次启动 start_before 阻塞初始化，start 钩子与首个命令同样执行幂等就绪检查，因此首次热安装也可用。初始化失败锁定 failed，修复配置后显式重新加载。一个运行期只创建一个 STRATZ Provider/客户端；不每条命令重建，不在限流后自动重载。
+start_before阻塞初始化，start与首个命令幂等检查就绪，支持热安装。失败锁定failed，修复后显式重载。运行期共用一个HTTP客户端，复用STRATZ/OpenDota Provider；不逐条重建或限流后自动重载。
 
 发现桥接传入 Event.user_type/group_id，使用 Runtime.dispatch 串行查询和发送；完整回复发送成功后才记住列表。失败不重发，不覆盖上一有效列表；有效空结果会替换旧列表。最多接纳16个dispatch；停用取消在途查询/发送并清空选择状态。handle只生成文本，不能确认聊天发送，不创建可选择列表。桥接变更仍须先stop后替换/重载；平台实际递送和部分消息撤回不由返回值保证。
 
@@ -68,4 +70,6 @@ Runtime 日志只记录生命周期、命令名、回复/图片数量、图片�
 uv run --locked pytest tests/dota2uid --cov-reset --cov=Dota2UID --cov-branch --cov-fail-under=80
 ~~~
 
-测试使用合成宿主桩。09-30真实宿主完成热加载、受控重载、卸载/重启清理与冷启动，见[首轮任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。10-02图片版本完成冷启动与两轮stop/reload，最终ready/image；配置/绑定库指纹不变，用户复测QQ菜单、账号和详情正常、图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。仅验证单会话，未推广为多账号或全平台保证。STRATZ边界见[Provider操作](stratz.md)。
+测试使用合成宿主桩。09-30热加载、受控重载、卸载/重启及冷启动见[首轮任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。10-02两轮stop/reload后ready/image、配置/绑定库不变，用户确认QQ菜单、账号和详情图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。仅验证单会话，STRATZ边界见[Provider操作](stratz.md)。
+
+10-05匹配0.1.0a2运行库、do桥接/README/ICON已部署ready/image，配置/两库/558素材保持；实际SDK命令/正则及合成新卡通过，[本轮证据](../../.agents/artifacts/gscore-current-deployment-v1/README.md)。控制台200、匿名状态401；无客户端连接，AstrBot独立插件开、GsCore桥接关。联调须选定入口避免do双重回复；真实聊天及[截图](plugin-showcase.md)待补。
