@@ -1,0 +1,187 @@
+{
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "commit": "db1237042b9366298c176873342d97f3c590fee6",
+  "release_tag": "v0.1.0a6",
+  "anonymous": true,
+  "uses_account_token": false,
+  "production_host_modified": false,
+  "actual_platform_or_chat_verified": false,
+  "actual_gscore_sdk_in_fresh_environment": false,
+  "commit_archive": {
+    "url": "https://codeload.github.com/HBLADEH/Dota2UID/zip/db1237042b9366298c176873342d97f3c590fee6",
+    "sha256": "63de1839ee6ef91c27ca4aaf44efca959abe22adfbb56f1eddd81b3c3dddb5de",
+    "bytes": 15692825
+  },
+  "anonymous_public_repository_matches_reviewed_candidate": true,
+  "release_wheels": {
+    "dota2forge-core": {
+      "filename": "dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68",
+      "bytes": 67453,
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "validated_files": 39
+    },
+    "dota2forge-renderer": {
+      "filename": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6",
+      "bytes": 13727339,
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "validated_files": 21
+    },
+    "dota2forge-assets": {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662",
+      "bytes": 21057,
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "validated_files": 14
+    },
+    "dota2uid": {
+      "filename": "dota2uid-0.1.0a6-py3-none-any.whl",
+      "sha256": "a818e59e6bbc64a93713f08b248cfc4cdbed8ab6df42526197f1d66a4f50cd28",
+      "bytes": 31941,
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2uid-0.1.0a6-py3-none-any.whl",
+      "validated_files": 17
+    }
+  },
+  "runtime_manifest_sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a",
+  "fresh_consumers": {
+    "local": {
+      "mode": "local",
+      "fresh_host_has_no_project_distributions": true,
+      "actual_sdk": false,
+      "synthetic_host_surface": true,
+      "actual_chat_verified": false,
+      "production_host_modified": false,
+      "runtime_versions": {
+        "dota2forge-core": "0.1.0a4",
+        "dota2forge-renderer": "0.1.0a4",
+        "dota2forge-assets": "0.1.0a1",
+        "dota2uid": "0.1.0a6"
+      },
+      "manifest_sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a",
+      "token_waiting_after_private_activation": true,
+      "all_four_modules_from_verified_private_generation": true,
+      "private_snapshot_has_no_bytecode_cache": true,
+      "fixed_local_wheels_or_existing_snapshot_only": true,
+      "third_party_source_native_and_global_environment_unchanged": true,
+      "management_permission_and_arguments_checked": true,
+      "closed_all_clients": true
+    },
+    "recovery": {
+      "mode": "recovery",
+      "fresh_host_has_no_project_distributions": true,
+      "actual_sdk": false,
+      "synthetic_host_surface": true,
+      "actual_chat_verified": false,
+      "production_host_modified": false,
+      "runtime_versions": {
+        "dota2forge-core": "0.1.0a4",
+        "dota2forge-renderer": "0.1.0a4",
+        "dota2forge-assets": "0.1.0a1",
+        "dota2uid": "0.1.0a6"
+      },
+      "manifest_sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a",
+      "recovery_command_downloaded_all_four_pinned_urls": true,
+      "recovery_prepared_without_activation": true,
+      "anonymous_release_urls": [
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_core-0.1.0a4-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2uid-0.1.0a6-py3-none-any.whl"
+      ],
+      "third_party_source_native_and_global_environment_unchanged": true,
+      "management_permission_and_arguments_checked": true,
+      "closed_all_clients": true
+    },
+    "cold": {
+      "mode": "cold",
+      "fresh_host_has_no_project_distributions": true,
+      "actual_sdk": false,
+      "synthetic_host_surface": true,
+      "actual_chat_verified": false,
+      "production_host_modified": false,
+      "runtime_versions": {
+        "dota2forge-core": "0.1.0a4",
+        "dota2forge-renderer": "0.1.0a4",
+        "dota2forge-assets": "0.1.0a1",
+        "dota2uid": "0.1.0a6"
+      },
+      "manifest_sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a",
+      "running_recovery_reused_generation_without_pip_or_dll_changes": true,
+      "token_waiting_after_private_activation": true,
+      "all_four_modules_from_verified_private_generation": true,
+      "private_snapshot_has_no_bytecode_cache": true,
+      "fixed_local_wheels_or_existing_snapshot_only": true,
+      "third_party_source_native_and_global_environment_unchanged": true,
+      "management_permission_and_arguments_checked": true,
+      "closed_all_clients": true
+    }
+  },
+  "actual_sdk_copy": {
+    "recovery": {
+      "mode": "recovery",
+      "actual_sdk": true,
+      "sdk_functions_replaced": false,
+      "sdk_version": "0.11.0",
+      "python": "3.13.2",
+      "pillow": "11.3.0",
+      "actual_chat_verified": false,
+      "production_host_modified": false,
+      "fresh_sdk_environment": false,
+      "host_scope": "copied SDK source and existing disposable SDK interpreter; historical global project distributions were not modified",
+      "outbound_transport": "synthetic in-memory WebSocket frames",
+      "owner_sv_command_downloaded_four_public_pinned_wheels": true,
+      "anonymous_release_urls": [
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_core-0.1.0a4-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2uid-0.1.0a6-py3-none-any.whl"
+      ],
+      "pillow_native_files_unchanged_without_host_pip": true,
+      "sdk_shutdown_closed_clients": true,
+      "generation_manifest_sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a"
+    },
+    "cold": {
+      "mode": "cold",
+      "actual_sdk": true,
+      "sdk_functions_replaced": false,
+      "sdk_version": "0.11.0",
+      "python": "3.13.2",
+      "pillow": "11.3.0",
+      "actual_chat_verified": false,
+      "production_host_modified": false,
+      "fresh_sdk_environment": false,
+      "host_scope": "copied SDK source and existing disposable SDK interpreter; historical global project distributions were not modified",
+      "outbound_transport": "synthetic in-memory WebSocket frames",
+      "fresh_process_activated_private_runtime_and_waited_for_token": true,
+      "private_snapshot_has_no_bytecode_cache": true,
+      "pillow_native_files_unchanged_without_host_pip": true,
+      "sdk_shutdown_closed_clients": true,
+      "generation_manifest_sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a"
+    },
+    "url-install": {
+      "mode": "url-install",
+      "actual_sdk": true,
+      "sdk_functions_replaced": false,
+      "native_install_plugin_from_url": true,
+      "url": "https://github.com/HBLADEH/Dota2UID",
+      "branch": "v0.1.0a6",
+      "commit": "db1237042b9366298c176873342d97f3c590fee6",
+      "sdk_version": "0.11.0",
+      "python": "3.13.2",
+      "pillow": "11.3.0",
+      "fresh_sdk_environment": false,
+      "host_scope": "copied SDK source and existing disposable SDK interpreter",
+      "actual_browser_install_verified": false,
+      "actual_chat_verified": false,
+      "production_host_modified": false,
+      "token_wait_after_native_url_hot_install": true,
+      "all_four_modules_from_verified_private_generation": true,
+      "pillow_native_files_unchanged_without_host_pip": true,
+      "sdk_shutdown_closed_clients": true
+    }
+  },
+  "original_sdk_source_unchanged": true,
+  "passed": true,
+  "scope": "anonymous public archive and Release retrieval; SDK-free actual plugin bridge on synthetic host surface"
+}

@@ -33,4 +33,6 @@ HTTPX/Pillow继续使用宿主已经安装的兼容版本。根依赖声明只�
 
 ## 验证边界
 
-源码已通过统一禁网测试、双端分发检查与Windows实际SDK隔离生命周期验证；[实施任务](../../.agents/tasks/done/2026-10-08-dota2uid-bundled-bootstrap.md)列出1740项测试、数据保留与联调边界。SDK-free测试不能证明宿主权限、热加载、QQ递送或Linux/Docker兼容；后续公开下载与部署事实见[发行部署证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)。生成、构建和本地验证不代表商店已收录。
+发行源码通过1766项统一禁网测试、双端分发检查及Linux CI Python3.12/3.13。11个公开资产与仓库17文件已匿名下载验证；无项目包的新环境实际恢复、Windows SDK原生URL安装与公开缺wheel恢复均通过，实际SDK使用独立副本和既有测试解释器。
+
+2026-10-08现行Linux/Docker GsCore0.11.0、SDK7f1bee79、Python3.12.12已备份并冷启动a6，四个私有运行包及完整清单可用；配置Token为空，业务awaiting_config，匿名管理接口401。原SDK、全局依赖、聊天路由与定时更新设置保留。真实QQ新命令、已登录管理API及其他SDK版本待验收；详见[发行部署证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)。公开预发行不代表商店已收录。

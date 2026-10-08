@@ -32,4 +32,4 @@ Status: active
 命令、候选版本/SHA256、真实联调范围与限制见[实施证据](../../artifacts/managed-illustration-download-v1/README.md)。
 
 ## 阻塞与下一步
-第五包的policy/schema/checker变更须维护者评审，门槛未降低。候选AstrBot a8/Dota2UID a5/Assets a1尚未发布；下一步为评审后真实注册宿主的首次自动下载、热重载/关闭及聊天验收，再按授权发行并核验商店索引。验收6的评审与7的生产宿主联调尚未完成，不以SDK-free验证替代。
+第五包的policy/schema/checker变更在[源码PR #7](https://github.com/HBLADEH/Dota2Forge/pull/7)等待维护者评审，门槛未降低。用户另行授权的Dota2UID a6/Assets a1随包发行与Linux/Docker冷启动已完成，[记录](../../artifacts/dota2uid-bundled-release-v1/README.md)；Token为空、业务awaiting_config，不代表真实聊天验收。AstrBot a8未发布，素材真实热重载/关闭、图片与QQ验收及商店索引审核继续接续；本任务保持active。
