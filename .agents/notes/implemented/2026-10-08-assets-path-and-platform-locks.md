@@ -1,7 +1,7 @@
 # 素材 Windows 路径等价与跨平台文件锁检查
 
 Category: bug-fix
-Related task: [a6发行部署](../../tasks/active/2026-10-08-dota2uid-bundled-release.md)
+Related task: [a6发行部署](../../tasks/done/2026-10-08-dota2uid-bundled-release.md)
 Related code: [素材校验](../../../packages/dota2forge-assets/src/dota2forge_assets/validation.py)、[素材锁](../../../packages/dota2forge-assets/src/dota2forge_assets/store.py)、[运行库锁](../../../scripts/gscore_bundled_runtime.py)
 Related docs: [素材契约](../../../docs/subsystems/assets.md)、[运行库契约](../../../docs/subsystems/gscore-bundled-runtime.md)
 

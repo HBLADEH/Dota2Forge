@@ -1,0 +1,12 @@
+{
+  "repository": "HBLADEH/GenshinUID-docs",
+  "branch": "codex/dota2uid-store-v1",
+  "commit": "3c02296dce769ff1afa7e23638e4897a303cb1e1",
+  "pr": "https://github.com/Genshin-bots/GenshinUID-docs/pull/40",
+  "changed_fields": [
+    "plugins.Dota2UID.installMsg"
+  ],
+  "other_index_metadata_deep_equal": true,
+  "runtime_install_message_matches_candidate": true,
+  "pr_merged": false
+}

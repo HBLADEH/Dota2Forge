@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a6。新自动素材与随包运行库候选尚未发布；双端桥接、版本检查、首次配置与隔离安装均由显式生成器准备。GsCore已公开GitHub Releases运行包，通过固定隔离SDK验收并提交索引PR #40，见[执行记录](gscore-store-publish.md)；AstrBot已公开a7依赖修复版，新a8待发布。[初始核查](gscore-store-readiness.md)与[阶段一任务](../../.agents/tasks/done/2026-10-05-plugin-distribution-stage1.md)保留历史边界。
+当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a6。Dota2UID a6随包版已公开并部署，见[证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)；AstrBot已公开a7依赖修复版，新a8待发布。双端桥接、版本检查、首次配置与隔离安装均由显式生成器准备。GsCore索引PR #40仍待审核，[执行记录](gscore-store-publish.md)、[初始核查](gscore-store-readiness.md)与[阶段一任务](../../.agents/tasks/done/2026-10-05-plugin-distribution-stage1.md)保留历史边界。
 
 ## 生成与审查
 
@@ -16,7 +16,7 @@ uv run --locked python scripts/build_plugin_distributions.py --output dist/plugi
 
 插件README从两个适配器说明生成，注入当次版本与目标仓库；主仓文档链接转为完整URL，MIT许可保留本地链接。共享[主宰图标](../assets/branding/juggernaut-icon-v1.png)分别为GsCore根ICON.png与AstrBot根logo.png；GsCore索引avatar/cover指向目标main的ICON.png，远端未同步时尚不可用。已审查截图按白名单复制到对应根screenshots/，README图片路径转为本地，源图/目标均纳入摘要和ZIP大小检查，缺图在输出前失败。当前双端共用AstrBot主宰出装卡，GsCore说明标明原宿主，[其余待补](plugin-showcase.md)；原始聊天图片不自动收录。
 
-GsCore a6 随包候选增加 `--gscore-bundled --gscore-wheels dist`。先构建五包，再将匹配的四个项目 wheel 随分发携带；生成独立 deployment.json、清单摘要、bootstrap 与延迟业务入口。根依赖仅保留 HTTPX/Pillow，AstrBot 与旧薄模式保持原契约。安装恢复、第三方维护和冷启动见[随包指南](gscore-bundled-install.md)。
+GsCore a6 随包模式增加 `--gscore-bundled --gscore-wheels dist`。先构建五包，再将匹配的四个项目 wheel 随分发携带；生成独立 deployment.json、清单摘要、bootstrap 与延迟业务入口。`--source-ref`可传main或40位小写源码SHA，固定README/INSTALL的源码文档链接；实际a6源提交为f585ed310d6dd444c9046fba9fb8313ffc90c193。根依赖仅保留 HTTPX/Pillow，AstrBot 与旧薄模式保持原契约。安装恢复、第三方维护和冷启动见[随包指南](gscore-bundled-install.md)。
 
 ```text
 dist/plugin-distributions/0.1.0a3-public-runtime-v1/

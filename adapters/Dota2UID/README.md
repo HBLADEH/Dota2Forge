@@ -19,6 +19,8 @@
 
 已有 QQ 单会话基础查询和图片验收记录。2026-10-05 本机已升级 `0.1.0a2`，现行 `do` 前缀、段位预估 MMR 与英雄出装已部署，冷启动 `ready/image`，[部署证据](../../.agents/artifacts/gscore-current-deployment-v1/README.md)。本轮尚无客户端连接，新功能聊天待验收；下方共用此前 AstrBot 的出装图展示共享卡片。订阅默认关闭，当前实例保留原开关，真实推送仍待验收。
 
+2026-10-08已公开[随包a6](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a6)并部署到现行Linux/Docker GsCore。运行库校验及冷启动通过，业务等待首次Token配置；原GsCore源码与全局依赖不变，[发行部署记录](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)。真实QQ新入口仍待验收。
+
 当前源码 a6 包含 Assets a1 的后台素材服务及可选 bundled 分发；既有 a4 分发不含这些新增安装行为。默认 image/auto 首次后台准备，完整快照无需联网；自定义 illustration_path 不覆盖，可设 manual/off。
 
 bundled 分发随仓库提供匹配项目运行库，缺核心时保留 `do帮助` 文字提示及主人权限的 `do安装核心` / `do核心状态`；安装不写宿主全局环境，修复后冷启动启用。宿主 HTTPX/Pillow 须兼容，步骤见[随包安装指南](../../docs/cookbook/gscore-bundled-install.md)。下述公开安装流程仍适用于现有 a4 和薄分发。
