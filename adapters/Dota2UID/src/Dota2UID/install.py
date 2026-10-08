@@ -20,8 +20,14 @@ def install_bridge(host_root: Path, *, token: str = "") -> tuple[Path, Path]:
     ):
         raise ValueError("Dota2UID installation path escapes the host checkout")
     entry = destination / "__init__.py"
+    helper = destination / "_dota2forge_config.py"
     source = files("Dota2UID").joinpath("host_entry.py.template").read_text(encoding="utf-8")
-    if entry.exists() and entry.read_text(encoding="utf-8") != source:
+    helper_source = (
+        files("Dota2UID").joinpath("host_config.py.template").read_text(encoding="utf-8")
+    )
+    if (entry.exists() and entry.read_text(encoding="utf-8") != source) or (
+        helper.exists() and helper.read_text(encoding="utf-8") != helper_source
+    ):
         raise ValueError("Existing bridge differs; stop the plugin before replacing it manually")
     destination.mkdir(parents=True, exist_ok=True)
     config_dir.mkdir(parents=True, exist_ok=True)
@@ -29,6 +35,8 @@ def install_bridge(host_root: Path, *, token: str = "") -> tuple[Path, Path]:
     ensure_config(config, token=token)
     if not entry.exists():
         entry.write_text(source, encoding="utf-8")
+    if not helper.exists():
+        helper.write_text(helper_source, encoding="utf-8")
     return entry, config
 
 
@@ -43,7 +51,7 @@ def main() -> int:
     except (ValueError, OSError):
         print("Dota2UID installation failed; verify paths and existing bridge.")
         return 1
-    print("Dota2UID bridge installed. Configure data/Dota2UID/config.toml, then load in GsCore.")
+    print("Dota2UID bridge installed. Configure Dota2UID in GsCore plugin settings after loading.")
     return 0
 
 

@@ -72,6 +72,7 @@ def bundled_source(tmp_path):
         distribution.GS_ADAPTER_SOURCE + "/" + name
         for name in (
             "host_entry.py.template",
+            "host_config.py.template",
             "bundled_host_entry.py.template",
             "bundled_business_entry.py.template",
         )
@@ -116,7 +117,12 @@ def test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap(
     assert (plugin / "__init__.py").read_bytes() == distribution.text_bytes(
         root / distribution.GS_ADAPTER_SOURCE / "bundled_host_entry.py.template"
     )
-    for name in ("__init__.py", "_dota2forge_business.py", "_dota2forge_runtime.py"):
+    for name in (
+        "__init__.py",
+        "_dota2forge_business.py",
+        "_dota2forge_runtime.py",
+        "_dota2forge_config.py",
+    ):
         compile((plugin / name).read_text("utf-8"), name, "exec")
     assert (plugin / "_dota2forge_runtime.py").read_bytes() == distribution.text_bytes(
         root / distribution.GS_BUNDLED_RUNTIME_SOURCE

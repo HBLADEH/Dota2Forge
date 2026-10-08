@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dota2uid"
-version = "0.1.0a6"
+version = "0.1.0a7"
 description = "Dota2UID GsCore binding and STRATZ query adapter, powered by Dota2Forge Core"
 license = "MIT"
 license-files = ["LICENSE"]

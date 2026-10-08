@@ -92,6 +92,15 @@ class Config:
 def load_config(path: Path) -> Config:
     try:
         raw = tomllib.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError):
+        raise ConfigurationError() from None
+    return load_config_values(path, raw)
+
+
+def load_config_values(path: Path, values: Mapping[str, object]) -> Config:
+    """Validate a host-supplied snapshot without reading or writing local configuration."""
+    try:
+        raw = dict(values)
         if not {"namespace", "stratz_token", "timeout_seconds", "platforms"} <= set(raw) or (
             set(raw)
             - {
@@ -126,25 +135,32 @@ def load_config(path: Path) -> Config:
             raise ConfigurationError()
         reply_mode = raw.get("reply_mode", "image")
         illustration = raw.get("illustration_path", "")
+        subscriptions = raw.get("subscriptions_enabled", False)
+        interval = raw.get("subscription_interval_seconds", 300)
+        daily_hour = raw.get("daily_report_hour", 9)
         if (
             not isinstance(reply_mode, str)
             or not isinstance(illustration, str)
             or len(illustration) > 2048
             or any(ord(char) < 32 for char in illustration)
+            or type(subscriptions) is not bool
+            or type(interval) is not int
+            or type(daily_hour) is not int
         ):
             raise ConfigurationError()
+        directory = path.resolve().parent
         return Config(
             namespace,
             token,
-            path.resolve().parent / "bindings.sqlite3",
+            directory / "bindings.sqlite3",
             platforms,
             timeout,
             reply_mode,
-            raw.get("subscriptions_enabled", False),
-            raw.get("subscription_interval_seconds", 300),
-            raw.get("daily_report_hour", 9),
-            (path.resolve().parent / illustration).resolve() if illustration else None,
-            load_asset_options(raw, path.resolve().parent),
+            subscriptions,
+            interval,
+            daily_hour,
+            (directory / illustration).resolve() if illustration else None,
+            load_asset_options(raw, directory),
         )
-    except (OSError, ValueError, AssetError):
+    except (OSError, ValueError, TypeError, AssetError):
         raise ConfigurationError() from None
