@@ -9,6 +9,7 @@ from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
 import pytest
+from _config_sdk import install_config_sdk
 
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATES = ROOT / "adapters/Dota2UID/src/Dota2UID"
@@ -123,6 +124,9 @@ def host(tmp_path, monkeypatch):
     (plugin / "_dota2forge_business.py").write_text(
         (TEMPLATES / "bundled_business_entry.py.template").read_text("utf-8"), "utf-8"
     )
+    (plugin / "_dota2forge_config.py").write_text(
+        (TEMPLATES / "host_config.py.template").read_text("utf-8"), "utf-8"
+    )
     data = tmp_path / "host/data/Dota2UID"
     data.mkdir(parents=True)
     package = "synthetic_bundled_bridge"
@@ -146,6 +150,7 @@ def host(tmp_path, monkeypatch):
     ):
         monkeypatch.setitem(sys.modules, name, ModuleType(name))
     sdk = sys.modules["gsuid_core"]
+    configuration_registry = install_config_sdk(monkeypatch)
     sdk.server = server = sys.modules["gsuid_core.server"]
     sdk.sv = sv = sys.modules["gsuid_core.sv"]
     registry = sv.SL = SimpleNamespace(lst={}, detail_lst={}, plugins={})
@@ -215,6 +220,8 @@ def host(tmp_path, monkeypatch):
     class App:
         def __init__(self):
             self.router = SimpleNamespace(routes=[])
+            self.user_middleware = []
+            self.middleware_stack = None
 
         def route(self, path, *, dependencies):
             assert dependencies == [require_admin]
@@ -277,6 +284,7 @@ def host(tmp_path, monkeypatch):
         commands=commands,
         bumps=bumps,
         package=package,
+        configurations=configuration_registry,
     )
     for name in list(sys.modules):
         if name.startswith(package) or name == OWNER_REGISTRY:
@@ -302,6 +310,9 @@ def test_root_registers_diagnostics_without_any_project_import(host, monkeypatch
     assert all(host.commands()[name][1] == 0 for name in ("do安装核心", "do核心状态", "do停用"))
     assert module.owner.manager.prepare_calls == []
     assert not (host.data / "config.toml").exists()
+    assert (host.data / "config.json").is_file()
+    assert host.configurations["Dota2UID"].plugin_name == "Dota2UID"
+    assert len(host.configurations["Dota2UID"].config) == 11
 
     async def check():
         bot = CapturingBot()
@@ -435,9 +446,9 @@ def test_concurrent_install_returns_progress_and_close_waits_for_preparation(hos
 def test_cold_activation_waiting_config_and_help_forwarding_preserve_data(
     host, config_path, run_async
 ):
-    module = host.load()
     config = host.data / "config.toml"
     config.write_text(config_path.read_text("utf-8").replace("synthetic-token", ""), "utf-8")
+    module = host.load()
     database = host.data / "bindings.sqlite3"
     database.write_bytes(b"synthetic-existing-database")
     original = config.read_bytes(), database.read_bytes()
@@ -476,10 +487,10 @@ def test_cold_activation_waiting_config_and_help_forwarding_preserve_data(
 def test_ready_business_subscription_job_and_hero_dispatch(
     host, config_path, monkeypatch, run_async
 ):
-    module = host.load()
     (host.data / "config.toml").write_text(
         "subscriptions_enabled=true\n" + config_path.read_text("utf-8"), "utf-8"
     )
+    module = host.load()
 
     async def check():
         await module.start_dota2uid()
@@ -590,9 +601,10 @@ def test_live_hot_reload_requires_restart_and_restores_management_hooks(
 
 
 def test_completed_explicit_stop_allows_configuration_reload(host, config_path, run_async):
-    module = host.load()
     config = host.data / "config.toml"
     config.write_text(config_path.read_text("utf-8").replace("synthetic-token", ""), "utf-8")
+    module = host.load()
+    legacy = config.read_bytes()
     retained = host.data / "synthetic-existing-data"
     retained.write_bytes(b"preserved")
 
@@ -600,7 +612,7 @@ def test_completed_explicit_stop_allows_configuration_reload(host, config_path, 
         await module.start_dota2uid()
         assert (await module.status_dota2uid())["state"] == "awaiting_config"
         await module.stop_dota2uid()
-        config.write_text(config_path.read_text("utf-8"), "utf-8")
+        assert module.settings.set_config("stratz_token", "synthetic-token")
         reloaded = host.load()
         assert reloaded.owner is not module.owner
         assert not reloaded.owner.restart_required
@@ -612,8 +624,33 @@ def test_completed_explicit_stop_allows_configuration_reload(host, config_path, 
         assert len(host.app.router.routes) == 2
         await reloaded.stop_dota2uid()
         assert retained.read_bytes() == b"preserved"
+        assert config.read_bytes() == legacy
 
     run_async(check())
+
+
+def test_unreadable_configuration_preserves_diagnostics_and_original_file(host, run_async):
+    config = host.data / "config.toml"
+    config.write_text('stratz_token = "synthetic-secret"\nbroken = [', "utf-8")
+    original = config.read_bytes()
+    module = host.load()
+    assert module.settings is None
+    assert "do核心状态" in host.commands()
+    assert not (host.data / "config.json").exists()
+
+    async def check():
+        await module.start_dota2uid()
+        result = await module.status_dota2uid()
+        assert result["state"] == "failed" and not result["configuration_available"]
+        assert result["client_closed"]
+        bot = CapturingBot()
+        await module.core_status_dota2uid(bot, SyntheticEvent())
+        assert "原文件已保留" in bot.replies[-1]
+        assert "synthetic-secret" not in bot.replies[-1]
+        await module.stop_dota2uid()
+
+    run_async(check())
+    assert config.read_bytes() == original
 
 
 def test_startup_failure_closes_partial_business_and_preserves_management(host, run_async):
@@ -669,8 +706,8 @@ def test_install_during_startup_reports_progress_and_shutdown_prevents_activatio
 def test_install_with_active_business_only_prepares_and_waits_for_cold_start(
     host, config_path, run_async
 ):
-    module = host.load()
     (host.data / "config.toml").write_text(config_path.read_text("utf-8"), "utf-8")
+    module = host.load()
 
     async def check():
         await module.start_dota2uid()

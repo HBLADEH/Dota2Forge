@@ -220,6 +220,7 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
         "docs/assets/screenshots/astrbot/hero-items.png",
         "adapters/Dota2UID/config.example.toml",
         "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+        "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
     ]
     for folder in distribution.PACKAGES.values():
         relative_files.append(folder + "/pyproject.toml")

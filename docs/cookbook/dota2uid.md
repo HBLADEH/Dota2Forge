@@ -24,7 +24,7 @@ uv run --env-file .env --locked python -m Dota2UID.install --host-root D:/bot/gs
 
 配置以 [空模板](../../adapters/Dota2UID/config.example.toml) 为准：namespace 是部署隔离标识，stratz_token 为本机密钥，timeout_seconds 为 0–60 范围内的有限正数。platforms 的键必须对应可信 Event.bot_id；值为 Core 平台标识。默认 onebot/qq→qq、telegram→telegram，其他标识需核实后显式添加。机器人账号使用 Event.bot_self_id，不是 bot_id 或 WS 连接号。
 
-绑定数据在相邻的 bindings.sqlite3，宿主需要目录读写权限。不要上传 config.toml、SQLite 或聊天记录。命令不接 GsCore 多 UID 表，不双写；同一部署/平台/机器人/用户仅一个账号。
+绑定数据在相邻的 bindings.sqlite3，宿主需目录读写权限。不要上传配置、SQLite 或聊天记录。不接 GsCore 多 UID 表或双写；每个部署/平台/机器人/用户仅一个账号。
 
 ## 命令
 | 命令 | 行为 |
@@ -51,6 +51,8 @@ ID 接受规范 Dota account ID/SteamID64 数字，不解析 URL/vanity/@他人�
 `reply_mode`默认image（含旧配置省略），text为纯文本；图片限制/关闭/回退见[Renderer契约](../subsystems/renderer.md)，官方资源见[素材目录配置](illustrations.md)。
 
 ## 生命周期
+
+[a7后台配置](gscore-configuration.md)仍须停用后重载。
 start_before阻塞初始化，start与首个命令幂等检查就绪，支持热安装。失败锁定failed，修复后显式重载。运行期共用一个HTTP客户端，复用STRATZ/OpenDota Provider；不逐条重建或限流后自动重载。
 
 发现桥接传入 Event.user_type/group_id，使用 Runtime.dispatch 串行查询和发送；完整回复发送成功后才记住列表。失败不重发，不覆盖上一有效列表；有效空结果会替换旧列表。最多接纳16个dispatch；停用取消在途查询/发送并清空选择状态。handle只生成文本，不能确认聊天发送，不创建可选择列表。桥接变更仍须先stop后替换/重载；平台实际递送和部分消息撤回不由返回值保证。
@@ -72,4 +74,4 @@ uv run --locked pytest tests/dota2uid --cov-reset --cov=Dota2UID --cov-branch --
 
 测试使用合成宿主桩。09-30热加载、受控重载、卸载/重启及冷启动见[首轮任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。10-02两轮stop/reload后ready/image、配置/绑定库不变，用户确认QQ菜单、账号和详情图片可读，[证据](../../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。仅验证单会话，STRATZ边界见[Provider操作](stratz.md)。
 
-10-05匹配0.1.0a2运行库、do桥接/README/ICON已部署ready/image，配置/两库/558素材保持；实际SDK命令/正则及合成新卡通过，[本轮证据](../../.agents/artifacts/gscore-current-deployment-v1/README.md)。控制台200、匿名状态401；无客户端连接，AstrBot独立插件开、GsCore桥接关。联调须选定入口避免do双重回复；真实聊天及[截图](plugin-showcase.md)待补。
+10-05匹配a2运行库与do桥接已部署ready/image，配置/两库/558素材保持；SDK注册与合成卡通过，[证据](../../.agents/artifacts/gscore-current-deployment-v1/README.md)。控制台200、匿名状态401，无客户端连接；联调须选定入口避免两端do重复回复，真实聊天及[截图](plugin-showcase.md)待补。

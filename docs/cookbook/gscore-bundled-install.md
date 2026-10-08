@@ -1,6 +1,6 @@
 # Dota2UID 随包运行库安装
 
-本页用于 **0.1.0a6 bundled 预发行分发**，公开下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)。旧a4继续使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，源码和原有宿主逻辑无需修改。
+本页用于 **0.1.0a7 bundled 预发行分发**，发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)。旧a4继续使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
 
 ## 安装与首次配置
 
@@ -8,7 +8,9 @@
 
 HTTPX/Pillow继续使用宿主已经安装的兼容版本。根依赖声明只包含这些第三方要求，自动安装仍受宿主开关与冷启动路径控制。版本不兼容时保留管理入口并明确提示；先退出宿主，使用其实际Python维护第三方依赖，再冷启动。聊天安装核心不会升级宿主Pillow。
 
-运行库就绪后首次创建data/Dota2UID/config.toml，空Token为awaiting_config。填写本机stratz_token和独立namespace，不把Token发到聊天。配置保存后先do停用，确认关闭再重载或冷启动。既有配置、绑定/订阅数据库及素材目录不覆盖。
+后台打开 **插件配置 → Dota2UID → 插件参数配置**，填写 STRATZ Token 和独立 namespace，点击确认修改。合法空 Token 为 awaiting_config；保存后先 do停用，确认关闭再重载或冷启动。参数包括密码输入、素材、订阅与平台映射，运行库不可用时仍可配置。
+
+首次原生 JSON 不存在时导入旧 TOML，保留原文件、数据库与素材目录；之后以后台 JSON 为准。旧 a6 安装仍需填写 data/Dota2UID/config.toml，不能只更新入口混用旧 wheel。来源优先级、隐私和回退见[后台配置](gscore-configuration.md)。
 
 ## 安装与诊断指令
 

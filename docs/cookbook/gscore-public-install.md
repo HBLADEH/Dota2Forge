@@ -2,7 +2,7 @@
 
 Dota2UID 为 GsCore 扩展，要求宿主 Python 3.12+。当前为 M0 预发行，商店收录以官方索引为准；源码开发与独立分发目录用途不同。以下命令在包含 .venv 的 GsCore 根目录执行，适用于 Windows；其他平台需要补充验收。
 
-本页保留公开a4及薄分发流程；源码a6新增[随包运行库模式](gscore-bundled-install.md)，尚未发行，不能把新指令用于未更新的公开安装。
+本页保留公开a4及薄分发流程；公开a6采用[随包运行库模式](gscore-bundled-install.md)，安装最新 main 请使用该指南。源码a7候选新增[后台配置](gscore-configuration.md)，旧公开薄分发不会自动获得这些参数。
 
 ## 首次安装与配置
 

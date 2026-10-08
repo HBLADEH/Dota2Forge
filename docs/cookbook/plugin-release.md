@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a6。Dota2UID a6随包版已公开并部署，见[证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)；AstrBot已公开a7依赖修复版，新a8待发布。双端桥接、版本检查、首次配置与隔离安装均由显式生成器准备。GsCore索引PR #40仍待审核，[执行记录](gscore-store-publish.md)、[初始核查](gscore-store-readiness.md)与[阶段一任务](../../.agents/tasks/done/2026-10-05-plugin-distribution-stage1.md)保留历史边界。
+当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a7候选。Dota2UID a6随包版已公开并部署，见[证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)；新a7增加后台配置待发布。AstrBot已公开a7依赖修复版，新a8待发布。双端桥接、版本检查、首次配置与隔离安装均由显式生成器准备。GsCore索引PR #40仍待审核，[执行记录](gscore-store-publish.md)、[初始核查](gscore-store-readiness.md)与[阶段一任务](../../.agents/tasks/done/2026-10-05-plugin-distribution-stage1.md)保留历史边界。
 
 ## 生成与审查
 
@@ -36,7 +36,7 @@ ZIP条目顺序、时间戳和权限固定；相同输入字节重复生成一�
 
 ## 配置与升级边界
 
-GsCore首次Runtime启动使用独占创建写入空的data/Dota2UID/config.toml，不覆盖已有文件。两端合法配置但空Token为awaiting_config；不创建业务HTTP客户端、绑定/订阅库或后台业务任务；公共素材可独立后台准备，命令给出本机配置位置。非法配置仍failed，不能作为空Token接受。
+GsCore a7发现入口携带独立配置桥接，先注册宿主原生参数；首次导入旧TOML并保留文件，之后原生JSON单一读取。默认SDK-free Runtime仍独占创建TOML；[后台操作与回退](gscore-configuration.md)区分新候选和旧公开版。两端合法空Token为awaiting_config，不创建业务HTTP客户端、绑定/订阅库或业务任务；公共素材可独立准备。非法配置仍failed，不能作为空Token接受。
 
 填写Token并确认独立namespace后重载：GsCore先显式停用；AstrBot保存配置后重载。旧实例关闭，新实例重新读取配置并ready；现有实例不轮询凭据文件。配置/身份/订阅语义继续遵守双端[GsCore](dota2uid.md)/[AstrBot](astrbot.md)指南。
 

@@ -229,6 +229,8 @@ def bundled_readme(content: str) -> str:
         "下述步骤仅适用于本 bundled 分发；旧 a4 请使用旧版公开安装指南。",
     )
     content = re.sub(r"当前源码 (a\d+) 包含", r"本预发行版 \1 包含", content)
+    content = re.sub(r"当前源码 (a\d+) 候选在", r"本预发行版 \1 在", content)
+    content = content.replace("，尚未公开；Token、素材与订阅", "；Token、素材与订阅")
     content = content.replace(
         "的后台素材服务及可选 bundled 分发", "的后台素材服务及 bundled 随包运行库"
     )
@@ -247,8 +249,9 @@ def bundled_readme(content: str) -> str:
         "2. 用主人身份发送 `do核心状态` 查看准备和加载结果。"
         "缺包或校验失败时发送 `do安装核心`，按提示完成恢复后完整重启宿主。"
         "恢复只使用清单固定版本与 SHA256，不接受聊天 URL、版本或 pip 参数。\n"
-        "3. 运行库可用后，在本机 `data/Dota2UID/config.toml` 填写 "
-        "`stratz_token` 和独立 `namespace`，再按提示停用并重新加载。"
+        "3. 在后台 **插件配置 → Dota2UID → 插件参数配置** 填写 "
+        "STRATZ Token 和独立 `namespace`，点击确认修改。"
+        "主人发送 `do停用` 确认关闭后，再重载当前插件。"
         "Token 不发送到聊天。\n\n"
         "`do帮助` / `do菜单` 在运行库未就绪时返回文字提示；配置未完成单独显示。"
         "HTTPX、Pillow 继续使用宿主兼容版本，第三方冲突须按 "
@@ -481,6 +484,9 @@ def distribution_files(
             content.update(
                 {
                     "__init__.py": entry,
+                    "_dota2forge_config.py": text_bytes(
+                        root / GS_ADAPTER_SOURCE / "host_config.py.template"
+                    ),
                     "config.example.toml": text_bytes(
                         root / "adapters/Dota2UID/config.example.toml"
                     ),
@@ -540,7 +546,8 @@ def distribution_files(
                     "installMsg": (
                         "URL 安装后请完整重启 GsCore，运行库随插件提供。主人可发送 "
                         "do核心状态 检查；需要恢复时发送 do安装核心，完成后按提示冷启动。"
-                        "再在本机配置 STRATZ 密钥和 namespace；第三方依赖冲突见 INSTALL.md。"
+                        "再在后台插件配置 → Dota2UID 填 STRATZ Token 和 namespace，确认修改后"
+                        " do停用，再重载当前插件；第三方依赖冲突见 INSTALL.md。"
                         if gscore_bundled
                         else "第一次安装请先看插件里的 INSTALL.md：关闭 GsCore，用它的 Python "
                         "运行 install_runtime.py 安装所需组件，然后重新启动。"

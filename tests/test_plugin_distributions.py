@@ -38,7 +38,7 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
             "dota2forge-renderer": "0.1.0a4",
             "dota2forge-assets": "0.1.0a1",
             ("astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"): (
-                "0.1.0a8" if plugin.startswith("astrbot") else "0.1.0a6"
+                "0.1.0a8" if plugin.startswith("astrbot") else "0.1.0a7"
             ),
         }
         compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
@@ -59,9 +59,18 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
         "dota2forge-assets==0.1.0a1",
         "dota2forge-core[stratz]==0.1.0a4",
         "dota2forge-renderer==0.1.0a4",
-        "dota2uid[stratz]==0.1.0a6",
+        "dota2uid[stratz]==0.1.0a7",
     ]
     assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
+    helper = candidate / "Dota2UID/_dota2forge_config.py"
+    compile(helper.read_text("utf-8"), str(helper), "exec")
+    assert (
+        helper.read_bytes()
+        == (ROOT / "adapters/Dota2UID/src/Dota2UID/host_config.py.template")
+        .read_text("utf-8")
+        .replace("\r\n", "\n")
+        .encode()
+    )
     astr = (candidate / "astrbot_plugin_dota2forge/metadata.yaml").read_text("utf-8")
     assert f"repo: {ASTR_REPO}" in astr and 'astrbot_version: ">=4.5.0"' in astr
     requirements = (candidate / "astrbot_plugin_dota2forge/requirements.txt").read_text("utf-8")

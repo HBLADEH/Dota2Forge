@@ -60,6 +60,6 @@ alpha.6商店日志确认pip找不到未发布PyPI的项目包。a7依赖改为R
 
 ## 自动素材源码候选
 
-AstrBot a8 / Dota2UID a6 / Assets a1 为未发布候选，Core/Renderer 仍 a4。薄模式宿主清单和 guard 检查四组件，公开 requirements 仍固定 Release URL/SHA256；Assets/Renderer 不带 stratz extra，不附游戏 PNG。五包依赖与生成参考同步，治理独立边界和覆盖率变更须维护者评审。默认首次图片模式后台准备、自定义路径不覆盖；详见[素材契约](assets.md)。
+AstrBot a8 待发布；Dota2UID a6 / Assets a1 随包版已公开，Core/Renderer 仍 a4，新Dota2UID a7候选增加[后台参数配置](../cookbook/gscore-configuration.md)。薄模式宿主清单和 guard 检查四组件，公开 requirements 仍固定 Release URL/SHA256；Assets/Renderer 不带 stratz extra，不附游戏 PNG。五包依赖与生成参考同步，治理独立边界和覆盖率变更仍需维护者评审。默认首次图片模式后台准备、自定义路径不覆盖；详见[素材契约](assets.md)。
 
 Dota2UID a6 的 `--gscore-bundled` 随包四项目 wheel，管理入口不依赖项目包，私有运行库不执行全局 pip。详见[bootstrap 契约](gscore-bundled-runtime.md)与[操作指南](../cookbook/gscore-bundled-install.md)。

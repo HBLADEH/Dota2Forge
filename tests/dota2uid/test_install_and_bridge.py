@@ -7,6 +7,7 @@ from types import ModuleType
 
 import httpx
 import pytest
+from _config_sdk import install_config_sdk
 from Dota2UID.install import install_bridge
 from Dota2UID.runtime import Runtime, State
 
@@ -21,6 +22,8 @@ def test_installer_is_idempotent_and_preserves_local_config(tmp_path):
     assert entry.parent.name == "Dota2UID"
     assert "synthetic-token" in config.read_text("utf-8")
     compile(entry.read_text("utf-8"), str(entry), "exec")
+    helper = entry.with_name("_dota2forge_config.py")
+    compile(helper.read_text("utf-8"), str(helper), "exec")
     config.write_text("local-custom-config", encoding="utf-8")
     assert install_bridge(tmp_path, token="different-token") == (entry, config)
     assert config.read_text("utf-8") == "local-custom-config"
@@ -101,6 +104,9 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     )
 
     class App:
+        user_middleware = []
+        middleware_stack = None
+
         def route(self, path, *, dependencies):
             assert len(dependencies) == 1
             assert dependencies[0] is require_admin
@@ -150,6 +156,7 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     ):
         monkeypatch.setitem(sys.modules, name, ModuleType(name))
     sys.modules["gsuid_core.bot"].Bot = CapturingBot
+    install_config_sdk(monkeypatch)
     sys.modules["gsuid_core.models"].Event = SyntheticEvent
     sys.modules["gsuid_core.sv"].SV = Service
     sys.modules["gsuid_core.aps"].scheduler = Scheduler()

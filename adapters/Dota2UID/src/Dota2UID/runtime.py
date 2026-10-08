@@ -65,8 +65,9 @@ from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController, Subscr
 
 UNAVAILABLE = "Dota2UID 尚未就绪或已停用，请管理员检查配置并按文档重新加载。"
 AWAITING_CONFIG = (
-    "Dota2UID 等待配置：请管理员在 data/Dota2UID/config.toml 填写 STRATZ Token，"
-    "确认部署 namespace 后重载插件；请勿在聊天中发送 Token。"
+    "Dota2UID 等待配置：请管理员在 GsCore 后台的插件配置中填写 STRATZ Token，"
+    "确认部署 namespace 并保存后，先停用再重载插件"
+    "（旧薄模式也可编辑 data/Dota2UID/config.toml）；请勿在聊天中发送 Token。"
 )
 LOGGER = logging.getLogger("Dota2UID")
 COMMAND_NAMES = (
@@ -109,12 +110,14 @@ class Runtime:
         self,
         config_path: Path,
         *,
+        config_loader: Callable[[Path], Config] | None = None,
         client_factory: Callable[[], httpx.AsyncClient] = make_client,
         selection_clock: Callable[[], float] = time.monotonic,
         renderer_factory: Callable[[], AsyncRenderer] | None = None,
         asset_manager_factory: ManagerFactory | None = None,
     ) -> None:
         self._config_path = config_path
+        self._config_loader = config_loader
         self._client_factory = client_factory
         self._config: Config | None = None
         self._client: httpx.AsyncClient | None = None
@@ -214,8 +217,18 @@ class Runtime:
             client: httpx.AsyncClient | None = None
             ready = False
             try:
-                await asyncio.to_thread(ensure_config, self._config_path)
-                config = await asyncio.to_thread(load_config, self._config_path)
+                if self._config_loader is None:
+                    await asyncio.to_thread(ensure_config, self._config_path)
+                    config = await asyncio.to_thread(load_config, self._config_path)
+                else:
+                    try:
+                        config = await asyncio.to_thread(self._config_loader, self._config_path)
+                    except ConfigurationError:
+                        raise
+                    except Exception:
+                        raise ConfigurationError() from None
+                    if not isinstance(config, Config):
+                        raise ConfigurationError()
                 await self._start_assets(config)
                 await asyncio.to_thread(config.database.parent.mkdir, parents=True, exist_ok=True)
                 repository = SQLiteBindingRepository(config.database)
