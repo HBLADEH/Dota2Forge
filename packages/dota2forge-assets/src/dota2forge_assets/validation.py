@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -21,9 +22,41 @@ PATTERNS = {
 }
 
 
+def _windows_namespace(path: str) -> str:
+    """Compare ordinary DOS/UNC paths without admitting other device namespaces."""
+    if path.startswith(("\\\\.\\", "\\??\\", "\\\\??\\")):
+        raise AssetError("path")
+    if not path.startswith("\\\\?\\"):
+        return path
+    extended = path[4:]
+    if re.match(r"^[A-Za-z]:\\", extended):
+        return extended
+    if extended[:4].upper() == "UNC\\":
+        parts = extended[4:].split("\\")
+        if len(parts) >= 2 and all(
+            part not in {".", ".."} and re.fullmatch(r'[^\\/:*?"<>|\x00-\x1f]+', part)
+            for part in parts[:2]
+        ):
+            return "\\\\" + extended[4:]
+    raise AssetError("path")
+
+
+def _resolved_path(path: Path) -> Path:
+    if sys.platform == "win32":
+        _windows_namespace(str(path))
+        # Concurrent mkdir can change WinError 3 to 2 during non-strict resolve,
+        # leaving an extended prefix on only one side of the containment check.
+        return Path(_windows_namespace(str(path.resolve())))
+    return path.resolve()
+
+
 def safe_path(root: Path, relative: str) -> Path:
     path = root / relative
-    if root.is_symlink() or path.is_symlink() or not path.resolve().is_relative_to(root.resolve()):
+    if (
+        root.is_symlink()
+        or path.is_symlink()
+        or not _resolved_path(path).is_relative_to(_resolved_path(root))
+    ):
         raise AssetError("path")
     for parent in path.parents:
         if parent == root:
