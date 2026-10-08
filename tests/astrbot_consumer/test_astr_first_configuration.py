@@ -23,7 +23,10 @@ def test_empty_token_waits_and_new_configured_lifecycle_is_ready(tmp_path, run_a
         await pending.start()
         await pending.start()
         assert pending.state is State.AWAITING_CONFIG and pending.client_closed
-        assert not clients and not (tmp_path / "data").exists()
+        assert not clients
+        assert not (tmp_path / "data/bindings.sqlite3").exists()
+        assert not (tmp_path / "data/subscriptions.sqlite3").exists()
+        assert pending.asset_status.state in {"checking", "downloading", "failed"}
         caller = Caller("qq", "connection", "bot", "user", conversation_kind="FriendMessage")
         await pending.dispatch(caller, "do菜单", "", send)
         assert replies[-1].text == AWAITING_CONFIG

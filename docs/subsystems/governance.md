@@ -6,13 +6,13 @@
 
 字符数按 Unicode 非空白字符计算，根 AGENTS.md 同时限制行数。检查普通 Markdown 行内链接、引用式链接定义和 Markdown 标题锚点；跳过代码示例与外部 URL。未覆盖 HTML 链接、自定义显式锚点和任意 Markdown 扩展语法。原始规划不参与事实文档预算。
 
-架构检查从 pyproject.toml 读取分发名和导入路径，禁止 Core 引用平台、禁止两适配器互相依赖或引用对方宿主。覆盖静态 import、常量 `__import__` / `importlib.import_module`（含常用别名）以及运行、可选、开发和构建依赖声明。计算拼接的动态导入、传递依赖、运行时对象跨层和重复业务逻辑需评审兜底。领域层内部边界在业务结构形成后补充规则。
+架构检查从 pyproject.toml 读取分发名和导入路径，禁止 Core 引用平台、禁止两适配器互相依赖或引用对方宿主。independent_paths 只能是 shared_paths 子集，Assets 禁止引用其他项目包；原 Core/平台边界保持。覆盖静态 import、常量 `__import__` / `importlib.import_module`（含常用别名）以及运行、可选、开发和构建依赖声明。计算拼接的动态导入、传递依赖、运行时对象跨层和重复业务逻辑需评审兜底。领域层内部边界在业务结构形成后补充规则。
 
 决策记录验证目录状态、日期文件名、分类、章节和三个关联链接。`--all` 要求存在 implemented 决策；`--base` 对敏感路径改动额外要求改动一份 implemented 决策。敏感路径检查偏保守；检查器不能判断记录是否充分解释了变更。非平凡改动与记录的语义关联由评审负责。
 
 包参考从 TOML 生成，不执行应用模块导入。两端的宿主入口、配置与命令属于适配器实现，不在包参考表中重复列出；AI Tool 注册表仍未实现。AstrBot 桥接详见 [宿主契约](astrbot-host.md)。
 
-Ruff、mypy、pytest 均为必需检查。pytest 禁网并采集治理工具、Core、Renderer与两个适配器的语句/分支覆盖率；聚合门槛 80%，policy 保持治理工具与 Core 两个独立 80% 报告。Dota2UID 独立覆盖率另按 [操作步骤](../cookbook/dota2uid.md) 核验。缺少工具、无数据或非零退出不能忽略。两端已有消费者与离线宿主桩测试；真实进程加载/生命周期另列任务证据，不由 wheel 测试代替。
+Ruff、mypy、pytest 均为必需检查。pytest 禁网并采集治理工具、Core、Renderer、Assets与两个适配器的语句/分支覆盖率；聚合门槛 80%，policy 保持治理工具、Core 与 Assets 三个独立 80% 报告。Dota2UID 独立覆盖率另按 [操作步骤](../cookbook/dota2uid.md) 核验。缺少工具、无数据或非零退出不能忽略。两端已有消费者与离线宿主桩测试；真实进程加载/生命周期另列任务证据，不由 wheel 测试代替。
 
 ## CI 与托管控制
 

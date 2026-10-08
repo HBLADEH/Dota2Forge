@@ -9,6 +9,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from types import MappingProxyType
 
+from dota2forge_assets import AssetError, AssetOptions, load_asset_options
+
 
 class ConfigurationError(Exception):
     def __init__(self) -> None:
@@ -17,6 +19,10 @@ class ConfigurationError(Exception):
 
 class ConfigurationPending(ConfigurationError):
     """The otherwise valid configuration still needs a local STRATZ Token."""
+
+    def __init__(self, config: "Config | None" = None) -> None:
+        super().__init__()
+        self.config = config
 
 
 def ensure_config(path: Path, *, token: str = "") -> None:
@@ -30,6 +36,7 @@ def ensure_config(path: Path, *, token: str = "") -> None:
                 'namespace = "dota2uid-local"\nstratz_token = '
                 + json.dumps(token)
                 + '\ntimeout_seconds = 10\nreply_mode = "image"\nillustration_path = ""\n'
+                'asset_download_mode = "auto"\nasset_proxy = ""\n'
                 "subscriptions_enabled = false\nsubscription_interval_seconds = 300\n"
                 'daily_report_hour = 9\n\n[platforms]\nonebot = "qq"\nqq = "qq"\n'
                 'telegram = "telegram"\n'
@@ -55,6 +62,7 @@ class Config:
     subscription_interval_seconds: int = 300
     daily_report_hour: int = 9
     illustration_path: Path | None = field(default=None, repr=False)
+    assets: AssetOptions = field(default_factory=AssetOptions, repr=False)
 
     def __post_init__(self) -> None:
         if (
@@ -76,9 +84,9 @@ class Config:
             or (self.illustration_path is not None and not self.illustration_path.is_absolute())
         ):
             raise ConfigurationError()
-        if not self.token:
-            raise ConfigurationPending()
         object.__setattr__(self, "platforms", MappingProxyType(dict(self.platforms)))
+        if not self.token:
+            raise ConfigurationPending(self)
 
 
 def load_config(path: Path) -> Config:
@@ -96,6 +104,8 @@ def load_config(path: Path) -> Config:
                 "subscription_interval_seconds",
                 "daily_report_hour",
                 "illustration_path",
+                "asset_download_mode",
+                "asset_proxy",
             }
         ):
             raise ConfigurationError()
@@ -134,6 +144,7 @@ def load_config(path: Path) -> Config:
             raw.get("subscription_interval_seconds", 300),
             raw.get("daily_report_hour", 9),
             (path.resolve().parent / illustration).resolve() if illustration else None,
+            load_asset_options(raw, path.resolve().parent),
         )
-    except (OSError, ValueError):
+    except (OSError, ValueError, AssetError):
         raise ConfigurationError() from None

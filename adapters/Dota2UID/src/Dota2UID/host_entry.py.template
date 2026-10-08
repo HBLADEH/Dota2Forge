@@ -15,6 +15,7 @@ from Dota2UID.commands import Action, Caller
 from Dota2UID.runtime import Runtime
 from Dota2UID.replies import ImageReply, Reply
 from Dota2UID.subscriptions import SUBSCRIPTION_COMMANDS
+from dota2forge_assets import ASSET_COMMANDS
 from dota2forge_core import DeliveryOutcome, InvalidIdentityError, SubscriptionEvent
 
 Plugins(name="Dota2UID", prefix=[], allow_empty_prefix=True)
@@ -89,7 +90,7 @@ async def stop_dota2uid() -> None:
     )
 
 
-@queries.on_command(tuple(action.value for action in Action) + SUBSCRIPTION_COMMANDS, block=True)
+@queries.on_command(tuple(action.value for action in Action) + SUBSCRIPTION_COMMANDS + ASSET_COMMANDS, block=True)
 @queries.on_regex(r"^do(?P<hero>.{1,64})出装$", block=True)
 async def command_dota2uid(bot: Bot, ev: Event) -> None:
     caller = Caller(
@@ -114,7 +115,8 @@ async def disable_dota2uid(bot: Bot, ev: Event) -> None:
 
 @app.get("/api/dota2uid/status", dependencies=[Depends(require_admin_header)])
 async def status_dota2uid() -> dict[str, str | bool]:
-    return {"state": runtime.state.value, "client_closed": runtime.client_closed}
+    return {"state": runtime.state.value, "client_closed": runtime.client_closed,
+            "assets_state": runtime.asset_status.state}
 
 
 @app.post("/api/dota2uid/stop", dependencies=[Depends(require_admin_header)])

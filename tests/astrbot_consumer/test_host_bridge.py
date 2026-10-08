@@ -163,6 +163,9 @@ def test_bridge_registration_permissions_reloading_and_png_messages(
     spec.loader.exec_module(module)
     monkeypatch.delitem(sys.modules, "synthetic_astr_bridge._dota2forge_bootstrap", raising=False)
     assert set(commands) == {
+        "do素材状态",
+        "do下载素材",
+        "do更新素材",
         "do帮助",
         "do菜单",
         "do绑定",

@@ -20,6 +20,8 @@ Dota2UID 底层复用 Dota2Forge Core；两端不各自实现一套 Dota 2 业�
 
 现已公开 **0.1.0a4 预览版**：[Dota2UID / GsCore](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a4) · [Dota2Forge / AstrBot](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a4)。本版加入装备简称、出装图片及更详细的比赛卡，四个包统一版本。首次安装及升级都需退出宿主、运行插件内安装器再冷启动：[GsCore](docs/cookbook/gscore-public-install.md) · [AstrBot](docs/cookbook/astrbot-public-install.md)。
 
+新源码加入[后台素材准备](docs/cookbook/illustrations.md)：AstrBot a8、Dota2UID a6、Assets a1，Core/Renderer保持a4。首次图片模式自动补齐，支持状态/补缺/更新命令；Dota2UID a6 采用[随包运行库](docs/cookbook/gscore-bundled-install.md)与主人核心安装/状态入口，缺包仍可诊断。公开资产以 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases) 为准；AstrBot a8 尚待发布。
+
 [AstrBot商店申请](https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions)已提交，页面显示等待安全检查；[GsCore PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)仍待审核，均不代表已上架。本版离线/安装证据与真实聊天未验收边界见[发行记录](.agents/artifacts/a4-layout-release-v1/README.md)，生产版本和路由未更改。
 
 双端插件说明参考 GenshinUID 的组织方式，包含独立生成的[Q 版主宰图标](docs/assets/branding/juggernaut-icon-v1.png)与功能展示位；按用户要求共用AstrBot主宰出装实机原图，GsCore说明注明原宿主。其余按[截图清单](docs/cookbook/plugin-showcase.md)补充，已采用图片与筛选范围见[来源记录](docs/assets/screenshots/README.md)。

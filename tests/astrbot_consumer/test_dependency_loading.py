@@ -24,12 +24,14 @@ roots = {
     "astrbot-plugin-dota2forge": "astrbot_plugin_dota2forge",
     "dota2forge-core": "dota2forge_core",
     "dota2forge-renderer": "dota2forge_renderer",
+    "dota2forge-assets": "dota2forge_assets",
 }
-requested = set(Requirement(line).name for line in Path(sys.argv[1]).read_text().splitlines())
+requested = {Requirement(line).name for line in Path(sys.argv[1]).read_text().splitlines()
+             if line.strip() and not line.lstrip().startswith('#')}
 pending = list(requested)
 while pending:
     name = pending.pop()
-    # The host target contains the three project wheels; built-in dependencies
+    # The host target contains the four project wheels; built-in dependencies
     # are not candidates for preference or dependency expansion in that target.
     if name not in roots:
         continue

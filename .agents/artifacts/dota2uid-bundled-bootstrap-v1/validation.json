@@ -1,0 +1,56 @@
+{
+  "source_version": "0.1.0a6",
+  "published": false,
+  "production_deployed": false,
+  "candidate": "dist/plugin-distributions/a6-bundled-v4",
+  "offline_check": {
+    "passed": 1740,
+    "seconds": 245.13,
+    "ruff_files": 346,
+    "mypy_files": 83,
+    "overall_coverage_percent": 92.95,
+    "scripts_coverage_percent": 94,
+    "core_coverage_percent": 93,
+    "assets_coverage_percent": 92
+  },
+  "new_tests": {
+    "bundled_runtime": 80,
+    "bundled_bridge": 35,
+    "bundled_distribution": 17
+  },
+  "wheel_build_and_five_fresh_install_checks": true,
+  "sdk_free_fresh_distribution_checks": [
+    "AstrBot",
+    "GsCore"
+  ],
+  "runtime_versions": {
+    "dota2forge-assets": "0.1.0a1",
+    "dota2forge-core": "0.1.0a4",
+    "dota2forge-renderer": "0.1.0a4",
+    "dota2uid": "0.1.0a6"
+  },
+  "bundled_wheel_count": 4,
+  "bundled_wheel_bytes": 13847372,
+  "root_dependencies": [
+    "httpx>=0.28.1,<1",
+    "pillow>=11.3,<13"
+  ],
+  "zip": {
+    "Dota2UID.zip": {
+      "bytes": 15689388,
+      "sha256": "f1ab905907d42e5909e41be158176b257044425a029824079e24e9f58141dab3"
+    },
+    "astrbot_plugin_dota2forge.zip": {
+      "bytes": 1924658,
+      "sha256": "0521d277089da2c98c5d8e825c10b577f601517ddb77113375d5b62d0e4096ab"
+    }
+  },
+  "no_gscore_source_or_global_environment_changes": true,
+  "not_verified": [
+    "actual platform/QQ delivery",
+    "Linux/Docker actual SDK",
+    "public URL/store install",
+    "public GitHub Release recovery download",
+    "actual release-version upgrade or legacy schema rollback"
+  ]
+}

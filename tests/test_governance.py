@@ -69,6 +69,30 @@ def test_policy_requires_complete_workspace(repository):
     assert "cover exactly" in "\n".join(checks.check_repository(repository))
 
 
+def test_independent_path_cannot_claim_adapter_or_unknown_package(repository):
+    change_policy(
+        repository, lambda p: p["architecture"].update(independent_paths=["adapters/Dota2UID"])
+    )
+    assert "Independent paths" in "\n".join(checks.check_repository(repository))
+
+
+@pytest.mark.parametrize(
+    "module", ["dota2forge_core", "dota2forge_renderer", "astrbot", "Dota2UID"]
+)
+def test_asset_service_cannot_import_business_drawing_or_host(repository, module):
+    (repository / "packages/dota2forge-assets/src/dota2forge_assets/bad.py").write_text(
+        f"import {module}"
+    )
+    assert "forbidden import" in "\n".join(checks.check_repository(repository))
+
+
+@pytest.mark.parametrize("dependency", ["dota2forge-core", "dota2forge-renderer", "astrbot"])
+def test_asset_service_dependencies_keep_independent_boundary(repository, dependency):
+    path = repository / "packages/dota2forge-assets/pyproject.toml"
+    path.write_text(path.read_text().replace('"httpx>=0.28.1,<1"', f'"{dependency}"'))
+    assert "forbidden dependency" in "\n".join(checks.check_repository(repository))
+
+
 @pytest.mark.parametrize(
     ("file", "content", "message"),
     [
@@ -258,7 +282,7 @@ def test_cli_runs_checks_after_governance(repository, monkeypatch):
     calls = []
     monkeypatch.setattr(checks, "run_checks", lambda root, commands: calls.append(commands) or 0)
     assert checks.main(["--all"]) == 0
-    assert calls[0][-3:] == [
+    assert calls[0][-4:] == [
         ["pytest"],
         ["python", "-m", "coverage", "report", "--include=scripts/*", "--fail-under=80"],
         [
@@ -267,6 +291,14 @@ def test_cli_runs_checks_after_governance(repository, monkeypatch):
             "coverage",
             "report",
             "--include=packages/dota2forge-core/*",
+            "--fail-under=80",
+        ],
+        [
+            "python",
+            "-m",
+            "coverage",
+            "report",
+            "--include=packages/dota2forge-assets/*",
             "--fail-under=80",
         ],
     ]
@@ -317,7 +349,7 @@ def test_wheel_smoke_uses_offline_install_and_isolated_import(monkeypatch, platf
     monkeypatch.setattr(smoke_wheels.sys, "platform", platform)
     monkeypatch.setattr(subprocess, "run", lambda args, **kw: commands.append(args))
     assert smoke_wheels.main() == 0
-    assert len(commands) == 12
+    assert len(commands) == 15
     for install in commands[1::3]:
         assert "--no-index" in install
         assert "--no-cache" in install
@@ -330,19 +362,22 @@ def test_wheel_smoke_uses_offline_install_and_isolated_import(monkeypatch, platf
         assert Path(command[0]).as_posix().endswith(suffix)
 
 
-@pytest.mark.parametrize("low_group", [None, "scripts", "packages/dota2forge-core"])
+@pytest.mark.parametrize(
+    "low_group", [None, "scripts", "packages/dota2forge-core", "packages/dota2forge-assets"]
+)
 def test_coverage_gates_keep_core_and_governance_independent(tmp_path, low_group):
     from coverage import CoverageData
 
     data = CoverageData(basename=str(tmp_path / ".coverage"))
-    for group in ("scripts", "packages/dota2forge-core"):
+    groups = ("scripts", "packages/dota2forge-core", "packages/dota2forge-assets")
+    for group in groups:
         source = tmp_path / group / "sample.py"
         source.parent.mkdir(parents=True)
         source.write_text("\n".join(f"value_{index} = {index}" for index in range(1, 11)))
         data.add_lines({str(source): {1} if group == low_group else set(range(1, 11))})
     data.write()
-    gates = checks.load_policy(ROOT)["verification"]["commands"][-2:]
-    for group, command in zip(("scripts", "packages/dota2forge-core"), gates, strict=True):
+    gates = checks.load_policy(ROOT)["verification"]["commands"][-3:]
+    for group, command in zip(groups, gates, strict=True):
         result = subprocess.run(
             [sys.executable, *command[1:]], cwd=tmp_path, capture_output=True, text=True
         )
@@ -395,6 +430,7 @@ def test_staged_wheel_dependency_download_is_explicit_and_versioned(tmp_path, mo
 
     monkeypatch.setattr(staging, "ROOT", tmp_path)
     monkeypatch.setattr(staging, "version", lambda package: "12.3.0")
+    monkeypatch.setattr(staging, "requires", lambda package: [])
     commands = []
     monkeypatch.setattr(
         staging.subprocess, "run", lambda args, **kwargs: commands.append((args, kwargs))
@@ -405,4 +441,24 @@ def test_staged_wheel_dependency_download_is_explicit_and_versioned(tmp_path, mo
     assert (
         "pillow==12.3.0" in command and "--no-deps" in command and "--only-binary=:all:" in command
     )
+    assert "httpx==12.3.0" in command
     assert options == {"check": True} and (tmp_path / "dist").is_dir()
+
+
+def test_staging_pins_transitive_runtime_and_evaluates_extras(monkeypatch):
+    from scripts import stage_wheel_dependencies as staging
+
+    declarations = {
+        "httpx": ["httpcore", "ignored; extra == 'http2'"],
+        "httpcore": ["httpx", "h11"],
+        "h11": [],
+        "pillow": [],
+    }
+    monkeypatch.setattr(staging, "version", lambda name: "1.2.3")
+    monkeypatch.setattr(staging, "requires", lambda name: declarations[name])
+    assert staging.runtime_requirements() == [
+        "h11==1.2.3",
+        "httpcore==1.2.3",
+        "httpx==1.2.3",
+        "pillow==1.2.3",
+    ]

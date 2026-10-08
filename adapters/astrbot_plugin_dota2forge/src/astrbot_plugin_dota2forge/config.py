@@ -5,6 +5,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from dota2forge_assets import AssetError, AssetOptions, load_asset_options
 from dota2forge_core import PlatformIdentity, ValidationError
 
 
@@ -15,6 +16,10 @@ class ConfigurationError(Exception):
 
 class ConfigurationPending(ConfigurationError):
     """The otherwise valid host configuration still needs a local STRATZ Token."""
+
+    def __init__(self, config: "Config | None" = None) -> None:
+        super().__init__()
+        self.config = config
 
 
 @dataclass(frozen=True, repr=False)
@@ -28,6 +33,7 @@ class Config:
     subscription_interval_seconds: int = 300
     daily_report_hour: int = 9
     illustration_path: Path | None = field(default=None, repr=False)
+    assets: AssetOptions = field(default_factory=AssetOptions, repr=False)
 
 
 def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
@@ -50,6 +56,8 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
             "subscription_interval_seconds",
             "daily_report_hour",
             "illustration_path",
+            "asset_download_mode",
+            "asset_proxy",
         }
         or not isinstance(namespace, str)
         or not isinstance(token, str)
@@ -76,9 +84,11 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
         PlatformIdentity(namespace, "astrbot", "validation", "validation")
     except ValidationError:
         raise ConfigurationError() from None
-    if not token:
-        raise ConfigurationPending()
-    return Config(
+    try:
+        assets = load_asset_options(raw, data_dir)
+    except AssetError:
+        raise ConfigurationError() from None
+    config = Config(
         namespace,
         token,
         data_dir.resolve() / "bindings.sqlite3",
@@ -88,4 +98,8 @@ def load_config(raw: Mapping[str, object], data_dir: Path) -> Config:
         interval,
         daily_hour,
         (data_dir.resolve() / illustration).resolve() if illustration else None,
+        assets,
     )
+    if not token:
+        raise ConfigurationPending(config)
+    return config

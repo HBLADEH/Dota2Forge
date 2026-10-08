@@ -16,12 +16,17 @@ from packaging.requirements import Requirement
         ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
         ("dota2uid", "Dota2UID"),
         ("dota2forge-renderer", "dota2forge_renderer"),
+        ("dota2forge-assets", "dota2forge_assets"),
     ],
 )
 def test_workspace_package_installed(distribution, module):
     assert importlib.import_module(module).__doc__
     assert importlib.metadata.version(distribution) == (
-        "0.1.0a6" if distribution == "astrbot-plugin-dota2forge" else "0.1.0a4"
+        {
+            "astrbot-plugin-dota2forge": "0.1.0a8",
+            "dota2uid": "0.1.0a6",
+            "dota2forge-assets": "0.1.0a1",
+        }.get(distribution, "0.1.0a4")
     )
 
 
@@ -58,6 +63,7 @@ def test_distribution_licenses_match_project_license():
     for folder in [
         "packages/dota2forge-core",
         "packages/dota2forge-renderer",
+        "packages/dota2forge-assets",
         "adapters/astrbot_plugin_dota2forge",
         "adapters/Dota2UID",
     ]:

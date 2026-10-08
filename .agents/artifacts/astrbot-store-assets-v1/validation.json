@@ -1,0 +1,47 @@
+{
+  "manifest_version": 1,
+  "manifest_sha256": "7013656e48ce333be8cec9e3a1f20b54bc80ef47732519795e5d0c86583093e8",
+  "groups": {
+    "heroes": {
+      "available": 127,
+      "missing": 0
+    },
+    "items": {
+      "available": 415,
+      "missing": 129
+    },
+    "ranks": {
+      "available": 9,
+      "missing": 0
+    },
+    "rank_stars": {
+      "available": 5,
+      "missing": 0
+    },
+    "ui": {
+      "available": 1,
+      "missing": 0
+    },
+    "decor": {
+      "available": 1,
+      "missing": 0
+    }
+  },
+  "decoded_all_available": true,
+  "fixture_only": true,
+  "representative_heroes_decoded": [
+    14,
+    26,
+    35,
+    58,
+    131
+  ],
+  "fixture_card": {
+    "source": "fixture",
+    "width": 780,
+    "height": 1560,
+    "png_bytes": 366425,
+    "hero_pixels_differ_from_placeholder": true
+  },
+  "candidate_config_valid": true
+}

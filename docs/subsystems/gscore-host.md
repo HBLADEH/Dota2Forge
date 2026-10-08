@@ -1,5 +1,7 @@
 # GsCore 本机接入基线
 
+当前源码新增[托管素材服务](assets.md)：空自定义路径按 auto/manual/off 准备，Token 等待与素材状态独立；管理命令校验可信权限。新候选尚未生产部署，历史手动素材和宿主证据不能替代自动下载联调。
+
 2026-09-30 核实 Windows 原生实例，安装 Dota2UID 并完成真实热加载、受控重载、卸载/重启清理和恢复后冷启动。最终插件 ready，用户已确认 QQ 单会话收发成功，未推广为多账号或全平台保证；证据见 [接入任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。
 
 ## 环境证据
@@ -43,5 +45,7 @@
 原生 reload 会删除旧 shutdown 钩子但不执行，uninstall_plugin 只删目录和帮助缓存。Dota2UID 注册 start_before/start/shutdown，首命令进行幂等就绪检查；显式 stop 关闭客户端后再重载/卸载。实机观察卸载后路由/命令仍存在但已 stopped，重启后状态路由 404、无命令；恢复入口并再次重启后 ready、8 个命令各注册一次。匿名 GET 状态和 POST 停用均 401，配置/SQLite 指纹不变。直接原生删目录的资源释放仍不受保证，不能省略受控停用。
 
 ## 本仓库兼容检查
+
+Dota2UID a6 增加可选[随包 bootstrap 契约](gscore-bundled-runtime.md)：管理入口先于项目库注册，插件拥有准备/启动/关闭任务；完成停用后允许同代际配置重载，活跃或不同代际重载要求冷启动。实际 Windows SDK 验证了权限、原生重载、关闭、卸载和数据保留，[证据](../../.agents/artifacts/dota2uid-bundled-bootstrap-v1/README.md)明确合成输出与真实平台的边界。候选未发布，SDK 原源码未修改。
 
 在独立于宿主的 CPython 3.13.2 环境运行本仓库统一离线入口：251 项测试通过，Core 语句与分支综合覆盖率 100%，Ruff、mypy、治理与独立覆盖率门槛通过；未安装宿主 SDK。首次检查发现测试夹具的 SQLite 连接未显式关闭，修正后以 ResourceWarning 为错误复核，无告警。Python 3.12.9 的 27 项仓库测试也通过。这些结果证明离线 Core 的解释器兼容性，不代表 GsCore 命令已接通。

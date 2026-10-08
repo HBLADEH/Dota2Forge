@@ -1,4 +1,4 @@
-"""Generate deterministic thin host repositories and reviewable store submission drafts."""
+"""Generate deterministic host repositories and reviewable store submission drafts."""
 
 from __future__ import annotations
 
@@ -7,16 +7,23 @@ import hashlib
 import io
 import json
 import re
+import sys
 import tempfile
 import tomllib
 from email.parser import BytesParser
 from pathlib import Path
-from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+from urllib.parse import quote, unquote, urlsplit
+from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 ROOT = Path(__file__).resolve().parents[1]
+STRATZ_PACKAGES = {"dota2forge-core", "dota2uid", "astrbot-plugin-dota2forge"}
 PACKAGES = {
     "dota2forge-core": "packages/dota2forge-core",
     "dota2forge-renderer": "packages/dota2forge-renderer",
+    "dota2forge-assets": "packages/dota2forge-assets",
     "dota2uid": "adapters/Dota2UID",
     "astrbot-plugin-dota2forge": "adapters/astrbot_plugin_dota2forge",
 }
@@ -24,7 +31,10 @@ MAX_ASTRBOT_ZIP_BYTES = 16_000_000
 PROJECT_SOURCE_URL = "https://github.com/HBLADEH/Dota2Forge/blob/main"
 ICON_SOURCE = "docs/assets/branding/juggernaut-icon-v1.png"
 GS_RUNTIME_SOURCE = "scripts/gscore_public_runtime.py"
+GS_BUNDLED_RUNTIME_SOURCE = "scripts/gscore_bundled_runtime.py"
+GS_ADAPTER_SOURCE = "adapters/Dota2UID/src/Dota2UID"
 GS_INSTALL_GUIDE = "docs/cookbook/gscore-public-install.md"
+GS_BUNDLED_INSTALL_GUIDE = "docs/cookbook/gscore-bundled-install.md"
 ASTR_INSTALL_GUIDE = "docs/cookbook/astrbot-public-install.md"
 # Only explicitly reviewed, identity-free images belong in the standalone plugin ZIPs.
 SHOWCASE_IMAGES = {
@@ -54,6 +64,13 @@ def repository(value: str, name: str) -> tuple[str, str]:
     if match is None:
         raise ValueError(f"Expected an HTTPS GitHub repository named {name}")
     return value, match[1]
+
+
+def source_repository_url(source_ref: str = "main") -> str:
+    """Use reviewed source commits without accepting arbitrary branches or URL fragments."""
+    if source_ref != "main" and re.fullmatch(r"[0-9a-f]{40}", source_ref) is None:
+        raise ValueError("Source reference must be main or a full lowercase commit SHA")
+    return PROJECT_SOURCE_URL.rsplit("/", 1)[0] + "/" + source_ref
 
 
 def versions(root: Path) -> dict[str, str]:
@@ -119,7 +136,16 @@ def astrbot_version(version: str) -> str:
     )
 
 
-def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: bool = False) -> bytes:
+def readme(
+    root: Path,
+    plugin: str,
+    repo: str,
+    version: str,
+    public_runtime: bool = False,
+    gscore_bundled: bool = False,
+    source_ref: str = "main",
+) -> bytes:
+    source_url = source_repository_url(source_ref)
     adapter = "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
     content = (root / PACKAGES[adapter] / "README.md").read_text(encoding="utf-8")
     marker = "<!-- distribution-release -->"
@@ -129,13 +155,26 @@ def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: boo
     content = content.replace(f"../../{ICON_SOURCE}", icon_name)
     for name, source in SHOWCASE_IMAGES.get(plugin, {}).items():
         content = content.replace(f"../../{source}", f"screenshots/{name}")
-    if public_runtime:
+    if gscore_bundled and plugin == "Dota2UID":
+        content = bundled_readme(content)
+    if gscore_bundled and plugin == "Dota2UID":
+        content = re.sub(
+            r"]\(\.\./\.\./docs/cookbook/(?:dota2uid|gscore-bundled-install)\.md\)",
+            "](INSTALL.md)",
+            content,
+        )
+    elif public_runtime or gscore_bundled:
         content = re.sub(r"]\(\.\./\.\./(?:docs/|\.agents/)[^)]+\)", "](INSTALL.md)", content)
     elif plugin.startswith("astrbot"):
         pinned = versions(root)
         packages = " ".join(
-            f"{name}{'[stratz]' if name != 'dota2forge-renderer' else ''}=={pinned[name]}"
-            for name in ("dota2forge-core", "dota2forge-renderer", "astrbot-plugin-dota2forge")
+            f"{name}{'[stratz]' if name in STRATZ_PACKAGES else ''}=={pinned[name]}"
+            for name in (
+                "dota2forge-core",
+                "dota2forge-renderer",
+                "dota2forge-assets",
+                "astrbot-plugin-dota2forge",
+            )
         )
         content = content.replace(
             ".venv/Scripts/python.exe data/plugins/astrbot_plugin_dota2forge/install_runtime.py "
@@ -143,7 +182,7 @@ def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: boo
             f".venv/Scripts/python.exe -m pip install {packages}",
         )
         content = content.replace(
-            "三个组件从本插件 GitHub Releases 下载，安装器核对版本与摘要，并检查依赖冲突。",
+            "四个组件从本插件 GitHub Releases 下载，安装器核对版本与摘要，并检查依赖冲突。",
             "本候选按包名安装，需自行准备匹配运行包，尚未附带公开下载清单。",
         )
     elif plugin == "Dota2UID":
@@ -153,16 +192,16 @@ def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: boo
         )
         pinned = versions(root)
         packages = " ".join(
-            f'"{name}{"[stratz]" if name != "dota2forge-renderer" else ""}=={pinned[name]}"'
-            for name in ("dota2forge-core", "dota2forge-renderer", "dota2uid")
+            f'"{name}{"[stratz]" if name in STRATZ_PACKAGES else ""}=={pinned[name]}"'
+            for name in ("dota2forge-core", "dota2forge-renderer", "dota2forge-assets", "dota2uid")
         )
         content = content.replace(command, f".venv/Scripts/python.exe -m pip install {packages}")
         content = content.replace(
-            "三个运行包来自GitHub Releases，安装器校验固定版本与SHA256；共享库更新后必须冷启动。",
+            "四个运行包来自GitHub Releases，安装器校验固定版本与SHA256；共享库更新后必须冷启动。",
             "本目录按PyPI包名解析锁定版本，生成器未发布包；需先保证依赖可取得。共享库更新后必须冷启动。",
         )
     content = content.replace("](../../LICENSE)", "](LICENSE)")
-    content = content.replace("](../../", f"]({PROJECT_SOURCE_URL}/")
+    content = content.replace("](../../", f"]({source_url}/")
     display_version = astrbot_version(version) if plugin.startswith("astrbot") else version
     content = content.replace(
         marker,
@@ -177,6 +216,85 @@ def readme(root: Path, plugin: str, repo: str, version: str, public_runtime: boo
         for name in ("INSTALL.md", "LICENSE"):
             content = content.replace(f"]({name})", f"]({repo}/blob/main/{name})")
     return content.encode("utf-8")
+
+
+def bundled_readme(content: str) -> str:
+    """Describe the generated bundled entry without changing legacy thin instructions."""
+    content = content.replace(
+        "公开运行包安装采用下述停机与冷启动流程。",
+        "本分发采用随包运行库，安装与恢复采用下述流程。",
+    )
+    content = content.replace(
+        "下述公开安装流程仍适用于现有 a4 和薄分发。",
+        "下述步骤仅适用于本 bundled 分发；旧 a4 请使用旧版公开安装指南。",
+    )
+    content = re.sub(r"当前源码 (a\d+) 包含", r"本预发行版 \1 包含", content)
+    content = content.replace(
+        "的后台素材服务及可选 bundled 分发", "的后台素材服务及 bundled 随包运行库"
+    )
+    content = content.replace(
+        "，仍未发布；原公开版本不含这些新增安装行为。",
+        "；既有 a4 分发不含这些新增安装行为。",
+    )
+    content = content.replace("bundled 候选随仓库提供", "本随包预发行版随仓库提供")
+    start = "## 丨安装与首次配置"
+    end = "## 丨快速开始"
+    replacement = (
+        f"{start}\n\n"
+        "1. 通过 GsCore 的 URL 安装功能添加本分发仓库，然后完整重启宿主。"
+        "仓库携带匹配的四个项目运行包，启动时校验并准备插件专用运行目录，"
+        "不需要先安装本项目 PyPI 包。\n"
+        "2. 用主人身份发送 `do核心状态` 查看准备和加载结果。"
+        "缺包或校验失败时发送 `do安装核心`，按提示完成恢复后完整重启宿主。"
+        "恢复只使用清单固定版本与 SHA256，不接受聊天 URL、版本或 pip 参数。\n"
+        "3. 运行库可用后，在本机 `data/Dota2UID/config.toml` 填写 "
+        "`stratz_token` 和独立 `namespace`，再按提示停用并重新加载。"
+        "Token 不发送到聊天。\n\n"
+        "`do帮助` / `do菜单` 在运行库未就绪时返回文字提示；配置未完成单独显示。"
+        "HTTPX、Pillow 继续使用宿主兼容版本，第三方冲突须按 "
+        "[安装指南](../../docs/cookbook/gscore-bundled-install.md)维护。"
+        "运行中的安装或修复只准备新运行库，激活需要冷启动；"
+        "已有绑定和配置保留。详细安装、更新与回退步骤见同一指南。\n\n"
+        "独立分发目录与 ZIP 由[发行生成器](../../docs/cookbook/plugin-release.md)生成。"
+        "这是随包预发行分发；生成器只准备分发文件，生成动作本身不代表公开发布。\n\n"
+    )
+    pattern = rf"{re.escape(start)}\n.*?(?={re.escape(end)})"
+    content, count = re.subn(pattern, lambda _: replacement, content, flags=re.DOTALL)
+    if count != 1:
+        raise ValueError("Dota2UID README must contain one installation section")
+    row = "| `do菜单` / `do帮助` | 查看帮助图片 |"
+    content = content.replace(
+        row,
+        "| `do核心状态` / `do安装核心` | 查看运行库状态 / 主人准备或恢复运行库 |\n" + row,
+    )
+    return content
+
+
+def bundled_install_guide(root: Path, source_ref: str = "main") -> bytes:
+    """Resolve source-relative guide links before moving the guide to a plugin root."""
+    source_url = source_repository_url(source_ref)
+    source = root / GS_BUNDLED_INSTALL_GUIDE
+    content = source.read_text("utf-8")
+
+    def resolve_link(match: re.Match[str]) -> str:
+        target = match[1]
+        parsed = urlsplit(target)
+        if parsed.scheme or parsed.netloc or not parsed.path:
+            return match[0]
+        path = (source.parent / unquote(parsed.path)).resolve()
+        if not path.is_relative_to(root.resolve()):
+            raise ValueError(
+                "Bundled installation guide links must stay inside the source repository"
+            )
+        relative = quote(path.relative_to(root.resolve()).as_posix(), safe="/")
+        url = f"{source_url}/{relative}"
+        if parsed.query:
+            url += "?" + parsed.query
+        if parsed.fragment:
+            url += "#" + parsed.fragment
+        return f"]({url})"
+
+    return re.sub(r"]\(([^)\s]+)\)", resolve_link, content).encode("utf-8")
 
 
 def runtime_wheels(wheels: Path, pinned: dict[str, str], repo: str) -> bytes:
@@ -208,15 +326,74 @@ def runtime_wheels(wheels: Path, pinned: dict[str, str], repo: str) -> bytes:
     )
 
 
+def public_wheel_requirements(wheels: Path, pinned: dict[str, str], repo: str) -> list[str]:
+    """Return hash-pinned GitHub Release references for a public AstrBot bridge."""
+    manifest = json.loads(runtime_wheels(wheels, pinned, repo).decode("utf-8"))
+    tag = manifest["release_tag"]
+    requirements: list[str] = []
+    for name in sorted(pinned):
+        wheel = manifest["wheels"][name]
+        extra = "[stratz]" if name not in {"dota2forge-renderer", "dota2forge-assets"} else ""
+        url = f"{repo}/releases/download/{tag}/{wheel['filename']}#sha256={wheel['sha256']}"
+        requirements.append(f"{name}{extra} @ {url}")
+    return requirements
+
+
+def bundled_runtime_files(wheels: Path, pinned: dict[str, str], repo: str) -> dict[str, bytes]:
+    """Carry only validated project wheels; never bundle host or game dependencies."""
+    from scripts.gscore_bundled_runtime import MAX_WHEEL_BYTES, validate_wheel
+
+    content: dict[str, bytes] = {}
+    wheel_entries: dict[str, dict[str, str]] = {}
+    present: set[str] = set()
+    for name, version in sorted(pinned.items()):
+        filename = f"{name.replace('-', '_')}-{version}-py3-none-any.whl"
+        path = wheels / filename
+        if path.is_symlink() or path.stat().st_size > MAX_WHEEL_BYTES:
+            raise ValueError("Bundled runtime wheel input is unsafe or too large")
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        files = validate_wheel(path, name, version, digest)
+        if present.intersection(files):
+            raise ValueError("Bundled runtime wheels contain colliding files")
+        present.update(files)
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != digest:
+            raise ValueError("Bundled runtime wheel changed during validation")
+        wheel_entries[name] = {"filename": filename, "sha256": digest}
+        content[f"runtime-wheels/{filename}"] = data
+    manifest = json_bytes(
+        {
+            "schema_version": 1,
+            "repository": repo,
+            "release_tag": f"v{pinned['dota2uid']}",
+            "wheels": wheel_entries,
+        }
+    )
+    content["runtime-wheels.json"] = manifest
+    content["deployment.json"] = json_bytes(
+        {
+            "schema_version": 1,
+            "mode": "bundled",
+            "manifest_sha256": hashlib.sha256(manifest).hexdigest(),
+        }
+    )
+    return content
+
+
 def distribution_files(
     root: Path,
     astrbot_repo: str,
     gscore_repo: str,
     gscore_wheels: Path | None = None,
     astrbot_wheels: Path | None = None,
+    gscore_bundled: bool = False,
+    source_ref: str = "main",
 ) -> dict[str, bytes]:
+    source_repository_url(source_ref)
     astrbot_repo, author = repository(astrbot_repo, "astrbot_plugin_dota2forge")
     gscore_repo, gs_author = repository(gscore_repo, "Dota2UID")
+    if gscore_bundled and gscore_wheels is None:
+        raise ValueError("Bundled GsCore distributions require --gscore-wheels")
     if gscore_wheels is not None:
         gscore_wheels = gscore_wheels.resolve()
         if not gscore_wheels.is_relative_to(root.resolve()):
@@ -240,15 +417,18 @@ def distribution_files(
     ):
         pinned = {
             name: release_versions[name]
-            for name in ("dota2forge-core", "dota2forge-renderer", adapter)
+            for name in ("dota2forge-core", "dota2forge-renderer", "dota2forge-assets", adapter)
         }
         requirements = [
-            f"{name}{'[stratz]' if name != 'dota2forge-renderer' else ''}=={version}"
+            f"{name}{'[stratz]' if name in STRATZ_PACKAGES else ''}=={version}"
             for name, version in sorted(pinned.items())
         ]
-        dependencies = requirements + third_party
         repo = astrbot_repo if plugin.startswith("astrbot") else gscore_repo
         public_wheels = astrbot_wheels if plugin.startswith("astrbot") else gscore_wheels
+        bundled = plugin == "Dota2UID" and gscore_bundled
+        dependencies = requirements + third_party
+        if public_wheels is not None and plugin.startswith("astrbot"):
+            dependencies = public_wheel_requirements(public_wheels, pinned, repo) + third_party
         content = {
             "LICENSE": license_text,
             "README.md": readme(
@@ -257,6 +437,8 @@ def distribution_files(
                 repo,
                 release_versions[adapter],
                 public_runtime=public_wheels is not None,
+                gscore_bundled=bundled,
+                source_ref=source_ref,
             ),
             "logo.png" if plugin.startswith("astrbot") else "ICON.png": icon,
             "_dota2forge_bootstrap.py": bootstrap,
@@ -288,26 +470,55 @@ def distribution_files(
                 }
             )
         else:
+            host_source = "bundled_host_entry.py.template" if bundled else "host_entry.py.template"
+            entry = text_bytes(root / GS_ADAPTER_SOURCE / host_source)
+            if not bundled:
+                entry = PRELUDE.encode() + entry
+            gs_dependencies = third_party if bundled else dependencies
+            auto_update = (
+                "" if bundled else f"gscore_auto_update_dep = {json.dumps(requirements)}\n"
+            )
             content.update(
                 {
-                    "__init__.py": PRELUDE.encode()
-                    + text_bytes(root / "adapters/Dota2UID/src/Dota2UID/host_entry.py.template"),
+                    "__init__.py": entry,
                     "config.example.toml": text_bytes(
                         root / "adapters/Dota2UID/config.example.toml"
                     ),
                     "pyproject.toml": (
                         '[project]\nname = "dota2uid-host-entry"\n'
                         f'version = "{release_versions[adapter]}"\nrequires-python = ">=3.12"\n'
-                        f"dependencies = {json.dumps(dependencies)}\n"
-                        f"gscore_auto_update_dep = {json.dumps(requirements)}\n"
+                        f"dependencies = {json.dumps(gs_dependencies)}\n"
+                        f"{auto_update}"
                     ).encode(),
                 }
             )
+            if bundled:
+                content.update(
+                    {
+                        "_dota2forge_business.py": text_bytes(
+                            root / GS_ADAPTER_SOURCE / "bundled_business_entry.py.template"
+                        ),
+                        "_dota2forge_runtime.py": text_bytes(root / GS_BUNDLED_RUNTIME_SOURCE),
+                    }
+                )
+                # The early guard is specific to the thin entry; bundled bootstrap owns validation.
+                del content["_dota2forge_bootstrap.py"]
         if public_wheels is not None:
-            content["install_runtime.py"] = text_bytes(root / GS_RUNTIME_SOURCE)
-            content["runtime-wheels.json"] = runtime_wheels(public_wheels, pinned, repo)
-            guide = ASTR_INSTALL_GUIDE if plugin.startswith("astrbot") else GS_INSTALL_GUIDE
-            content["INSTALL.md"] = text_bytes(root / guide)
+            if bundled:
+                content.update(bundled_runtime_files(public_wheels, pinned, repo))
+            else:
+                content["install_runtime.py"] = text_bytes(root / GS_RUNTIME_SOURCE)
+                content["runtime-wheels.json"] = runtime_wheels(public_wheels, pinned, repo)
+            guide = (
+                ASTR_INSTALL_GUIDE
+                if plugin.startswith("astrbot")
+                else GS_BUNDLED_INSTALL_GUIDE
+                if bundled
+                else GS_INSTALL_GUIDE
+            )
+            content["INSTALL.md"] = (
+                bundled_install_guide(root, source_ref) if bundled else text_bytes(root / guide)
+            )
         packed = archive(content)
         if plugin.startswith("astrbot") and len(packed) > MAX_ASTRBOT_ZIP_BYTES:
             raise ValueError("AstrBot ZIP exceeds the 16 MB distribution limit")
@@ -327,7 +538,11 @@ def distribution_files(
                         "Dota2Forge：查刀塔战绩、比赛详情和英雄热门出装，还能看段位和预估分数。"
                     ),
                     "installMsg": (
-                        "第一次安装请先看插件里的 INSTALL.md：关闭 GsCore，用它的 Python "
+                        "URL 安装后请完整重启 GsCore，运行库随插件提供。主人可发送 "
+                        "do核心状态 检查；需要恢复时发送 do安装核心，完成后按提示冷启动。"
+                        "再在本机配置 STRATZ 密钥和 namespace；第三方依赖冲突见 INSTALL.md。"
+                        if gscore_bundled
+                        else "第一次安装请先看插件里的 INSTALL.md：关闭 GsCore，用它的 Python "
                         "运行 install_runtime.py 安装所需组件，然后重新启动。"
                         "再按说明填写 STRATZ 密钥和插件标识（namespace）。"
                         "只在商店点击安装还不能直接使用。"
@@ -360,9 +575,12 @@ def distribution_files(
         )
     sources.append(root / "adapters/Dota2UID/config.example.toml")
     if gscore_wheels is not None:
-        sources.append(root / GS_RUNTIME_SOURCE)
-        sources.append(root / GS_INSTALL_GUIDE)
-        for name in ("dota2forge-core", "dota2forge-renderer", "dota2uid"):
+        if gscore_bundled:
+            sources.append(root / GS_BUNDLED_RUNTIME_SOURCE)
+        else:
+            sources.append(root / GS_RUNTIME_SOURCE)
+        sources.append(root / (GS_BUNDLED_INSTALL_GUIDE if gscore_bundled else GS_INSTALL_GUIDE))
+        for name in ("dota2forge-core", "dota2forge-renderer", "dota2forge-assets", "dota2uid"):
             path = (
                 gscore_wheels
                 / f"{name.replace('-', '_')}-{release_versions[name]}-py3-none-any.whl"
@@ -370,7 +588,12 @@ def distribution_files(
             sources.append(path)
     if astrbot_wheels is not None:
         sources.extend((root / GS_RUNTIME_SOURCE, root / ASTR_INSTALL_GUIDE))
-        for name in ("dota2forge-core", "dota2forge-renderer", "astrbot-plugin-dota2forge"):
+        for name in (
+            "dota2forge-core",
+            "dota2forge-renderer",
+            "dota2forge-assets",
+            "astrbot-plugin-dota2forge",
+        ):
             sources.append(
                 astrbot_wheels
                 / f"{name.replace('-', '_')}-{release_versions[name]}-py3-none-any.whl"
@@ -379,6 +602,7 @@ def distribution_files(
         {
             "schema_version": 1,
             "status": "local_candidate",
+            **({"source_ref": source_ref} if source_ref != "main" else {}),
             "versions": release_versions,
             "source_sha256": {
                 p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -399,11 +623,15 @@ def build_distributions(
     gscore_repo: str,
     gscore_wheels: Path | None = None,
     astrbot_wheels: Path | None = None,
+    gscore_bundled: bool = False,
+    source_ref: str = "main",
 ) -> Path:
     root, output = root.resolve(), output.absolute()
     if root.is_relative_to(output.resolve()):
         raise ValueError("Output must not replace or contain the source repository")
-    artifacts = distribution_files(root, astrbot_repo, gscore_repo, gscore_wheels, astrbot_wheels)
+    artifacts = distribution_files(
+        root, astrbot_repo, gscore_repo, gscore_wheels, astrbot_wheels, gscore_bundled, source_ref
+    )
     if output.exists():
         present = {p.relative_to(output).as_posix(): p for p in output.rglob("*") if p.is_file()}
         if output.is_symlink() or any(p.is_symlink() for p in output.rglob("*")):
@@ -436,6 +664,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--astrbot-wheels", type=Path, help="Include AstrBot pinned runtime installer"
     )
+    parser.add_argument(
+        "--gscore-bundled",
+        action="store_true",
+        help="Bundle validated GsCore project wheels and a dependency-free management entry",
+    )
+    parser.add_argument(
+        "--source-ref",
+        default="main",
+        help="Pin source links to main or a full lowercase commit SHA",
+    )
     args = parser.parse_args(argv)
     try:
         destination = build_distributions(
@@ -445,8 +683,10 @@ def main(argv: list[str] | None = None) -> int:
             args.gscore_repo,
             args.gscore_wheels,
             args.astrbot_wheels,
+            args.gscore_bundled,
+            args.source_ref,
         )
-    except (OSError, ValueError, KeyError):
+    except (OSError, ValueError, KeyError, BadZipFile):
         print("Distribution generation failed. Check source metadata, repository URLs and output.")
         return 1
     print(
