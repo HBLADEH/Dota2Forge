@@ -1,0 +1,15 @@
+{
+  "read_only": true,
+  "existing_saved_identity": true,
+  "target_hash": "b5338cd6d473f86fe0aec2fa56b83c05fe0a1cc0834b0cb8d09837f6730a6adc",
+  "ssh_exit_code": 0,
+  "gscore": {
+    "name": "gscore",
+    "image": "docker.cnb.cool/gscore-mirror/gsuid_core:latest",
+    "state": "running"
+  },
+  "error_category": null,
+  "registered_remote_data_path_exists": true,
+  "host_key_policy": "system known_hosts; no disabling strict host key check",
+  "production_mutations": false
+}

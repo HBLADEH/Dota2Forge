@@ -9,6 +9,7 @@ resolution-markers = [
 [manifest]
 members = [
     "astrbot-plugin-dota2forge",
+    "dota2forge-assets",
     "dota2forge-core",
     "dota2forge-renderer",
     "dota2forge-workspace",
@@ -30,9 +31,10 @@ wheels = [
 
 [[package]]
 name = "astrbot-plugin-dota2forge"
-version = "0.1.0a6"
+version = "0.1.0a8"
 source = { editable = "adapters/astrbot_plugin_dota2forge" }
 dependencies = [
+    { name = "dota2forge-assets" },
     { name = "dota2forge-core" },
     { name = "dota2forge-renderer" },
 ]
@@ -45,6 +47,7 @@ stratz = [
 
 [package.metadata]
 requires-dist = [
+    { name = "dota2forge-assets", editable = "packages/dota2forge-assets" },
     { name = "dota2forge-core", editable = "packages/dota2forge-core" },
     { name = "dota2forge-core", extras = ["stratz"], marker = "extra == 'stratz'", editable = "packages/dota2forge-core" },
     { name = "dota2forge-renderer", editable = "packages/dota2forge-renderer" },
@@ -211,6 +214,21 @@ wheels = [
 ]
 
 [[package]]
+name = "dota2forge-assets"
+version = "0.1.0a1"
+source = { editable = "packages/dota2forge-assets" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pillow" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.28.1,<1" },
+    { name = "pillow", specifier = ">=11.3,<13" },
+]
+
+[[package]]
 name = "dota2forge-core"
 version = "0.1.0a4"
 source = { editable = "packages/dota2forge-core" }
@@ -284,9 +302,10 @@ dev = [
 
 [[package]]
 name = "dota2uid"
-version = "0.1.0a4"
+version = "0.1.0a6"
 source = { editable = "adapters/Dota2UID" }
 dependencies = [
+    { name = "dota2forge-assets" },
     { name = "dota2forge-core" },
     { name = "dota2forge-renderer" },
 ]
@@ -299,6 +318,7 @@ stratz = [
 
 [package.metadata]
 requires-dist = [
+    { name = "dota2forge-assets", editable = "packages/dota2forge-assets" },
     { name = "dota2forge-core", editable = "packages/dota2forge-core" },
     { name = "dota2forge-core", extras = ["stratz"], marker = "extra == 'stratz'", editable = "packages/dota2forge-core" },
     { name = "dota2forge-renderer", editable = "packages/dota2forge-renderer" },

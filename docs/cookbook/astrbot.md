@@ -15,13 +15,13 @@ AstrBot 适配器是 `astrbot-plugin-dota2forge`，宿主桥接只负责事件�
    uv run --locked python -m astrbot_plugin_dota2forge.install --output dist/astrbot_plugin_dota2forge.zip
    ```
 
-2. 在 **AstrBot实际Python** 环境中安装 Core、Renderer、AstrBot三个wheel。联网安装本地 AstrBot wheel 的 `stratz` extra 会解析同目录依赖；示例将python替换为宿主解释器：
+2. 在 **AstrBot实际Python** 环境中安装 Core、Renderer、Assets、AstrBot四个wheel。联网安装本地 AstrBot wheel 的 `stratz` extra 会解析同目录依赖；示例将python替换为宿主解释器：
 
    ```sh
    python -m pip install --find-links /path/to/Dota2Forge/dist "/path/to/Dota2Forge/dist/astrbot_plugin_dota2forge-0.1.0a2-py3-none-any.whl[stratz]"
    ```
 
-   桌面版以 `--target <运行根>/data/site-packages` 安装；不要覆盖内置Python的宿主依赖。若httpx/Pillow已满足，可先用 `--no-index --no-deps --target ...` 显式安装三个wheel，再核对两个依赖版本。缺依赖时先准备wheel，不将离线安装失败当作通过。
+   桌面版以 `--target <运行根>/data/site-packages` 安装；不要覆盖内置Python的宿主依赖。若httpx/Pillow已满足，可先用 `--no-index --no-deps --target ...` 显式安装四个wheel，再核对两个依赖版本。缺依赖时先准备wheel，不将离线安装失败当作通过。
 
 3. 将压缩包通过 AstrBot 插件管理器安装，或执行桥接安装：
 
@@ -29,7 +29,7 @@ AstrBot 适配器是 `astrbot-plugin-dota2forge`，宿主桥接只负责事件�
    uv run --locked python -m astrbot_plugin_dota2forge.install --host-root /path/to/AstrBot
    ```
 
-   `--host-root` 只写入 `data/plugins/astrbot_plugin_dota2forge`，已有内容不一致会停止并保留原文件。桌面版源码目录和运行目录分离时，另传 `--data-root <运行根目录>`。安装脚本不导入 AstrBot、不重启宿主。ZIP 只包含发现桥接；必须先在宿主环境安装三个共享/适配器 wheel、Pillow 与 httpx，不能只上传 ZIP 期待自动取得尚未发布的包。
+   `--host-root` 只写入 `data/plugins/astrbot_plugin_dota2forge`，已有内容不一致会停止并保留原文件。桌面版源码目录和运行目录分离时，另传 `--data-root <运行根目录>`。安装脚本不导入 AstrBot、不重启宿主。ZIP 只包含发现桥接；必须先在宿主环境安装四个共享/适配器 wheel、Pillow 与 httpx，不能只上传 ZIP 期待自动取得尚未发布的包。
 
 4. 在 AstrBot 插件配置中填写 `stratz_token`，为每个部署设置唯一 `namespace`，选择 `image` 或 `text` 回复模式，并重新加载插件。Token 仅进入宿主配置和专用 HTTP 客户端，不进入日志或消息。
 
@@ -60,6 +60,6 @@ do段位是do查询别名，do最近是do战绩别名；常规命令遵循AstrBo
 
 普通测试禁网且不安装 AstrBot SDK，验证宿主桩可调用的生命周期、配置、身份、图片发送和失败边界。wheel smoke 只证明包可安装和资源存在，不证明 AstrBot 真实事件、平台图片上传、压缩、权限或宿主热重载；这些需在获得授权的 AstrBot 实例中按相同命令逐项确认并记录到任务证据。
 
-深色卡片的英雄/装备插图支持 illustration_path 配置；显式下载与路径基准见[本地插图指南](illustrations.md)。留空使用占位，普通回复不下载资源。2026-10-05本机已更新三个wheel和发现资源，配置独立素材目录并冷启动ready，安装包已确认加载新背景。用户确认本轮/do菜单及所测其他指令图片/图标正常，OneBot已连接；分页/五人详情/手机可读性未获本轮逐项反馈，详见[部署/聊天证据](../../.agents/artifacts/dota-style-host-v2/README.md)。
+深色卡片的英雄/装备插图支持 illustration_path 配置；显式下载与路径基准见[本地插图指南](illustrations.md)。新源码候选留空按 auto/manual/off 使用托管素材，首次完成前占位，普通回复不下载资源。2026-10-05本机已更新三个wheel和发现资源，配置独立素材目录并冷启动ready，安装包已确认加载新背景。用户确认本轮/do菜单及所测其他指令图片/图标正常，OneBot已连接；分页/五人详情/手机可读性未获本轮逐项反馈，详见[部署/聊天证据](../../.agents/artifacts/dota-style-host-v2/README.md)。
 
 截图前升级另见[证据](../../.agents/artifacts/astrbot-screenshot-update-v1/README.md)：保留配置、绑定、订阅与558张素材，停用确认客户端关闭后停机安装；18个静态命令及动态出装捕获通过宿主SDK检查，菜单/玩家MMR/出装合成PNG可解码。桌面插件页已显示新主宰图标与0.1.0a2；按[清单](plugin-showcase.md)采集真实聊天图片，不以合成图替代。

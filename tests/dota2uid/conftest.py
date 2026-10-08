@@ -36,3 +36,19 @@ def config_path(tmp_path):
 @pytest.fixture
 def caller():
     return Caller("onebot", "synthetic-bot", "synthetic-user", "synthetic-connection")
+
+
+@pytest.fixture(autouse=True)
+def offline_artwork(monkeypatch):
+    # Legacy business tests classify artwork failures without contacting a real CDN.
+    import httpx
+    from dota2forge_assets import session
+    from dota2forge_assets.manager import AssetManager
+
+    def manager(*args, **kwargs):
+        kwargs["client_factory"] = lambda: httpx.AsyncClient(
+            transport=httpx.MockTransport(lambda request: httpx.Response(403)), trust_env=False
+        )
+        return AssetManager(*args, **kwargs)
+
+    monkeypatch.setattr(session, "AssetManager", manager)

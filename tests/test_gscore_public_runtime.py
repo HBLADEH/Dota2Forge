@@ -11,9 +11,10 @@ import pytest
 
 from scripts import build_plugin_distributions as distribution
 from scripts import gscore_public_runtime as runtime
+from scripts import smoke_plugin_distributions as smoke
 
 ROOT = Path(__file__).resolve().parents[1]
-NAMES = ("dota2forge-core", "dota2forge-renderer", "dota2uid")
+NAMES = ("dota2forge-assets", "dota2forge-core", "dota2forge-renderer", "dota2uid")
 REPO = "https://github.com/HBLADEH/Dota2UID"
 
 
@@ -39,14 +40,15 @@ def manifests(tmp_path):
 def test_requirements_use_exact_public_wheels_hashes_and_extras(manifests):
     root, _, _ = manifests
     requirements = runtime.public_requirements(root)
-    assert len(requirements) == 3
+    assert len(requirements) == 4
     assert all(
         "/releases/download/v0.1.0a4/" in value and value.endswith("#sha256=" + "a" * 64)
         for value in requirements
     )
-    assert requirements[0].startswith("dota2forge-core[stratz] @ ")
-    assert requirements[1].startswith("dota2forge-renderer @ ")
-    assert requirements[2].startswith("dota2uid[stratz] @ ")
+    assert requirements[0].startswith("dota2forge-assets @ ")
+    assert requirements[1].startswith("dota2forge-core[stratz] @ ")
+    assert requirements[2].startswith("dota2forge-renderer @ ")
+    assert requirements[3].startswith("dota2uid[stratz] @ ")
 
 
 @pytest.mark.parametrize(
@@ -185,7 +187,7 @@ def test_cli_only_reports_success_after_installation(manifests, monkeypatch, cap
 def write_wheels(directory: Path, *, wrong_version: bool = False):
     directory.mkdir()
     for name in (*NAMES, "astrbot-plugin-dota2forge"):
-        pinned = "0.1.0a6" if name == "astrbot-plugin-dota2forge" else "0.1.0a4"
+        pinned = distribution.versions(ROOT)[name]
         filename = f"{name.replace('-', '_')}-{pinned}-py3-none-any.whl"
         version = "0.1.0a1" if wrong_version else pinned
         with ZipFile(directory / filename, "w") as wheel:
@@ -199,7 +201,9 @@ def test_wheel_metadata_mismatch_is_rejected(tmp_path):
     wheels = tmp_path / "wheels"
     write_wheels(wheels, wrong_version=True)
     with pytest.raises(ValueError, match="metadata"):
-        distribution.runtime_wheels(wheels, {name: "0.1.0a4" for name in NAMES}, REPO)
+        distribution.runtime_wheels(
+            wheels, {name: distribution.versions(ROOT)[name] for name in NAMES}, REPO
+        )
 
 
 @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
@@ -248,14 +252,38 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
     readme = (plugin / "README.md").read_text("utf-8")
     assert "](INSTALL.md)" in readme and "/blob/main/docs/" not in readme
     assert "install_runtime.py" in readme
-    assert len(runtime.public_requirements(plugin)) == 3
+    assert len(runtime.public_requirements(plugin)) == 4
     manifest = json.loads((plugin / "runtime-wheels.json").read_text("utf-8"))
     for wheel in manifest["wheels"].values():
         assert (
             wheel["sha256"] == hashlib.sha256((wheels / wheel["filename"]).read_bytes()).hexdigest()
         )
     astr = candidate / "astrbot_plugin_dota2forge"
-    assert len(runtime.public_requirements(astr)) == 3
+    assert len(runtime.public_requirements(astr)) == 4
+    public_requirements = (astr / "requirements.txt").read_text("utf-8")
+    assert (
+        "https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/"
+        in public_requirements
+    )
+    assert "astrbot_plugin_dota2forge-0.1.0a8-py3-none-any.whl#sha256=" in public_requirements
+    local_requirements = smoke.offline_astrbot_requirements(astr, wheels)
+    assert "https://" not in "\n".join(local_requirements)
+    assert all("#sha256=" in line for line in local_requirements[:4])
+    adapter_wheel = wheels / "astrbot_plugin_dota2forge-0.1.0a8-py3-none-any.whl"
+    original = adapter_wheel.read_bytes()
+    adapter_wheel.write_bytes(original + b"corrupt")
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        smoke.offline_astrbot_requirements(astr, wheels)
+    adapter_wheel.unlink()
+    with pytest.raises(ValueError, match="Missing staged wheel"):
+        smoke.offline_astrbot_requirements(astr, wheels)
+    adapter_wheel.write_bytes(original)
+    (astr / "requirements.txt").write_text(
+        public_requirements.replace("/v0.1.0a8/", "/v0.1.0a6/"), "utf-8"
+    )
+    with pytest.raises(ValueError, match="public runtime manifest"):
+        smoke.offline_astrbot_requirements(astr, wheels)
+    (astr / "requirements.txt").write_text(public_requirements, "utf-8")
     assert (astr / "INSTALL.md").read_text("utf-8") == (
         root / distribution.ASTR_INSTALL_GUIDE
     ).read_text("utf-8")
@@ -264,7 +292,7 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
     ).read_text("utf-8")
     assert "dota2uid" not in (astr / "runtime-wheels.json").read_text("utf-8")
     manifest_sources = json.loads((candidate / "manifest.json").read_text("utf-8"))["source_sha256"]
-    assert "wheels/astrbot_plugin_dota2forge-0.1.0a6-py3-none-any.whl" in manifest_sources
+    assert "wheels/astrbot_plugin_dota2forge-0.1.0a8-py3-none-any.whl" in manifest_sources
     plain = distribution.build_distributions(
         root, tmp_path / "plain", "https://github.com/HBLADEH/astrbot_plugin_dota2forge", REPO
     )
@@ -282,7 +310,7 @@ def test_astrbot_manifest_selects_only_its_adapter_and_repo(manifests):
     (root / "release.json").write_text(json.dumps(release), "utf-8")
     (root / "runtime-wheels.json").write_text(json.dumps(manifest), "utf-8")
     requirements = runtime.public_requirements(root)
-    assert len(requirements) == 3
+    assert len(requirements) == 4
     assert requirements[0].startswith("astrbot-plugin-dota2forge[stratz] @ ")
     assert all("/astrbot_plugin_dota2forge/releases/download/v0.1.0a4/" in r for r in requirements)
     manifest["repository"] = REPO

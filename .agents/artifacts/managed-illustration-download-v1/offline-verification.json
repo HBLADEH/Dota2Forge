@@ -1,0 +1,95 @@
+{
+  "recorded_date": "2026-10-07",
+  "status": "local_candidate_not_published",
+  "candidate": "dist/plugin-distributions/managed-assets-a8-a5-v2",
+  "versions": {
+    "astrbot-plugin-dota2forge": "0.1.0a8",
+    "dota2forge-assets": "0.1.0a1",
+    "dota2forge-core": "0.1.0a4",
+    "dota2forge-renderer": "0.1.0a4",
+    "dota2uid": "0.1.0a5"
+  },
+  "checks": {
+    "uniform_offline": {
+      "command": "uv run --locked python scripts/check_governance.py --all",
+      "exit_code": 0,
+      "tests_passed": 1608,
+      "elapsed_seconds": 223.17,
+      "overall_coverage_percent": 93.03,
+      "ruff_format": "passed",
+      "ruff_lint": "passed",
+      "mypy_source_files": 82,
+      "coverage_gates_percent": {
+        "scripts": 96,
+        "core": 93,
+        "assets": 92
+      },
+      "required_percent": 80
+    },
+    "build": {
+      "command": "uv build --all-packages",
+      "exit_code": 0,
+      "packages": 5
+    },
+    "wheel_smoke": {
+      "command": "uv run --locked python scripts/smoke_wheels.py",
+      "exit_code": 0,
+      "packages": 5
+    },
+    "distribution_smoke": {
+      "command": "uv run --locked python scripts/smoke_plugin_distributions.py --candidate dist/plugin-distributions/managed-assets-a8-a5-v2 --wheels dist",
+      "exit_code": 0,
+      "hosts": [
+        "astrbot_plugin_dota2forge",
+        "Dota2UID"
+      ],
+      "scope": "SDK-free fresh isolated install with synthetic asset HTTP and blocked Provider requests"
+    },
+    "candidate_file_hashes": "verified",
+    "wheel_hashes": "verified"
+  },
+  "archives": [
+    {
+      "file": "Dota2UID.zip",
+      "bytes": 1922083,
+      "sha256": "63854e81cbfeabf1dda6db02e15de7bdc947d2b261cbe1717ace0ac49f98a614"
+    },
+    {
+      "file": "astrbot_plugin_dota2forge.zip",
+      "bytes": 1924658,
+      "sha256": "0521d277089da2c98c5d8e825c10b577f601517ddb77113375d5b62d0e4096ab"
+    }
+  ],
+  "wheels": [
+    {
+      "file": "dist/astrbot_plugin_dota2forge-0.1.0a8-py3-none-any.whl",
+      "bytes": 27657,
+      "sha256": "a469242f5d4a3fe0302961c6214afe46c0b93590ef9c6d65f25bac54c15d3bf1"
+    },
+    {
+      "file": "dist/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 20639,
+      "sha256": "07ff194d53813e234bb6b3468721629b9afaf257aa06e30bf71bdff39c571322"
+    },
+    {
+      "file": "dist/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "bytes": 67453,
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+    },
+    {
+      "file": "dist/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "bytes": 13727339,
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "file": "dist/dota2uid-0.1.0a5-py3-none-any.whl",
+      "bytes": 25771,
+      "sha256": "d6b21cfaacc1b38eb03dbca14703f664d097d4007e99c1429389725a04822122"
+    }
+  ],
+  "pending": [
+    "Maintainer review of policy/schema/checker changes.",
+    "Actual registered host-plugin lifecycle, live chat and production rollout.",
+    "External release and new marketplace index verification."
+  ]
+}

@@ -9,6 +9,8 @@ from enum import StrEnum
 from pathlib import Path
 
 import httpx
+from dota2forge_assets import ASSET_COMMANDS, AssetError, AssetSession, AssetStatus
+from dota2forge_assets.session import ManagerFactory
 from dota2forge_core import (
     BindingConflictError,
     BindingNotFoundError,
@@ -67,7 +69,11 @@ AWAITING_CONFIG = (
     "确认部署 namespace 后重载插件；请勿在聊天中发送 Token。"
 )
 LOGGER = logging.getLogger("Dota2UID")
-COMMAND_NAMES = frozenset(action.value for action in Action) | frozenset(SUBSCRIPTION_COMMANDS)
+COMMAND_NAMES = (
+    frozenset(action.value for action in Action)
+    | frozenset(SUBSCRIPTION_COMMANDS)
+    | frozenset(ASSET_COMMANDS)
+)
 
 
 @dataclass(frozen=True, repr=False)
@@ -106,6 +112,7 @@ class Runtime:
         client_factory: Callable[[], httpx.AsyncClient] = make_client,
         selection_clock: Callable[[], float] = time.monotonic,
         renderer_factory: Callable[[], AsyncRenderer] | None = None,
+        asset_manager_factory: ManagerFactory | None = None,
     ) -> None:
         self._config_path = config_path
         self._client_factory = client_factory
@@ -128,6 +135,9 @@ class Runtime:
         self._renderer_factory = renderer_factory
         self._renderer: AsyncRenderer | None = None
         self._subscriptions: SubscriptionController | None = None
+        self._assets: AssetSession | None = None
+        self._asset_config: Config | None = None
+        self._asset_manager_factory = asset_manager_factory
 
     @property
     def subscriptions_enabled(self) -> bool:
@@ -150,6 +160,51 @@ class Runtime:
     def client_closed(self) -> bool:
         return self._client is None or self._client.is_closed
 
+    @property
+    def asset_status(self) -> AssetStatus:
+        return self._assets.status() if self._assets is not None else AssetStatus("checking")
+
+    async def _start_assets(self, config: Config) -> None:
+        self._asset_config = config
+        self._assets = AssetSession(
+            config.assets,
+            self._config_path.parent / "illustrations",
+            self._activate_assets,
+            manager_factory=self._asset_manager_factory,
+        )
+        await self._assets.start()
+
+    async def _activate_assets(self, path: Path, commit: Callable[[], Awaitable[None]]) -> None:
+        if self._state == State.AWAITING_CONFIG:
+            await commit()
+            return
+        if self._state != State.READY or self._config is None:
+            raise AssetError("closed")
+        if self._config.reply_mode == "text":
+            await commit()
+            return
+        candidate = AsyncRenderer(PillowRenderer(illustration_path=path))
+        installed = False
+        try:
+            await candidate.render(MenuCard())
+            async with self._send_lock:
+                if self._state != State.READY:
+                    raise AssetError("closed")
+                await commit()
+                previous, self._renderer = self._renderer, candidate
+                installed = True
+                if previous is not None:
+                    try:
+                        await previous.close()
+                    except asyncio.CancelledError:
+                        await previous.close()
+                        raise
+        except RenderError:
+            raise AssetError("renderer") from None
+        finally:
+            if not installed:
+                await candidate.close()
+
     async def start(self) -> None:
         async with self._lock:
             if self._state != State.NEW:
@@ -161,6 +216,7 @@ class Runtime:
             try:
                 await asyncio.to_thread(ensure_config, self._config_path)
                 config = await asyncio.to_thread(load_config, self._config_path)
+                await self._start_assets(config)
                 await asyncio.to_thread(config.database.parent.mkdir, parents=True, exist_ok=True)
                 repository = SQLiteBindingRepository(config.database)
                 await repository.initialize()
@@ -202,14 +258,20 @@ class Runtime:
                         self._renderer_factory()
                         if self._renderer_factory is not None
                         else AsyncRenderer(
-                            PillowRenderer(illustration_path=config.illustration_path)
+                            PillowRenderer(
+                                illustration_path=self._assets.path if self._assets else None
+                            )
                         )
                     )
                 self._state = State.READY
                 ready = True
                 LOGGER.info("lifecycle state=ready reply_mode=%s", config.reply_mode)
-            except ConfigurationPending:
+            except ConfigurationPending as pending:
                 if self._state == State.STARTING:
+                    if pending.config is not None:
+                        await self._start_assets(pending.config)
+                    if self._state != State.STARTING:
+                        return
                     self._state = State.AWAITING_CONFIG
                     LOGGER.info("lifecycle state=awaiting_config")
             except (
@@ -218,6 +280,7 @@ class Runtime:
                 SubscriptionRepositoryError,
                 OSError,
                 ValidationError,
+                AssetError,
             ) as error:
                 # Expected boundary failures are fixed text, never host-logged tracebacks.
                 self._state = State.FAILED
@@ -228,6 +291,11 @@ class Runtime:
                         await client.aclose()
                     if self._state == State.STARTING:
                         self._state = State.FAILED
+                if self._assets is not None:
+                    if self._state in {State.READY, State.AWAITING_CONFIG}:
+                        await self._assets.auto_prepare()
+                    else:
+                        await self._assets.close()
 
     async def close(self) -> None:
         if self._close_task is None:
@@ -247,6 +315,8 @@ class Runtime:
         async with self._lock:
             try:
                 try:
+                    if self._assets is not None:
+                        await self._assets.close()
                     if self._subscriptions is not None:
                         await self._subscriptions.close()
                     if self._client is not None:
@@ -260,6 +330,7 @@ class Runtime:
                 self._analysis = None
                 self._items = None
                 self._config = None
+                self._asset_config = None
                 self._selections.clear()
                 self._pending_delivery = None
                 self._renderer = None
@@ -393,10 +464,19 @@ class Runtime:
     ) -> _CommandResult:
         command: Command | None = None
         try:
-            if keyword not in SUBSCRIPTION_COMMANDS:
+            if keyword not in SUBSCRIPTION_COMMANDS and keyword not in ASSET_COMMANDS:
                 command = parse_command(keyword, text)
             await self.start()
             async with self._lock:
+                if (
+                    keyword in ASSET_COMMANDS
+                    and self._assets is not None
+                    and self._asset_config is not None
+                ):
+                    caller.identity(self._asset_config)
+                    return _CommandResult(
+                        [await self._assets.handle(keyword, text, is_admin=caller.is_admin is True)]
+                    )
                 if self._state != State.READY or self._config is None or self._service is None:
                     return _CommandResult(
                         [AWAITING_CONFIG if self._state == State.AWAITING_CONFIG else UNAVAILABLE]

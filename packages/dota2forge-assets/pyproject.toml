@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dota2forge-assets"
+version = "0.1.0a1"
+description = "Bounded public-art downloads and immutable local snapshots for Dota2Forge"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["httpx>=0.28.1,<1", "Pillow>=11.3,<13"]
+
+[project.scripts]
+dota2forge-assets = "dota2forge_assets.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dota2forge_assets"]

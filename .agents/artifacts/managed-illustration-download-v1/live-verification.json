@@ -1,0 +1,119 @@
+{
+  "recorded_date": "2026-10-07",
+  "scope": "isolated temporary directory in the user-authorized AstrBot Linux container; no production configuration, database or plugin replacement; no chat send",
+  "public_download": {
+    "phase": "closed",
+    "state": "ready",
+    "elapsed": 54.3,
+    "completed": 686,
+    "total": 686,
+    "bytes": 22880181,
+    "error": null,
+    "counts": {
+      "heroes": {
+        "available": 127,
+        "missing_404": 0,
+        "failed": 0,
+        "reused": 0
+      },
+      "items": {
+        "available": 415,
+        "missing_404": 129,
+        "failed": 0,
+        "reused": 0
+      },
+      "ranks": {
+        "available": 9,
+        "missing_404": 0,
+        "failed": 0,
+        "reused": 0
+      },
+      "rank_stars": {
+        "available": 5,
+        "missing_404": 0,
+        "failed": 0,
+        "reused": 0
+      },
+      "ui": {
+        "available": 1,
+        "missing_404": 0,
+        "failed": 0,
+        "reused": 0
+      },
+      "decor": {
+        "available": 0,
+        "missing_404": 0,
+        "failed": 0,
+        "reused": 0
+      }
+    },
+    "lease_released": true,
+    "reopen_verified": true,
+    "persisted_state": "ready"
+  },
+  "fixture_renderer": {
+    "fixture_png": true,
+    "width": 780,
+    "height": 728,
+    "bytes": 82701,
+    "sha256": "d9537a73fc2b45b0aca26f8d37f54323e8bd0595ed2000d148e31ff6eb1e5344"
+  },
+  "runtime_reuse": [
+    {
+      "host": "astr",
+      "state": "awaiting_config",
+      "assets": "ready",
+      "provider_closed": true,
+      "closed": true
+    },
+    {
+      "host": "gs",
+      "state": "awaiting_config",
+      "assets": "ready",
+      "provider_closed": true,
+      "closed": true
+    }
+  ],
+  "hero_decoding": {
+    "hero_images": {
+      "2": [
+        256,
+        144
+      ],
+      "16": [
+        256,
+        144
+      ],
+      "26": [
+        256,
+        144
+      ],
+      "58": [
+        256,
+        144
+      ],
+      "92": [
+        256,
+        144
+      ],
+      "131": [
+        256,
+        144
+      ]
+    }
+  },
+  "environment": {
+    "python": "3.12.13",
+    "versions": {
+      "dota2forge-core": "0.1.0a4",
+      "dota2forge-renderer": "0.1.0a4",
+      "httpx": "0.28.1",
+      "pillow": "12.3.0"
+    }
+  },
+  "limitations": [
+    "Actual registered host-plugin automatic lifecycle, live chat and production rollout remain unverified.",
+    "Runtime probes used SDK-free adapter code and reused the isolated complete snapshot.",
+    "UI network failure and incremental repair were tested offline with synthetic transport."
+  ]
+}

@@ -2,6 +2,8 @@
 
 Dota2UID 为 GsCore 扩展，要求宿主 Python 3.12+。当前为 M0 预发行，商店收录以官方索引为准；源码开发与独立分发目录用途不同。以下命令在包含 .venv 的 GsCore 根目录执行，适用于 Windows；其他平台需要补充验收。
 
+本页保留公开a4及薄分发流程；源码a6新增[随包运行库模式](gscore-bundled-install.md)，尚未发行，不能把新指令用于未更新的公开安装。
+
 ## 首次安装与配置
 
 已有实例先执行主人权限0的 `do停用`，确认关闭后退出 GsCore。首次安装也先停止宿主，避免安装 Pillow 时 DLL 被运行进程占用。
@@ -11,7 +13,7 @@ git clone https://github.com/HBLADEH/Dota2UID.git gsuid_core/plugins/Dota2UID
 .venv/Scripts/python.exe gsuid_core/plugins/Dota2UID/install_runtime.py --host-python .venv/Scripts/python.exe
 ```
 
-安装器从该仓库 GitHub Releases 取得与 release.json 匹配的三个 wheel，校验 SHA256，通过宿主 Python 的 pip 安装；Pillow/HTTPX 等第三方依赖从包索引取得。没有 pip 时先使用解释器自带 ensurepip。安装时保留其他宿主包对 Pillow 的有效约束，安装后运行 pip check，依赖冲突返回失败。需要网络，不要求本地 Dota2Forge workspace、私有索引或自行构建 wheel。失败时按错误处理，不跳过版本检查强行加载。
+安装器从该仓库 GitHub Releases 取得与 release.json 匹配的四个 wheel（旧公开版为三个，新候选新增 Assets，尚未发布），校验 SHA256，通过宿主 Python 的 pip 安装；Pillow/HTTPX 等第三方依赖从包索引取得。没有 pip 时先使用解释器自带 ensurepip。安装时保留其他宿主包对 Pillow 的有效约束，安装后运行 pip check，依赖冲突返回失败。需要网络，不要求本地 Dota2Forge workspace、私有索引或自行构建 wheel。失败时按错误处理，不跳过版本检查强行加载。
 
 随后正常冷启动 GsCore。首次创建 data/Dota2UID/config.toml，合法但空 Token 为 awaiting_config，不创建业务客户端或调度；非法字段仍失败。填写本机 stratz_token 与独立 namespace，Token 不发到聊天。完整配置项以仓库根 config.example.toml 为准；配置位置在宿主 data/Dota2UID，不能覆盖已存在配置。
 
@@ -31,7 +33,7 @@ git clone https://github.com/HBLADEH/Dota2UID.git gsuid_core/plugins/Dota2UID
 
 按插件README使用 do菜单、do绑定、do查询、do战绩、do比赛、do主宰出装。战绩每页五场，最多先发两页，更多用do战绩 第N页；比赛第N场使用同一会话十分钟内最后完整发送的列表。MMR仅由段位估算区间/下界，不是精确天梯分。玩家/比赛来自STRATZ，出装来自OpenDota，来源失败不会伪装无数据。
 
-图片由同一Renderer生成；本地素材可通过illustration_path指定目录，缺图使用占位卡片，不在回复时下载。字体与运行资源由Renderer wheel携带；Valve角色/装备画面遵守其权利，MIT不覆盖第三方美术。README出装截图来自此前AstrBot实机，用于展示共享样式，不证明GsCore指令或QQ上传通过。
+图片由同一Renderer生成；新源码候选支持首次后台准备，管理命令见[素材指南](illustrations.md)；自定义素材可通过illustration_path指定目录，缺图使用占位卡片，不在回复时下载。字体与运行资源由Renderer wheel携带；Valve角色/装备画面遵守其权利，MIT不覆盖第三方美术。README出装截图来自此前AstrBot实机，用于展示共享样式，不证明GsCore指令或QQ上传通过。
 
 订阅默认关闭，真实推送尚待验证。开启前设置独立namespace和推送归属，群订阅需Bot管理员，不让两端重复调度。英雄攻略、AI Tool、IMP和Deploy尚未实现，不作为已提供命令。
 

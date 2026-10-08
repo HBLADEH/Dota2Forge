@@ -14,6 +14,7 @@ def main() -> int:
     for distribution, module in [
         ("dota2forge-core", "dota2forge_core"),
         ("dota2forge-renderer", "dota2forge_renderer"),
+        ("dota2forge-assets", "dota2forge_assets"),
         ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
         ("dota2uid", "Dota2UID"),
     ]:
@@ -55,7 +56,22 @@ def main() -> int:
                     "; from Dota2UID.commands import parse_command; "
                     "from importlib.resources import files; "
                     "assert parse_command('do帮助', '').limit == 10; "
-                    "assert files('Dota2UID').joinpath('host_entry.py.template').is_file()"
+                    "assert files('Dota2UID').joinpath('host_entry.py.template').is_file(); "
+                    "assert files('Dota2UID')"
+                    ".joinpath('bundled_host_entry.py.template').is_file(); "
+                    "assert files('Dota2UID')"
+                    ".joinpath('bundled_business_entry.py.template').is_file()"
+                )
+            if module == "dota2forge_assets":
+                smoke = (
+                    "from pathlib import Path; import importlib.util; "
+                    "from dota2forge_assets import AssetManager; "
+                    "manager = AssetManager(Path('unused-assets')); "
+                    "assert not Path('unused-assets').exists(); "
+                    "assert importlib.util.find_spec('dota2forge_core') is None; "
+                    "assert importlib.util.find_spec('dota2forge_renderer') is None; "
+                    "assert importlib.util.find_spec('astrbot') is None; "
+                    "assert importlib.util.find_spec('gsuid_core') is None"
                 )
             if module == "dota2forge_renderer":
                 smoke += (

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-10-08",
+  "operation": "read_only_preflight",
+  "host_path": "D:/bot/gsuid_core",
+  "host_exists": true,
+  "host_git_head": "87c06f11ae10c12b3bb8e76b3c6f420c831282a8",
+  "host_git_tracked_changes": false,
+  "host_git_untracked_paths": [".playwright/"],
+  "plugin_has_independent_git_repository": false,
+  "original_host_python_process_observed": false,
+  "original_host_shutdown_exercised": false,
+  "original_host_has_live_project_module_risk": false,
+  "project_modules_in_process_not_directly_inspected": true,
+  "localhost_8765": {
+    "listening": true,
+    "owning_process_id": 1172940,
+    "owning_process_name": "ssh.exe",
+    "parent_process_name": "pwsh.exe",
+    "is_original_host_python": false,
+    "is_loopback_listener": true,
+    "command_line_readable": false,
+    "remote_target_confirmed": false,
+    "standard_ssh_config_has_m75q_server_alias": false,
+    "remote_ssh_probe_executed": false,
+    "safe_to_stop_listener_as_gscore": false,
+    "blocks_default_original_host_start": true
+  },
+  "python": "3.13.2",
+  "installed_versions": {
+    "gsuid-core": "0.11.0",
+    "dota2forge-core": "0.1.0a2",
+    "dota2forge-renderer": "0.1.0a2",
+    "dota2forge-assets": null,
+    "dota2uid": "0.1.0a2",
+    "httpx": "0.28.1",
+    "pillow": "12.3.0"
+  },
+  "plugin_tree": {
+    "files": 6,
+    "bytes": 1953492,
+    "sha256": "c62b58a13fced92da6fade2dc0d52f6e7c2d2297d0c3fdc2ab7df3fe80a075f1"
+  },
+  "data_tree_without_backups": {
+    "files": 584,
+    "bytes": 26467856,
+    "sha256": "8e5cdc86e520bfd58e3d0988cc7184198dc1bef01761b3f04cd05c486f261e41"
+  },
+  "configuration": {
+    "exists": true,
+    "sha256": "bd2f9c584be0e0c9d19b54973c454dac5d3f42a016493683d8c26ea0bdead022",
+    "credential_configured": true,
+    "namespace_configured": true,
+    "namespace_sha256": "fe0173e7a2c1c852cb5998b3072d47f876b29dedbf59f134b6e08f0cbbed4081",
+    "reply_mode": "image",
+    "subscriptions_enabled": true,
+    "custom_illustration_path_configured": true,
+    "custom_illustrations_inside_plugin_data_root": true
+  },
+  "configured_artwork_tree": {
+    "files_including_metadata": 559,
+    "png_files": 558,
+    "bytes": 24362114,
+    "sha256": "1cde434a3a31532bcfde35e3eb34a7c686c1414468bbc8dbf67759ed9c7e5d41"
+  },
+  "databases": {
+    "bindings.sqlite3": {
+      "sha256": "0c5eab0d7626bac35c09ee10ea16fd068c061d8246d0be52b23ef11d8a4b6802",
+      "bytes": 12288,
+      "wal_exists": false,
+      "shm_exists": false
+    },
+    "subscriptions.sqlite3": {
+      "sha256": "36fcd3bce5de011ab9b9f779ded547753e7b27d06673bffaed8fdba8dc6f9a73",
+      "bytes": 53248,
+      "wal_exists": false,
+      "shm_exists": false
+    }
+  },
+  "host_configuration": {
+    "sha256": "823db89ecf5c4d97ace564bb54059abf5fc65701578ccc9732a65a1dbd87fcd9",
+    "configured_port": "8765",
+    "configured_host_is_loopback": true,
+    "host_plugin_configuration_sha256": "3e658b516f17af4e9871d880ddbfc4a0b9a0d43841e1cecf118b453533a2ad8d"
+  },
+  "source_sha256": {
+    "gsuid_core/server.py": "21510c5653f737fe8973006a69db487351aec1131fd93db94fdc35d3519f7986",
+    "gsuid_core/sv.py": "30ea63da9bd79d183254f52cf3f2d037906554ccdb052b04be63772a85a18dab",
+    "gsuid_core/core.py": "3e5bb87e7aa6baa558c31b8f3887e8600d7a45b2f007edeaeb47ab13aa637e54",
+    "gsuid_core/app_life.py": "1d12a7aa6ac42a190d9e1499316a643326f48222c81de14e67aabec86a3330db",
+    "gsuid_core/utils/plugins_update/reload_plugin.py": "bfbdf8a11f9caa22818fb19b09b99ccc1c6f6e24c85df90eb6143505cbfd5a90",
+    "gsuid_core/plugins/Dota2UID/__init__.py": "04fed24be2c9dae6db6f0302328fba639a2a0df5f787c0932e4708f221b48ee8"
+  },
+  "other_plugin_project_package_direct_import_counts": {
+    "BeyondUID": 0,
+    "NTEUID": 0
+  },
+  "backup_scope": [
+    "gsuid_core/plugins/Dota2UID (old bridge, README, license, icon, bytecode)",
+    "data/Dota2UID (configuration, binding/subscription databases, artwork, selections and existing backups; private destination outside this repository)",
+    "data/plugins_configs/Dota2UID.json",
+    ".venv/Lib/site-packages project package directories and matching dist-info only if root changes their installation; bundled deployment need not remove them"
+  ],
+  "startup": {
+    "working_directory": "D:/bot/gsuid_core",
+    "executable": "D:/bot/gsuid_core/.venv/Scripts/python.exe",
+    "module": "gsuid_core.core",
+    "sdk_cli_supports_host_and_port": true,
+    "sdk_cli_port_override_calls_set_config": true,
+    "sdk_cli_port_override_persists_config_by_source": true,
+    "default_port_currently_available": false,
+    "not_started_by_this_preflight": true
+  },
+  "controlled_stop": {
+    "plugin_do_stop_handler_present": true,
+    "plugin_admin_status_route_present": true,
+    "plugin_admin_stop_route_present": true,
+    "admin_route_requires_bearer_administrator_session": true,
+    "process_lifespan_invokes_core_shutdown_hooks": true,
+    "windows_signal_handling_delegates_to_uvicorn": true,
+    "live_stop_not_exercised": true
+  },
+  "verification_markers": [
+    "Dota2UID initialized state=<ready|awaiting_config|failed> subscriptions_enabled=<bool> job_registered=<bool>",
+    "Dota2UID stopped state=stopped client_closed=True job_registered=False",
+    "Dota2UID runtime unavailable code=<stable error code>",
+    "Dota2UID business startup failed code=business_import",
+    "Authenticated status JSON: state/runtime_state/business_state/bootstrap_error/prepared/runtime_available/client_closed/restart_required"
+  ],
+  "privacy": {
+    "configuration_values_or_credentials_output": false,
+    "database_contents_read": false,
+    "raw_chat_logs_output": false,
+    "full_chat_identities_output": false,
+    "messages_sent": false
+  },
+  "blocked_action": "Starting the original host on its configured 8765 port would conflict with an existing SSH listener. Current Linux/Docker deployment target is unconfirmed; no remote target was guessed."
+}

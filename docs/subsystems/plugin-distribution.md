@@ -4,17 +4,17 @@
 
 ## 当前项目
 
-[架构](../architecture.md)保留四个 src 包，Core/Renderer 不依赖宿主 SDK，两端互不依赖。已有本机 GsCore/QQ 和 AstrBot/OneBot 基础图片及生命周期证据；最新 do 命令、MMR、出装代码与历史宿主验收不能混为同一个版本。订阅真实推送及部分权限场景仍在[任务](../../.agents/tasks/active/2026-10-02-subscriptions.md)中。
+[架构](../architecture.md)保留五个 src 包，Core/Renderer 不依赖宿主 SDK，两端互不依赖。已有本机 GsCore/QQ 和 AstrBot/OneBot 基础图片及生命周期证据；最新 do 命令、MMR、出装代码与历史宿主验收不能混为同一个版本。订阅真实推送及部分权限场景仍在[任务](../../.agents/tasks/active/2026-10-02-subscriptions.md)中。
 
 | 检查项 | AstrBot | GsCore / Dota2UID |
 | --- | --- | --- |
 | 开发仓库根发现入口 | 无 main.py、metadata.yaml | 无 __init__.py 或宿主识别的同名嵌套入口 |
 | 现有桥接 | 安装器生成四文件 ZIP | 安装器写 plugins/Dota2UID/__init__.py |
-| 取得运行库 | 候选requirements锁定三个未发布PyPI运行包 | 公开CLI安装固定Releases wheel，保留Pillow宿主约束并pip check；原生清单保留版本比较 |
+| 取得运行库 | a7公开requirements使用GitHub Release wheel直链及SHA256；旧a6按未发布PyPI包名安装会失败 | 公开CLI安装固定Releases wheel，保留Pillow宿主约束并pip check；原生清单保留版本比较 |
 | 首次配置 | 合法空Token为awaiting_config，保存配置后重载 | 首启独占创建空配置；合法空Token为awaiting_config，填写后停用/重载 |
 | 实际商店安装及升级 | 未验收 | 隔离SDK公开安装/升级/卸载通过，真实商店界面与QQ待验收 |
 
-根 pyproject 是 package=false、dependencies=[] 的 uv 开发 workspace；宿主不会自动执行 uv workspace 或本项目安装器。[AstrBot 安装器](../../adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/install.py)只打包 main.py、metadata.yaml、_conf_schema.json、requirements.txt，依赖 astrbot-plugin-dota2forge==0.1.0a2；元数据 repo 仍指向本开发仓库。[Dota2UID 安装器](../../adapters/Dota2UID/src/Dota2UID/install.py)另写数据目录配置，普通 Git 克隆不会执行安装器。新生成的候选入口另含根发现文件、版本guard和宿主依赖清单，Runtime启动独立处理首次配置。
+根pyproject是package=false的开发workspace，宿主不会执行uv或本项目安装器。双端公开分发须由生成器产生根发现入口、版本guard和依赖清单，Runtime独立处理首次配置；普通克隆主仓不能作为插件安装。
 
 首次调研时四包为0.1.0a1，现已升为0.1.0a2候选。2026-10-05请求PyPI四项目JSON接口均404；2026-10-06复核GsCore所需三个项目仍404，不推断名称可注册。
 
@@ -42,7 +42,7 @@
 
 AstrBot更新器读取仓库根元数据、取得仓库或ZIP，管理器从根发现main.py和requirements.txt，不递归查找adapters。兼容声明为>=4.5.0：4.5.0公开API已核对，真实宿主验收仍见[宿主兼容范围](astrbot-host.md)。
 
-现有 dist 中 Renderer wheel 为 13,725,493 bytes，字体源为 16,437,364 bytes；这些仅为已有文件大小，不是本次重建或最终商店 ZIP 验收。桥接很小不代表完整运行产物很小；若选择携带源码/资源，须实际压缩测量。Pillow/HTTPX 可用依赖清单取得，不应直接塞入跨平台 ZIP。
+桥接 ZIP 不携带字体、Pillow/HTTPX 或游戏素材；须实际测量 ZIP 大小并检查匹配运行 wheel。
 
 [本地插图契约](renderer.md)将官方英雄/装备/段位图与生成背景放在外部素材目录，不随 MIT wheel 分发；商店安装应能在未配置素材时用占位出图。商店包不能未经评估就包含本机下载资源和调研输出。
 
@@ -52,8 +52,14 @@ AstrBot更新器读取仓库根元数据、取得仓库或ZIP，管理器从根�
 
 ## 0.1.0a4双端更新
 
-生成器新增--astrbot-wheels，AstrBot可附固定版本/SHA256清单、共用显式安装器及INSTALL.md；只允许该插件仓库和三个匹配运行包，拒绝两端adapter互换。两个宿主都先停机安装组件再冷启动，依赖保留有版本约束，导入不联网。AstrBot首次公开渠道为GitHub Releases，Cloud已提交a4，等待安全检查，尚未获准上架；[安装指南](../cookbook/astrbot-public-install.md)、[发行任务](../../.agents/tasks/done/2026-10-06-a4-layout-release.md)。
+2026-10-06双端a4增加固定版本/SHA256的公开运行包清单及INSTALL.md；宿主更新需停机安装、冷启动，导入不联网。[安装指南](../cookbook/astrbot-public-install.md)、[发行任务](../../.agents/tasks/done/2026-10-06-a4-layout-release.md)保留发布与Cloud审核历史。
 
-AstrBot分发README为兼容Cloud渲染，图片使用本仓raw.githubusercontent.com/main完整地址，INSTALL.md/LICENSE使用GitHub完整地址；图片仍随ZIP提供。GsCore继续相对路径。Cloud不会将相对资源自动解析到GitHub，修复见[任务](../../.agents/tasks/done/2026-10-06-cloud-readme-images.md)。
+AstrBot README图片使用本仓raw.githubusercontent.com/main完整地址，操作文档使用GitHub链接，图片仍随ZIP提供；GsCore保留相对路径。宿主版号a/b/rc按生成器转换为alpha/beta/rc，release.json及运行包仍使用Python版号。
 
-Cloud要求更新版号使用SemVer：AstrBot宿主/README为0.1.0-alpha.5，对应Python适配器0.1.0a5；Core/Renderer继续a4。release.json/requirements/运行包tag使用Python版号。生成器将a/b/rc转为alpha/beta/rc，未知格式拒绝，见[决策](../../.agents/notes/implemented/2026-10-06-cloud-readme-version.md)。
+alpha.6商店日志确认pip找不到未发布PyPI的项目包。a7依赖改为Release wheel URL和SHA256；离线smoke校验本地wheel与清单一致。GitHub更新不替换Cloud旧ZIP；a7实际Cloud下载、Linux同清单安装及冷启动awaiting_config见[修复任务](../../.agents/tasks/done/2026-10-07-astrbot-store-dependency-fix.md)。宿主URL预检可能跳过已装旧库，升级仍须停机安装器/冷启动。
+
+## 自动素材源码候选
+
+AstrBot a8 / Dota2UID a6 / Assets a1 为未发布候选，Core/Renderer 仍 a4。薄模式宿主清单和 guard 检查四组件，公开 requirements 仍固定 Release URL/SHA256；Assets/Renderer 不带 stratz extra，不附游戏 PNG。五包依赖与生成参考同步，治理独立边界和覆盖率变更须维护者评审。默认首次图片模式后台准备、自定义路径不覆盖；详见[素材契约](assets.md)。
+
+Dota2UID a6 的 `--gscore-bundled` 随包四项目 wheel，管理入口不依赖项目包，私有运行库不执行全局 pip。详见[bootstrap 契约](gscore-bundled-runtime.md)与[操作指南](../cookbook/gscore-bundled-install.md)。
