@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+import sys
 import tempfile
 import threading
 from collections.abc import Callable
@@ -46,7 +47,7 @@ class Lease:
             return
         stream = self.path.open("a+b")
         try:
-            if os.name == "nt":
+            if sys.platform == "win32":
                 import msvcrt
 
                 if stream.seek(0, 2) == 0:
@@ -57,7 +58,7 @@ class Lease:
             else:
                 import fcntl
 
-                fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)  # type: ignore[attr-defined]
+                fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError:
             stream.close()
             raise AssetError("busy") from None
