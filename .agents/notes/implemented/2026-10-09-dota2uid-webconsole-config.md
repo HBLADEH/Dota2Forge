@@ -1,7 +1,7 @@
 # Dota2UID 原生后台参数与配置来源
 
 Category: architecture
-Related task: [后台配置任务](../../tasks/active/2026-10-09-dota2uid-webconsole-config.md)
+Related task: [后台配置任务](../../tasks/done/2026-10-09-dota2uid-webconsole-config.md)
 Related code: [配置](../../../adapters/Dota2UID/src/Dota2UID/config.py)、[管理桥接](../../../adapters/Dota2UID/src/Dota2UID/bundled_host_entry.py.template)
 Related docs: [后台配置](../../../docs/cookbook/gscore-configuration.md)
 
@@ -24,4 +24,6 @@ Related docs: [后台配置](../../../docs/cookbook/gscore-configuration.md)
 升级后修改保留的旧 TOML 不再改变后台配置；回退 a6 须核对旧 TOML 是否符合当前需求。后台仍受宿主管理员鉴权和文件权限保护，密码控件不等同加密存储。新桥接必须配套新 Dota2UID wheel，不能只更新根入口而混用 a6。
 
 ## Verification
-实现已完成；配置/trace 113项定向检查、SDK-free 构建与双端分发 smoke 通过。最终统一禁网检查1930通过/274.38s，总覆盖93.01%。真实87c SDK 的原生配置、实际鉴权、冷热stack、保存/停用/重载、绑定保留及全部归档canary验证通过；现行7f相同trace类另有隔离验证。[证据](../../artifacts/dota2uid-webconsole-config-v1/README.md)区分SDK范围。公开发行与当前部署在任务中接续，不冒充真实后台点击或聊天递送。
+实现与a7发行部署完成；配置/trace113定向检查、SDK-free构建与双端分发通过，统一禁网1930通过/274.38s，总覆盖93.01%。真实87c SDK验证原生配置/鉴权、冷热stack、停用重载、绑定保留及全部归档canary；原7f同trace类另经隔离验证。18文件/11资产匿名校验、私有恢复与现行备份冷启通过。
+
+宿主随后按原03:40更新/04:40重启配置升到fb/0.11.1/Pillow12.3；原基线失败保留，精确当前审计通过，没有改SDK源码或该设置。新fb源码隔离保存/重载及真实归档canary通过，使用继承SDK元数据0.11.0/Pillow11.3，不能称生产同构；[证据](../../artifacts/dota2uid-webconsole-config-v1/README.md)区分范围。真实后台点击、有效Token与QQ联调仍待验收。

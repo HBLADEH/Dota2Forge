@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "release_commit": "dd57b64b37b9f9e2cb98b561c62640bc6ddd154c",
+  "backup_path": "/srv/data/services/bot-stack/backups/dota2uid-a7-20261008T184023Z",
+  "old_commit": "db1237042b9366298c176873342d97f3c590fee6",
+  "old_plugin_tree": {
+    "files": 17,
+    "sha256": "00bff37e72a6bfa4ab546d30becab2ea1e3b183e33073f55391020e207a1b0b1"
+  },
+  "sdk_before": {
+    "head": "7f1bee79e66cb8c1b8e07cce15631021920193dd",
+    "sha256": "f78f7eeb4e49c330efc5476f606ffc43965d50070c73f6481eee458d4e2e46fa"
+  },
+  "verified_distribution_files": 18,
+  "cached_image_reused": true,
+  "maintenance_network_disabled": true,
+  "cold_restart": true,
+  "rollback_performed": false,
+  "other_containers_modified": false,
+  "sdk_source_changed": false,
+  "global_packages_changed": false,
+  "credentials_changed": false,
+  "chat_sent": false,
+  "stop_exit_code": 1,
+  "maintenance": {
+    "operation": "install",
+    "network_disabled": true,
+    "previous_plugin_tree": {
+      "files": 17,
+      "sha256": "00bff37e72a6bfa4ab546d30becab2ea1e3b183e33073f55391020e207a1b0b1"
+    },
+    "previous_data_tree": {
+      "files": 1856,
+      "sha256": "2d6f30b33b40009cd3df04e2cc0494e941cc4c8bc7d42dd603ee019489fde00a"
+    },
+    "data_existed_before": true,
+    "service_config_backed_up": true
+  },
+  "postflight": {
+    "schema_version": 1,
+    "read_only": true,
+    "python": "3.12.12",
+    "sdk": {
+      "head": "7f1bee79e66cb8c1b8e07cce15631021920193dd",
+      "sha256": "f78f7eeb4e49c330efc5476f606ffc43965d50070c73f6481eee458d4e2e46fa"
+    },
+    "sdk_unchanged": true,
+    "global_packages": {
+      "versions": {
+        "gsuid-core": "0.11.0",
+        "httpx": "0.28.1",
+        "pillow": "11.3.0",
+        "dota2forge-core": null,
+        "dota2forge-renderer": null,
+        "dota2forge-assets": null,
+        "dota2uid": null
+      },
+      "pillow_native_file_count": 25,
+      "pillow_native_sha256": "3e32dc8522ec48d2f12505e6a631f8ccb1d014401f5bbad89df203c11deb1b45"
+    },
+    "global_package_versions_unchanged": true,
+    "global_project_packages_absent": true,
+    "plugin": {
+      "head": "dd57b64b37b9f9e2cb98b561c62640bc6ddd154c",
+      "commit_matches": true,
+      "tracks_main": true,
+      "tracked_clean": true,
+      "verified_file_count": 18,
+      "file_sha256": {
+        "ICON.png": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059",
+        "INSTALL.md": "5af506b061be8d25254a82470ccd668b315d6d9548ffe89b662eeddad27e2991",
+        "LICENSE": "9567fb54f833d13b9cce4a7dc6d198c1d9678d6d7de37072384182bccaa38ca2",
+        "README.md": "8c49f94942ee92a4fc609fc2310ef6e6e2b7bf43adebd5dacdecb453d5dba097",
+        "__init__.py": "2cbf2627465c64a87d0f5507e7ca48872fa89d8909760557c9aa0e9dd2084fd7",
+        "_dota2forge_business.py": "a3a6ef5fa3a33a13e30f281a14367f2e75f72061220ab946acdd4f4e36a2c3d4",
+        "_dota2forge_config.py": "ba61938c4374c30afe5969dd6a64d47d5dd2afb3d72c2ca773d01dd4e709ec82",
+        "_dota2forge_runtime.py": "430abf63e1ed9043c65c5aba3f91a23e1a7a53cd8ac3588ace9ad814ea3b6960",
+        "config.example.toml": "1384b33b7fbea6dab2f51ec3b776b2ce6e2460335ede0a449fb2e4304a379f62",
+        "deployment.json": "0bdbc5489a329fc2738fc891f3170b0e446c8a275824eb99816abf5bdf709fe7",
+        "pyproject.toml": "ee0412b9244ef6a375fc4c59a0553bb79d5ccbdab0dbbbfa8b9db15782e02db3",
+        "release.json": "f4b0aeab0c5e75507bde93a86089a9540b59addc66d48863876f5cdc7d4b4d5e",
+        "runtime-wheels/dota2forge_assets-0.1.0a1-py3-none-any.whl": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662",
+        "runtime-wheels/dota2forge_core-0.1.0a4-py3-none-any.whl": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68",
+        "runtime-wheels/dota2forge_renderer-0.1.0a4-py3-none-any.whl": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6",
+        "runtime-wheels/dota2uid-0.1.0a7-py3-none-any.whl": "2b9796aec2cb358c45a0ebb5df03fbd8104760a9beed319ccea3260ee1587abf",
+        "runtime-wheels.json": "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+        "screenshots/hero-items.png": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde"
+      },
+      "file_sha256_matches": true,
+      "manifest_matches": true,
+      "release_tag_is_a7": true,
+      "project_package_dependency_declarations_absent": true,
+      "host_dependencies_match": true
+    },
+    "configuration": {
+      "native_exists": true,
+      "native_field_count": 11,
+      "native_field_set_matches": true,
+      "token_configured": false,
+      "token_password_flag": true,
+      "proxy_password_flag": true,
+      "platforms_json_object": true,
+      "legacy_exists": true,
+      "legacy_sha256": "be2cd876b336c8d1455b048d0dbab5ca358720df1ff165e111562d40d2b62b0d",
+      "legacy_bytes_unchanged": true,
+      "legacy_token_configured": false
+    },
+    "runtime": {
+      "pointer_schema_valid": true,
+      "manifest_sha256": "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+      "manifest_matches": true,
+      "generation": "75e87fd4e31d4b669f09ed43836344a5",
+      "generation_permission_mode": "0o755",
+      "complete_manifest_matches": true,
+      "complete_file_hashes_match": true,
+      "private_distributions_match": {
+        "dota2forge-assets": true,
+        "dota2forge-core": true,
+        "dota2forge-renderer": true,
+        "dota2uid": true
+      },
+      "private_native_file_count": 0,
+      "bytecode_absent": true,
+      "renderer_license_exists": true
+    },
+    "http": {
+      "webconsole": 200,
+      "plugin_status_anonymous": 401,
+      "native_config_anonymous": 401,
+      "sdk_status_anonymous": 401,
+      "authenticated_validation_performed": false
+    },
+    "data_file_count": 2493,
+    "business_status_authenticated_observed": false,
+    "privacy": {
+      "credentials_or_chat_identity_output": false,
+      "raw_logs_read": false,
+      "business_or_sdk_imports": false,
+      "provider_calls": false,
+      "messages_sent": false,
+      "production_mutations": false,
+      "session_created": false
+    },
+    "passed": true
+  },
+  "sdk_after": {
+    "head": "7f1bee79e66cb8c1b8e07cce15631021920193dd",
+    "sha256": "f78f7eeb4e49c330efc5476f606ffc43965d50070c73f6481eee458d4e2e46fa"
+  },
+  "global_binary_digest_unchanged": true,
+  "original_plugin_ownership_preserved": true,
+  "passed": true
+}

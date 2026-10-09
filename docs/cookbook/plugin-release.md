@@ -1,25 +1,25 @@
 # 本地插件发行候选准备
 
-当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a7候选。Dota2UID a6随包版已公开并部署，见[证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)；新a7增加后台配置待发布。AstrBot已公开a7依赖修复版，新a8待发布。双端桥接、版本检查、首次配置与隔离安装均由显式生成器准备。GsCore索引PR #40仍待审核，[执行记录](gscore-store-publish.md)、[初始核查](gscore-store-readiness.md)与[阶段一任务](../../.agents/tasks/done/2026-10-05-plugin-distribution-stage1.md)保留历史边界。
+当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a7。Dota2UID a7随包后台配置版已公开并部署，见[验收](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)。AstrBot已公开a7依赖修复版，新a8待发布。GsCore索引PR #40已同步a7提示、仍待审核，[执行记录](gscore-store-publish.md)与[初始核查](gscore-store-readiness.md)保留历史边界。
 
 ## 生成与审查
 
 按[开发指南](development.md)安装锁定workspace后运行统一离线检查与五包构建。发行生成器读取包配置/宿主模板，不导入或启动宿主：
 
 ```powershell
-uv run --locked python scripts/build_plugin_distributions.py --output dist/plugin-distributions/0.1.0a3-public-runtime-v1 --astrbot-repo https://github.com/HBLADEH/astrbot_plugin_dota2forge --gscore-repo https://github.com/HBLADEH/Dota2UID --gscore-wheels .tmp/gscore-store-release-a3-wheels
+uv run --locked python scripts/build_plugin_distributions.py --output dist/plugin-distributions/a7-candidate-v1 --astrbot-repo https://github.com/HBLADEH/astrbot_plugin_dota2forge --gscore-repo https://github.com/HBLADEH/Dota2UID --gscore-wheels dist --gscore-bundled
 ```
 
 两URL是本候选目标，尚未由此命令创建或同步远端。生成结果：
 
-公开GsCore模式另传--gscore-wheels .tmp/gscore-store-release-a3-wheels，并使用新的输出目录，例如0.1.0a3-public-runtime-v1。读取四个已审查wheel元数据和SHA256，生成install_runtime.py/runtime-wheels.json/INSTALL.md；wheel本身上传GitHub Releases，不塞入桥接ZIP。根README的操作链接转为本地INSTALL.md；步骤见[公开安装](gscore-public-install.md)。原包名模式不附此安装器，继续要求其索引依赖可取得。
+薄公开模式不传--gscore-bundled，读取四个已审查wheel元数据和SHA256，生成install_runtime.py/runtime-wheels.json/INSTALL.md；wheel上传GitHub Releases，不塞入桥接ZIP。根README操作链接转为INSTALL.md；步骤见[旧公开安装](gscore-public-install.md)。原包名模式不附安装器，要求索引依赖可取得。
 
 插件README从两个适配器说明生成，注入当次版本与目标仓库；主仓文档链接转为完整URL，MIT许可保留本地链接。共享[主宰图标](../assets/branding/juggernaut-icon-v1.png)分别为GsCore根ICON.png与AstrBot根logo.png；GsCore索引avatar/cover指向目标main的ICON.png，远端未同步时尚不可用。已审查截图按白名单复制到对应根screenshots/，README图片路径转为本地，源图/目标均纳入摘要和ZIP大小检查，缺图在输出前失败。当前双端共用AstrBot主宰出装卡，GsCore说明标明原宿主，[其余待补](plugin-showcase.md)；原始聊天图片不自动收录。
 
-GsCore a6 随包模式增加 `--gscore-bundled --gscore-wheels dist`。先构建五包，再将匹配的四个项目 wheel 随分发携带；生成独立 deployment.json、清单摘要、bootstrap 与延迟业务入口。`--source-ref`可传main或40位小写源码SHA，固定README/INSTALL的源码文档链接；实际a6源提交为f585ed310d6dd444c9046fba9fb8313ffc90c193。根依赖仅保留 HTTPX/Pillow，AstrBot 与旧薄模式保持原契约。安装恢复、第三方维护和冷启动见[随包指南](gscore-bundled-install.md)。
+GsCore随包模式使用 `--gscore-bundled --gscore-wheels dist`。先构建五包，携带匹配的四个项目 wheel，生成deployment.json、清单摘要、bootstrap与延迟业务入口。`--source-ref`可传main或40位小写源码SHA，固定文档链接；a7发行源码为3a2f6d0c8c3739d7a8da38cc4e116dc94d327023。根依赖仅保留HTTPX/Pillow，AstrBot与薄模式保持原契约。安装恢复和冷启动见[随包指南](gscore-bundled-install.md)。
 
 ```text
-dist/plugin-distributions/0.1.0a3-public-runtime-v1/
+dist/plugin-distributions/a7-candidate-v1/
   astrbot_plugin_dota2forge/  # main.py、metadata、Schema、requirements、许可、README、logo.png
     screenshots/hero-items.png # 已审查AstrBot实机图
   Dota2UID/                 # __init__.py、宿主pyproject、配置示例、许可、README、ICON.png
@@ -36,7 +36,7 @@ ZIP条目顺序、时间戳和权限固定；相同输入字节重复生成一�
 
 ## 配置与升级边界
 
-GsCore a7发现入口携带独立配置桥接，先注册宿主原生参数；首次导入旧TOML并保留文件，之后原生JSON单一读取。默认SDK-free Runtime仍独占创建TOML；[后台操作与回退](gscore-configuration.md)区分新候选和旧公开版。两端合法空Token为awaiting_config，不创建业务HTTP客户端、绑定/订阅库或业务任务；公共素材可独立准备。非法配置仍failed，不能作为空Token接受。
+GsCore a7发现入口携带独立配置桥接，先注册宿主原生参数；首次导入旧TOML并保留文件，之后原生JSON单一读取。默认SDK-free Runtime仍独占创建TOML；[后台操作与回退](gscore-configuration.md)区分新版与旧安装流程。两端合法空Token为awaiting_config，不创建业务HTTP客户端、绑定/订阅库或业务任务；公共素材可独立准备。非法配置仍failed，不能作为空Token接受。
 
 填写Token并确认独立namespace后重载：GsCore先显式停用；AstrBot保存配置后重载。旧实例关闭，新实例重新读取配置并ready；现有实例不轮询凭据文件。配置/身份/订阅语义继续遵守双端[GsCore](dota2uid.md)/[AstrBot](astrbot.md)指南。
 
@@ -51,7 +51,7 @@ GsCore薄模式清单同时生成project.dependencies和gscore_auto_update_dep�
 ```powershell
 uv build --all-packages
 uv run --locked python scripts/smoke_wheels.py
-uv run --locked python scripts/smoke_plugin_distributions.py --candidate dist/plugin-distributions/0.1.0a3-public-runtime-v1 --wheels dist
+uv run --locked python scripts/smoke_plugin_distributions.py --candidate dist/plugin-distributions/a7-candidate-v1 --wheels dist
 ```
 
 后者先核对产物摘要，为两端分别创建无项目包的新venv，使用生成清单安装，命令固定offline/no-index/no-cache。独立进程以-I/-B执行版本检查、空Token首配、配置后新实例就绪、绑定/关闭/重启保留，不在候选中写字节码；Provider使用拒绝请求的合成transport；素材使用合成目录/PNG transport验证首装后台完成及重启无请求，不读真实Token或发送聊天。

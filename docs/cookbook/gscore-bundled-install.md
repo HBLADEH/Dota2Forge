@@ -37,4 +37,4 @@ HTTPX/Pillow继续使用宿主已经安装的兼容版本。根依赖声明只�
 
 a7源码通过1930项统一禁网检查、五包构建与双端分发检查。真实GsCore隔离副本验证了原生参数API鉴权、保存、停用/重载、旧配置保留及日志归档不含合成Token；使用既有测试解释器，不冒充全新SDK环境。公开资产与服务更新见[后台配置验收](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)，不等同真实浏览器点击或QQ递送。
 
-2026-10-08现行Linux/Docker GsCore0.11.0、SDK7f1bee79、Python3.12.12已备份并冷启动a6，四个私有运行包及完整清单可用；配置Token为空，业务awaiting_config，匿名管理接口401。原SDK、全局依赖、聊天路由与定时更新设置保留。真实QQ新命令、已登录管理API及其他SDK版本待验收；详见[发行部署证据](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)。公开预发行不代表商店已收录。
+2026-10-09现行Linux/Docker已备份并冷启动a7，18分发文件、11配置字段与四个私有运行包清单一致，旧TOML摘要保持；空Token为awaiting_config，匿名接口401。初次验收SDK0.11.0/Pillow11.3未变，随后宿主原有定时维护自动更新为SDK0.11.1/Pillow12.3并重启；另立[当前版本复核](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)，保留旧基线失败记录。部署未修改宿主源码、自更新设置或手动安装全局包。真实后台点击、Provider查询与QQ递送待验收；公开预发行不代表商店已收录。

@@ -1,0 +1,19 @@
+{
+  "read_only": true,
+  "container_log_read_success": true,
+  "bounded_tail_lines": 2000,
+  "scoped_to_current_container_start": true,
+  "plugin_startup_line_present": true,
+  "plugin_states": [
+    "awaiting_config"
+  ],
+  "plugin_error_codes": [],
+  "awaiting_config_observed": true,
+  "business_ready_observed": false,
+  "prepare_complete_observed": true,
+  "prepare_complete_evidence": "business_initialization_requires_runtime_activation",
+  "raw_logs_output": false,
+  "provider_called": false,
+  "messages_sent": false,
+  "production_mutations": false
+}

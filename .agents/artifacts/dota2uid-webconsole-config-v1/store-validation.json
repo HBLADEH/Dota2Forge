@@ -1,0 +1,31 @@
+{
+  "verified_at_utc": "2026-10-08T18:36:44.704587+00:00",
+  "prior_index_head_commit": "3c02296dce769ff1afa7e23638e4897a303cb1e1",
+  "index_file": "docs/public/plugin_list.json",
+  "changed_json_fields": [
+    "plugins.Dota2UID.installMsg"
+  ],
+  "all_other_index_values_deep_equal": true,
+  "install_message_matches_final_candidate": true,
+  "index_sha256_before": "5833d8ce5828672d98d3a277cda4ed0a4222d9240bd60b0f713d11a8a6d4c4fe",
+  "index_sha256_after": "4568953102b8d4f3b3a407b104840eb8cd912ccfa06677dd2dab555a7a181834",
+  "final_candidate_install_message_sha256": "f4a9389e9ab1c4e05cd4a9d7aeeace97ae503927a0e28ae528f0e59838185b9a",
+  "index_commit": "2befe5b7785419e98f6d5f2aa8d498fa9d1cfdbf",
+  "index_fork": "HBLADEH/GenshinUID-docs",
+  "index_branch": "codex/dota2uid-store-v1",
+  "pull_request": "https://github.com/Genshin-bots/GenshinUID-docs/pull/40",
+  "pull_request_state": "OPEN",
+  "pull_request_head_matches_pushed_commit": true,
+  "pull_request_base_branch": "vp",
+  "pull_request_title": "将 Dota2UID 加入 GsCore 插件商店",
+  "pull_request_body_matches_reviewed_file": true,
+  "changed_file_count": 1,
+  "changed_file_additions": 1,
+  "changed_file_deletions": 1,
+  "local_checkout_clean": true,
+  "release": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a7",
+  "release_public": true,
+  "release_uploaded_asset_count": 11,
+  "pull_request_merged": false,
+  "comments_or_other_messages_sent": false
+}

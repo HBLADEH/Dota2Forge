@@ -1,6 +1,6 @@
 # GsCore 随包运行库契约
 
-随包 a6 已公开并部署，a7 源码候选增加后台配置、尚未发行；[薄分发](plugin-distribution.md)保留旧安装路径。业务仍维护于共享 wheel，平台 SDK 只进入宿主桥接。
+随包 a7 已公开并部署，新增后台配置；[薄分发](plugin-distribution.md)保留旧安装路径。业务仍维护于共享 wheel，平台 SDK 只进入宿主桥接；[验收](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)区分发行、隔离SDK、生产与宿主自更新。
 
 ## 分发与准备
 
