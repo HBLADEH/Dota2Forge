@@ -16,6 +16,18 @@ from ._stratz_http import failure
 from ._stratz_mapping import field, integer, object_value, optional_bool, optional_integer
 
 
+def optional_imp(value: object) -> int | None:
+    if value is not None and (type(value) is not int or not -32768 <= value <= 32767):
+        raise failure(ProviderErrorCode.INVALID_RESPONSE)
+    return value
+
+
+def optional_enum(value: object) -> str | None:
+    if value is not None and not isinstance(value, str):
+        raise failure(ProviderErrorCode.INVALID_RESPONSE)
+    return value
+
+
 def optional_time(value: object) -> datetime | None:
     return None if value is None else datetime.fromtimestamp(integer(value), UTC)
 
@@ -58,6 +70,11 @@ def participant(raw: object) -> MatchParticipant:
         hero_damage=optional_integer(row.get("heroDamage")),
         tower_damage=optional_integer(row.get("towerDamage")),
         hero_healing=optional_integer(row.get("heroHealing")),
+        imp=optional_imp(row.get("imp")),
+        position=optional_enum(row.get("position")),
+        lane=optional_enum(row.get("lane")),
+        backpack_ids=tuple(optional_integer(row.get(f"backpack{index}Id")) for index in range(3)),
+        neutral_item_id=optional_integer(row.get("neutral0Id")),
         item_ids=tuple(optional_integer(field(row, f"item{index}Id")) for index in range(6)),
     )
 

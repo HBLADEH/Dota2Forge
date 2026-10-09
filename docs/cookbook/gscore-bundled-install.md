@@ -1,6 +1,6 @@
 # Dota2UID 随包运行库安装
 
-本页用于 **0.1.0a8 bundled 预发行分发**，发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)。a8 随包 Core a5 修复赛前购买时间引发的比赛查询失败，更新后须完整冷启动。旧a4继续使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
+本页用于 **0.1.0a9 bundled 预发行分发**，发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)。a9 随包 Core a6/Renderer a5提供比赛宽幅报告与STRATZ IMP；更新后须完整冷启动。a8已修复赛前购买时间，旧a4使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
 
 ## 安装与首次配置
 

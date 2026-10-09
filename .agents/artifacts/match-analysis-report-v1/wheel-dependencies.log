@@ -1,0 +1,17 @@
+Collecting anyio==4.15.1
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\anyio-4.15.1-py3-none-any.whl
+Collecting certifi==2026.7.22
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\certifi-2026.7.22-py3-none-any.whl
+Collecting h11==0.16.0
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\h11-0.16.0-py3-none-any.whl
+Collecting httpcore==1.0.9
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\httpcore-1.0.9-py3-none-any.whl
+Collecting httpx==0.28.1
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\httpx-0.28.1-py3-none-any.whl
+Collecting idna==3.20
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\idna-3.20-py3-none-any.whl
+Collecting pillow==12.3.0
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\pillow-12.3.0-cp312-cp312-win_amd64.whl
+Collecting typing-extensions==4.16.0
+  File was already downloaded c:\users\blade\.codex\worktrees\stratz-match-detail-fix\dota2forge\dist\typing_extensions-4.16.0-py3-none-any.whl
+Successfully downloaded anyio certifi h11 httpcore httpx idna pillow typing-extensions

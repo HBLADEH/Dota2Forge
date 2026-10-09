@@ -67,6 +67,7 @@ def game_mode_text(mode: str | None) -> str:
     return {
         "ALL_PICK": "全英雄选择",
         "RANKED_ALL_PICK": "全英雄选择（天梯）",
+        "ALL_PICK_RANKED": "全英雄选择（天梯）",
         "CAPTAINS_MODE": "队长模式",
         "TURBO": "加速模式",
         "OPENDOTA_1": "全英雄选择",

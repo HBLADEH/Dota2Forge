@@ -74,7 +74,24 @@ def test_astrbot_match_query_accepts_pregame_purchase_analysis(
                 "gameVersionId": None,
                 "isStats": True,
                 "parsedDateTime": None,
-                "players": [],
+                "players": [
+                    {
+                        "playerSlot": 0,
+                        "steamAccountId": None,
+                        "steamAccount": None,
+                        "isRadiant": False,
+                        "heroId": 40,
+                        "kills": 2,
+                        "deaths": 15,
+                        "assists": 22,
+                        "goldPerMinute": 356,
+                        "experiencePerMinute": 550,
+                        "imp": -47,
+                        "position": "POSITION_4",
+                        "lane": "OFF_LANE",
+                        **{f"item{i}Id": 0 for i in range(6)},
+                    }
+                ],
             }
         else:
             assert payload["query"] == MATCH_ANALYSIS_QUERY
@@ -105,6 +122,7 @@ def test_astrbot_match_query_accepts_pregame_purchase_analysis(
             replies = await application.handle(identity, "do比赛", "1001")
             text = "\n".join(reply.text for reply in replies)
             assert "比赛 1001" in text and "购买事件 1 条" in text
+            assert "IMP -47" in text and "4号位 / 劣势路" in text
             assert len(requests) == 2
             await application.close()
         assert client.is_closed

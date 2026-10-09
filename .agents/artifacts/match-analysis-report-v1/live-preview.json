@@ -1,0 +1,51 @@
+{
+  "checked_on": "2026-10-09",
+  "match_id": 9035146588,
+  "client_closed": true,
+  "imp_available": 10,
+  "imp_values": [
+    -7,
+    -47,
+    -23,
+    -19,
+    9,
+    23,
+    30,
+    66,
+    59,
+    48
+  ],
+  "team_series": [
+    {
+      "semantic": "radiant_networth_lead",
+      "points": 41,
+      "start_seconds": -60
+    },
+    {
+      "semantic": "radiant_experience_lead",
+      "points": 41,
+      "start_seconds": -60
+    }
+  ],
+  "identity_removed": true,
+  "pages": [
+    {
+      "page": 1,
+      "width": 1600,
+      "height": 2990,
+      "bytes": 822493
+    },
+    {
+      "page": 2,
+      "width": 1600,
+      "height": 2870,
+      "bytes": 1256961
+    },
+    {
+      "page": 3,
+      "width": 1600,
+      "height": 2870,
+      "bytes": 1248338
+    }
+  ]
+}

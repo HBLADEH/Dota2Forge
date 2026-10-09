@@ -44,7 +44,7 @@ from dota2forge_renderer import (
     AsyncRenderer,
     Card,
     HeroItemsCard,
-    MatchDetailCard,
+    MatchReportCard,
     MenuCard,
     PillowRenderer,
     PlayerCard,
@@ -53,7 +53,7 @@ from dota2forge_renderer import (
     StatusCard,
 )
 from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
-from dota2forge_renderer.subscriptions import match_report_lines
+from dota2forge_renderer.reporting import match_report_text, split_report_text
 
 from .commands import Action, Caller, Command, CommandError, parse_command
 from .config import Config, ConfigurationError, ConfigurationPending, ensure_config, load_config
@@ -400,7 +400,11 @@ class Runtime:
                             len(reply.cards),
                         )
                     else:
-                        messages = rendered + messages[len(reply.cards) :]
+                        messages = (
+                            rendered
+                            if all(isinstance(card, MatchReportCard) for card in reply.cards)
+                            else rendered + messages[len(reply.cards) :]
+                        )
                 image_messages = [
                     message for message in messages if isinstance(message, ImageReply)
                 ]
@@ -540,14 +544,12 @@ class Runtime:
                         )
                         cards: tuple[Card, ...] = ()
                         fallback = match_detail_text(result, perspective)
-                        detail_page_count = len(fallback)
                         if isinstance(result, MatchDetail):
-                            fallback.append("\n".join(match_report_lines(report)))
-                        if isinstance(result, MatchDetail):
+                            fallback = match_report_text(report)
                             cards = tuple(
-                                MatchDetailCard(result, page + 1, perspective)
-                                for page in range(detail_page_count)
+                                MatchReportCard(report, page + 1) for page in range(len(fallback))
                             )
+                            fallback = split_report_text(fallback)
                         return _CommandResult(fallback, cards=cards)
                     if command.action == Action.RECENT:
                         binding = await self._binding(identity)

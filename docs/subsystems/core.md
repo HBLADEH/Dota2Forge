@@ -40,7 +40,7 @@ SQL 使用参数绑定；BEGIN IMMEDIATE 将读取旧绑定、冲突检查与写
 
 MatchDetail 保留可缺省开始/解析时间、时长、模式枚举、game_version_id、胜方、has_stats 和实际参赛者；末尾可选parse_version为OpenDota解析格式版本，正数仅对该来源派生已标记解析，0/null不证明未解析，不映射为has_stats或补丁。人数最多十人，重复已知槽位/账号失败；players=None、空 tuple 与不足十人可区分。解析时间不等于 observed_at，版本 ID 不等于补丁名称，has_stats 不证明字段完整。`parse_state` 只摘要上游证据：`UNPARSED`、`UPSTREAM_PARSED`、`PARTIAL`、`UNKNOWN`；显式 null 结果为 `NO_DATA`，原因/隐私仍未知。
 
-MatchParticipant 保留阵营/槽位、英雄/KDA/GPM/XPM、六装备槽，末尾新增可选等级/补刀/反补/净资产/英雄伤害/建筑伤害/治疗量；非负整数且禁止bool，0与None区分，旧构造兼容。新增字段缺失/null为未知，订阅JSON保留新增字段，旧记录缺键为None，SQLite schema不变。账号哨兵0/4294967295为匿名，null身份未知，均不得携带昵称；已知账号须与嵌套steamAccount一致。仅实际参赛者有participant视角，repr隐藏身份，missing_fields保留缺口。映射及消费者见[决策](../../.agents/notes/implemented/2026-10-06-readable-cards-and-detail-stats.md)，新增选择未在线联调。
+MatchParticipant 保留阵营/槽位、英雄/KDA/GPM/XPM、等级/补反补/净资产/伤害/治疗，新增STRATZ IMP、位置/分路、三背包槽和中立装备。IMP为STRATZ有符号Short观察，其余统计/装备非负且禁止bool；None未知，0有效，旧构造兼容。订阅JSON追加字段，旧记录缺键仍可读，schema不变。账号哨兵0/4294967295为匿名，null身份未知，均不得携带昵称；已知账号须与嵌套steamAccount一致。仅实际参赛者有participant视角，repr隐藏身份，missing_fields保留缺口。[评分与报告决策](../../.agents/notes/implemented/2026-10-09-match-analysis-report.md)保留来源边界。
 
 无 GraphQL errors 的显式 null match 返回 MatchDetailUnavailable，保留 ID/source/fetched_at，原因及隐私未知，不能解释成明确不存在/拒绝或正常比赛。缺字段、非法类型、重复玩家和 GraphQL errors 仍为 INVALID_RESPONSE；明确的 NOT_FOUND/PRIVATE 保持 ProviderError 契约，当前STRATZ尚无细化证据。原始Provider共享限流/超时/客户端，不重试或换源；装饰器保留错误语义。
 
@@ -52,7 +52,7 @@ STRATZ 映射 steamAccount.seasonRank/昵称及最近比赛基本统计；胜负
 
 HTTP 401 与已核实的缺 Bearer JSON 提示为认证失败；429/限额耗尽保留可知等待，超时明确返回，其余非 200 为 UNAVAILABLE。JSON/schema/null 及 GraphQL errors（含部分数据和可选字段错误）为 INVALID_RESPONSE；正常可选 null 可保留 None。空 matches 有效，null player/matches 不伪装为空，也不猜测 PRIVATE/NOT_FOUND；isStratzPublic=false 不是整个账号不可查的证据。无重试、缓存或自动回退，同 Token/循环须复用一个实例读取额度。
 
-已独立只读联调概况、100场及偏移100旧比赛详情：source=stratz、10名参赛者、绑定账号确实参赛和client关闭均核对。has_stats=False但parsed_at存在，不能据单一标记推断完整；装备缺失保持None。Dota2UID详情/序号/取页及共享Renderer图片代码已验证，GsCore/QQ单会话直接ID/序号/分页图片与宿主生命周期已通过；临时列表仍在适配器。独立MatchAnalysisProvider已保存STRATZ净资产/购买事件和OpenDota金钱/经验/购买事件，按来源语义区分；IMP等专有模型输出仍未实现。详情见[决策](../../.agents/notes/implemented/2026-10-01-historical-match-contract.md)、[分析契约](analysis.md)，图片见[Renderer契约](../subsystems/renderer.md)。
+已独立只读联调概况、100场及偏移100旧比赛详情。has_stats=False但parsed_at存在，不能推断完整；装备缺失保持None。GsCore/QQ旧详情/序号/分页图片与生命周期已通过；新的宽幅报告真机状态见[任务](../../.agents/tasks/active/2026-10-09-match-analysis-report.md)，临时列表仍在适配器。独立MatchAnalysisProvider保存各来源经济/购买观察及STRATZ团队优势，原样IMP只比较本局，不换算MMR/胜率/官方MVP，averageImp/award未实现。见[分析契约](analysis.md)、[Renderer](renderer.md)。
 
 操作见 [离线闭环](../cookbook/core-offline.md)。
 
