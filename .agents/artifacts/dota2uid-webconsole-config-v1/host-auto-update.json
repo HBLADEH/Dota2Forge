@@ -1,0 +1,63 @@
+{
+  "read_only": true,
+  "native_core_settings": [
+    {
+      "relative_path": "data/configs/core_config.json",
+      "switches": {
+        "AutoUpdateCore": true,
+        "AutoUpdatePlugins": true,
+        "AutoRestartCore": true,
+        "AutoUpdateCoreTime": [
+          3,
+          40
+        ],
+        "AutoUpdatePluginsTime": [
+          4,
+          10
+        ],
+        "AutoRestartCoreTime": [
+          4,
+          40
+        ]
+      },
+      "sha256": "55059c2ee1681974bc1f7cb99ecc544233a63535970b1b99df95e8690c7692fa"
+    }
+  ],
+  "auto_update_source_locations": [
+    {
+      "path": "utils/plugins_config/config_default.py",
+      "references": [
+        "AutoUpdateCore",
+        "AutoUpdatePlugins",
+        "AutoRestartCore",
+        "AutoUpdateCoreTime",
+        "AutoUpdatePluginsTime",
+        "AutoRestartCoreTime"
+      ]
+    },
+    {
+      "path": "buildin_plugins/core_command/auto_update/__init__.py",
+      "references": [
+        "AutoUpdateCore",
+        "AutoUpdatePlugins",
+        "AutoRestartCore",
+        "AutoUpdateCoreTime",
+        "AutoUpdatePluginsTime",
+        "AutoRestartCoreTime"
+      ]
+    }
+  ],
+  "started_at_utc": "2026-10-08T20:40:00.576844437Z",
+  "log_since_utc": "2026-10-08T18:40:23Z",
+  "log_markers": {
+    "automatic_update_message": true,
+    "core_update_message": true,
+    "dependency_install_message": true,
+    "restart_message": true,
+    "version_0111_message": true
+  },
+  "raw_logs_output": false,
+  "log_lines_scanned": 2297,
+  "production_mutations": false,
+  "credentials_or_chat_identity_output": false
+}

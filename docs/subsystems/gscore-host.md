@@ -1,6 +1,6 @@
 # GsCore 本机接入基线
 
-随包 a6 及[托管素材服务](assets.md)已部署到现行 Linux/Docker，业务等待配置；新 a7 源码候选增加[后台参数](../cookbook/gscore-configuration.md)，尚未部署。Token 等待与素材状态独立，管理命令校验可信权限；历史手动素材和宿主证据不能替代自动下载或新配置联调。
+随包 a7 及[托管素材服务](assets.md)已部署到现行 Linux/Docker，新增[后台参数](../cookbook/gscore-configuration.md)，业务等待Token。宿主随后按原定时维护升级到0.11.1，见[部署与版本复核](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)。Token 等待与素材状态独立，管理命令校验可信权限；历史手动素材和隔离SDK证据不能替代真实后台点击或QQ递送。
 
 2026-09-30 核实 Windows 原生实例，安装 Dota2UID 并完成真实热加载、受控重载、卸载/重启清理和恢复后冷启动。最终插件 ready，用户已确认 QQ 单会话收发成功，未推广为多账号或全平台保证；证据见 [接入任务](../../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。
 
