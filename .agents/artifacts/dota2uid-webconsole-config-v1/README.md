@@ -43,4 +43,4 @@ SDK checkout 为 `87c06f11ae10c12b3bb8e76b3c6f420c831282a8`，发行元数据 gs
 
 [fb源码补验](current-sdk-validation.json)使用公开新SDK源码的隔离副本和最终公开候选，验证原生11参数、真实session_store权限401/403、保存快照、停用API/原生重载ready、单配置组、完整归档无合成Token、其他API及工作日志canary、四私有包和shutdown。解释器仍为CPython3.13.2，已装SDK元数据0.11.0/Pillow11.3；继承Pillow低于新SDK声明>=12，该smoke只验证配置/追踪消费接口，不能描述为生产0.11.1/Pillow12.3的同构全环境验证。生产12.3符合SDK下限及Dota2Forge的>=11.3,<13范围，公开后端另有12.3验证；原SDK639源码/Pillow摘要保持。
 
-[商店PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)保持OPEN；[索引核验](store-validation.json)只修改installMsg，提交 `2befe5b7785419e98f6d5f2aa8d498fa9d1cfdbf`，其余索引字段深比较不变。[源码PR #7](https://github.com/HBLADEH/Dota2Forge/pull/7)保持OPEN，先前治理规则仍需维护者评审；未合并、未发送评论。
+[商店PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)保持OPEN；[索引核验](store-validation.json)只修改installMsg，提交 `2befe5b7785419e98f6d5f2aa8d498fa9d1cfdbf`，其余索引字段深比较不变。[源码PR #7](https://github.com/HBLADEH/Dota2Forge/pull/7)在发行时OPEN，随后由HBLADEH于2026-10-09 UTC01:40合并至main，合并提交 `924f92c912ad263073aaff42f5415b16f807c11a`；本任务未执行合并或发送评论。部署后记录另以文档PR接续，实际分发源码仍固定3a2f6d0。
