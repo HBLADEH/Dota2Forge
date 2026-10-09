@@ -4,20 +4,20 @@ build-backend = "hatchling.build"
 
 [project]
 name = "astrbot-plugin-dota2forge"
-version = "0.1.0a8"
+version = "0.1.0a9"
 description = "Dota2Forge AstrBot adapter with explicit host discovery bridge"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
-  "dota2forge-core>=0.1.0a5,<0.2",
-  "dota2forge-renderer>=0.1.0a4,<0.2",
+  "dota2forge-core>=0.1.0a6,<0.2",
+  "dota2forge-renderer>=0.1.0a5,<0.2",
   "dota2forge-assets>=0.1.0a1,<0.2",
 ]
 
 [project.optional-dependencies]
 stratz = [
-  "dota2forge-core[stratz]>=0.1.0a5,<0.2",
+  "dota2forge-core[stratz]>=0.1.0a6,<0.2",
   "httpx>=0.28.1,<1",
 ]
 

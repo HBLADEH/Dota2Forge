@@ -1,0 +1,2474 @@
+{
+  "detail": {
+    "unavailable": false,
+    "match_id": 9035146588,
+    "metadata": {
+      "source": "stratz",
+      "fetched_at": "2026-10-09T13:22:15.111614+00:00",
+      "observed_at": null,
+      "patch": null
+    },
+    "started_at": "2026-10-08T15:37:07+00:00",
+    "duration_seconds": 2374,
+    "did_radiant_win": true,
+    "game_mode": "ALL_PICK_RANKED",
+    "game_version_id": 190,
+    "has_stats": true,
+    "parsed_at": "2026-10-08T16:53:44+00:00",
+    "parse_version": null,
+    "players": [
+      {
+        "player_slot": 0,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": true,
+        "hero_id": 96,
+        "kills": 11,
+        "deaths": 8,
+        "assists": 16,
+        "gold_per_minute": 575,
+        "experience_per_minute": 775,
+        "level": 23,
+        "last_hits": 207,
+        "denies": 9,
+        "net_worth": 20265,
+        "hero_damage": 35699,
+        "tower_damage": 1993,
+        "hero_healing": 0,
+        "imp": -7,
+        "position": "POSITION_3",
+        "lane": "OFF_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1720,
+        "item_ids": [
+          53,
+          29,
+          242,
+          1,
+          119,
+          127
+        ]
+      },
+      {
+        "player_slot": 1,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": true,
+        "hero_id": 40,
+        "kills": 2,
+        "deaths": 15,
+        "assists": 22,
+        "gold_per_minute": 356,
+        "experience_per_minute": 550,
+        "level": 20,
+        "last_hits": 72,
+        "denies": 1,
+        "net_worth": 12856,
+        "hero_damage": 23565,
+        "tower_damage": 987,
+        "hero_healing": 10210,
+        "imp": -47,
+        "position": "POSITION_4",
+        "lane": "OFF_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1168,
+        "item_ids": [
+          231,
+          254,
+          267,
+          null,
+          36,
+          null
+        ]
+      },
+      {
+        "player_slot": 2,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": true,
+        "hero_id": 81,
+        "kills": 10,
+        "deaths": 7,
+        "assists": 6,
+        "gold_per_minute": 527,
+        "experience_per_minute": 835,
+        "level": 24,
+        "last_hits": 178,
+        "denies": 19,
+        "net_worth": 19686,
+        "hero_damage": 26679,
+        "tower_damage": 3153,
+        "hero_healing": 0,
+        "imp": -23,
+        "position": "POSITION_2",
+        "lane": "MID_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1605,
+        "item_ids": [
+          73,
+          252,
+          147,
+          114,
+          63,
+          143
+        ]
+      },
+      {
+        "player_slot": 3,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": true,
+        "hero_id": 75,
+        "kills": 0,
+        "deaths": 6,
+        "assists": 14,
+        "gold_per_minute": 310,
+        "experience_per_minute": 589,
+        "level": 20,
+        "last_hits": 64,
+        "denies": 6,
+        "net_worth": 11719,
+        "hero_damage": 10615,
+        "tower_damage": 506,
+        "hero_healing": 0,
+        "imp": -19,
+        "position": "POSITION_5",
+        "lane": "SAFE_LANE",
+        "backpack_ids": [
+          16,
+          null,
+          null
+        ],
+        "neutral_item_id": 1862,
+        "item_ids": [
+          180,
+          102,
+          256,
+          23,
+          21,
+          60
+        ]
+      },
+      {
+        "player_slot": 4,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": true,
+        "hero_id": 48,
+        "kills": 11,
+        "deaths": 3,
+        "assists": 5,
+        "gold_per_minute": 873,
+        "experience_per_minute": 1167,
+        "level": 27,
+        "last_hits": 536,
+        "denies": 7,
+        "net_worth": 33160,
+        "hero_damage": 31182,
+        "tower_damage": 23100,
+        "hero_healing": 0,
+        "imp": 9,
+        "position": "POSITION_1",
+        "lane": "SAFE_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1643,
+        "item_ids": [
+          156,
+          147,
+          116,
+          141,
+          139,
+          63
+        ]
+      },
+      {
+        "player_slot": 128,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": false,
+        "hero_id": 35,
+        "kills": 3,
+        "deaths": 6,
+        "assists": 15,
+        "gold_per_minute": 514,
+        "experience_per_minute": 674,
+        "level": 22,
+        "last_hits": 297,
+        "denies": 7,
+        "net_worth": 17482,
+        "hero_damage": 37899,
+        "tower_damage": 290,
+        "hero_healing": 0,
+        "imp": 23,
+        "position": "POSITION_2",
+        "lane": "MID_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1862,
+        "item_ids": [
+          172,
+          63,
+          1858,
+          158,
+          75,
+          75
+        ]
+      },
+      {
+        "player_slot": 129,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": false,
+        "hero_id": 92,
+        "kills": 14,
+        "deaths": 9,
+        "assists": 10,
+        "gold_per_minute": 401,
+        "experience_per_minute": 542,
+        "level": 20,
+        "last_hits": 142,
+        "denies": 5,
+        "net_worth": 14183,
+        "hero_damage": 23813,
+        "tower_damage": 1043,
+        "hero_healing": 125,
+        "imp": 30,
+        "position": "POSITION_4",
+        "lane": "OFF_LANE",
+        "backpack_ids": [
+          42,
+          null,
+          4204
+        ],
+        "neutral_item_id": 2097,
+        "item_ids": [
+          185,
+          250,
+          77,
+          108,
+          214,
+          36
+        ]
+      },
+      {
+        "player_slot": 130,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": false,
+        "hero_id": 131,
+        "kills": 5,
+        "deaths": 10,
+        "assists": 21,
+        "gold_per_minute": 269,
+        "experience_per_minute": 555,
+        "level": 20,
+        "last_hits": 39,
+        "denies": 3,
+        "net_worth": 9424,
+        "hero_damage": 25726,
+        "tower_damage": 24,
+        "hero_healing": 250,
+        "imp": 66,
+        "position": "POSITION_5",
+        "lane": "SAFE_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1640,
+        "item_ids": [
+          100,
+          1,
+          102,
+          180,
+          null,
+          36
+        ]
+      },
+      {
+        "player_slot": 131,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": false,
+        "hero_id": 12,
+        "kills": 12,
+        "deaths": 4,
+        "assists": 15,
+        "gold_per_minute": 600,
+        "experience_per_minute": 797,
+        "level": 24,
+        "last_hits": 331,
+        "denies": 8,
+        "net_worth": 22577,
+        "hero_damage": 29960,
+        "tower_damage": 376,
+        "hero_healing": 0,
+        "imp": 59,
+        "position": "POSITION_1",
+        "lane": "SAFE_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1605,
+        "item_ids": [
+          108,
+          36,
+          63,
+          147,
+          160,
+          53
+        ]
+      },
+      {
+        "player_slot": 132,
+        "account_id": null,
+        "display_name": null,
+        "is_anonymous": true,
+        "is_radiant": false,
+        "hero_id": 108,
+        "kills": 4,
+        "deaths": 6,
+        "assists": 23,
+        "gold_per_minute": 428,
+        "experience_per_minute": 579,
+        "level": 20,
+        "last_hits": 224,
+        "denies": 4,
+        "net_worth": 15253,
+        "hero_damage": 17781,
+        "tower_damage": 1238,
+        "hero_healing": 0,
+        "imp": 48,
+        "position": "POSITION_3",
+        "lane": "OFF_LANE",
+        "backpack_ids": [
+          null,
+          null,
+          null
+        ],
+        "neutral_item_id": 1598,
+        "item_ids": [
+          108,
+          180,
+          119,
+          218,
+          90,
+          null
+        ]
+      }
+    ]
+  },
+  "analysis": {
+    "unavailable": false,
+    "match_id": 9035146588,
+    "metadata": {
+      "source": "stratz",
+      "fetched_at": "2026-10-09T13:22:15.391243+00:00",
+      "observed_at": null,
+      "patch": null
+    },
+    "participants": [
+      {
+        "account_id": null,
+        "player_slot": 0,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              880,
+              1289,
+              1597,
+              1983,
+              2415,
+              2399,
+              2648,
+              2999,
+              4085,
+              4332,
+              4496,
+              4956,
+              5366,
+              5681,
+              5794,
+              6225,
+              6970,
+              7712,
+              8257,
+              8808,
+              9225,
+              9803,
+              10380,
+              10611,
+              10843,
+              10646,
+              11489,
+              12597,
+              13127,
+              13817,
+              14373,
+              15707,
+              16839,
+              17162,
+              17624,
+              17724,
+              18170,
+              18455,
+              19306
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 12,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 13,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 11,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 129,
+            "item_id": 73,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 294,
+            "item_id": 39,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 473,
+            "item_id": 125,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 787,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 852,
+            "item_id": 1,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1099,
+            "item_id": 127,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1105,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1383,
+            "item_id": 242,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1427,
+            "item_id": 265,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1560,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1703,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1911,
+            "item_id": 119,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 1,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              711,
+              849,
+              939,
+              1073,
+              1300,
+              1390,
+              1380,
+              1470,
+              1792,
+              1882,
+              2070,
+              2160,
+              2337,
+              2537,
+              2714,
+              2964,
+              3309,
+              4034,
+              4229,
+              4351,
+              4955,
+              5159,
+              5611,
+              6064,
+              6205,
+              6226,
+              6777,
+              7524,
+              7774,
+              8045,
+              8264,
+              8789,
+              9489,
+              9812,
+              10153,
+              10458,
+              10869,
+              11224,
+              11882
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 20,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 34,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 132,
+            "item_id": 88,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 186,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 186,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 195,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 285,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 348,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 380,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 723,
+            "item_id": 180,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 800,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 801,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 892,
+            "item_id": 94,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 936,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 982,
+            "item_id": 265,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1118,
+            "item_id": 79,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1331,
+            "item_id": 231,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1419,
+            "item_id": 265,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1439,
+            "item_id": 92,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1745,
+            "item_id": 267,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2323,
+            "item_id": 254,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 2,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              932,
+              1232,
+              1516,
+              1784,
+              2058,
+              2414,
+              2812,
+              3272,
+              3740,
+              4163,
+              4712,
+              4794,
+              5196,
+              5269,
+              5364,
+              5679,
+              5927,
+              6892,
+              6949,
+              7207,
+              7197,
+              7981,
+              8831,
+              10301,
+              11187,
+              11017,
+              11236,
+              11723,
+              12056,
+              12914,
+              13189,
+              14215,
+              15563,
+              16182,
+              16823,
+              16880,
+              17074,
+              17603,
+              18838
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 13,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 20,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 11,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 96,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 390,
+            "item_id": 73,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 390,
+            "item_id": 63,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 641,
+            "item_id": 216,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 656,
+            "item_id": 216,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 659,
+            "item_id": 216,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 997,
+            "item_id": 252,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1289,
+            "item_id": 170,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1437,
+            "item_id": 147,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1795,
+            "item_id": 143,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2287,
+            "item_id": 114,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 3,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              771,
+              836,
+              993,
+              1145,
+              1159,
+              1169,
+              1333,
+              1423,
+              1563,
+              1653,
+              1897,
+              1987,
+              2213,
+              2378,
+              2430,
+              2674,
+              2913,
+              3215,
+              3310,
+              3460,
+              3625,
+              3737,
+              4041,
+              4045,
+              4732,
+              4908,
+              4880,
+              5051,
+              5868,
+              6217,
+              6381,
+              7148,
+              8035,
+              8389,
+              9110,
+              9699,
+              10096,
+              10472,
+              10951
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 24,
+            "item_id": 88,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 264,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 264,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 318,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 319,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 561,
+            "item_id": 180,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 611,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 611,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 611,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 611,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 812,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 812,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 812,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1339,
+            "item_id": 102,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1353,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1353,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1353,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1354,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1354,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1916,
+            "item_id": 256,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2050,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2051,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2051,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2051,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2051,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 4,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              844,
+              1213,
+              1462,
+              1587,
+              1934,
+              2175,
+              2314,
+              2696,
+              2968,
+              3290,
+              3798,
+              4436,
+              4982,
+              5906,
+              6308,
+              7133,
+              7978,
+              8666,
+              9410,
+              10387,
+              12214,
+              12589,
+              13623,
+              14491,
+              15976,
+              17212,
+              18018,
+              19006,
+              19106,
+              19187,
+              19901,
+              21448,
+              22780,
+              24366,
+              26092,
+              27930,
+              28245,
+              29642,
+              31171
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 20,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 14,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 80,
+            "item_id": 74,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 124,
+            "item_id": 29,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 161,
+            "item_id": 75,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 352,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 385,
+            "item_id": 63,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 421,
+            "item_id": 34,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 720,
+            "item_id": 172,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 795,
+            "item_id": 35,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 816,
+            "item_id": 22,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 858,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 958,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 990,
+            "item_id": 170,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1018,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1126,
+            "item_id": 147,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1447,
+            "item_id": 139,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1501,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1645,
+            "item_id": 116,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1845,
+            "item_id": 149,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1982,
+            "item_id": 141,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2177,
+            "item_id": 53,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2179,
+            "item_id": 5,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2191,
+            "item_id": 156,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2202,
+            "item_id": 609,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 128,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              841,
+              1153,
+              1516,
+              1759,
+              2216,
+              2561,
+              2864,
+              3160,
+              3512,
+              3924,
+              4081,
+              4405,
+              4787,
+              5246,
+              5902,
+              6444,
+              6838,
+              7109,
+              7607,
+              8134,
+              8620,
+              9178,
+              9709,
+              10403,
+              10852,
+              11489,
+              12475,
+              13065,
+              13161,
+              13677,
+              14328,
+              15368,
+              15667,
+              16133,
+              17356,
+              15978,
+              16862,
+              17572,
+              17426
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 14,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 20,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 108,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 155,
+            "item_id": 75,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 214,
+            "item_id": 75,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 372,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 458,
+            "item_id": 63,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 497,
+            "item_id": 38,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 499,
+            "item_id": 38,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 583,
+            "item_id": 38,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 986,
+            "item_id": 166,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1178,
+            "item_id": 236,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1452,
+            "item_id": 158,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1605,
+            "item_id": 172,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1897,
+            "item_id": 1076,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2005,
+            "item_id": 1858,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 129,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              771,
+              899,
+              1019,
+              1300,
+              1408,
+              1485,
+              1766,
+              1826,
+              1935,
+              2748,
+              3297,
+              3647,
+              3919,
+              4133,
+              4525,
+              5099,
+              5396,
+              5522,
+              5922,
+              6376,
+              7151,
+              7781,
+              8250,
+              8927,
+              9088,
+              9820,
+              9915,
+              10466,
+              10852,
+              11291,
+              11779,
+              11525,
+              11529,
+              11902,
+              12930,
+              13276,
+              13619,
+              13984,
+              14127
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 216,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 20,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 55,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 173,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 173,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 188,
+            "item_id": 15,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 188,
+            "item_id": 76,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 239,
+            "item_id": 77,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 260,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 261,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 262,
+            "item_id": 15,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 262,
+            "item_id": 76,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 308,
+            "item_id": 77,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 425,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 450,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 584,
+            "item_id": 94,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 714,
+            "item_id": 29,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 745,
+            "item_id": 185,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1068,
+            "item_id": 67,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1161,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1269,
+            "item_id": 98,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1279,
+            "item_id": 244,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1279,
+            "item_id": 27,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1300,
+            "item_id": 214,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1446,
+            "item_id": 67,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1664,
+            "item_id": 250,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1759,
+            "item_id": 4205,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2327,
+            "item_id": 108,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 130,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              691,
+              711,
+              971,
+              1037,
+              1146,
+              1472,
+              1546,
+              1596,
+              1690,
+              1917,
+              2162,
+              2404,
+              2530,
+              2721,
+              3335,
+              3618,
+              3713,
+              3753,
+              3845,
+              4162,
+              4515,
+              4610,
+              4555,
+              4976,
+              5202,
+              5860,
+              5794,
+              6010,
+              6239,
+              6505,
+              6833,
+              7102,
+              7930,
+              8213,
+              8547,
+              8974,
+              9168,
+              9268,
+              9368
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 237,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 216,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 34,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 131,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 132,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 290,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 299,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 299,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 447,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 534,
+            "item_id": 88,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 584,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 586,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 624,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 736,
+            "item_id": 180,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 870,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 870,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1074,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1074,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1125,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1303,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1303,
+            "item_id": 1,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1367,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1445,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1549,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1865,
+            "item_id": 102,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2196,
+            "item_id": 100,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 131,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              771,
+              1119,
+              1463,
+              1742,
+              2185,
+              2763,
+              3129,
+              3478,
+              3974,
+              4402,
+              5196,
+              5744,
+              6548,
+              7119,
+              7864,
+              8729,
+              9247,
+              9951,
+              10554,
+              11137,
+              11373,
+              11819,
+              12575,
+              13238,
+              13540,
+              14438,
+              15273,
+              15747,
+              16250,
+              17152,
+              18693,
+              18760,
+              19715,
+              20273,
+              20575,
+              20868,
+              21881,
+              22234,
+              22521
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -89,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 34,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 16,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 237,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -89,
+            "item_id": 11,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 69,
+            "item_id": 36,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 354,
+            "item_id": 63,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 611,
+            "item_id": 170,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 812,
+            "item_id": 147,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 982,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1212,
+            "item_id": 108,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1710,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1824,
+            "item_id": 160,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      },
+      {
+        "account_id": null,
+        "player_slot": 132,
+        "metrics": [
+          {
+            "name": "networthPerMinute",
+            "semantic": "networth_level",
+            "values": [
+              600,
+              878,
+              1156,
+              1272,
+              1663,
+              2082,
+              2376,
+              2863,
+              3140,
+              3716,
+              4201,
+              4699,
+              5042,
+              5477,
+              5971,
+              6699,
+              7057,
+              7256,
+              7507,
+              7992,
+              8679,
+              9286,
+              9449,
+              9774,
+              9868,
+              9963,
+              10685,
+              11132,
+              11371,
+              11757,
+              12686,
+              13275,
+              13251,
+              13678,
+              13957,
+              14394,
+              14494,
+              15153,
+              15479,
+              15197
+            ],
+            "start_seconds": 0,
+            "interval_seconds": 60
+          }
+        ],
+        "purchases": [
+          {
+            "time_seconds": -76,
+            "item_id": 44,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -75,
+            "item_id": 11,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": -65,
+            "item_id": 1123,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 76,
+            "item_id": 73,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 122,
+            "item_id": 38,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 298,
+            "item_id": 88,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 361,
+            "item_id": 180,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 450,
+            "item_id": 1848,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 760,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 887,
+            "item_id": 108,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1078,
+            "item_id": 244,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1078,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1079,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1201,
+            "item_id": 46,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1409,
+            "item_id": 90,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1411,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1411,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1411,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 1412,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2037,
+            "item_id": 119,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2155,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2155,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2155,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2155,
+            "item_id": 42,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2156,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2156,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2156,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2156,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          },
+          {
+            "time_seconds": 2156,
+            "item_id": 43,
+            "item_key": null,
+            "charges": null
+          }
+        ]
+      }
+    ],
+    "team_metrics": [
+      {
+        "name": "radiantNetworthLeads",
+        "semantic": "radiant_networth_lead",
+        "values": [
+          0,
+          0,
+          186,
+          381,
+          266,
+          71,
+          -171,
+          -1110,
+          -1681,
+          -1340,
+          -679,
+          -1872,
+          -2462,
+          -2909,
+          -3167,
+          -3419,
+          -5715,
+          -6272,
+          -5353,
+          -3323,
+          -3765,
+          -4275,
+          -3729,
+          -3568,
+          -2377,
+          -1900,
+          298,
+          -2283,
+          -2189,
+          -758,
+          -328,
+          -1131,
+          -2800,
+          1301,
+          4187,
+          5433,
+          6000,
+          9101,
+          7771,
+          8859,
+          13509
+        ],
+        "start_seconds": -60,
+        "interval_seconds": 60
+      },
+      {
+        "name": "radiantExperienceLeads",
+        "semantic": "radiant_experience_lead",
+        "values": [
+          0,
+          0,
+          238,
+          270,
+          96,
+          -48,
+          -172,
+          -1013,
+          -758,
+          -841,
+          -906,
+          -1668,
+          -2431,
+          -2823,
+          -2602,
+          -3451,
+          -3481,
+          -3497,
+          -2947,
+          265,
+          -343,
+          -1056,
+          81,
+          3163,
+          2472,
+          3101,
+          7612,
+          2495,
+          3553,
+          7243,
+          7833,
+          7007,
+          5216,
+          11215,
+          11309,
+          11940,
+          12210,
+          14966,
+          13820,
+          16509,
+          26538
+        ],
+        "start_seconds": -60,
+        "interval_seconds": 60
+      }
+    ]
+  }
+}

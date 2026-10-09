@@ -45,11 +45,17 @@ def _series(
     if not isinstance(values, list) or len(values) > 360:
         raise failure(ProviderErrorCode.INVALID_RESPONSE)
     try:
+        lead = semantic in {
+            MetricSemantic.RADIANT_NETWORTH_LEAD,
+            MetricSemantic.RADIANT_EXPERIENCE_LEAD,
+        }
         parsed = tuple(
-            value if type(value) is int and value >= 0 else (_ for _ in ()).throw(ValueError())
+            value
+            if type(value) is int and (lead or value >= 0)
+            else (_ for _ in ()).throw(ValueError())
             for value in values
         )
-        return MetricSeries(name, semantic, parsed)
+        return MetricSeries(name, semantic, parsed, -60 if lead else 0)
     except (ValidationError, ValueError):
         raise failure(ProviderErrorCode.INVALID_RESPONSE) from None
 
@@ -98,9 +104,17 @@ def stratz_analysis(
         match = object_value(raw_match)
         if integer(field(match, "id"), minimum=1) != match_id.value:
             raise stratz_failure(ProviderErrorCode.INVALID_RESPONSE)
+        team_metrics = tuple(
+            series
+            for name, semantic in (
+                ("radiantNetworthLeads", MetricSemantic.RADIANT_NETWORTH_LEAD),
+                ("radiantExperienceLeads", MetricSemantic.RADIANT_EXPERIENCE_LEAD),
+            )
+            if (series := _series(name, semantic, match.get(name), stratz_failure)) is not None
+        )
         players = field(match, "players")
         if players is None:
-            return MatchAnalysis(match_id, metadata, None)
+            return MatchAnalysis(match_id, metadata, None, team_metrics)
         if not isinstance(players, list) or len(players) > 10:
             raise stratz_failure(ProviderErrorCode.INVALID_RESPONSE)
         result = []
@@ -125,7 +139,7 @@ def stratz_analysis(
             result.append(
                 ParticipantAnalysis(account, slot, () if series is None else (series,), purchases)
             )
-        return MatchAnalysis(match_id, metadata, tuple(result))
+        return MatchAnalysis(match_id, metadata, tuple(result), team_metrics)
     except (ValidationError, ValueError, TypeError, KeyError):
         raise stratz_failure(ProviderErrorCode.INVALID_RESPONSE) from None
 

@@ -151,7 +151,7 @@ def test_real_detail_model_is_rendered_for_each_side(
         renderer = AsyncRenderer()
         app = AstrApplication(service, MatchDetailService(provider), renderer)
         replies = await app.handle(identity, "do比赛", "17")
-        assert len(replies) == 2 and all(isinstance(reply, AstrImageReply) for reply in replies)
+        assert len(replies) == 3 and all(isinstance(reply, AstrImageReply) for reply in replies)
         await app.close()
 
     run_async(check())

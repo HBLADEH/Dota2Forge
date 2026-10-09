@@ -38,7 +38,7 @@ from dota2forge_renderer import (
     Card,
     HeroItemsCard,
     ImageArtifact,
-    MatchDetailCard,
+    MatchReportCard,
     MenuCard,
     PlayerCard,
     RecentMatchesCard,
@@ -46,7 +46,6 @@ from dota2forge_renderer import (
     StatusCard,
 )
 from dota2forge_renderer.cards import DETAIL_PER_PAGE
-from dota2forge_renderer.engine import detail_groups
 from dota2forge_renderer.formatting import (
     duration_text,
     mmr_estimate_text,
@@ -57,7 +56,7 @@ from dota2forge_renderer.formatting import (
 )
 from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
 from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
-from dota2forge_renderer.subscriptions import match_report_lines
+from dota2forge_renderer.reporting import match_report_text, split_report_text
 
 from .commands import AstrAction, AstrCommandError, parse_command
 from .selection import Key, SelectionError, SelectionStore, Session
@@ -359,24 +358,18 @@ class AstrApplication:
                 )
                 texts = detail_text(result)
                 if isinstance(result, MatchDetail):
-                    texts[-1] += "\n" + "\n".join(match_report_lines(report))
-                if isinstance(result, MatchDetail):
-                    groups = detail_groups(MatchDetailCard(result))
-                    cards = tuple(
-                        MatchDetailCard(
-                            result,
-                            index + 1,
-                            None if detail_binding is None else detail_binding.account_id,
-                        )
-                        for index in range(len(groups))
-                    )
+                    texts = match_report_text(report)
+                    cards = tuple(MatchReportCard(report, index + 1) for index in range(len(texts)))
+                    texts = split_report_text(texts)
             if not cards or not self._image_mode or self._renderer is None:
                 return [AstrTextReply(value) for value in texts], candidate
             try:
                 images: list[AstrReply] = [
                     AstrImageReply(await self._renderer.render(card)) for card in cards
                 ]
-                if len(texts) > len(images):
+                if len(texts) > len(images) and not all(
+                    isinstance(card, MatchReportCard) for card in cards
+                ):
                     images.extend(AstrTextReply(value) for value in texts[len(images) :])
                 return images, candidate
             except RenderError:

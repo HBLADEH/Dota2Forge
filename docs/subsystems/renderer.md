@@ -6,13 +6,13 @@
 
 ## 卡片与资源
 
-MenuCard、PlayerCard、RecentMatchesCard、StatusCard、MatchDetailCard、HeroItemsCard输出PNG ImageArtifact，包含bytes、mime、width、height；不发送消息、不创建HTTP客户端。输入为Core不可变结果。出图宽780、最高1800px、最大2MiB，近期每页五场，比赛按阵营每页最多三名参赛者（标准十人四页）；长昵称省略，未知英雄保留ID，缺图显示问号。
+各Card输出PNG ImageArtifact，包含bytes、mime、width、height；无消息/HTTP，输入为Core不可变结果。普通卡宽780、最高1800px、最大2MiB；旧MatchDetailCard每队三人。新增MatchReportCard宽1600、最高3200px、最大2MiB，双端do比赛返回总览和五人分队详情（标准十人三页），不按手机固定比例删减信息；含十人IMP/位置/KDA/参战率/经济/伤害对比、STRATZ优势曲线、正负表现列表、全部详情指标、六装备/三背包/中立槽。匿名不显示身份，未知ID保留，缺图问号；文本1400字符分段，图片成功不重复回退文本。见[决策](../../.agents/notes/implemented/2026-10-09-match-analysis-report.md)。
 
 HeroItemsCard高1674px，四阶段各展示购买次数前5项，以对应本地装备图、两行名称和次数横排；标题展示英雄图片。本地Valve物品名称未知则保留ID，0/空/缺失明确区分。位置/补丁/窗口/总样本未知，注明热门不等于最优或顺序；来源与时间保留，双端文字共享同一结果。见[出装契约](hero-items.md)。
 
 现行入口使用do前缀，玩家为do查询；玩家卡780×960显示[Core段位MMR估算](ranks.md)区间/冠绝下界及非精确提示，未知/未定级不估算。图片与双端文本一致；本机双端已升级0.1.0a2并完成新卡合成渲染验证，[GsCore](../../.agents/artifacts/gscore-current-deployment-v1/README.md)本轮尚无客户端连接，新MMR真实聊天待验收，历史聊天证据仍为旧指令。
 
-None/0/False区别保留；装备0显示空槽，None未知。来源、抓取时间和未知观测时间分别标识，默认北京时间UTC+8，时长分钟/秒。段位可下降，不代表精确MMR；详情卡展示parse_state、解析时间及来源标记（STRATZ isStats / OpenDota version），上游已标记解析仍不声明字段完整，解析版本不是游戏补丁。绑定账号实际参赛才高亮我方，匿名/未知账号不显示身份。
+None/0/False区别保留；装备0/None均视觉置空，不写占位文字；模型保留无装备/未知差别，页脚明确空白可能是无装备或来源未提供。正物品缺图仍保留名称/ID和问号。来源、抓取与观测时间分别标识，默认北京时间UTC+8；详情保留parse_state、解析时间与来源标记，上游已标记解析不声明完整，解析版本不是补丁。IMP仅本局来源分数，不宣称官方MVP，缺失不补0。绑定账号实际参赛才高亮我方，匿名/未知账号不显示身份。
 
 [资源v1](../../packages/dota2forge-renderer/src/dota2forge_renderer/assets/v1/README.md)附完整Noto Sans CJK SC/OFL、字体SHA256/cmap和Valve127英雄名称表来源摘要。未支持的字符降级U+编码。深色卡片使用铜金分隔/天辉夜魇色；PillowRenderer新增可选illustration_path，双端同名配置显式注入本地Valve下载包，英雄横幅/六装备槽按Core ID映射，详情装备名支持两行；玩家区步长340px，三人页1706px。长名使用审核简称（A杖、臂章等），文字保留全名；整个名称表严格检查两行容纳，图纸/变体保留区别。详情新增等级、补刀、反补、净资产、英雄伤害、建筑伤害与治疗量，缺失仍为未知，0保留；两端文字回退包含相同字段与完整装备名/ID。常见模式显示中文，未知枚举保留原值。当前包不含第三方图像，MIT不重新许可Valve美术；[下载指南](../cookbook/illustrations.md)记录清单和版权边界。未知ID/缺图占位，槽位展示装备名称、空与未知，未知物品保留ID；超长装备ID回退文本，避免隐藏ID。可选decor.header只作标题背景；本地已接入1536×512原创生成图，中心裁切为780×174并叠加60%深色遮罩，模型未由工具返回，未打包进wheel。manifest版本/路径/SHA256验证，48张解码缓存、单图8MiB/2048²像素；close释放。资源/字体/PNG已知失败为RenderError，数据/程序错误不吞成正常卡片。
 

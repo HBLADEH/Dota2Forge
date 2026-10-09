@@ -340,6 +340,11 @@ def detail_dict(value: object) -> dict[str, object]:
                 "hero_damage": player.hero_damage,
                 "tower_damage": player.tower_damage,
                 "hero_healing": player.hero_healing,
+                "imp": player.imp,
+                "position": player.position,
+                "lane": player.lane,
+                "backpack_ids": player.backpack_ids,
+                "neutral_item_id": player.neutral_item_id,
                 "item_ids": player.item_ids,
             }
             for player in value.players
@@ -382,6 +387,13 @@ def decode_detail(value: object) -> MatchDetail | MatchDetailUnavailable:
                 tower_damage=_optional_integer(row.get("tower_damage")),
                 hero_healing=_optional_integer(row.get("hero_healing")),
                 item_ids=tuple(_optional_integer(item) for item in _list(row["item_ids"])),
+                imp=_optional_integer(row.get("imp")),
+                position=None if row.get("position") is None else _text(row["position"]),
+                lane=None if row.get("lane") is None else _text(row["lane"]),
+                backpack_ids=tuple(
+                    _optional_integer(item) for item in _list(row.get("backpack_ids", [None] * 3))
+                ),
+                neutral_item_id=_optional_integer(row.get("neutral_item_id")),
             )
             for row_value in players
             for row in (_object(row_value),)
@@ -445,6 +457,16 @@ def analysis_dict(value: object) -> dict[str, object]:
             }
             for player in value.participants
         ],
+        "team_metrics": [
+            {
+                "name": metric.name,
+                "semantic": metric.semantic.value,
+                "values": metric.values,
+                "start_seconds": metric.start_seconds,
+                "interval_seconds": metric.interval_seconds,
+            }
+            for metric in value.team_metrics
+        ],
     }
 
 
@@ -492,4 +514,15 @@ def decode_analysis(value: object) -> MatchAnalysis | MatchAnalysisUnavailable:
             for row in (_object(row_value),)
         )
     )
-    return MatchAnalysis(match_id, metadata, parsed)
+    team_metrics = tuple(
+        MetricSeries(
+            _text(metric["name"]),
+            MetricSemantic(_text(metric["semantic"])),
+            tuple(_integer(item) for item in _list(metric["values"])),
+            _integer(metric["start_seconds"]),
+            _integer(metric["interval_seconds"]),
+        )
+        for metric_value in _list(raw.get("team_metrics", []))
+        for metric in (_object(metric_value),)
+    )
+    return MatchAnalysis(match_id, metadata, parsed, team_metrics)

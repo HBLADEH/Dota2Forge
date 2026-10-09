@@ -15,12 +15,15 @@ from .cards import (
     DETAIL_PER_PAGE,
     MAX_BYTES,
     MAX_HEIGHT,
+    MAX_REPORT_HEIGHT,
     PER_PAGE,
+    REPORT_WIDTH,
     WIDTH,
     Card,
     HeroItemsCard,
     ImageArtifact,
     MatchDetailCard,
+    MatchReportCard,
     MenuCard,
     PlayerCard,
     RecentMatchesCard,
@@ -59,15 +62,18 @@ def detail_groups(card: MatchDetailCard) -> tuple[tuple[str, tuple[MatchParticip
 
 
 class _Canvas:
-    def __init__(self, engine: "PillowRenderer", height: int) -> None:
-        if not 1 <= height <= MAX_HEIGHT:
+    def __init__(self, engine: "PillowRenderer", height: int, *, width: int = WIDTH) -> None:
+        if width not in (WIDTH, REPORT_WIDTH) or not 1 <= height <= (
+            MAX_HEIGHT if width == WIDTH else MAX_REPORT_HEIGHT
+        ):
             raise RenderError()
-        self.image = Image.new("RGB", (WIDTH, height), PAPER)
+        self.width = width
+        self.image = Image.new("RGB", (width, height), PAPER)
         self.draw = ImageDraw.Draw(self.image)
         self.engine = engine
         self.boxes: list[Box] = []
         if height > 210:
-            self.draw.rectangle((18, 190, WIDTH - 19, height - 19), outline=LINE)
+            self.draw.rectangle((18, 190, width - 19, height - 19), outline=LINE)
 
     def __enter__(self) -> "_Canvas":
         return self
@@ -88,10 +94,11 @@ class _Canvas:
         *,
         size: int = 28,
         color: str = INK,
-        width: int = WIDTH - 72,
+        width: int | None = None,
         truncate: bool = True,
     ) -> None:
         value = self.engine.display(value)
+        width = self.width - 72 if width is None else width
         typeface = self.engine.font(max(26, size))
         if self.draw.textlength(value, font=typeface) > width:
             if not truncate:
@@ -100,7 +107,7 @@ class _Canvas:
                 value = value[:-1]
             value += "..."
         box = self.draw.textbbox((x, y), value, font=typeface, anchor="lt")
-        if box[0] < 0 or box[1] < 0 or box[2] > WIDTH or box[3] > self.image.height:
+        if box[0] < 0 or box[1] < 0 or box[2] > self.width or box[3] > self.image.height:
             raise RenderError()
         if any(
             box[0] < old[2] and box[2] > old[0] and box[1] < old[3] and box[3] > old[1]
@@ -111,7 +118,7 @@ class _Canvas:
         self.draw.text((x, y), value, font=typeface, anchor="lt", fill=color)
 
     def line(self, y: int) -> None:
-        self.draw.line((36, y, WIDTH - 36, y), fill=LINE, width=2)
+        self.draw.line((36, y, self.width - 36, y), fill=LINE, width=2)
 
     def paragraph(self, y: int, value: str) -> None:
         remaining = safe_text(value)
@@ -129,25 +136,33 @@ class _Canvas:
                 break
 
     def header(self, title: str, subtitle: str) -> None:
-        self.draw.rectangle((0, 0, WIDTH, 174), fill="#202b2d")
+        self.draw.rectangle((0, 0, self.width, 174), fill="#202b2d")
         art = self.engine._illustrations.image("decor", "header")
         if art is not None:
-            with ImageOps.fit(art, (WIDTH, 174)) as banner:
+            with ImageOps.fit(art, (self.width, 174)) as banner:
                 self.image.paste(banner, (0, 0), banner)
             with (
-                Image.new("RGB", (WIDTH, 174), "#10171a") as shade,
-                self.image.crop((0, 0, WIDTH, 174)) as banner,
+                Image.new("RGB", (self.width, 174), "#10171a") as shade,
+                self.image.crop((0, 0, self.width, 174)) as banner,
                 Image.blend(banner, shade, 0.6) as shaded,
             ):
                 self.image.paste(shaded, (0, 0))
         else:
-            self.draw.polygon(((552, 0), (WIDTH, 0), (WIDTH, 174), (494, 174)), fill="#283333")
-        self.draw.line((0, 172, WIDTH, 172), fill=GOLD, width=2)
+            self.draw.polygon(
+                (
+                    (self.width - 228, 0),
+                    (self.width, 0),
+                    (self.width, 174),
+                    (self.width - 286, 174),
+                ),
+                fill="#283333",
+            )
+        self.draw.line((0, 172, self.width, 172), fill=GOLD, width=2)
         self.draw.rectangle((0, 0, 8, 174), fill=RED)
         self.draw.line((636, 24, 714, 72, 636, 120), fill=GOLD, width=3)
         self.text(36, 28, "Dota2Forge", size=42, color=WHITE)
         self.text(36, 94, title, size=32, color=WHITE, width=350)
-        self.text(420, 100, subtitle, size=26, color=WHITE, width=324)
+        self.text(self.width - 360, 100, subtitle, size=26, color=WHITE, width=324)
 
     def illustration(
         self, kind: str, identifier: int | None, x: int, y: int, size: tuple[int, int]
@@ -160,9 +175,8 @@ class _Canvas:
             with resize(image, (width - 2, height - 2)) as thumbnail:
                 offset = (x + (width - thumbnail.width) // 2, y + (height - thumbnail.height) // 2)
                 self.image.paste(thumbnail, offset, thumbnail)
-        else:
-            marker = "空" if kind == "items" and identifier == 0 else "?"
-            self.text(x + width // 2 - 13, y + (height - 28) // 2, marker, color=MUTED, width=30)
+        elif not (kind == "items" and identifier in (None, 0)):
+            self.text(x + width // 2 - 13, y + (height - 28) // 2, "?", color=MUTED, width=30)
 
     def icon(self, kind: str, identifier: int | str, x: int, y: int, size: tuple[int, int]) -> bool:
         image = self.engine._illustrations.image(kind, identifier)
@@ -198,7 +212,7 @@ class _Canvas:
             self.image.save(output, format="PNG", optimize=True)
             if output.tell() > MAX_BYTES:
                 raise RenderError()
-            artifact = ImageArtifact(output.getvalue(), WIDTH, self.image.height)
+            artifact = ImageArtifact(output.getvalue(), self.width, self.image.height)
         self.engine.last_layout = tuple(self.boxes)
         return artifact
 
@@ -286,6 +300,10 @@ class PillowRenderer:
                 return self._status(card)
             if isinstance(card, MatchDetailCard):
                 return self._detail(card)
+            if isinstance(card, MatchReportCard):
+                from .match_report_layout import render_report
+
+                return render_report(self, card)
             raise TypeError("Unsupported Dota2Forge card input")
         except (OSError, ValueError, KeyError, Image.DecompressionBombError):
             raise RenderError() from None
@@ -412,7 +430,9 @@ class PillowRenderer:
             return canvas.encode()
 
     def _item_label(self, canvas: _Canvas, item_id: int | None, x: int, y: int, width: int) -> None:
-        label = "未知" if item_id is None else "空槽" if item_id == 0 else item_card_name(item_id)
+        if item_id is None or item_id == 0:
+            return
+        label = item_card_name(item_id)
         if label.startswith("装备 ID"):
             canvas.text(x, y, "装备 ID", size=26, width=width, truncate=False)
             canvas.text(x, y + 28, str(item_id), size=26, width=width, truncate=False)
