@@ -6,10 +6,11 @@ trusted events into identities and sends these replies.
 
 import asyncio
 import time
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Protocol
 
+from dota2forge_assets import AssetError
 from dota2forge_core import (
     BindingConflictError,
     BindingNotFoundError,
@@ -64,6 +65,7 @@ from .selection import Key, SelectionError, SelectionStore, Session
 HELP = (
     "Dota2Forge / AstrBot\n"
     "do菜单 / do帮助\ndo绑定 <ID> / do改绑 <ID>\n"
+    "do素材状态 / do下载素材 / do更新素材（下载与更新限管理员）\n"
     "do账号 / do解绑\ndo查询 [ID]\n"
     "do[英雄名或简称]出装：OpenDota职业比赛热门出装统计\n"
     "do战绩 [条数] / do战绩 <ID> <条数>\n"
@@ -405,3 +407,23 @@ class AstrApplication:
         self._selections.clear()
         if self._renderer is not None:
             await self._renderer.close()
+
+    async def replace_renderer(
+        self,
+        renderer: AsyncRenderer,
+        commit: Callable[[], Awaitable[None]],
+        permitted: Callable[[], bool],
+    ) -> None:
+        """Finish a whole reply batch before committing and changing its asset snapshot."""
+        async with self._dispatch_lock:
+            if not permitted():
+                raise AssetError("closed")
+            await commit()
+            previous, self._renderer = self._renderer, renderer
+            if previous is not None:
+                try:
+                    await previous.close()
+                except asyncio.CancelledError:
+                    # The old batch may have left an owned rendering thread after cancellation.
+                    await previous.close()
+                    raise

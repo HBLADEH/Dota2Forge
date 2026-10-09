@@ -7,6 +7,7 @@ from types import ModuleType
 
 import httpx
 import pytest
+from _config_sdk import install_config_sdk
 from Dota2UID.install import install_bridge
 from Dota2UID.runtime import Runtime, State
 
@@ -21,6 +22,8 @@ def test_installer_is_idempotent_and_preserves_local_config(tmp_path):
     assert entry.parent.name == "Dota2UID"
     assert "synthetic-token" in config.read_text("utf-8")
     compile(entry.read_text("utf-8"), str(entry), "exec")
+    helper = entry.with_name("_dota2forge_config.py")
+    compile(helper.read_text("utf-8"), str(helper), "exec")
     config.write_text("local-custom-config", encoding="utf-8")
     assert install_bridge(tmp_path, token="different-token") == (entry, config)
     assert config.read_text("utf-8") == "local-custom-config"
@@ -101,6 +104,9 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     )
 
     class App:
+        user_middleware = []
+        middleware_stack = None
+
         def route(self, path, *, dependencies):
             assert len(dependencies) == 1
             assert dependencies[0] is require_admin
@@ -150,6 +156,7 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
     ):
         monkeypatch.setitem(sys.modules, name, ModuleType(name))
     sys.modules["gsuid_core.bot"].Bot = CapturingBot
+    install_config_sdk(monkeypatch)
     sys.modules["gsuid_core.models"].Event = SyntheticEvent
     sys.modules["gsuid_core.sv"].SV = Service
     sys.modules["gsuid_core.aps"].scheduler = Scheduler()
@@ -203,6 +210,9 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         cold = load()
         assert cold.runtime.state == State.NEW
         assert set(commands) == {
+            "do素材状态",
+            "do下载素材",
+            "do更新素材",
             "do帮助",
             "do菜单",
             "do绑定",
@@ -224,7 +234,11 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         assert commands["do停用"][1] == 0
         assert list(regex_handlers) == [r"^do(?P<hero>.{1,64})出装$"]
         assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
-        assert await cold.status_dota2uid() == {"state": "new", "client_closed": True}
+        assert await cold.status_dota2uid() == {
+            "state": "new",
+            "client_closed": True,
+            "assets_state": "checking",
+        }
         await cold.start_dota2uid()
         await cold.start_dota2uid()
         assert len(jobs) == 1 and cold.job_registered
@@ -261,7 +275,13 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         await hot.start_dota2uid()
         assert len(jobs) == 1
         assert len(clients) == 2
-        assert await hot.close_dota2uid() == {"state": "stopped", "client_closed": True}
+        stopped = await hot.close_dota2uid()
+        assert stopped == {
+            "state": "stopped",
+            "client_closed": True,
+            "assets_state": hot.runtime.asset_status.state,
+        }
+        assert stopped["assets_state"] in {"failed", "cancelled", "checking"}
         await hot.stop_dota2uid()
         assert all(c.is_closed for c in clients)
         assert not jobs

@@ -1,0 +1,26 @@
+{
+  "container_running": true,
+  "plugin_lifecycle": [
+    "lifecycle state=ready reply_mode=image",
+    "Dota2Forge initialized state=ready"
+  ],
+  "plugin_error_markers": false,
+  "configured_path": "/AstrBot/data/plugin_data/astrbot_plugin_dota2forge/illustrations-store-v1",
+  "manifest_loaded": true,
+  "requested_heroes_decoded": [
+    16,
+    26,
+    58,
+    92,
+    131
+  ],
+  "token_configured": true,
+  "reply_mode": "image",
+  "webui_status": 200,
+  "runtime_versions": {
+    "astrbot-plugin-dota2forge": "0.1.0a7",
+    "dota2forge-core": "0.1.0a4",
+    "dota2forge-renderer": "0.1.0a4"
+  },
+  "real_chat_art_after_deployment_verified": false
+}

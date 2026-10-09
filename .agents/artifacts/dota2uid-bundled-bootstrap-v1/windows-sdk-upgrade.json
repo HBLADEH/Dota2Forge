@@ -1,0 +1,22 @@
+{
+  "actual_sdk": true,
+  "sdk_functions_replaced": false,
+  "actual_chat_verified": false,
+  "production_host_modified": false,
+  "external_sockets_disabled": true,
+  "sdk_version": "0.11.0",
+  "pillow": "11.3.0",
+  "python": "3.13.2",
+  "outbound_transport": "synthetic in-memory WebSocket frames",
+  "host_environment": "existing SDK interpreter; its global project packages were not modified",
+  "sdk_discovery_and_no_core_management": true,
+  "four_packages_loaded_from_private_generation": true,
+  "simulated_manifest_rollover_prepares_new_generation_and_preserves_data": true,
+  "different_generation_native_reload_rejected_until_cold_restart": true,
+  "upgrade_scope": "same pinned wheels; manifest bytes changed to test generation boundary",
+  "diagnostic_routes_admin_protected": true,
+  "sdk_shutdown_closed_all_clients": true,
+  "original_sdk_source_unchanged": true,
+  "data_file_count": 3,
+  "generation_manifest_sha256": "15b77b3d29ed3423bea7fd1488c4c32401d8073fbca5ca97e8f5fcbcbc9c53d2"
+}

@@ -63,6 +63,8 @@ def load_policy(root: Path) -> dict[str, Any]:
     actual = {p.parent.relative_to(root).as_posix() for p in package_configs(root)}
     if actual != set(paths):
         raise ValueError("Architecture paths must cover exactly the workspace packages")
+    if not set(architecture["independent_paths"]) <= set(architecture["shared_paths"]):
+        raise ValueError("Independent paths must be declared shared workspace packages")
     return policy
 
 
@@ -183,7 +185,9 @@ def check_architecture(root: Path, policy: dict[str, Any]) -> list[str]:
     shared = architecture["shared_paths"]
     for relative, config in configs.items():
         forbidden_paths = (
-            [*adapters, *shared]
+            [p for p in configs if p != relative]
+            if relative in architecture["independent_paths"]
+            else [*adapters, *shared]
             if relative == core
             else adapters
             if relative in shared

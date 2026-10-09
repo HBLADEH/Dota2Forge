@@ -1,0 +1,163 @@
+{
+  "binary_paths_not_content_scanned": [
+    ".agents/artifacts/a4-layout-release-v1/cloud-submitted.png",
+    ".agents/artifacts/a4-layout-release-v1/hero-items-no-art-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/hero-items-no-art.png",
+    ".agents/artifacts/a4-layout-release-v1/hero-items-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/hero-items.png",
+    ".agents/artifacts/a4-layout-release-v1/match-1-no-art-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-1-no-art.png",
+    ".agents/artifacts/a4-layout-release-v1/match-1-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-1.png",
+    ".agents/artifacts/a4-layout-release-v1/match-2-no-art-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-2-no-art.png",
+    ".agents/artifacts/a4-layout-release-v1/match-2-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-2.png",
+    ".agents/artifacts/a4-layout-release-v1/match-3-no-art-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-3-no-art.png",
+    ".agents/artifacts/a4-layout-release-v1/match-3-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-3.png",
+    ".agents/artifacts/a4-layout-release-v1/match-4-no-art-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-4-no-art.png",
+    ".agents/artifacts/a4-layout-release-v1/match-4-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-4.png",
+    ".agents/artifacts/a4-layout-release-v1/match-missing-no-art-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-missing-no-art.png",
+    ".agents/artifacts/a4-layout-release-v1/match-missing-phone.png",
+    ".agents/artifacts/a4-layout-release-v1/match-missing.png",
+    ".agents/artifacts/hero-builds-v1/items-full-mobile.png",
+    ".agents/artifacts/hero-builds-v1/items-full.png",
+    ".agents/artifacts/hero-builds-v1/items-partial-mobile.png",
+    ".agents/artifacts/hero-builds-v1/items-partial.png",
+    ".agents/artifacts/hero-builds-v1/menu-admin-mobile.png",
+    ".agents/artifacts/hero-builds-v1/menu-admin.png",
+    ".agents/artifacts/hero-builds-v1/menu-mobile.png",
+    ".agents/artifacts/hero-builds-v1/menu.png",
+    ".agents/artifacts/image-interaction-v1/assets/preview-cjk.otf",
+    ".agents/artifacts/image-interaction-v1/production/detail-dire-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/detail-dire.png",
+    ".agents/artifacts/image-interaction-v1/production/detail-radiant-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/detail-radiant.png",
+    ".agents/artifacts/image-interaction-v1/production/menu-admin-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/menu-admin.png",
+    ".agents/artifacts/image-interaction-v1/production/menu-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/menu.png",
+    ".agents/artifacts/image-interaction-v1/production/overview.png",
+    ".agents/artifacts/image-interaction-v1/production/player-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/player.png",
+    ".agents/artifacts/image-interaction-v1/production/recent-1-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/recent-1.png",
+    ".agents/artifacts/image-interaction-v1/production/recent-2-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/recent-2.png",
+    ".agents/artifacts/image-interaction-v1/production/recent-empty-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/recent-empty.png",
+    ".agents/artifacts/image-interaction-v1/production/status-mobile.png",
+    ".agents/artifacts/image-interaction-v1/production/status.png",
+    ".agents/artifacts/image-interaction-v1/samples/menu-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/menu.png",
+    ".agents/artifacts/image-interaction-v1/samples/overview.png",
+    ".agents/artifacts/image-interaction-v1/samples/player-missing-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/player-missing.png",
+    ".agents/artifacts/image-interaction-v1/samples/player-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/player.png",
+    ".agents/artifacts/image-interaction-v1/samples/recent-1-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/recent-1.png",
+    ".agents/artifacts/image-interaction-v1/samples/recent-2-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/recent-2.png",
+    ".agents/artifacts/image-interaction-v1/samples/recent-empty-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/recent-empty.png",
+    ".agents/artifacts/image-interaction-v1/samples/status-mobile.png",
+    ".agents/artifacts/image-interaction-v1/samples/status.png",
+    ".agents/artifacts/plugin-readmes-icon-v1/icon-preview.html",
+    ".agents/artifacts/plugin-readmes-icon-v1/icon-preview.png",
+    ".agents/artifacts/plugin-screenshots-v1/visual-qa.png",
+    ".agents/artifacts/readable-cards-v1/hero-items-no-art-phone.png",
+    ".agents/artifacts/readable-cards-v1/hero-items-no-art.png",
+    ".agents/artifacts/readable-cards-v1/hero-items-phone.png",
+    ".agents/artifacts/readable-cards-v1/hero-items.png",
+    ".agents/artifacts/readable-cards-v1/match-1-no-art-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-1-no-art.png",
+    ".agents/artifacts/readable-cards-v1/match-1-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-1.png",
+    ".agents/artifacts/readable-cards-v1/match-2-no-art-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-2-no-art.png",
+    ".agents/artifacts/readable-cards-v1/match-2-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-2.png",
+    ".agents/artifacts/readable-cards-v1/match-3-no-art-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-3-no-art.png",
+    ".agents/artifacts/readable-cards-v1/match-3-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-3.png",
+    ".agents/artifacts/readable-cards-v1/match-4-no-art-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-4-no-art.png",
+    ".agents/artifacts/readable-cards-v1/match-4-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-4.png",
+    ".agents/artifacts/readable-cards-v1/match-missing-no-art-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-missing-no-art.png",
+    ".agents/artifacts/readable-cards-v1/match-missing-phone.png",
+    ".agents/artifacts/readable-cards-v1/match-missing.png",
+    ".agents/artifacts/subscriptions-host-v1/menu-390.png",
+    ".agents/artifacts/subscriptions-host-v1/menu-admin-390.png",
+    ".agents/artifacts/subscriptions-host-v1/menu-admin.png",
+    ".agents/artifacts/subscriptions-host-v1/menu.png"
+  ],
+  "binary_scope_limit": "Historical tracked artifact PNGs and font were inventoried, not OCR reviewed; none is changed or newly added by this source working tree.",
+  "changed_or_new_binary_paths": [],
+  "findings": [
+    {
+      "category": "credential_assignment",
+      "lines": [
+        51
+      ],
+      "path": "tests/assets/test_http_validation.py",
+      "scope": "test_or_synthetic_fixture"
+    },
+    {
+      "category": "url_embedded_credentials",
+      "lines": [
+        20
+      ],
+      "path": "tests/assets/test_http_validation.py",
+      "scope": "test_or_synthetic_fixture"
+    },
+    {
+      "category": "credential_assignment",
+      "lines": [
+        25
+      ],
+      "path": "tests/dota2uid/test_install_and_bridge.py",
+      "scope": "test_or_synthetic_fixture"
+    },
+    {
+      "category": "url_embedded_credentials",
+      "lines": [
+        218,
+        574
+      ],
+      "path": "tests/test_gscore_bundled_runtime.py",
+      "scope": "test_or_synthetic_fixture"
+    },
+    {
+      "category": "url_embedded_credentials",
+      "lines": [
+        74
+      ],
+      "path": "tests/test_gscore_public_runtime.py",
+      "scope": "test_or_synthetic_fixture"
+    }
+  ],
+  "findings_review": "All five pattern groups are deliberate synthetic or negative-test fixtures; no credential value, complete real platform identity or raw chat event was found in scanned text.",
+  "operational_metadata_review": [
+    {
+      "category": "unnecessary unrelated container topology and local connection-source/key-basename metadata",
+      "path": ".agents/artifacts/dota2uid-bundled-release-v1/remote-connection-preflight.json",
+      "recommendation": "Retain bot-relevant booleans and target hash; remove unrelated container inventory and local operational paths before a public source PR."
+    },
+    {
+      "category": "local host path/process inventory, configuration presence flags and fingerprints",
+      "path": ".agents/artifacts/dota2uid-bundled-release-v1/host-preflight.json",
+      "recommendation": "No credentials or identity values found; retain only evidence needed for deployment and data-preservation checks."
+    }
+  ],
+  "privacy": "Matched values and contents are intentionally excluded.",
+  "text_files_scanned": 301
+}

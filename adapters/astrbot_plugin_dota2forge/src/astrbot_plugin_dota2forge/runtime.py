@@ -2,11 +2,13 @@
 
 import asyncio
 import logging
-from collections.abc import Callable, Mapping
+from collections.abc import Awaitable, Callable, Mapping
 from enum import StrEnum
 from pathlib import Path
 
 import httpx
+from dota2forge_assets import ASSET_COMMANDS, AssetError, AssetSession, AssetStatus
+from dota2forge_assets.session import ManagerFactory
 from dota2forge_core import (
     Dota2Service,
     HeroItemService,
@@ -25,7 +27,7 @@ from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog
 from dota2forge_core.infrastructure.opendota import OpenDotaProvider
 from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
 from dota2forge_core.infrastructure.stratz import StratzProvider
-from dota2forge_renderer import AsyncRenderer, PillowRenderer
+from dota2forge_renderer import AsyncRenderer, MenuCard, PillowRenderer, RenderError
 
 from .application import AstrApplication, AstrSend, AstrTextReply
 from .commands import AstrCommandError, parse_command
@@ -64,11 +66,15 @@ class Runtime:
         *,
         client_factory: Callable[[], httpx.AsyncClient] = make_client,
         renderer_factory: Callable[[], AsyncRenderer] | None = None,
+        asset_manager_factory: ManagerFactory | None = None,
     ) -> None:
         self._raw_config = dict(raw_config)
         self._data_dir = data_dir
         self._client_factory = client_factory
         self._renderer_factory = renderer_factory
+        self._asset_manager_factory = asset_manager_factory
+        self._assets: AssetSession | None = None
+        self._namespace = "astrbot-local"
         self._state = State.NEW
         self._config: Config | None = None
         self._client: httpx.AsyncClient | None = None
@@ -101,6 +107,45 @@ class Runtime:
     def client_closed(self) -> bool:
         return self._client is None or self._client.is_closed
 
+    @property
+    def asset_status(self) -> AssetStatus:
+        return self._assets.status() if self._assets is not None else AssetStatus("checking")
+
+    async def _start_assets(self, config: Config) -> None:
+        self._namespace = config.namespace
+        self._assets = AssetSession(
+            config.assets,
+            self._data_dir / "illustrations",
+            self._activate_assets,
+            manager_factory=self._asset_manager_factory,
+        )
+        await self._assets.start()
+
+    async def _activate_assets(self, path: Path, commit: Callable[[], Awaitable[None]]) -> None:
+        if self._state == State.AWAITING_CONFIG:
+            await commit()
+            return
+        if self._state != State.READY or self._application is None or self._config is None:
+            raise AssetError("closed")
+        if self._config.reply_mode == "text":
+            await commit()
+            return
+        candidate = AsyncRenderer(PillowRenderer(illustration_path=path))
+        installed = False
+        try:
+            await candidate.render(MenuCard())
+            await self._application.replace_renderer(
+                candidate,
+                commit,
+                lambda: self._state == State.READY,
+            )
+            installed = True
+        except RenderError:
+            raise AssetError("renderer") from None
+        finally:
+            if not installed:
+                await candidate.close()
+
     async def start(self) -> None:
         if self._state == State.NEW:
             self._state = State.STARTING
@@ -114,6 +159,7 @@ class Runtime:
         ready = False
         try:
             config = load_config(self._raw_config, self._data_dir)
+            await self._start_assets(config)
             await asyncio.to_thread(config.database.parent.mkdir, parents=True, exist_ok=True)
             repository = SQLiteBindingRepository(config.database)
             await repository.initialize()
@@ -128,7 +174,11 @@ class Runtime:
                 renderer = (
                     self._renderer_factory()
                     if self._renderer_factory is not None
-                    else AsyncRenderer(PillowRenderer(illustration_path=config.illustration_path))
+                    else AsyncRenderer(
+                        PillowRenderer(
+                            illustration_path=self._assets.path if self._assets else None
+                        )
+                    )
                 )
             bindings = Dota2Service(repository, provider, provider, clock)
             application = AstrApplication(
@@ -163,8 +213,12 @@ class Runtime:
             self._state = State.READY
             ready = True
             LOGGER.info("lifecycle state=ready reply_mode=%s", config.reply_mode)
-        except ConfigurationPending:
+        except ConfigurationPending as pending:
             if self._state == State.STARTING:
+                if pending.config is not None:
+                    await self._start_assets(pending.config)
+                if self._state != State.STARTING:
+                    return
                 self._state = State.AWAITING_CONFIG
                 LOGGER.info("lifecycle state=awaiting_config")
         except (
@@ -173,6 +227,7 @@ class Runtime:
             SubscriptionRepositoryError,
             OSError,
             ValidationError,
+            AssetError,
         ) as error:
             LOGGER.warning("lifecycle state=failed error_type=%s", type(error).__name__)
         finally:
@@ -186,6 +241,11 @@ class Runtime:
                         await client.aclose()
                 if self._state == State.STARTING:
                     self._state = State.FAILED
+            if self._assets is not None:
+                if self._state in {State.READY, State.AWAITING_CONFIG}:
+                    await self._assets.auto_prepare()
+                else:
+                    await self._assets.close()
 
     async def dispatch(self, caller: Caller, keyword: str, text: str, send: AstrSend) -> None:
         if self._state in {State.STOPPING, State.STOPPED}:
@@ -210,9 +270,13 @@ class Runtime:
     async def _dispatch(self, caller: Caller, keyword: str, text: str, send: AstrSend) -> None:
         await self.start()
         try:
-            identity = caller.identity(self._config.namespace if self._config else "astrbot-local")
+            identity = caller.identity(self._namespace)
         except InvalidIdentityError:
             await send(AstrTextReply("无法确认调用者身份或包含 @ 他人；本次操作未执行。"))
+            return
+        if keyword in ASSET_COMMANDS and self._assets is not None:
+            message = await self._assets.handle(keyword, text, is_admin=caller.is_admin is True)
+            await send(AstrTextReply(message))
             return
         if self._state != State.READY or self._application is None:
             await send(
@@ -277,6 +341,8 @@ class Runtime:
                 await self._start_task
         finally:
             try:
+                if self._assets is not None:
+                    await self._assets.close()
                 if self._application is not None:
                     if self._subscriptions is not None:
                         await self._subscriptions.close()

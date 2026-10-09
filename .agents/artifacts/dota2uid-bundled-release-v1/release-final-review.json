@@ -1,0 +1,305 @@
+{
+  "all_checks_passed": true,
+  "candidate": "dist/plugin-distributions/a6-release-v2",
+  "checks": {
+    "a4_core_renderer_unchanged": true,
+    "all_mit_license_texts_match": true,
+    "all_output_hashes_match": true,
+    "all_pinned_link_targets_exist_at_commit": true,
+    "all_wheel_hashes_and_sources_match": true,
+    "below_16_million_bytes": true,
+    "bundled_install_links_pinned_with_exact_external_exception": true,
+    "complete_output_set_matches_manifest": true,
+    "deployment_manifest_link_matches": true,
+    "exact_17_plugin_files": true,
+    "expected_versions": true,
+    "four_component_allowlist": true,
+    "installation_local_links_present": true,
+    "legacy_entry_files_absent": true,
+    "manifest_source_ref_matches_commit": true,
+    "no_cross_wheel_entry_collisions": true,
+    "no_symlinks": true,
+    "public_source_commit_available": true,
+    "renderer_ofl_copies_match": true,
+    "reproduction_byte_identical": true,
+    "runtime_fixed_repo_and_tag": true,
+    "source_ledger_matches_working_bytes": true,
+    "source_readme_links_pinned": true,
+    "third_party_dependencies_only": true,
+    "tracked_source_matches_commit_after_git_clean_filter": true,
+    "zip_deterministic_metadata": true,
+    "zip_exactly_matches_17_files": true
+  },
+  "external_actions": "Read-only GitHub commit and existing a4 Release metadata queries; no push, release mutation, host changes, source changes or candidate modification.",
+  "legacy_generated_files_to_delete": [
+    "_dota2forge_bootstrap.py",
+    "install_runtime.py"
+  ],
+  "optional_source_archives": [
+    {
+      "bytes": 16361,
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "sha256": "c8c65d9e23e0b7a51f1de02183f004152ae8b6980dc1505143cd25c7a6b3477e"
+    },
+    {
+      "bytes": 47789,
+      "filename": "dota2forge_core-0.1.0a4.tar.gz",
+      "sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77"
+    },
+    {
+      "bytes": 13718574,
+      "filename": "dota2forge_renderer-0.1.0a4.tar.gz",
+      "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034"
+    },
+    {
+      "bytes": 30285,
+      "filename": "dota2uid-0.1.0a6.tar.gz",
+      "sha256": "206c06e4c4c540d31c717a18d6056cabf755c54ab834a800782299771e371a56"
+    }
+  ],
+  "output_ledger_mismatch": [],
+  "pinned_source_link_paths": [
+    ".agents/artifacts/dota2uid-bundled-release-v1/README.md",
+    ".agents/artifacts/gscore-current-deployment-v1/README.md",
+    ".agents/tasks/done/2026-10-08-dota2uid-bundled-bootstrap.md",
+    "README.md",
+    "adapters/Dota2UID/README.md",
+    "docs/assets/screenshots/README.md",
+    "docs/cookbook/gscore-public-install.md",
+    "docs/cookbook/illustrations.md",
+    "docs/cookbook/plugin-release.md",
+    "docs/cookbook/plugin-showcase.md",
+    "docs/cookbook/subscriptions.md"
+  ],
+  "pinned_source_link_paths_missing_at_commit": [],
+  "plugin_files": [
+    {
+      "bytes": 1627903,
+      "filename": "ICON.png",
+      "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059"
+    },
+    {
+      "bytes": 4148,
+      "filename": "INSTALL.md",
+      "sha256": "95bd3a92eedea0987132ce7a43f3376cd0c473ab2ac380ab3fbebceaf274ae6d"
+    },
+    {
+      "bytes": 1080,
+      "filename": "LICENSE",
+      "sha256": "9567fb54f833d13b9cce4a7dc6d198c1d9678d6d7de37072384182bccaa38ca2"
+    },
+    {
+      "bytes": 8790,
+      "filename": "README.md",
+      "sha256": "9e8f025d3e28e7bd27d2272f872ed038bf79a66fded3ca4db262cdb62ba4a870"
+    },
+    {
+      "bytes": 15004,
+      "filename": "__init__.py",
+      "sha256": "14769a412eda0a0f2a9b44efa90467e13c7bd28eabbca93185ab573fb187e2e4"
+    },
+    {
+      "bytes": 4100,
+      "filename": "_dota2forge_business.py",
+      "sha256": "8e64bf069f5f5c6363d4452fb4900537184462cd88defd30f5dd4112ff2943af"
+    },
+    {
+      "bytes": 38075,
+      "filename": "_dota2forge_runtime.py",
+      "sha256": "430abf63e1ed9043c65c5aba3f91a23e1a7a53cd8ac3588ace9ad814ea3b6960"
+    },
+    {
+      "bytes": 649,
+      "filename": "config.example.toml",
+      "sha256": "1384b33b7fbea6dab2f51ec3b776b2ce6e2460335ede0a449fb2e4304a379f62"
+    },
+    {
+      "bytes": 136,
+      "filename": "deployment.json",
+      "sha256": "60f5380dc51ff9d87a9cfe3677c5d359a59173d99a36ad3b1f6abe34c5ea5b64"
+    },
+    {
+      "bytes": 142,
+      "filename": "pyproject.toml",
+      "sha256": "55df885ed35829f2dce93ab76fdd4a81360ecb53766501a3a286ca81f8ffb633"
+    },
+    {
+      "bytes": 205,
+      "filename": "release.json",
+      "sha256": "94379e47e1b4e51b37b07750f0007f25f7309295125ed30ffe484ab0b485f29a"
+    },
+    {
+      "bytes": 834,
+      "filename": "runtime-wheels.json",
+      "sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a"
+    },
+    {
+      "bytes": 21057,
+      "filename": "runtime-wheels/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662"
+    },
+    {
+      "bytes": 67453,
+      "filename": "runtime-wheels/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+    },
+    {
+      "bytes": 13727339,
+      "filename": "runtime-wheels/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "bytes": 31941,
+      "filename": "runtime-wheels/dota2uid-0.1.0a6-py3-none-any.whl",
+      "sha256": "a818e59e6bbc64a93713f08b248cfc4cdbed8ab6df42526197f1d66a4f50cd28"
+    },
+    {
+      "bytes": 302705,
+      "filename": "screenshots/hero-items.png",
+      "sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde"
+    }
+  ],
+  "previous_candidate_review": "release-candidate-review-v1.json",
+  "public_source_commit_url": "https://github.com/HBLADEH/Dota2Forge/commit/f585ed310d6dd444c9046fba9fb8313ffc90c193",
+  "reproduction_mismatch": [],
+  "required_release_assets": [
+    "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+    "dota2forge_core-0.1.0a4-py3-none-any.whl",
+    "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+    "dota2uid-0.1.0a6-py3-none-any.whl",
+    "Dota2UID.zip"
+  ],
+  "review_time": "2026-10-08T09:28:49.625876+08:00",
+  "root_dependency_constraints": [
+    "httpx>=0.28.1,<1",
+    "pillow>=11.3,<13"
+  ],
+  "source_branch": "codex/dota2uid-bundled-release",
+  "source_commit": "f585ed310d6dd444c9046fba9fb8313ffc90c193",
+  "source_provenance": {
+    "committed_source_mismatch": [],
+    "git_checkout_normalization_note": "source_sha256 hashes exact Windows checkout bytes; committed source equivalence verified with git clean filters, with CRLF/LF differences separately checked against commit blobs.",
+    "newline_normalized_count": 75,
+    "source_ledger_count": 109,
+    "tracked_source_count": 104,
+    "wheel_inputs": [
+      "dist/astrbot_plugin_dota2forge-0.1.0a8-py3-none-any.whl",
+      "dist/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "dist/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "dist/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "dist/dota2uid-0.1.0a6-py3-none-any.whl"
+    ],
+    "working_bytes_mismatch": []
+  },
+  "validation_limits": [
+    "Artifact and source review only. Anonymous a6 release downloads, production deployment and real chat delivery need separate evidence."
+  ],
+  "versions": {
+    "dota2forge-assets": "0.1.0a1",
+    "dota2forge-core": "0.1.0a4",
+    "dota2forge-renderer": "0.1.0a4",
+    "dota2uid": "0.1.0a6"
+  },
+  "wheel_reviews": [
+    {
+      "a4_public_digest_matches": null,
+      "bytes": 21057,
+      "dist_input_matches": true,
+      "entry_count": 14,
+      "expanded_bytes": 62250,
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "fixed_recovery_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "font_ofl_copies_match": null,
+      "license_expression": "MIT",
+      "license_paths": [
+        "dota2forge_assets-0.1.0a1.dist-info/licenses/LICENSE"
+      ],
+      "manifest_matches": true,
+      "mit_license_matches_repository": true,
+      "project": "dota2forge-assets",
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662",
+      "source_package_files_match": true,
+      "source_package_files_mismatch": [],
+      "strict_validation_passed": true,
+      "unchanged_from_v1": false,
+      "version": "0.1.0a1"
+    },
+    {
+      "a4_public_digest_matches": true,
+      "bytes": 67453,
+      "dist_input_matches": true,
+      "entry_count": 39,
+      "expanded_bytes": 249162,
+      "filename": "dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "fixed_recovery_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "font_ofl_copies_match": null,
+      "license_expression": "MIT",
+      "license_paths": [
+        "dota2forge_core-0.1.0a4.dist-info/licenses/LICENSE"
+      ],
+      "manifest_matches": true,
+      "mit_license_matches_repository": true,
+      "project": "dota2forge-core",
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68",
+      "source_package_files_match": true,
+      "source_package_files_mismatch": [],
+      "strict_validation_passed": true,
+      "unchanged_from_v1": true,
+      "version": "0.1.0a4"
+    },
+    {
+      "a4_public_digest_matches": true,
+      "bytes": 13727339,
+      "dist_input_matches": true,
+      "entry_count": 21,
+      "expanded_bytes": 16880567,
+      "filename": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "fixed_recovery_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "font_ofl_copies_match": true,
+      "license_expression": "MIT",
+      "license_paths": [
+        "dota2forge_renderer-0.1.0a4.dist-info/licenses/LICENSE",
+        "dota2forge_renderer-0.1.0a4.dist-info/licenses/src/dota2forge_renderer/assets/v1/OFL.txt"
+      ],
+      "manifest_matches": true,
+      "mit_license_matches_repository": true,
+      "project": "dota2forge-renderer",
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6",
+      "source_package_files_match": true,
+      "source_package_files_mismatch": [],
+      "strict_validation_passed": true,
+      "unchanged_from_v1": true,
+      "version": "0.1.0a4"
+    },
+    {
+      "a4_public_digest_matches": null,
+      "bytes": 31941,
+      "dist_input_matches": true,
+      "entry_count": 17,
+      "expanded_bytes": 101403,
+      "filename": "dota2uid-0.1.0a6-py3-none-any.whl",
+      "fixed_recovery_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2uid-0.1.0a6-py3-none-any.whl",
+      "font_ofl_copies_match": null,
+      "license_expression": "MIT",
+      "license_paths": [
+        "dota2uid-0.1.0a6.dist-info/licenses/LICENSE"
+      ],
+      "manifest_matches": true,
+      "mit_license_matches_repository": true,
+      "project": "dota2uid",
+      "sha256": "a818e59e6bbc64a93713f08b248cfc4cdbed8ab6df42526197f1d66a4f50cd28",
+      "source_package_files_match": true,
+      "source_package_files_mismatch": [],
+      "strict_validation_passed": true,
+      "unchanged_from_v1": true,
+      "version": "0.1.0a6"
+    }
+  ],
+  "zip": {
+    "bytes": 15690004,
+    "entry_count": 17,
+    "filename": "Dota2UID.zip",
+    "headroom_to_16_million_bytes": 309996,
+    "sha256": "21bd7f8960d38ae3500e474a8fbfb3f2abbe398ad6549fc0cff6e0aeba326e7b"
+  }
+}

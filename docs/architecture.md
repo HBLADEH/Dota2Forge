@@ -1,16 +1,18 @@
 # Dota2Forge 当前架构
 
-仓库采用 Python 3.12+ 与 uv workspace。四个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
+仓库采用 Python 3.12+ 与 uv workspace。五个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
-当前四包为0.1.0a4预览版源码；双端a4已公开预览，发布/审核状态见[发行任务](../.agents/tasks/done/2026-10-06-a4-layout-release.md)。显式[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、锁定依赖及校验清单，不复制业务源码、不执行宿主。生成入口早期核对Python/项目库版本；两端新增awaiting_config，合法空Token等待本机配置后重载。公开分发和真实商店安装仍待验收，见[发行步骤](cookbook/plugin-release.md)。
+当前源码版本为 Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a6；新增自动素材和GsCore随包安装功能尚未公开发布。已公开 AstrBot a7 的依赖修复及手动素材部署见[修复任务](../.agents/tasks/done/2026-10-07-astrbot-store-dependency-fix.md)。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查 Python/组件版本；合法空 Token 等待业务配置，仍可按设置准备公共素材。
+
+GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。业务延后导入，遇到旧模块来源拒绝切换；运行中修复须冷启动，宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包指南](cookbook/gscore-bundled-install.md)。
 
 ```text
-astrbot_plugin_dota2forge ──┐
-                          ├──依赖──> dota2forge_core
-Dota2UID ────────┐
-                 ├──依赖──> dota2forge_renderer ──> dota2forge_core
-                 └────────> dota2forge_core
+AstrBot / Dota2UID ──> Core（业务与端口）
+                  ├─> Renderer ──> Core
+                  └─> Assets（公共素材 HTTP 与文件，无其他项目包依赖）
 ```
+
+Assets 是独立素材基础设施，两个适配器持有生命周期、代理和权限，不进入 Core 业务，也不让 Renderer 联网。默认首次图片模式后台准备；自定义路径优先、完整快照无网络、按文件补缺与独立部分失败。OS 租约和不可变 generation/current.json 保证单写与完整恢复；两端整组绘图/发送锁内换 Renderer，关闭等待请求和线程。见[素材契约](subsystems/assets.md)。
 
 Core 已包含严格身份/比赛 ID 值、绑定/查询用例、独立 MatchDetailService、异步 Provider/Repository 端口、文件型 SQLite 仓库，以及STRATZ/OpenDota玩家/最近比赛/按ID详情Provider。基础安装无必选运行依赖，联网实现分别使用stratz/opendota extra中的httpx。领域与用例不读取环境、执行 SQL 或访问 HTTP；SQLite、缓存、时钟与专用 HTTP 客户端由组合入口显式构造、注入和关闭。
 
@@ -26,7 +28,7 @@ Core订阅提供玩家新比赛、指定比赛完成报告、段位变化及北�
 
 治理配置与检查器覆盖实际 workspace 包配置、Python 静态及常量动态导入、依赖声明、文档长度、链接、决策记录和包参考漂移。检查器使用配置指定的显式包路径，导入名由各包 Hatchling 配置解析。
 
-测试禁用网络；Core 与治理工具分别执行 80% 覆盖率门槛。独立构建和干净环境导入用于验证产物边界，包的可构建性不代表插件能被宿主加载。SQLite 每次操作关闭连接，异步用例不启动常驻任务；具体错误、幂等和取消语义见 Core 契约。
+测试禁用网络；Core、治理工具与 Assets 分别执行 80% 覆盖率门槛。独立构建和干净环境导入用于验证产物边界，包的可构建性不代表插件能被宿主加载。SQLite 每次操作关闭连接，异步用例不启动常驻任务；具体错误、幂等和取消语义见 Core 契约。
 
 - [包参考](generated/packages.md)
 - [治理契约](subsystems/governance.md)

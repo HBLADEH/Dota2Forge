@@ -1,0 +1,11 @@
+{
+  "changed_keys": [
+    "illustration_path"
+  ],
+  "illustration_path": "illustrations-store-v1",
+  "token_preserved": true,
+  "other_config_preserved": true,
+  "backup_private_on_server": true,
+  "backup_mode": "0600",
+  "restart_since": "2026-10-06T20:17:20.194261+00:00"
+}

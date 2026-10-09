@@ -1,3 +1,8 @@
-astrbot-plugin-dota2forge==0.1.0a6
+# Development bridge: install matching local wheels before loading.
+# Public store requirements are generated as fixed Release URLs with SHA256.
+astrbot-plugin-dota2forge[stratz]==0.1.0a8
+dota2forge-core[stratz]==0.1.0a4
+dota2forge-renderer==0.1.0a4
+dota2forge-assets==0.1.0a1
 httpx>=0.28.1,<1
 pillow>=11.3,<13
