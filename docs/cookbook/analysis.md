@@ -12,7 +12,7 @@ analysis = await MatchAnalysisService(provider).get_match_analysis(match_id)
 
 `PurchaseEvent` 的 `time_seconds` 是来源比赛时钟的有符号整数，负数表示赛前购买，不能丢弃或改成零；item ID/key 可能只有一项，不能用名称反查补全。`purchases=()` 是已知空列表，`purchases=None` 是缺失或未请求。
 
-IMP、averageImp、award 等专有模型输出没有进入公共契约。独立基础详情服务不要求分析；双端 `do比赛` 在基础详情可用时追加分析，并展示经济序列和购买事件计数，分析失败仍返回来源错误。报告中的表现候选来自已观察的 K/D/A 等基础字段，不是官方 MVP。
+STRATZ IMP原样保存于MatchParticipant，双端 `do比赛` 展示本局最高正分/最低负分及K/D/A、参战率、经济、伤害/治疗依据。IMP无公开模型版本，不换算MMR/胜率/官方MVP；averageImp、award仍未实现。STRATZ比赛优势序列按-60秒首区间及60秒间隔保留有符号值；分析失败仍返回来源错误。
 
 普通验证：
 

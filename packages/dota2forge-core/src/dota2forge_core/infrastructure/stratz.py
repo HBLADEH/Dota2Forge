@@ -52,7 +52,9 @@ query Dota2ForgeMatchDetail($matchId: Long!) {
       playerSlot steamAccountId steamAccount { id name }
       isRadiant heroId kills deaths assists goldPerMinute experiencePerMinute
       level numLastHits numDenies networth heroDamage towerDamage heroHealing
+      imp position lane
       item0Id item1Id item2Id item3Id item4Id item5Id
+      backpack0Id backpack1Id backpack2Id neutral0Id
     }
   }
 }
@@ -61,7 +63,7 @@ query Dota2ForgeMatchDetail($matchId: Long!) {
 MATCH_ANALYSIS_QUERY = """
 query Dota2ForgeMatchAnalysis($matchId: Long!) {
   match(id: $matchId) {
-    id
+    id radiantNetworthLeads radiantExperienceLeads
     players {
       playerSlot
       steamAccountId

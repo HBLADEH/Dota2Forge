@@ -18,6 +18,6 @@ def participant_stats_text(player: MatchParticipant) -> str:
 
 def participant_items_text(player: MatchParticipant) -> str:
     return "装备：" + " / ".join(
-        "未知" if item is None else "空槽" if item == 0 else f"{item_name(item)}（{item}）"
+        "未知" if item is None else "" if item == 0 else f"{item_name(item)}（{item}）"
         for item in player.item_ids
     )

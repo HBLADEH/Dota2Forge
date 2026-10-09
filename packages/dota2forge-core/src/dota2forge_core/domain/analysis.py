@@ -13,6 +13,8 @@ class MetricSemantic(StrEnum):
     NETWORTH_LEVEL = "networth_level"
     COLLECTED_GOLD = "collected_gold"
     EXPERIENCE_TOTAL = "experience_total"
+    RADIANT_NETWORTH_LEAD = "radiant_networth_lead"
+    RADIANT_EXPERIENCE_LEAD = "radiant_experience_lead"
 
 
 @dataclass(frozen=True, slots=True)
@@ -30,11 +32,22 @@ class MetricSeries:
             raise ValidationError("Expected a known metric semantic")
         if not isinstance(self.values, tuple) or len(self.values) > 360:
             raise ValidationError("Expected a bounded immutable metric series")
-        require_nonnegative(self.start_seconds)
+        if type(self.start_seconds) is not int:
+            raise ValidationError("Expected an integer metric start")
+        lead = self.semantic in {
+            MetricSemantic.RADIANT_NETWORTH_LEAD,
+            MetricSemantic.RADIANT_EXPERIENCE_LEAD,
+        }
+        if not lead:
+            require_nonnegative(self.start_seconds)
         if type(self.interval_seconds) is not int or self.interval_seconds <= 0:
             raise ValidationError("Expected a positive metric interval")
         for value in self.values:
-            require_nonnegative(value)
+            if lead:
+                if type(value) is not int:
+                    raise ValidationError("Expected an integer team lead")
+            else:
+                require_nonnegative(value)
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,6 +95,15 @@ class ParticipantAnalysis:
             raise ValidationError("Expected unique immutable analysis metrics")
         if not all(isinstance(metric, MetricSeries) for metric in self.metrics):
             raise ValidationError("Expected validated analysis metrics")
+        if any(
+            metric.semantic
+            in {
+                MetricSemantic.RADIANT_NETWORTH_LEAD,
+                MetricSemantic.RADIANT_EXPERIENCE_LEAD,
+            }
+            for metric in self.metrics
+        ):
+            raise ValidationError("Team advantage is not a participant metric")
         if self.purchases is not None and (
             not isinstance(self.purchases, tuple)
             or len(self.purchases) > 1024
@@ -95,6 +117,7 @@ class MatchAnalysis:
     match_id: MatchId
     metadata: DataMetadata
     participants: tuple[ParticipantAnalysis, ...] | None
+    team_metrics: tuple[MetricSeries, ...] = ()
 
     def __post_init__(self) -> None:
         if not isinstance(self.match_id, MatchId) or not isinstance(self.metadata, DataMetadata):
@@ -115,6 +138,23 @@ class MatchAnalysis:
         ]
         if len(set(accounts)) != len(accounts):
             raise ValidationError("Duplicate analysis participant account")
+        if (
+            not isinstance(self.team_metrics, tuple)
+            or len(self.team_metrics) > 2
+            or any(
+                not isinstance(metric, MetricSeries)
+                or metric.semantic
+                not in {
+                    MetricSemantic.RADIANT_NETWORTH_LEAD,
+                    MetricSemantic.RADIANT_EXPERIENCE_LEAD,
+                }
+                for metric in self.team_metrics
+            )
+            or len({metric.semantic for metric in self.team_metrics}) != len(self.team_metrics)
+        ):
+            raise ValidationError("Expected distinct team advantage observations")
+        if self.team_metrics and self.metadata.source != DataSource.STRATZ:
+            raise ValidationError("Team lead semantics require STRATZ")
 
     @property
     def missing_fields(self) -> tuple[str, ...]:
