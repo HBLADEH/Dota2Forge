@@ -1,0 +1,28 @@
+{
+  "checked_on": "2026-10-09",
+  "match_id": 9035146588,
+  "source": "stratz",
+  "before": {
+    "detail_valid": true,
+    "player_count": 10,
+    "purchase_count": 235,
+    "negative_purchase_times": 48,
+    "minimum_purchase_time": -89,
+    "analysis_valid": false,
+    "analysis_error": "invalid_response",
+    "client_closed": true
+  },
+  "after": {
+    "detail_valid": true,
+    "player_count": 10,
+    "purchase_count": 235,
+    "negative_purchase_times": 48,
+    "minimum_purchase_time": -89,
+    "analysis_valid": true,
+    "mapped_purchase_count": 235,
+    "mapped_negative_purchase_times": 48,
+    "client_closed": true
+  },
+  "formal_host_updated": false,
+  "chat_verified": false
+}

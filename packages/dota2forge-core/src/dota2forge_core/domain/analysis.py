@@ -39,13 +39,20 @@ class MetricSeries:
 
 @dataclass(frozen=True, slots=True)
 class PurchaseEvent:
+    """A purchase at the source's signed match-clock timestamp.
+
+    STRATZ and OpenDota may report purchases queued before the match clock
+    reaches zero, so negative values are valid pre-game observations.
+    """
+
     time_seconds: int
     item_id: int | None = None
     item_key: str | None = field(default=None, repr=False)
     charges: int | None = None
 
     def __post_init__(self) -> None:
-        require_nonnegative(self.time_seconds)
+        if type(self.time_seconds) is not int:
+            raise ValidationError("Expected an integer purchase match-clock timestamp")
         require_nonnegative(self.item_id)
         require_nonnegative(self.charges)
         if self.item_key is not None and (

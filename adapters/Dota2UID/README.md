@@ -23,6 +23,8 @@
 
 随包 a7 已公开，增加[后台插件配置](../../docs/cookbook/gscore-configuration.md)；Token、素材与订阅可通过宿主参数页设置，旧 TOML 导入后保留。Assets a1 默认 image/auto 首次后台准备，完整快照无需联网；自定义 illustration_path 不覆盖，可设 manual/off。
 
+a8 随包 Core a5 修复比赛查询对赛前购买时间的误判，负时间按原值保留；`do比赛 9035146588` 的只读复测通过。[修复证据](../../.agents/artifacts/stratz-match-detail-response-v1/README.md)与[发行任务](../../.agents/tasks/active/2026-10-09-stratz-purchase-release.md)区分代码验证、公开发行和真机测试。更新项目运行库后须完整重启 GsCore，不能只热重载。
+
 bundled 分发随仓库提供匹配项目运行库，缺核心时保留 `do帮助` 文字提示及主人权限的 `do安装核心` / `do核心状态`；安装不写宿主全局环境，修复后冷启动启用。宿主 HTTPX/Pillow 须兼容，步骤见[随包安装指南](../../docs/cookbook/gscore-bundled-install.md)。下述公开安装流程仍适用于现有 a4 和薄分发。
 
 ## 丨安装与首次配置
