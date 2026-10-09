@@ -2,9 +2,9 @@
 
 仓库采用 Python 3.12+ 与 uv workspace。五个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
-当前源码版本为 Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a6；新增自动素材和GsCore随包安装功能尚未公开发布。已公开 AstrBot a7 的依赖修复及手动素材部署见[修复任务](../.agents/tasks/done/2026-10-07-astrbot-store-dependency-fix.md)。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查 Python/组件版本；合法空 Token 等待业务配置，仍可按设置准备公共素材。
+当前源码版本为Core a7、Renderer a5、Assets a1、AstrBot a9、Dota2UID a10。公开Dota2UID a9已有宽幅比赛报告；a10受控热切换仍是本地候选，见[实施任务](../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)。AstrBot现行公开a7的依赖修复及手动素材部署见[修复任务](../.agents/tasks/done/2026-10-07-astrbot-store-dependency-fix.md)。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
 
-GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。业务延后导入，遇到旧模块来源拒绝切换；运行中修复须冷启动，宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包指南](cookbook/gscore-bundled-install.md)。
+GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。公开a6–a9更新仍冷启动；本地a10以owner协议、独占租约、来源与数据兼容检查及完整任务排空实施整组热切换，准备/运行指针分开，失败保留或重建旧业务。Core SQLite取消等待已开始线程退出；宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包契约](subsystems/gscore-bundled-runtime.md)。
 
 ```text
 AstrBot / Dota2UID ──> Core（业务与端口）
@@ -22,7 +22,7 @@ Dota2UID 已有首个绑定/查询消费者：安全导入的 src 库包加显�
 
 已发送的最后战绩以128份/10分钟有界进程内状态保存，按部署/平台/机器人/用户/连接/群或私聊隔离；改绑/解绑/停用/重载失效。完整发送后才提交，失败不重发；页码不再查Provider，序号使用已保存ID。此状态属于适配器交互，不是来源数据缓存；见 [选择决策](../.agents/notes/implemented/2026-10-01-delivered-list-selection.md)。
 
-GsCore 本机版本的原生热重载/卸载不保证执行旧关闭钩子；Dota2UID 使用显式停用后再操作宿主的受控流程，不能把删除目录等同资源释放。实际安装和验证状态见 [宿主任务](../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)，操作见 [接入步骤](cookbook/dota2uid.md)。平台身份、权限、消息、配置和生命周期归适配器，账号规则保留在 Core。
+GsCore原生热重载/卸载不保证执行旧关闭钩子；公开版先停用，a10由跨重载owner主动等待旧关闭，旧版首次升级仍冷启动。卸载仍显式停用，不能把删除目录等同资源释放。a10实际SDK隔离验收与Linux/Docker/QQ未验证边界见[证据](../.agents/artifacts/dota2uid-hot-update-v1/README.md)；历史接入见[宿主任务](../.agents/tasks/done/2026-09-30-dota2uid-first-loop.md)。平台身份、权限、消息、配置和生命周期归适配器，账号规则保留在Core。
 
 Core订阅提供玩家新比赛、指定比赛完成报告、段位变化及北京时间每日有限观察战报；独立SQLite检查点/outbox/schema v3发送尝试，原子占用后投递，成功确认，不确定或取消不盲发。Core没有Scheduler或消息I/O；双端Runtime/桥接显式拥有计时器，默认关闭，群订阅要求当前Bot管理员。改绑/解绑先取消该身份旧订阅。AstrBot主动推送仅支持OneBot v11反向WebSocket；两端不跨库去重。详情/经济/购买分析和非官方MVP候选保留来源边界。日期、有限窗口、权限、重试和stop/reload边界见[订阅契约](subsystems/subscriptions.md)，实机进度见[Step13任务](../.agents/tasks/active/2026-10-02-subscriptions.md)。
 

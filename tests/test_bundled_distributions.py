@@ -114,6 +114,12 @@ def test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap(
     assert not (plugin / "_dota2forge_bootstrap.py").exists()
     assert not (plugin / "install_runtime.py").exists()
     assert "下述公开安装流程仍适用于现有 a4" not in (plugin / "README.md").read_text("utf-8")
+    readme = (plugin / "README.md").read_text("utf-8")
+    assert "兼容更新通过受控重载启用" in readme
+    assert "旧 a6–a9 首次升级本版须完整冷启动" in readme
+    assert "激活需要冷启动；" not in readme
+    assert "更新到匹配运行库后须完整冷启动" not in readme
+    assert "共享库更新后必须冷启动" not in readme
     assert (plugin / "__init__.py").read_bytes() == distribution.text_bytes(
         root / distribution.GS_ADAPTER_SOURCE / "bundled_host_entry.py.template"
     )
@@ -137,6 +143,13 @@ def test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap(
         "schema_version": 1,
         "mode": "bundled",
         "manifest_sha256": hashlib.sha256(manifest_data).hexdigest(),
+        "hot_reload": {
+            "protocol": 1,
+            "contract": bundled_runtime.HOT_RELOAD_CONTRACT,
+            "business_sha256": hashlib.sha256(
+                (plugin / "_dota2forge_business.py").read_bytes()
+            ).hexdigest(),
+        },
     }
     filenames = {wheel["filename"] for wheel in manifest["wheels"].values()}
     assert {p.name for p in (plugin / "runtime-wheels").iterdir()} == filenames
