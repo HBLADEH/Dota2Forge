@@ -6,7 +6,7 @@
 
 STRATZ 当前固定查询保存 `stats.networthPerMinute` 和 `stats.itemPurchases { time itemId }`。前者是来源标记为 per-minute 的净资产序列，按 60 秒间隔、0 秒起点保存为 `NETWORTH_LEVEL`；不能把它当作收入或简单求和。OpenDota 保存详情玩家的 `gold_t`、`xp_t` 和 `purchase_log`，分别标为 `COLLECTED_GOLD`、`EXPERIENCE_TOTAL` 和购买事件；它们不与 STRATZ 净资产序列拼接或互换。序列值、起点、间隔和来源始终保留。
 
-购买事件保留时间、来源提供的物品 ID 或 key、可选 charges；空列表表示来源明确返回没有事件，null 表示该字段缺失或未提供。匿名/未知账号只保留槽位和公开统计，不带昵称或身份推断。玩家最多十人，重复槽位、错误 ID、负时间、非法类型和超量序列失败为 `INVALID_RESPONSE`。
+购买事件保留来源比赛时钟（包括赛前负数）、来源提供的物品 ID 或 key、可选 charges；空列表表示来源明确返回没有事件，null 表示该字段缺失或未提供。匿名/未知账号只保留槽位和公开统计，不带昵称或身份推断。玩家最多十人，重复槽位、错误 ID、非法时间类型和超量序列失败为 `INVALID_RESPONSE`；时间须为整数且禁止 bool，赛前事件不删除或归零，见[决策](../../.agents/notes/implemented/2026-10-09-pregame-purchase-time.md)。
 
 ## IMP 边界
 

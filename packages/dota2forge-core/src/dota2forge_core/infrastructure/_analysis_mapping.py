@@ -65,7 +65,7 @@ def _purchase_events(values: object, failure: Failure) -> tuple[PurchaseEvent, .
             raise failure(ProviderErrorCode.INVALID_RESPONSE)
         row = value
         raw_time = row.get("time")
-        if type(raw_time) is not int or raw_time < 0:
+        if type(raw_time) is not int:
             raise failure(ProviderErrorCode.INVALID_RESPONSE)
         raw_id = row.get("itemId", row.get("item_id"))
         item_id = None if raw_id is None else raw_id if type(raw_id) is int and raw_id > 0 else None

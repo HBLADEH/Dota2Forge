@@ -93,6 +93,58 @@ def test_source_null_and_missing_analysis_are_distinct():
     assert isinstance(empty, MatchAnalysis) and empty.participants == ()
 
 
+@pytest.mark.parametrize("source", [DataSource.STRATZ, DataSource.OPENDOTA])
+def test_source_purchase_clocks_preserve_pregame_zero_and_ingame_events(source):
+    if source is DataSource.STRATZ:
+        payload = stratz_payload()
+        payload["data"]["match"]["players"][0]["stats"]["itemPurchases"] = [
+            {"time": time, "itemId": 1} for time in (-89, -1, 0, 35)
+        ]
+        result = stratz_analysis(payload, MATCH, META_STRATZ)
+    else:
+        payload = opendota_payload(
+            purchase_log=[{"time": time, "key": "item_blink"} for time in (-89, -1, 0, 35)]
+        )
+        result = opendota_analysis(payload, MATCH, META_OPENDOTA)
+    assert isinstance(result, MatchAnalysis)
+    assert result.metadata.source is source
+    assert tuple(event.time_seconds for event in result.participants[0].purchases) == (
+        -89,
+        -1,
+        0,
+        35,
+    )
+
+
+@pytest.mark.parametrize("source", [DataSource.STRATZ, DataSource.OPENDOTA])
+@pytest.mark.parametrize("time", [None, False, True, 1.5, "-89"])
+def test_purchase_time_invalid_types_remain_source_errors(source, time):
+    if source is DataSource.STRATZ:
+        payload = stratz_payload()
+        payload["data"]["match"]["players"][0]["stats"]["itemPurchases"] = [
+            {"time": time, "itemId": 1}
+        ]
+        mapper, metadata = stratz_analysis, META_STRATZ
+    else:
+        payload = opendota_payload(purchase_log=[{"time": time, "key": "item_blink"}])
+        mapper, metadata = opendota_analysis, META_OPENDOTA
+    with pytest.raises(ProviderError) as error:
+        mapper(payload, MATCH, metadata)
+    assert error.value.code is ProviderErrorCode.INVALID_RESPONSE
+    assert error.value.source is source
+
+
+@pytest.mark.parametrize("time", [-89, -1, 0, 35])
+def test_purchase_event_domain_preserves_signed_match_clock(time):
+    assert PurchaseEvent(time, item_id=1).time_seconds == time
+
+
+@pytest.mark.parametrize("time", [None, False, True, 1.5, "-89"])
+def test_purchase_event_domain_rejects_invalid_time_types(time):
+    with pytest.raises(ValidationError):
+        PurchaseEvent(time, item_id=1)
+
+
 @pytest.mark.parametrize(
     "payload, source",
     [
@@ -132,7 +184,7 @@ def test_source_null_and_missing_analysis_are_distinct():
                     {
                         "account_id": 123,
                         "player_slot": 0,
-                        "purchase_log": [{"time": -1, "key": "item"}],
+                        "purchase_log": [{"time": "bad", "key": "item"}],
                     }
                 ],
             },

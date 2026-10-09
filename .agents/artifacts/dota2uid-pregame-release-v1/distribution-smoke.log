@@ -1,0 +1,38 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-6gr8p3nt\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-6gr8p3nt\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-6gr8p3nt\venv
+Resolved 12 packages in 34ms
+Prepared 12 packages in 471ms
+Installed 12 packages in 166ms
+ + anyio==4.15.1
+ + astrbot-plugin-dota2forge==0.1.0a8
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1
+ + dota2forge-core==0.1.0a5
+ + dota2forge-renderer==0.1.0a4
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-x42b_58b\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-x42b_58b\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-x42b_58b\venv
+Resolved 8 packages in 4ms
+Prepared 8 packages in 215ms
+Installed 8 packages in 121ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: Dota2UID

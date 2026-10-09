@@ -230,7 +230,7 @@ requires-dist = [
 
 [[package]]
 name = "dota2forge-core"
-version = "0.1.0a4"
+version = "0.1.0a5"
 source = { editable = "packages/dota2forge-core" }
 
 [package.optional-dependencies]
@@ -302,7 +302,7 @@ dev = [
 
 [[package]]
 name = "dota2uid"
-version = "0.1.0a7"
+version = "0.1.0a8"
 source = { editable = "adapters/Dota2UID" }
 dependencies = [
     { name = "dota2forge-assets" },

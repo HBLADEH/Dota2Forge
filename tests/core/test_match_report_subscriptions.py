@@ -120,7 +120,7 @@ def completed_detail(provider, clock):
     )
 
 
-def completed_analysis(provider):
+def completed_analysis(provider, purchase_time=30):
     return MatchAnalysis(
         provider.match_id,
         provider.detail.metadata,
@@ -129,7 +129,7 @@ def completed_analysis(provider):
                 AccountId(123),
                 0,
                 (MetricSeries("networth", MetricSemantic.NETWORTH_LEVEL, (100, 200)),),
-                (PurchaseEvent(30, item_id=1),),
+                (PurchaseEvent(purchase_time, item_id=1),),
             ),
         ),
     )
@@ -149,8 +149,9 @@ def report_service(tmp_path, identity, clock, run_async):
     )
 
 
+@pytest.mark.parametrize("purchase_time", [-89, 30])
 def test_specific_match_waits_for_completion_then_persists_detail_analysis_and_candidate(
-    report_service, run_async
+    report_service, run_async, purchase_time
 ):
     service, provider, repository, identity, clock = report_service
     scope = SubscriptionScope.for_identity(identity)
@@ -162,7 +163,7 @@ def test_specific_match_waits_for_completion_then_persists_detail_analysis_and_c
         assert not await repository.pending(scope)
 
         provider.detail = completed_detail(provider, clock)
-        provider.analysis = completed_analysis(provider)
+        provider.analysis = completed_analysis(provider, purchase_time)
         clock.instant += timedelta(seconds=1)
         result = (await service.poll_match_reports(scope))[0]
         assert result.state == SubscriptionPollState.EVENTS
@@ -179,6 +180,7 @@ def test_specific_match_waits_for_completion_then_persists_detail_analysis_and_c
         assert isinstance(persisted, MatchReport)
         assert persisted.detail == event.payload.detail
         assert persisted.analysis == event.payload.analysis
+        assert persisted.analysis.participants[0].purchases[0].time_seconds == purchase_time
         again = (await service.poll_match_reports(scope))[0]
         assert again.state == SubscriptionPollState.UNCHANGED
         assert await service.list_subscriptions(identity) == (
