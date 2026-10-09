@@ -12,6 +12,7 @@ from dota2forge_core import (
 from dota2forge_core.domain.match_detail import MatchDetail
 
 from .formatting import rank_text, timestamp, value_text
+from .reporting import performance_lines
 
 
 def subscription_event_text(event: SubscriptionEvent) -> str:
@@ -79,7 +80,9 @@ def match_report_lines(report: MatchReport) -> list[str]:
         f"模式：{detail.game_mode or '未知'}"
     )
     candidate = report.performance_candidate
-    if candidate is None:
+    if report.imp_ranking:
+        lines.extend(performance_lines(report))
+    elif candidate is None:
         lines.append("表现候选：未知（参赛者胜负或 K/D/A 数据不足；Provider 未提供官方 MVP）。")
     else:
         account, slot = candidate

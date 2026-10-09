@@ -2,10 +2,19 @@
 
 from dataclasses import dataclass, field
 
-from dota2forge_core import AccountId, HeroItemStatistics, MatchDetail, PlayerProfile, RecentMatches
+from dota2forge_core import (
+    AccountId,
+    HeroItemStatistics,
+    MatchDetail,
+    MatchReport,
+    PlayerProfile,
+    RecentMatches,
+)
 
 WIDTH = 780
 MAX_HEIGHT = 1800
+REPORT_WIDTH = 1600
+MAX_REPORT_HEIGHT = 3200
 MAX_BYTES = 2 * 1024 * 1024
 PER_PAGE = 5
 DETAIL_PER_PAGE = 3
@@ -30,9 +39,9 @@ class ImageArtifact:
             or len(self.data) > MAX_BYTES
             or self.mime != "image/png"
             or type(self.width) is not int
-            or self.width != WIDTH
+            or self.width not in (WIDTH, REPORT_WIDTH)
             or type(self.height) is not int
-            or not 1 <= self.height <= MAX_HEIGHT
+            or not 1 <= self.height <= (MAX_HEIGHT if self.width == WIDTH else MAX_REPORT_HEIGHT)
         ):
             raise RenderError()
 
@@ -72,4 +81,18 @@ class MatchDetailCard:
     perspective: AccountId | None = field(default=None, repr=False)
 
 
-type Card = MenuCard | PlayerCard | HeroItemsCard | RecentMatchesCard | StatusCard | MatchDetailCard
+@dataclass(frozen=True, slots=True)
+class MatchReportCard:
+    report: MatchReport
+    page: int = 1
+
+
+type Card = (
+    MenuCard
+    | PlayerCard
+    | HeroItemsCard
+    | RecentMatchesCard
+    | StatusCard
+    | MatchDetailCard
+    | MatchReportCard
+)

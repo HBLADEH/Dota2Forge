@@ -85,8 +85,15 @@ def test_participant_preserves_zero_false_unknown_and_six_slots():
         "hero_damage",
         "tower_damage",
         "hero_healing",
+        "imp",
+        "position",
+        "lane",
+        "neutral_item_id",
         "item_ids[2]",
         "item_ids[4]",
+        "backpack_ids[0]",
+        "backpack_ids[1]",
+        "backpack_ids[2]",
     )
     assert "Synthetic" not in repr(player) and "123" not in repr(player)
 

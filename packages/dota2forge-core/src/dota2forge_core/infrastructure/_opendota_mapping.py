@@ -136,6 +136,8 @@ def participant(raw: object, match_id: MatchId) -> MatchParticipant:
         hero_damage=optional_integer(row.get("hero_damage")),
         tower_damage=optional_integer(row.get("tower_damage")),
         hero_healing=optional_integer(row.get("hero_healing")),
+        backpack_ids=tuple(optional_integer(row.get(f"backpack_{index}")) for index in range(3)),
+        neutral_item_id=optional_integer(row.get("item_neutral")),
         item_ids=tuple(optional_integer(row.get(f"item_{index}")) for index in range(6)),
     )
 

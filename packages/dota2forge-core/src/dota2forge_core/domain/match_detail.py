@@ -66,6 +66,11 @@ class MatchParticipant:
     hero_damage: int | None = None
     tower_damage: int | None = None
     hero_healing: int | None = None
+    imp: int | None = None
+    position: str | None = None
+    lane: str | None = None
+    backpack_ids: tuple[int | None, ...] = (None,) * 3
+    neutral_item_id: int | None = None
 
     def __post_init__(self) -> None:
         if self.account_id is not None and not isinstance(self.account_id, AccountId):
@@ -105,6 +110,17 @@ class MatchParticipant:
             raise ValidationError("Expected six immutable item slots")
         for item_id in self.item_ids:
             require_nonnegative(item_id)
+        if self.imp is not None and (type(self.imp) is not int or not -32768 <= self.imp <= 32767):
+            raise ValidationError("Expected a STRATZ signed short IMP observation")
+        for value in (self.position, self.lane):
+            if value is not None and (
+                not isinstance(value, str) or not re.fullmatch(r"[A-Z][A-Z0-9_]{0,63}", value)
+            ):
+                raise ValidationError("Expected an upstream role or lane enum")
+        if not isinstance(self.backpack_ids, tuple) or len(self.backpack_ids) != 3:
+            raise ValidationError("Expected three immutable backpack slots")
+        for item_id in (*self.backpack_ids, self.neutral_item_id):
+            require_nonnegative(item_id)
 
     @property
     def missing_fields(self) -> tuple[str, ...]:
@@ -129,11 +145,23 @@ class MatchParticipant:
                 "hero_damage",
                 "tower_damage",
                 "hero_healing",
+                "imp",
+                "position",
+                "lane",
+                "neutral_item_id",
             )
             if getattr(self, name) is None
         )
-        return missing + tuple(
-            f"item_ids[{index}]" for index, item in enumerate(self.item_ids) if item is None
+        return (
+            missing
+            + tuple(
+                f"item_ids[{index}]" for index, item in enumerate(self.item_ids) if item is None
+            )
+            + tuple(
+                f"backpack_ids[{index}]"
+                for index, item in enumerate(self.backpack_ids)
+                if item is None
+            )
         )
 
 
@@ -176,6 +204,8 @@ class MatchDetail:
         for player in self.players:
             if not isinstance(player, MatchParticipant):
                 raise ValidationError("Expected validated match participants")
+            if player.imp is not None and self.metadata.source != DataSource.STRATZ:
+                raise ValidationError("IMP is only a STRATZ observation")
             if player.player_slot is not None:
                 if player.player_slot in slots:
                     raise ValidationError("Duplicate participant slot")

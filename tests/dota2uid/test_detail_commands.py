@@ -50,6 +50,9 @@ def detail_data():
                         "assists": 8,
                         "goldPerMinute": 0,
                         "experiencePerMinute": None,
+                        "imp": -47,
+                        "position": "POSITION_4",
+                        "lane": "OFF_LANE",
                         **{f"item{i}Id": 0 for i in range(6)},
                     }
                 ],
@@ -208,6 +211,7 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(
         direct = await runtime.handle(caller, "do比赛", "7000000001")
         assert "比赛 7000000001" in direct[0] and "[我方]" not in "\n".join(direct)
         assert "购买事件 1 条" in "\n".join(direct)
+        assert "IMP -47" in "\n".join(direct) and "4号位 / 劣势路" in "\n".join(direct)
         assert "尚未绑定" in (await runtime.handle(caller, "do账号", ""))[0]
         await runtime.handle(caller, "do绑定", "123")
         own = await runtime.handle(caller, "do比赛", "7000000001")
@@ -220,6 +224,44 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(
         assert len(requests) == before == 6
         await runtime.close()
         assert runtime.state == State.STOPPED and client.is_closed and runtime._details is None
+
+    run_async(check())
+
+
+def test_runtime_wide_report_dispatch_sends_images_without_duplicate_fallback(
+    config_path, caller, run_async
+):
+    from Dota2UID.replies import ImageReply
+
+    config_path.write_text(
+        config_path.read_text().replace('reply_mode="text"', 'reply_mode="image"')
+    )
+    calls = []
+
+    def handler(request):
+        payload = json.loads(request.content)
+        calls.append(payload)
+        body = (
+            detail_data()
+            if payload["query"] == MATCH_DETAIL_QUERY
+            else {"data": {"match": {"id": 7000000001, "players": []}}}
+        )
+        return httpx.Response(200, json=body)
+
+    async def check():
+        client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+        runtime = Runtime(config_path, client_factory=lambda: client)
+        sent = []
+
+        async def send(reply):
+            sent.append(reply)
+
+        await runtime.dispatch(caller, "do比赛", "7000000001", send)
+        assert len(sent) == 2 and all(isinstance(reply, ImageReply) for reply in sent)
+        assert all(reply.artifact.width == 1600 for reply in sent)
+        assert len(calls) == 2
+        await runtime.close()
+        assert client.is_closed
 
     run_async(check())
 
