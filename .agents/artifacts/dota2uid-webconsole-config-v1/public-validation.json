@@ -1,0 +1,203 @@
+{
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "commit": "dd57b64b37b9f9e2cb98b561c62640bc6ddd154c",
+  "release_tag": "v0.1.0a7",
+  "anonymous": true,
+  "uses_account_token": false,
+  "production_host_modified": false,
+  "actual_sdk_or_chat_verified": false,
+  "scope": "anonymous release installation; SDK-free actual bundled backend and Runtime",
+  "public_commit_archive": {
+    "url": "https://codeload.github.com/HBLADEH/Dota2UID/zip/dd57b64b37b9f9e2cb98b561c62640bc6ddd154c",
+    "sha256": "980b96050fee7b713c1fe25128b75032a381a08d33b995989d58e7edf1b8a489",
+    "bytes": 15704758,
+    "all_eighteen_files_match_reviewed_candidate": true
+  },
+  "release_assets": {
+    "Dota2UID.zip": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/Dota2UID.zip",
+      "bytes": 15701805,
+      "sha256": "16e2995d585879aad7fbd3e5979ab159295fa645963567af1554f87846008287",
+      "api_digest_present": true
+    },
+    "dota2forge_assets-0.1.0a1-py3-none-any.whl": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 21057,
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662",
+      "api_digest_present": true,
+      "safely_validated_files": 14
+    },
+    "dota2forge_assets-0.1.0a1.tar.gz": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_assets-0.1.0a1.tar.gz",
+      "bytes": 16361,
+      "sha256": "c8c65d9e23e0b7a51f1de02183f004152ae8b6980dc1505143cd25c7a6b3477e",
+      "api_digest_present": true
+    },
+    "dota2forge_core-0.1.0a4-py3-none-any.whl": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "bytes": 67453,
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68",
+      "api_digest_present": true,
+      "safely_validated_files": 39
+    },
+    "dota2forge_core-0.1.0a4.tar.gz": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_core-0.1.0a4.tar.gz",
+      "bytes": 47789,
+      "sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77",
+      "api_digest_present": true
+    },
+    "dota2forge_renderer-0.1.0a4-py3-none-any.whl": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "bytes": 13727339,
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6",
+      "api_digest_present": true,
+      "safely_validated_files": 21
+    },
+    "dota2forge_renderer-0.1.0a4.tar.gz": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_renderer-0.1.0a4.tar.gz",
+      "bytes": 13718574,
+      "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034",
+      "api_digest_present": true
+    },
+    "dota2uid-0.1.0a7-py3-none-any.whl": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2uid-0.1.0a7-py3-none-any.whl",
+      "bytes": 37909,
+      "sha256": "2b9796aec2cb358c45a0ebb5df03fbd8104760a9beed319ccea3260ee1587abf",
+      "api_digest_present": true,
+      "safely_validated_files": 18
+    },
+    "dota2uid-0.1.0a7.tar.gz": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2uid-0.1.0a7.tar.gz",
+      "bytes": 35714,
+      "sha256": "bf936d5ce05de504599340bbe7e7aeb67157f90c099c491c6bebe7aacc604158",
+      "api_digest_present": true
+    },
+    "release-assets.json": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/release-assets.json",
+      "bytes": 1971,
+      "sha256": "11a29247e1bedfc11e85fecba00543d23238c21bf15375261b9f5098877357a6",
+      "api_digest_present": true
+    },
+    "SHA256SUMS": {
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/SHA256SUMS",
+      "bytes": 893,
+      "sha256": "a1dda32d042d1991d670ed5bb23d91b1dd08aa81cfbbe92e7470c7ec5399fff7",
+      "api_digest_present": true
+    }
+  },
+  "all_eleven_assets_and_nine_payload_checksums_verified": true,
+  "release_zip_matches_public_repository_and_candidate": true,
+  "source_commit": "3a2f6d0c8c3739d7a8da38cc4e116dc94d327023",
+  "runtime_manifest_sha256": "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+  "fresh_consumers": {
+    "local": {
+      "mode": "local",
+      "no_sdk_or_project_global_distributions": true,
+      "actual_sdk_verified": false,
+      "actual_host_bridge_or_chat_verified": false,
+      "synthetic_sdk_modules": false,
+      "production_host_modified": false,
+      "runtime_versions": {
+        "dota2forge-core": "0.1.0a4",
+        "dota2forge-renderer": "0.1.0a4",
+        "dota2forge-assets": "0.1.0a1",
+        "dota2uid": "0.1.0a7"
+      },
+      "manifest_sha256": "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+      "python": "3.12.9",
+      "third_party_distribution_versions": {
+        "anyio": "4.15.1",
+        "certifi": "2026.7.22",
+        "h11": "0.16.0",
+        "httpcore": "1.0.9",
+        "httpx": "0.28.1",
+        "idna": "3.20",
+        "pillow": "12.3.0",
+        "typing-extensions": "4.16.0"
+      },
+      "third_party_source_and_native_files_checked": 232,
+      "all_four_imported_from_verified_private_generation": true,
+      "parent_font_ofl_and_menu_render_passed": true,
+      "config_values_loader_used_without_toml": true,
+      "empty_token_waited_until_explicit_close_and_new_instance": true,
+      "private_snapshot_has_no_unverified_bytecode": true,
+      "networking_disabled_after_recovery": true,
+      "third_party_source_pillow_native_and_global_environment_unchanged": true,
+      "all_owned_clients_and_workers_closed": true
+    },
+    "recovery": {
+      "mode": "recovery",
+      "no_sdk_or_project_global_distributions": true,
+      "actual_sdk_verified": false,
+      "actual_host_bridge_or_chat_verified": false,
+      "synthetic_sdk_modules": false,
+      "production_host_modified": false,
+      "runtime_versions": {
+        "dota2forge-core": "0.1.0a4",
+        "dota2forge-renderer": "0.1.0a4",
+        "dota2forge-assets": "0.1.0a1",
+        "dota2uid": "0.1.0a7"
+      },
+      "manifest_sha256": "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+      "python": "3.12.9",
+      "third_party_distribution_versions": {
+        "anyio": "4.15.1",
+        "certifi": "2026.7.22",
+        "h11": "0.16.0",
+        "httpcore": "1.0.9",
+        "httpx": "0.28.1",
+        "idna": "3.20",
+        "pillow": "12.3.0",
+        "typing-extensions": "4.16.0"
+      },
+      "third_party_source_and_native_files_checked": 232,
+      "anonymous_fixed_four_release_urls": [
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_core-0.1.0a4-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+        "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a7/dota2uid-0.1.0a7-py3-none-any.whl"
+      ],
+      "missing_runtime_recovered_without_parent_activation": true,
+      "verified_complete_snapshot_published": true,
+      "third_party_source_pillow_native_and_global_environment_unchanged": true,
+      "all_owned_clients_and_workers_closed": true
+    },
+    "cold": {
+      "mode": "cold",
+      "no_sdk_or_project_global_distributions": true,
+      "actual_sdk_verified": false,
+      "actual_host_bridge_or_chat_verified": false,
+      "synthetic_sdk_modules": false,
+      "production_host_modified": false,
+      "runtime_versions": {
+        "dota2forge-core": "0.1.0a4",
+        "dota2forge-renderer": "0.1.0a4",
+        "dota2forge-assets": "0.1.0a1",
+        "dota2uid": "0.1.0a7"
+      },
+      "manifest_sha256": "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+      "python": "3.12.9",
+      "third_party_distribution_versions": {
+        "anyio": "4.15.1",
+        "certifi": "2026.7.22",
+        "h11": "0.16.0",
+        "httpcore": "1.0.9",
+        "httpx": "0.28.1",
+        "idna": "3.20",
+        "pillow": "12.3.0",
+        "typing-extensions": "4.16.0"
+      },
+      "third_party_source_and_native_files_checked": 232,
+      "new_process_reused_recovered_generation_without_network": true,
+      "all_four_imported_from_verified_private_generation": true,
+      "parent_font_ofl_and_menu_render_passed": true,
+      "config_values_loader_used_without_toml": true,
+      "empty_token_waited_until_explicit_close_and_new_instance": true,
+      "private_snapshot_has_no_unverified_bytecode": true,
+      "networking_disabled_after_recovery": true,
+      "third_party_source_pillow_native_and_global_environment_unchanged": true,
+      "all_owned_clients_and_workers_closed": true
+    }
+  },
+  "passed": true
+}

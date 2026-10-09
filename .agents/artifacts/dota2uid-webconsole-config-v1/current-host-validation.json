@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "read_only": true,
+  "original_baseline": {
+    "expected_sdk_head": "7f1bee79e66cb8c1b8e07cce15631021920193dd",
+    "expected_sdk_aggregate": "f78f7eeb4e49c330efc5476f606ffc43965d50070c73f6481eee458d4e2e46fa",
+    "sdk_unchanged": false,
+    "global_package_versions_unchanged": false,
+    "passed": false,
+    "gate_modified": false
+  },
+  "observed_sdk": {
+    "head": "fb80b874533c23b565a74ebd8549ce09e4742a55",
+    "sha256": "69b3958b4f15800a10b2844772887c8813abc11fa7c9fab149fbbd1515ca9b9f"
+  },
+  "observed_global_packages": {
+    "versions": {
+      "gsuid-core": "0.11.1",
+      "httpx": "0.28.1",
+      "pillow": "12.3.0",
+      "dota2forge-core": null,
+      "dota2forge-renderer": null,
+      "dota2forge-assets": null,
+      "dota2uid": null
+    },
+    "pillow_native_file_count": 26,
+    "pillow_native_sha256": "dfe8860a970e0b5aef8fb479dae0adf22987e51ecb61fd31010a62fd2c450267"
+  },
+  "baseline_drift_present": true,
+  "sdk_source_comparison": {
+    "baseline_head": "7f1bee79e66cb8c1b8e07cce15631021920193dd",
+    "current_head": "fb80b874533c23b565a74ebd8549ce09e4742a55",
+    "tracked_clean": true,
+    "changed_files": [
+      ".agents/skills/gscore-deploy/references/06-core-config-json.md",
+      ".agents/skills/gscore-deploy/references/09-plugins.md",
+      ".agents/skills/gscore-deploy/references/12-docker.md",
+      ".agents/skills/gscore-development/references/03-plugin-loading-and-config.md",
+      "AGENTS.md",
+      "changelogs/0.11.0-unreleased.md",
+      "changelogs/0.11.0.md",
+      "changelogs/0.11.1.md",
+      "changelogs/CHANGELOG.md",
+      "check_pypi_mirrors.py",
+      "eval/manual/e2e_prod_20260821.py",
+      "eval/manual/preview_update_history.py",
+      "eval/manual/render_all_versions.py",
+      "gsuid_core/ai_core/buildin_tools/plugin_developer.py",
+      "gsuid_core/ai_core/configs/models.py",
+      "gsuid_core/ai_core/database/models.py",
+      "gsuid_core/ai_core/mcp/client.py",
+      "gsuid_core/ai_core/mcp/server.py",
+      "gsuid_core/ai_core/persona/appearance.py",
+      "gsuid_core/ai_core/trigger_bridge.py",
+      "gsuid_core/ai_core/web_fetch/__init__.py",
+      "gsuid_core/buildin_plugins/core_command/core_update_history/__init__.py",
+      "gsuid_core/buildin_plugins/core_command/core_update_history/authors.py",
+      "gsuid_core/buildin_plugins/core_command/core_update_history/changelog.py",
+      "gsuid_core/buildin_plugins/core_command/core_update_history/template.py",
+      "gsuid_core/gs_logger.py",
+      "gsuid_core/locales/en/server.json",
+      "gsuid_core/locales/en/webconsole.json",
+      "gsuid_core/locales/ja/server.json",
+      "gsuid_core/locales/ja/webconsole.json",
+      "gsuid_core/locales/zh-cn/server.json",
+      "gsuid_core/locales/zh-cn/webconsole.json",
+      "gsuid_core/server.py",
+      "gsuid_core/utils/database/csv_import.py",
+      "gsuid_core/utils/path_safety.py",
+      "gsuid_core/utils/resource_manager.py",
+      "gsuid_core/version.py",
+      "gsuid_core/webconsole/agent_kits_api.py",
+      "gsuid_core/webconsole/database_api.py",
+      "pdm.lock",
+      "poetry.lock",
+      "pyproject.toml",
+      "requirements.txt",
+      "ruff.toml",
+      "tests/test_core_update_history.py",
+      "tests/test_database_csv_import.py",
+      "tests/test_framework_injection_and_fileos.py",
+      "tests/test_im_templates.py",
+      "tests/test_mcp_image_return.py",
+      "tests/test_model_http_pool_libs.py",
+      "tests/test_openai_video_file.py",
+      "tests/test_plugin_dep_install.py",
+      "tests/test_relationship_list_api.py",
+      "tests/test_tool_safety.py",
+      "tests/test_ws_disconnect_safety.py",
+      "uv.lock"
+    ],
+    "compared_files": {
+      "gsuid_core/config.py": {
+        "baseline_sha256": "099ce4de2ca48cb1bd8385cde041c3ad09125f7ab7392588521ddbc4e29ed4fb",
+        "current_sha256": "099ce4de2ca48cb1bd8385cde041c3ad09125f7ab7392588521ddbc4e29ed4fb",
+        "head_blob_sha256": "099ce4de2ca48cb1bd8385cde041c3ad09125f7ab7392588521ddbc4e29ed4fb",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/utils/plugins_config/gs_config.py": {
+        "baseline_sha256": "a5129ce60659c2864c034d2eda23329423758b797fb52e2fa93f9fc6205889e8",
+        "current_sha256": "a5129ce60659c2864c034d2eda23329423758b797fb52e2fa93f9fc6205889e8",
+        "head_blob_sha256": "a5129ce60659c2864c034d2eda23329423758b797fb52e2fa93f9fc6205889e8",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/utils/plugins_config/models.py": {
+        "baseline_sha256": "158ef1b60edaef60d56650d484092996a988a26b9e85e12e5d7a3adbcad77991",
+        "current_sha256": "158ef1b60edaef60d56650d484092996a988a26b9e85e12e5d7a3adbcad77991",
+        "head_blob_sha256": "158ef1b60edaef60d56650d484092996a988a26b9e85e12e5d7a3adbcad77991",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/utils/secret_mask.py": {
+        "baseline_sha256": "c774254ad66bafc4e28a1d0e3989855f28972984c7ccd4df7847631cc9992df2",
+        "current_sha256": "c774254ad66bafc4e28a1d0e3989855f28972984c7ccd4df7847631cc9992df2",
+        "head_blob_sha256": "c774254ad66bafc4e28a1d0e3989855f28972984c7ccd4df7847631cc9992df2",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/http_trace_middleware.py": {
+        "baseline_sha256": "21a0062761b0a4770176f354298ec2424f132cee5961a6ad6bfab8576606ea9b",
+        "current_sha256": "21a0062761b0a4770176f354298ec2424f132cee5961a6ad6bfab8576606ea9b",
+        "head_blob_sha256": "21a0062761b0a4770176f354298ec2424f132cee5961a6ad6bfab8576606ea9b",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/http_trace_archive.py": {
+        "baseline_sha256": "191f60e9b2fafc517b6f856f80fa7201fa2cfa1107f00c7369cb05d1c4de3b96",
+        "current_sha256": "191f60e9b2fafc517b6f856f80fa7201fa2cfa1107f00c7369cb05d1c4de3b96",
+        "head_blob_sha256": "191f60e9b2fafc517b6f856f80fa7201fa2cfa1107f00c7369cb05d1c4de3b96",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/webconsole/web_api.py": {
+        "baseline_sha256": "76d16f7f36b2d763a8091163ef7390ee060e0bcdd7ec633aa269e6bcb3460169",
+        "current_sha256": "76d16f7f36b2d763a8091163ef7390ee060e0bcdd7ec633aa269e6bcb3460169",
+        "head_blob_sha256": "76d16f7f36b2d763a8091163ef7390ee060e0bcdd7ec633aa269e6bcb3460169",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/webconsole/app_app.py": {
+        "baseline_sha256": "b1062855829a27d3c65cd113ce9c8cdb6838d6e52d2a11cfd2ef3ecc3e219919",
+        "current_sha256": "b1062855829a27d3c65cd113ce9c8cdb6838d6e52d2a11cfd2ef3ecc3e219919",
+        "head_blob_sha256": "b1062855829a27d3c65cd113ce9c8cdb6838d6e52d2a11cfd2ef3ecc3e219919",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/webconsole/plugins_api.py": {
+        "baseline_sha256": "35bea6bb0f6c6d17611f0d0e43520302ea43ef2bca18cf41d9064522aa592ba7",
+        "current_sha256": "35bea6bb0f6c6d17611f0d0e43520302ea43ef2bca18cf41d9064522aa592ba7",
+        "head_blob_sha256": "35bea6bb0f6c6d17611f0d0e43520302ea43ef2bca18cf41d9064522aa592ba7",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/app_life.py": {
+        "baseline_sha256": "79ff83f05d4aa30cdb7a0ccecaab192752ebf08abba425c8860b3b6b0e649f79",
+        "current_sha256": "79ff83f05d4aa30cdb7a0ccecaab192752ebf08abba425c8860b3b6b0e649f79",
+        "head_blob_sha256": "79ff83f05d4aa30cdb7a0ccecaab192752ebf08abba425c8860b3b6b0e649f79",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/sv.py": {
+        "baseline_sha256": "61567b6ced8ce8485b69adce0dd5f737057628b8fe3c04bfa3df1a307fc6a26e",
+        "current_sha256": "61567b6ced8ce8485b69adce0dd5f737057628b8fe3c04bfa3df1a307fc6a26e",
+        "head_blob_sha256": "61567b6ced8ce8485b69adce0dd5f737057628b8fe3c04bfa3df1a307fc6a26e",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true
+      },
+      "gsuid_core/server.py": {
+        "baseline_sha256": "a55ca5aed6877c3a141e47db7eecfcf8d2c8991824783bec19e9ed6723eb4cd8",
+        "current_sha256": "bf6cc700449e59045e20c012c1b9cd8a0d1ef367200d9940a0ff4f1b08043664",
+        "head_blob_sha256": "bf6cc700449e59045e20c012c1b9cd8a0d1ef367200d9940a0ff4f1b08043664",
+        "unchanged_from_baseline": false,
+        "matches_current_commit": true,
+        "consumed_definitions": {
+          "on_core_start_before": {
+            "present": true,
+            "baseline_ast_sha256": "520b4589edaa84ba0c2c124ca52a5406b70ca7b6346e533356c1f0c9bd49a65a",
+            "current_ast_sha256": "520b4589edaa84ba0c2c124ca52a5406b70ca7b6346e533356c1f0c9bd49a65a",
+            "unchanged": true
+          },
+          "on_core_start": {
+            "present": true,
+            "baseline_ast_sha256": "97f8570ee67b045b4669150a4d4de2921e999de0d34a3342b42c74ea5697214c",
+            "current_ast_sha256": "97f8570ee67b045b4669150a4d4de2921e999de0d34a3342b42c74ea5697214c",
+            "unchanged": true
+          },
+          "on_core_shutdown": {
+            "present": true,
+            "baseline_ast_sha256": "07ef26f2ef165ffa9fd2796f7bb0132540bb25d9ef123ee9f06d28c89e65e8f0",
+            "current_ast_sha256": "07ef26f2ef165ffa9fd2796f7bb0132540bb25d9ef123ee9f06d28c89e65e8f0",
+            "unchanged": true
+          },
+          "core_start_before_execute": {
+            "present": true,
+            "baseline_ast_sha256": "15fc1f1ed7f1d2ab102b79943c0ae9b06ca18e6f812539f015edaa030e14770b",
+            "current_ast_sha256": "15fc1f1ed7f1d2ab102b79943c0ae9b06ca18e6f812539f015edaa030e14770b",
+            "unchanged": true
+          },
+          "core_start_execute": {
+            "present": true,
+            "baseline_ast_sha256": "e2408ee1145bc2436bc10a68ff9ecc63eb57cdd9bd9ec6d4513069dcb7ac9337",
+            "current_ast_sha256": "e2408ee1145bc2436bc10a68ff9ecc63eb57cdd9bd9ec6d4513069dcb7ac9337",
+            "unchanged": true
+          },
+          "core_shutdown_execute": {
+            "present": true,
+            "baseline_ast_sha256": "185ce953b1f5a5919eb50bf253d5c5118aff6ff710ba43e385061536060da1ea",
+            "current_ast_sha256": "185ce953b1f5a5919eb50bf253d5c5118aff6ff710ba43e385061536060da1ea",
+            "unchanged": true
+          }
+        }
+      },
+      "gsuid_core/logger.py": {
+        "baseline_sha256": "4ddf777717ce45ffe3f5e5864b8c5338399f2b8ced7e2c03be3a8e50dfb768b3",
+        "current_sha256": "4ddf777717ce45ffe3f5e5864b8c5338399f2b8ced7e2c03be3a8e50dfb768b3",
+        "head_blob_sha256": "4ddf777717ce45ffe3f5e5864b8c5338399f2b8ced7e2c03be3a8e50dfb768b3",
+        "unchanged_from_baseline": true,
+        "matches_current_commit": true,
+        "consumed_definitions": {
+          "HttpTraceCollector": {
+            "present": true,
+            "baseline_ast_sha256": "0117626f8697cb3335afe221519604dc48ea6324149de0a460ac76fe9e0b3840",
+            "current_ast_sha256": "0117626f8697cb3335afe221519604dc48ea6324149de0a460ac76fe9e0b3840",
+            "unchanged": true
+          },
+          "bind_http_trace_context": {
+            "present": true,
+            "baseline_ast_sha256": "f87d74f932d0e901b57d2025b5ac1a46ce89150cf7778f60c4f4441eece83ba5",
+            "current_ast_sha256": "f87d74f932d0e901b57d2025b5ac1a46ce89150cf7778f60c4f4441eece83ba5",
+            "unchanged": true
+          },
+          "clear_http_trace_context": {
+            "present": true,
+            "baseline_ast_sha256": "b96e7ebc36fc81deaea06ae29aa6da016b3243a89c9d349748678b0bd5c260ea",
+            "current_ast_sha256": "b96e7ebc36fc81deaea06ae29aa6da016b3243a89c9d349748678b0bd5c260ea",
+            "unchanged": true
+          },
+          "_init_http_trace_collector": {
+            "present": true,
+            "baseline_ast_sha256": "2cf551d07e7faeaef8c6da5d87802756fa0ec232bceacbb03ff4342d02957472",
+            "current_ast_sha256": "2cf551d07e7faeaef8c6da5d87802756fa0ec232bceacbb03ff4342d02957472",
+            "unchanged": true
+          }
+        }
+      }
+    },
+    "critical_modules_unchanged": true,
+    "working_sources_match_head": true,
+    "consumed_definitions_unchanged": true
+  },
+  "delivery_checks": {
+    "distribution_18_files_intact": true,
+    "distribution_commit_and_tracking_intact": true,
+    "manifest_and_host_dependency_contract_intact": true,
+    "native_11_fields_and_password_flags_intact": true,
+    "token_remains_empty": true,
+    "original_toml_bytes_intact": true,
+    "private_runtime_ledger_intact": true,
+    "global_project_packages_still_absent": true,
+    "live_anonymous_http_contract_intact": true
+  },
+  "current_target_checks": {
+    "exact_sdk_head_and_aggregate_observed": true,
+    "exact_current_package_versions_observed": true,
+    "exact_current_pillow_binary_observed": true,
+    "sdk_tracked_clean": true,
+    "critical_modules_unchanged": true,
+    "consumed_definitions_unchanged": true,
+    "working_sources_match_current_commit": true
+  },
+  "current_static_and_anonymous_postflight_passed": true,
+  "authenticated_runtime_status_observed": false,
+  "running_process_sdk_generation_observed": false,
+  "fresh_current_sdk_lifecycle_smoke_executed": false,
+  "evidence_scope": "static_contracts_private_ledger_and_anonymous_http",
+  "privacy": {
+    "credentials_or_chat_identity_output": false,
+    "raw_logs_read": false,
+    "business_or_sdk_module_imports": false,
+    "provider_calls": false,
+    "messages_sent": false,
+    "session_created": false,
+    "production_mutations": false
+  }
+}
