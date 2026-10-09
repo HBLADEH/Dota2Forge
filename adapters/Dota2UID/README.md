@@ -21,7 +21,7 @@
 
 2026-10-08已公开[随包a6](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a6)并部署到现行Linux/Docker GsCore。运行库校验及冷启动通过，业务等待首次Token配置；原GsCore源码与全局依赖不变，[发行部署记录](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)。真实QQ新入口仍待验收。
 
-当前源码 a7 候选在随包 a6 基础上增加[后台插件配置](../../docs/cookbook/gscore-configuration.md)，尚未公开；Token、素材与订阅可通过宿主参数页设置，旧 TOML 导入后保留。Assets a1 默认 image/auto 首次后台准备，完整快照无需联网；自定义 illustration_path 不覆盖，可设 manual/off。
+随包 a7 已公开，增加[后台插件配置](../../docs/cookbook/gscore-configuration.md)；Token、素材与订阅可通过宿主参数页设置，旧 TOML 导入后保留。Assets a1 默认 image/auto 首次后台准备，完整快照无需联网；自定义 illustration_path 不覆盖，可设 manual/off。
 
 bundled 分发随仓库提供匹配项目运行库，缺核心时保留 `do帮助` 文字提示及主人权限的 `do安装核心` / `do核心状态`；安装不写宿主全局环境，修复后冷启动启用。宿主 HTTPX/Pillow 须兼容，步骤见[随包安装指南](../../docs/cookbook/gscore-bundled-install.md)。下述公开安装流程仍适用于现有 a4 和薄分发。
 
