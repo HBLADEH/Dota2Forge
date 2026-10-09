@@ -18,7 +18,11 @@ Status: in_progress
 [热切换实现决策](../../notes/implemented/2026-10-10-dota2uid-hot-update.md)、[验收证据](../../artifacts/dota2uid-hot-update-v1/README.md)、[发行指南](../../../docs/cookbook/plugin-release.md)、[Dota2UID分发仓库](https://github.com/HBLADEH/Dota2UID)。
 
 ## 验证证据
-发行前全量统一门禁2009项通过（456.61s）；后续58项聚焦断言通过，但该部分pytest因覆盖率仅26%触发全仓80%门槛。v10 SDK-free分发smoke、公开SDK隔离原生热切换与401/403 API检查通过。公开发布/合并尚未执行。
+主仓PR [#12](https://github.com/HBLADEH/Dota2Forge/pull/12)，source branch commit `779b92d4ca06b6ed5664812d46d6922a78dda9b8`；Python3.12/3.13各两次CI均通过，等待维护者评审。独立分发PR [#4](https://github.com/HBLADEH/Dota2UID/pull/4)，commit `eb02ca3b49c1c16dbf8758d48e688ea311c83d94`，以该主仓source SHA固定生成，等待主仓审查后再合并。
+
+发行候选 `dist/plugin-distributions/a10-release-v1` 通过双端 SDK-free smoke。9个发布载荷及校验清单已暂存于忽略目录 `.tmp/a10-release-assets-v1`；manifest暂记两个PR head SHA，正式Release前必须改为实际main merge SHA并重算SHA256。GitHub `v0.1.0a10` Release尚不存在，没有公开上传任何资产。
+
+统一门禁完整检查2009 passed/456.61s；scripts/Core/Assets覆盖率94/93/92。最后增补58个适配器运行时/桥接/send断言均通过；该选择性pytest因全仓覆盖率26%触发项目80%门槛退出1。双端最终本地候选smoke、真实SDK隔离原生热切换、Ruff/mypy和治理检查通过。Linux/Docker及真实QQ未验证。
 
 ## 阻塞与下一步
-主仓 scripts 维护者评审是进入main和公开Release的门槛；先完成PR与分发PR的可审查候选，合并授权/审查后完成tag、Release资产和任务归档。
+主仓scripts维护者评审是进入main和公开Release的门槛。PR #12与#4目前均OPEN/CLEAN、无reviewDecision；主仓CI通过。待维护者审查并按依赖顺序合并主仓与分发PR后，更新release-assets.json/SHA256SUMS为两个main merge SHA，匿名核验11个Release载荷，创建prerelease `v0.1.0a10` 并上传资产；商店索引PR #40仍独立待审，本任务不改索引或生产宿主。
