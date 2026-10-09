@@ -4,8 +4,9 @@
 
 | 分发包 | 版本 | 导入包 | 运行依赖 |
 | --- | --- | --- | --- |
-| dota2uid | 0.1.0a4 | Dota2UID | dota2forge-core>=0.1.0a4,<0.2, dota2forge-renderer>=0.1.0a4,<0.2 |
-| astrbot-plugin-dota2forge | 0.1.0a6 | astrbot_plugin_dota2forge | dota2forge-core>=0.1.0a4,<0.2, dota2forge-renderer>=0.1.0a4,<0.2 |
+| dota2uid | 0.1.0a7 | Dota2UID | dota2forge-core>=0.1.0a4,<0.2, dota2forge-renderer>=0.1.0a4,<0.2, dota2forge-assets>=0.1.0a1,<0.2 |
+| astrbot-plugin-dota2forge | 0.1.0a8 | astrbot_plugin_dota2forge | dota2forge-core>=0.1.0a4,<0.2, dota2forge-renderer>=0.1.0a4,<0.2, dota2forge-assets>=0.1.0a1,<0.2 |
+| dota2forge-assets | 0.1.0a1 | dota2forge_assets | httpx>=0.28.1,<1, Pillow>=11.3,<13 |
 | dota2forge-core | 0.1.0a4 | dota2forge_core | 无 |
 | dota2forge-renderer | 0.1.0a4 | dota2forge_renderer | dota2forge-core>=0.1.0a4,<0.2, pillow>=11.3,<13 |
 

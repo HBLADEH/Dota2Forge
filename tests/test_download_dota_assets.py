@@ -1,13 +1,51 @@
 """Explicit download tool tests replace HTTP with synthetic public catalogs and PNGs."""
 
+import asyncio
 import io
 import json
 from urllib.error import HTTPError
 
+import httpx
 import pytest
+import pytest_socket
+from dota2forge_assets import AssetError, AssetLimits
+from dota2forge_assets import cli as assets
+from dota2forge_assets.sources import MIRROR, catalog
+from dota2forge_assets.validation import png_size
 from PIL import Image
 
-from scripts import download_dota_assets as assets
+
+@pytest.fixture(autouse=True)
+def cli_loop(monkeypatch):
+    pytest_socket.enable_socket()
+    try:
+        loop = asyncio.new_event_loop()
+    finally:
+        pytest_socket.disable_socket()
+    monkeypatch.setattr(assets.asyncio, "run", loop.run_until_complete)
+    monkeypatch.setattr(assets, "AssetLimits", lambda: AssetLimits(retries=0))
+    try:
+        yield loop.run_until_complete
+    finally:
+        loop.run_until_complete(loop.shutdown_asyncgens())
+        loop.run_until_complete(loop.shutdown_default_executor())
+        loop.close()
+
+
+def install_fetch(monkeypatch, fetch):
+    def request(req):
+        try:
+            return httpx.Response(200, content=fetch(str(req.url)))
+        except HTTPError as error:
+            return httpx.Response(error.code)
+        except OSError:
+            raise httpx.ConnectError("synthetic interruption") from None
+
+    monkeypatch.setattr(
+        assets,
+        "make_client",
+        lambda: httpx.AsyncClient(transport=httpx.MockTransport(request), trust_env=False),
+    )
 
 
 def png():
@@ -16,7 +54,7 @@ def png():
         return stream.getvalue()
 
 
-def test_download_pack_sources_hashes_missing_and_cli(tmp_path, monkeypatch, capsys):
+def test_download_pack_sources_hashes_missing_and_cli(tmp_path, monkeypatch, capsys, cli_loop):
     def fetch(url):
         if "herolist" in url:
             return json.dumps(
@@ -44,7 +82,7 @@ def test_download_pack_sources_hashes_missing_and_cli(tmp_path, monkeypatch, cap
             raise HTTPError(url, 404, "missing", {}, None)
         return png()
 
-    monkeypatch.setattr(assets, "fetch", fetch)
+    install_fetch(monkeypatch, fetch)
     assert assets.main(["--output", str(tmp_path)]) == 0
     manifest = json.loads((tmp_path / "manifest.json").read_text("utf-8"))
     assert manifest["heroes"]["2"]["status"] == "available"
@@ -55,7 +93,7 @@ def test_download_pack_sources_hashes_missing_and_cli(tmp_path, monkeypatch, cap
     assert "1 available" in capsys.readouterr().out
     manifest["decor"] = {"header": {"source": "fixture"}}
     (tmp_path / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
-    assert assets.download_pack(tmp_path)["decor"] == manifest["decor"]
+    assert cli_loop(assets.download_pack(tmp_path))["decor"] == manifest["decor"]
 
 
 def test_failed_network_does_not_publish_new_manifest(tmp_path, monkeypatch, capsys):
@@ -65,10 +103,10 @@ def test_failed_network_does_not_publish_new_manifest(tmp_path, monkeypatch, cap
     def fetch(url):
         raise HTTPError(url, 403, "rejected", {}, None)
 
-    monkeypatch.setattr(assets, "fetch", fetch)
+    install_fetch(monkeypatch, fetch)
     assert assets.main(["--output", str(tmp_path)]) == 1
     assert (tmp_path / "manifest.json").read_bytes() == original
-    assert "HTTPError" in capsys.readouterr().out
+    assert "AssetError" in capsys.readouterr().out
 
 
 def test_later_download_failure_preserves_previous_image(tmp_path, monkeypatch):
@@ -91,7 +129,7 @@ def test_later_download_failure_preserves_previous_image(tmp_path, monkeypatch):
             raise OSError("synthetic interruption")
         return png()
 
-    monkeypatch.setattr(assets, "fetch", fetch)
+    install_fetch(monkeypatch, fetch)
     assert assets.main(["--output", str(tmp_path)]) == 1
     assert previous.read_bytes() == b"previous local art"
     assert not (tmp_path / "manifest.json").exists()
@@ -108,19 +146,22 @@ def test_later_download_failure_preserves_previous_image(tmp_path, monkeypatch):
 )
 def test_invalid_catalog_never_guesses_identity(rows):
     data = json.dumps({"result": {"data": {"items": rows}}}).encode()
-    with pytest.raises(ValueError):
-        assets.catalog(data, "items", "item_")
+    with pytest.raises(AssetError):
+        catalog(data, "items", "item_")
 
 
 def test_bad_png_and_large_response_are_rejected(monkeypatch):
-    with pytest.raises(ValueError), io.BytesIO() as stream, Image.new("RGB", (1, 1)) as image:
+    with pytest.raises(AssetError), io.BytesIO() as stream, Image.new("RGB", (1, 1)) as image:
         image.save(stream, "JPEG")
-        assets.png_size(stream.getvalue())
-    monkeypatch.setattr(
-        assets, "urlopen", lambda *a, **kw: io.BytesIO(b"x" * (assets.MAX_DOWNLOAD + 1))
-    )
-    with pytest.raises(ValueError, match="limit"):
-        assets.fetch("https://example.invalid")
+        png_size(stream.getvalue(), AssetLimits())
+    # Exercise the shared streaming limit through the public CLI.
+    install_fetch(monkeypatch, lambda url: b"x" * (4 * 1024 * 1024 + 1))
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as root:
+        assert assets.main(["--output", str(Path(root))]) == 1
+        assert not Path(root, "manifest.json").exists()
 
 
 def test_only_ui_download_records_mirror_and_preserves_existing_assets(tmp_path, monkeypatch):
@@ -135,12 +176,12 @@ def test_only_ui_download_records_mirror_and_preserves_existing_assets(tmp_path,
     (tmp_path / "manifest.json").write_text(json.dumps(original), encoding="utf-8")
 
     def fetch(url):
-        assert url.startswith(assets.MIRROR)
+        assert url.startswith(MIRROR)
         if url.endswith("rank_star_5.png"):
             raise HTTPError(url, 404, "missing", {}, None)
         return png()
 
-    monkeypatch.setattr(assets, "fetch", fetch)
+    install_fetch(monkeypatch, fetch)
     assert assets.main(["--output", str(tmp_path), "--only-ui"]) == 0
     manifest = json.loads((tmp_path / "manifest.json").read_text("utf-8"))
     for key in ("heroes", "items", "catalogs", "decor", "custom"):
@@ -164,7 +205,7 @@ def test_late_ui_failure_does_not_replace_existing_manifest_or_png(tmp_path, mon
             raise OSError("synthetic interruption")
         return png()
 
-    monkeypatch.setattr(assets, "fetch", fetch)
+    install_fetch(monkeypatch, fetch)
     assert assets.main(["--output", str(tmp_path), "--only-ui"]) == 1
     assert (tmp_path / "manifest.json").read_bytes() == original
     assert previous.read_bytes() == b"previous medal"

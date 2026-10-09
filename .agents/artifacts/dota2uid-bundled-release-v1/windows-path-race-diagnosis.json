@@ -1,0 +1,39 @@
+{
+  "affected_source": "packages/dota2forge-assets/src/dota2forge_assets/validation.py",
+  "diagnosis": "On Windows, concurrent creation of a missing parent changes GetFinalPathName failure from WinError 3 to WinError 2 during one non-strict Path.resolve call. CPython retains an extended DOS prefix for the target while resolving the root without that prefix, so is_relative_to falsely rejects a contained path.",
+  "failed_fixture": "tests/assets/test_hosts.py::test_empty_token_prepares_artwork_independently_and_admin_can_repair[astr]",
+  "failed_fixture_saved_state": {
+    "failures": [
+      {
+        "code": "path",
+        "key": "1",
+        "kind": "ranks"
+      }
+    ],
+    "state": "partial",
+    "synthetic_data_only": true
+  },
+  "fix": "Use a common canonical namespace for ordinary and extended absolute DOS/UNC paths before containment comparison. Reject other device namespaces and malformed UNC roots; keep root, parent and file symlink checks and relative escape rejection.",
+  "independent_review": "Runtime agent read-only review found no namespace bypass introduced by normalization.",
+  "regression": {
+    "first_error": 3,
+    "interleaving": "Create the real ranks directory after the first failed target resolution and before non-strict resolution finishes.",
+    "later_error": 2,
+    "no_symlinks_present": true,
+    "pre_fix_false_rejection_deterministically_reproduced": true,
+    "test_file": "tests/assets/test_windows_paths.py"
+  },
+  "validation": {
+    "assets_tests_passed": 78,
+    "coverage_write_disabled": true,
+    "diff_check_passed": true,
+    "mypy_linux_source_files_passed": 9,
+    "mypy_win32_source_files_passed": 9,
+    "new_test_cases_passed": 18,
+    "new_test_cases_skipped_on_windows": 0,
+    "ruff_format_passed": true,
+    "ruff_lint_passed": true
+  },
+  "release_boundary": "The prior release-final-review.json records only source 7efd87fbaacf612d2b8581866327923d2a52a771 and candidate a6-release-v1. This fix requires rebuilt unpublished Assets wheels, a new source commit and a regenerated candidate before publication. No ready/partial assertions or release gates were weakened.",
+  "external_actions": "None: diagnosis and tests used synthetic local data, blocked application networking and temporary directories; no publication or host changes."
+}

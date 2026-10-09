@@ -1,0 +1,52 @@
+{
+  "status": "installed",
+  "expected": {
+    "astrbot-plugin-dota2forge": "0.1.0a7",
+    "dota2forge-core": "0.1.0a4",
+    "dota2forge-renderer": "0.1.0a4"
+  },
+  "constraint_count": 57,
+  "pip_check_exit": 0,
+  "pip_check": "No broken requirements found.",
+  "changes": [
+    {
+      "package": "astrbot-plugin-dota2forge",
+      "before": null,
+      "after": "0.1.0a7"
+    },
+    {
+      "package": "dota2forge-core",
+      "before": null,
+      "after": "0.1.0a4"
+    },
+    {
+      "package": "dota2forge-renderer",
+      "before": null,
+      "after": "0.1.0a4"
+    }
+  ],
+  "versions": {
+    "astrbot-plugin-dota2forge": "0.1.0a7",
+    "dota2forge-core": "0.1.0a4",
+    "dota2forge-renderer": "0.1.0a4"
+  },
+  "imports": "passed",
+  "elapsed_seconds": 7.21,
+  "deployment": "authorized Linux Docker AstrBot",
+  "python": "3.12.13",
+  "astrbot_source": "4.28.1",
+  "host_sdk_bridge_import": "passed",
+  "cold_start_plugin_state": "awaiting_config",
+  "token_configured": false,
+  "webui_http_status": 200,
+  "global_network_changes": false,
+  "real_chat_sent": false,
+  "business_queries_verified": false,
+  "existing_packages_unchanged": true,
+  "existing_package_count": 198,
+  "wheel_sha256": {
+    "astrbot-plugin-dota2forge": "0745af432c3adeef7e8382740a7661fd3fc682402a1cae255161c83f31cdba27",
+    "dota2forge-core": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68",
+    "dota2forge-renderer": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+  }
+}

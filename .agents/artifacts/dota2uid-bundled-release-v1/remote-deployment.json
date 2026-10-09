@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "plugin_commit": "db1237042b9366298c176873342d97f3c590fee6",
+  "backup_path": "/srv/data/services/bot-stack/backups/dota2uid-a6-20261008T121928Z",
+  "original_plugin_head": "eb03ae3bb42642b1381a447f7053835c77ec6eea",
+  "original_plugin_tree": {
+    "files": 12,
+    "sha256": "ca9ba20b977d6073fea78c1eebac8c587abffe85ed439514d6a1e19688633981"
+  },
+  "sdk_before": {
+    "sha256": "f78f7eeb4e49c330efc5476f606ffc43965d50070c73f6481eee458d4e2e46fa",
+    "head": "7f1bee79e66cb8c1b8e07cce15631021920193dd"
+  },
+  "verified_distribution_files": 17,
+  "data_existed_before": false,
+  "cold_restart": true,
+  "rollback_performed": false,
+  "other_containers_modified": false,
+  "global_packages_changed": false,
+  "credentials_changed": false,
+  "chat_sent": false,
+  "maintenance": {
+    "maintenance_operation": "install",
+    "network_disabled": true
+  },
+  "sdk_after": {
+    "sha256": "f78f7eeb4e49c330efc5476f606ffc43965d50070c73f6481eee458d4e2e46fa",
+    "head": "7f1bee79e66cb8c1b8e07cce15631021920193dd"
+  },
+  "original_plugin_ownership_preserved": true,
+  "passed": true
+}

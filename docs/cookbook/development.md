@@ -7,7 +7,7 @@ uv sync --locked --all-packages
 uv run --locked python scripts/check_governance.py --all
 ```
 
-统一入口验证治理规则，然后依次执行 Ruff 格式、Ruff lint、mypy、pytest，以及治理工具和 Core 各自的覆盖率报告。任一命令缺失或失败均返回非零；两组语句与分支综合覆盖率须分别至少 80%，无覆盖数据同样失败。测试使用 pytest-socket 禁网；Core 流程与异步循环测试说明见 [离线闭环](core-offline.md)。
+统一入口验证治理规则，然后依次执行 Ruff 格式、Ruff lint、mypy、pytest，以及治理工具、Core 和 Assets 各自的覆盖率报告。任一命令缺失或失败均返回非零；三组语句与分支综合覆盖率须分别至少 80%，无覆盖数据同样失败。测试使用 pytest-socket 禁网；Core 流程与异步循环测试说明见 [离线闭环](core-offline.md)。
 
 已有提交时可以根据目标分支计算变更范围：
 
@@ -25,7 +25,7 @@ uv run --locked python scripts/generate_reference.py
 uv run --locked python scripts/check_governance.py --all
 ```
 
-构建四个包并检查 wheel 在独立环境中的安装和导入：
+构建五个包并检查 wheel 在独立环境中的安装和导入：
 
 ```sh
 uv build --all-packages

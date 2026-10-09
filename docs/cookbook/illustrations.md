@@ -4,13 +4,15 @@
 
 ## 下载
 
+当前源码已实现双端托管下载，见[服务契约](../subsystems/assets.md)；AstrBot a8 / Dota2UID a5 为未发布候选，已公开 AstrBot a7 仍需显式准备。新候选默认 image/auto，在后台准备首次素材，完整有效快照不重复联网。
+
 在仓库根目录显式执行联网工具，无需玩家凭据：
 
 ```sh
 uv run --locked python scripts/download_dota_assets.py --output .dota2forge-assets
 ```
 
-工具读取 Valve 的 herolist/itemlist 与官方 Steam CDN；六个下载线程、20秒请求超时、4MiB响应限制。使用临时目录完成全部请求后再更新目标文件及 manifest，网络失败保留原素材；更新目录时应暂停渲染，文件与 manifest 替换不是目录级原子操作。无自动重试；只有 HTTP 404 记录 missing，其他 HTTP/网络/格式错误失败。每次命令重建当前表快照，不保证涵盖所有历史 ID。
+工具读取 Valve 的 herolist/itemlist 与官方 Steam CDN；四并发、30秒请求绝对期限、10分钟任务期限和4MiB响应限制。使用临时目录完成全部请求后再更新目标文件及 manifest，网络失败保留原素材；更新目录时应暂停渲染，文件与 manifest 替换不是目录级原子操作。网络/超时/5xx至多重试两次，429遵循Retry-After；只有 HTTP 404 记录 missing，其他 HTTP/网络/格式错误失败。每次命令重建当前表快照，不保证涵盖所有历史 ID。
 
 段位/星级和金币为Valve游戏美术，实际下载自[OpenDota素材镜像](https://github.com/odota/web/tree/master/public/assets/images/dota2/rank_icons)，非Valve托管URL；清单额外记录source_kind=valve_game_art_mirror及mirror=OpenDota。默认完整下载包括这些图标。仅更新15张界面图、保留现有英雄/装备/catalogs/背景与其他字段：
 
@@ -32,7 +34,13 @@ Dota2UID 的 config.toml 增加：
 illustration_path = "D:/workstation/Dota2Forge/.dota2forge-assets"
 ```
 
-相对路径以 config.toml 所在目录为准。AstrBot 的插件配置提供同名字符串字段，相对路径以插件数据目录为准。留空仅使用随包字体/名称及占位；不隐式扫描其他路径，不自动下载。升级共享 wheel 与配置后遵循各宿主的[受控停用/重载](dota2uid.md)或[AstrBot生命周期](astrbot.md)。
+相对路径以 config.toml 所在目录为准；AstrBot 同名字段相对插件数据目录。非空自定义目录优先且不自动覆盖。留空使用插件数据下 illustrations 的托管快照，不需要填写生成路径。
+
+两端支持 asset_download_mode="auto"（默认）/"manual"/"off"；auto 仅图片模式首次后台补齐，manual 仅管理员命令，off 禁止素材联网。可选 asset_proxy 显式指定 HTTP(S) 代理，AstrBot 空字段可继承宿主 http_proxy；不读取系统代理。Token 为空仍可准备素材，业务继续 awaiting_config。首次完成前使用占位卡。
+
+普通用户使用 do素材状态 查看进度、可用/404/失败数量。Bot 管理员或主人可用 do下载素材 补缺、do更新素材 刷新；命令不接受参数，立即返回后台状态，不主动群发。自动失败冷却30分钟，手动30秒；UI镜像失败仍可发布成功英雄/装备，旧有效图保留。托管更新使用不可变快照并在整组分页后切换 Renderer，无需停用后手改 PNG；显式 CLI 更新自定义目录仍须暂停渲染。升级共享 wheel 与配置后遵循各宿主的[受控停用/重载](dota2uid.md)或[AstrBot生命周期](astrbot.md)。
+
+AstrBot 商店 ZIP 同样不带这些游戏图片；Docker 下载与首配示例见[公开安装指南](astrbot-public-install.md)。例如 `illustration_path = "illustrations-v1"` 指向 `data/plugin_data/astrbot_plugin_dota2forge/illustrations-v1`，不是插件安装目录；绝对路径也必须能从运行宿主访问。
 
 直接消费 API：
 

@@ -19,7 +19,8 @@
   },
   "architecture": {
     "core_path": "packages/dota2forge-core",
-    "shared_paths": ["packages/dota2forge-renderer"],
+    "shared_paths": ["packages/dota2forge-renderer", "packages/dota2forge-assets"],
+    "independent_paths": ["packages/dota2forge-assets"],
     "adapter_paths": [
       "adapters/astrbot_plugin_dota2forge",
       "adapters/Dota2UID"
@@ -106,6 +107,14 @@
         "coverage",
         "report",
         "--include=packages/dota2forge-core/*",
+        "--fail-under=80"
+      ],
+      [
+        "python",
+        "-m",
+        "coverage",
+        "report",
+        "--include=packages/dota2forge-assets/*",
         "--fail-under=80"
       ]
     ]

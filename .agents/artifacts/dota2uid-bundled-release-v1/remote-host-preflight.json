@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-10-08",
+  "read_only": true,
+  "connection": {
+    "target_hash": "b5338cd6d473f86fe0aec2fa56b83c05fe0a1cc0834b0cb8d09837f6730a6adc",
+    "existing_connection_reused": true,
+    "ssh_success": true,
+    "read_only": true
+  },
+  "container": {
+    "name": "gscore",
+    "image": "docker.cnb.cool/gscore-mirror/gsuid_core:latest",
+    "state": "running",
+    "python": "3.12.12",
+    "python_executable": "/venv/bin/python",
+    "sdk_git_head": "7f1bee79e66cb8c1b8e07cce15631021920193dd"
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "/srv/data/services/bot-stack/data/gscore/data",
+      "destination": "/gsuid_core/data"
+    },
+    {
+      "type": "bind",
+      "source": "/srv/data/services/bot-stack/data/gscore/plugins",
+      "destination": "/gsuid_core/gsuid_core/plugins"
+    },
+    {
+      "type": "volume",
+      "name": "bot-stack_gscore_venv",
+      "destination": "/venv"
+    }
+  ],
+  "installed_versions": {
+    "gsuid-core": "0.11.0",
+    "dota2forge-core": null,
+    "dota2forge-renderer": null,
+    "dota2forge-assets": null,
+    "dota2uid": null,
+    "httpx": "0.28.1",
+    "pillow": "11.3.0"
+  },
+  "plugin": {
+    "absolute_path": "/gsuid_core/gsuid_core/plugins/Dota2UID",
+    "exists": true,
+    "git_head": "eb03ae3bb42642b1381a447f7053835c77ec6eea",
+    "origin_is_hbladeh_dota2uid": false,
+    "origin_is_gscore_mirror_dota2uid": true,
+    "tracked_change_count": 0,
+    "untracked_count": 1,
+    "known_untracked_paths": ["__pycache__/"],
+    "other_change_path_count": 0,
+    "dirty_status_sha256": "6941aa24bd626f85fb99b0aca5fe4c1a41a7c7b17785984ed4a2a47e43af5d34",
+    "tree_without_git_or_bytecode": {
+      "files": 12,
+      "bytes": 1958871,
+      "sha256": "a5d31f7847e36bb8df042cada17d2b49e1d17fb5ac465419e18e4c985ac1e237"
+    },
+    "release_json_sha256": "ef3edbdbac5f0c23cef0a12ba6b95f603f07940ec6d0bb0b5acaaef76e41c409",
+    "release_versions": {
+      "dota2forge-core": "0.1.0a4",
+      "dota2forge-renderer": "0.1.0a4",
+      "dota2forge-assets": null,
+      "dota2uid": "0.1.0a4"
+    },
+    "pyproject_version": "0.1.0a4",
+    "pyproject_sha256": "d338a7eb1610c53c2aa4ba45daaed5c77f58cd2b9cb8915621d8f33391cc4d84",
+    "declares_project_package_dependencies": true,
+    "bundled_deployment_manifest_exists": false
+  },
+  "data": {
+    "absolute_path": "/gsuid_core/data/Dota2UID",
+    "exists": false,
+    "configuration_exists": false,
+    "credential_configured": false,
+    "binding_database_exists": false,
+    "subscription_database_exists": false,
+    "artwork_exists": false,
+    "runtime_directory_exists": false
+  },
+  "startup_state_evidence": {
+    "webconsole_http_status": 200,
+    "plugin_status_anonymous_http_status": 404,
+    "plugin_business_ready_observed": false,
+    "live_project_module_sources_directly_inspected": false,
+    "raw_chat_log_read_or_output": false,
+    "provider_called": false
+  },
+  "sdk_source_sha256": {
+    "gsuid_core/server.py": "a55ca5aed6877c3a141e47db7eecfcf8d2c8991824783bec19e9ed6723eb4cd8",
+    "gsuid_core/sv.py": "61567b6ced8ce8485b69adce0dd5f737057628b8fe3c04bfa3df1a307fc6a26e",
+    "gsuid_core/webconsole/web_api.py": "76d16f7f36b2d763a8091163ef7390ee060e0bcdd7ec633aa269e6bcb3460169",
+    "gsuid_core/webconsole/app_app.py": "b1062855829a27d3c65cd113ce9c8cdb6838d6e52d2a11cfd2ef3ecc3e219919",
+    "gsuid_core/app_life.py": "79ff83f05d4aa30cdb7a0ccecaab192752ebf08abba425c8860b3b6b0e649f79"
+  },
+  "sdk_required_management_and_lifecycle_symbols_present": true,
+  "privacy": {
+    "token_or_full_chat_identity_output": false,
+    "credential_values_read": false,
+    "original_logs_read_or_output": false,
+    "provider_calls": false,
+    "messages_sent": false,
+    "production_mutations": false
+  },
+  "deployment_considerations": [
+    "The actual running Linux SDK is 7f1bee79, different from the isolated Windows acceptance SDK 87c06f11; confirm production startup rather than inferring compatibility.",
+    "The installed plugin still uses the gscore-mirror origin. Restore the authorized HBLADEH origin during root's deployment to avoid subsequent updates using the mirror.",
+    "No Dota2UID configuration/data currently exists; successful bundled startup should be awaiting_config until the user's credential and namespace are configured through the local file.",
+    "Preserve the plugin checkout and .git metadata in a private backup before replacing release files; the only current untracked item is bytecode."
+  ]
+}

@@ -18,9 +18,11 @@ Forge 意为“锻造、打造”。项目将 Steam、STRATZ、OpenDota 的原�
 
 Dota2UID 底层复用 Dota2Forge Core；两端不各自实现一套 Dota 2 业务。
 
-现已公开 **0.1.0a4 预览版**：[Dota2UID / GsCore](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a4) · [Dota2Forge / AstrBot](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a4)。本版加入装备简称、出装图片及更详细的比赛卡，四个包统一版本。首次安装及升级都需退出宿主、运行插件内安装器再冷启动：[GsCore](docs/cookbook/gscore-public-install.md) · [AstrBot](docs/cookbook/astrbot-public-install.md)。
+GsCore 已公开 **[Dota2UID 0.1.0a6 随包预发行版](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a6)**：URL 安装后完整重启，匹配项目运行库在插件私有目录准备；主人可用 `do核心状态` / `do安装核心` 诊断恢复，见[随包指南](docs/cookbook/gscore-bundled-install.md)。AstrBot 当前公开 [a7 依赖修复版](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a7)，见[安装指南](docs/cookbook/astrbot-public-install.md)；旧 GsCore a4 保留[薄分发流程](docs/cookbook/gscore-public-install.md)。
 
-[AstrBot商店申请](https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions)已提交，页面显示等待安全检查；[GsCore PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)仍待审核，均不代表已上架。本版离线/安装证据与真实聊天未验收边界见[发行记录](.agents/artifacts/a4-layout-release-v1/README.md)，生产版本和路由未更改。
+新源码加入[后台素材准备](docs/cookbook/illustrations.md)：AstrBot a8、Dota2UID a6、Assets a1，Core/Renderer保持a4。首次图片模式自动补齐，支持状态/补缺/更新命令；AstrBot a8 尚待发布。2026-10-08现行Linux/Docker GsCore已部署a6并冷启动，运行库可用、业务等待Token配置；GsCore源码与全局依赖未变，未发送真实聊天，[发行部署证据](.agents/artifacts/dota2uid-bundled-release-v1/README.md)。
+
+[AstrBot商店申请](https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions)已提交，页面显示等待安全检查；[GsCore PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)仍待审核，均不代表已上架。历史a4离线/安装边界见[发行记录](.agents/artifacts/a4-layout-release-v1/README.md)，当前a6部署见上述独立证据；聊天路由保持原状。
 
 双端插件说明参考 GenshinUID 的组织方式，包含独立生成的[Q 版主宰图标](docs/assets/branding/juggernaut-icon-v1.png)与功能展示位；按用户要求共用AstrBot主宰出装实机原图，GsCore说明注明原宿主。其余按[截图清单](docs/cookbook/plugin-showcase.md)补充，已采用图片与筛选范围见[来源记录](docs/assets/screenshots/README.md)。
 

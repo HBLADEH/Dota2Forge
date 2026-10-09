@@ -1,0 +1,454 @@
+{
+  "additional_ledger_asset_sha256": {
+    "SHA256SUMS": "e43037fecd6ce114a4cda470d62d98fd967e5a748156bc5aa94260bba5770955",
+    "release-assets.json": "aa7f15ae80fca2ddc91a55d4aa294a6d214282ac27e2c64bf91cff6b3c125f25"
+  },
+  "all_checks_passed": true,
+  "assets": [
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 15690004,
+      "filename": "Dota2UID.zip",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/Dota2UID.zip",
+      "sha256": "21bd7f8960d38ae3500e474a8fbfb3f2abbe398ad6549fc0cff6e0aeba326e7b"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 902,
+      "filename": "SHA256SUMS",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/SHA256SUMS",
+      "sha256": "e43037fecd6ce114a4cda470d62d98fd967e5a748156bc5aa94260bba5770955"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 21057,
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 16361,
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_assets-0.1.0a1.tar.gz",
+      "sha256": "c8c65d9e23e0b7a51f1de02183f004152ae8b6980dc1505143cd25c7a6b3477e"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 67453,
+      "filename": "dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 47789,
+      "filename": "dota2forge_core-0.1.0a4.tar.gz",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_core-0.1.0a4.tar.gz",
+      "sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 13727339,
+      "filename": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 13718574,
+      "filename": "dota2forge_renderer-0.1.0a4.tar.gz",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2forge_renderer-0.1.0a4.tar.gz",
+      "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 31941,
+      "filename": "dota2uid-0.1.0a6-py3-none-any.whl",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2uid-0.1.0a6-py3-none-any.whl",
+      "sha256": "a818e59e6bbc64a93713f08b248cfc4cdbed8ab6df42526197f1d66a4f50cd28"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 30285,
+      "filename": "dota2uid-0.1.0a6.tar.gz",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/dota2uid-0.1.0a6.tar.gz",
+      "sha256": "206c06e4c4c540d31c717a18d6056cabf755c54ab834a800782299771e371a56"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "bytes": 2027,
+      "filename": "release-assets.json",
+      "http": {
+        "final_hostname": "release-assets.githubusercontent.com",
+        "status": 200
+      },
+      "matches_expected_sha256": true,
+      "matches_expected_size": true,
+      "public_url": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a6/release-assets.json",
+      "sha256": "aa7f15ae80fca2ddc91a55d4aa294a6d214282ac27e2c64bf91cff6b3c125f25"
+    }
+  ],
+  "checks": {
+    "all_asset_api_digests_and_sizes_match": true,
+    "all_asset_sizes_and_sha256_match": true,
+    "all_eleven_assets_downloaded": true,
+    "all_seven_a4_assets_api_digest_and_size_unchanged": true,
+    "all_seventeen_commit_files_anonymously_match_candidate": true,
+    "anonymous_download_method": true,
+    "downloaded_ledger_matches_local_metadata": true,
+    "eleven_asset_names_exact": true,
+    "git_tree_has_exact_seventeen_files": true,
+    "git_tree_matches_candidate_bytes": true,
+    "main_and_tag_point_to_expected_distribution_commit": true,
+    "release_assets_json_bytes_match_local": true,
+    "release_is_public_prerelease": true,
+    "runtime_manifest_sha_matches_public_ledger": true,
+    "sha256sums_bytes_match_local": true,
+    "sha256sums_covers_exact_nine_payload_assets": true,
+    "zip_has_exact_candidate_seventeen_files": true
+  },
+  "commit_tree_sha": "38a2ad9038e8a436ecdaf566ab14d200cc1acf91",
+  "distribution_commit": "db1237042b9366298c176873342d97f3c590fee6",
+  "download_method": {
+    "authentication_helpers": false,
+    "authorization_header": false,
+    "client": "Python urllib.request",
+    "cookies": false,
+    "download_storage": "Independent system temporary directory; removed after checksum inspection",
+    "environment_proxy_used": true,
+    "proxy_credentials_present": false,
+    "redirect_metadata": "Only HTTPS status and final hostname retained; signed URL query strings omitted"
+  },
+  "errors": [],
+  "external_actions": "Anonymous read-only public asset, Git tree/ref and old Release metadata requests. No remote mutation, candidate/source changes or host directory access.",
+  "initial_direct_route_attempt": {
+    "environment_proxy_used": false,
+    "outcome": "Public asset and raw Git domains returned URLError; GitHub API metadata succeeded. Retried using the configured proxy after checking it has no credentials.",
+    "payload_download_count": 0
+  },
+  "main_commit": "db1237042b9366298c176873342d97f3c590fee6",
+  "old_a4_asset_reviews": [
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 67453,
+      "expected_sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68",
+      "filename": "dota2forge_core-0.1.0a4-py3-none-any.whl"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 47789,
+      "expected_sha256": "b87e13139751ab0662029ff00d2b65d6bb9063c70e060517fa12a1f448587d77",
+      "filename": "dota2forge_core-0.1.0a4.tar.gz"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 13727339,
+      "expected_sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6",
+      "filename": "dota2forge_renderer-0.1.0a4-py3-none-any.whl"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 13718574,
+      "expected_sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034",
+      "filename": "dota2forge_renderer-0.1.0a4.tar.gz"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 25003,
+      "expected_sha256": "48536158b1b2814ed09bd85187e63a3867e042ad4247246c4955221681ae2d0d",
+      "filename": "dota2uid-0.1.0a4-py3-none-any.whl"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 24170,
+      "expected_sha256": "716b54c857785b0d5290ee1afe594664b13b9d7ae9a9d78a0f5e9f0eed27830c",
+      "filename": "dota2uid-0.1.0a4.tar.gz"
+    },
+    {
+      "api_digest_matches": true,
+      "api_size_matches": true,
+      "expected_bytes": 1921527,
+      "expected_sha256": "73619784573b97facbcd817c39a5fadaa21bc82ff64f1cc4d1588f1a578c053b",
+      "filename": "Dota2UID.zip"
+    }
+  ],
+  "old_a4_release_asset_baseline": ".agents/artifacts/a4-layout-release-v1/public-checks.json",
+  "public_commit_files": [
+    {
+      "bytes": 1627903,
+      "filename": "ICON.png",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059"
+    },
+    {
+      "bytes": 4148,
+      "filename": "INSTALL.md",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "95bd3a92eedea0987132ce7a43f3376cd0c473ab2ac380ab3fbebceaf274ae6d"
+    },
+    {
+      "bytes": 1080,
+      "filename": "LICENSE",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "9567fb54f833d13b9cce4a7dc6d198c1d9678d6d7de37072384182bccaa38ca2"
+    },
+    {
+      "bytes": 8790,
+      "filename": "README.md",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "9e8f025d3e28e7bd27d2272f872ed038bf79a66fded3ca4db262cdb62ba4a870"
+    },
+    {
+      "bytes": 15004,
+      "filename": "__init__.py",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "14769a412eda0a0f2a9b44efa90467e13c7bd28eabbca93185ab573fb187e2e4"
+    },
+    {
+      "bytes": 4100,
+      "filename": "_dota2forge_business.py",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "8e64bf069f5f5c6363d4452fb4900537184462cd88defd30f5dd4112ff2943af"
+    },
+    {
+      "bytes": 38075,
+      "filename": "_dota2forge_runtime.py",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "430abf63e1ed9043c65c5aba3f91a23e1a7a53cd8ac3588ace9ad814ea3b6960"
+    },
+    {
+      "bytes": 649,
+      "filename": "config.example.toml",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "1384b33b7fbea6dab2f51ec3b776b2ce6e2460335ede0a449fb2e4304a379f62"
+    },
+    {
+      "bytes": 136,
+      "filename": "deployment.json",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "60f5380dc51ff9d87a9cfe3677c5d359a59173d99a36ad3b1f6abe34c5ea5b64"
+    },
+    {
+      "bytes": 142,
+      "filename": "pyproject.toml",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "55df885ed35829f2dce93ab76fdd4a81360ecb53766501a3a286ca81f8ffb633"
+    },
+    {
+      "bytes": 205,
+      "filename": "release.json",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "94379e47e1b4e51b37b07750f0007f25f7309295125ed30ffe484ab0b485f29a"
+    },
+    {
+      "bytes": 834,
+      "filename": "runtime-wheels.json",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a"
+    },
+    {
+      "bytes": 21057,
+      "filename": "runtime-wheels/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662"
+    },
+    {
+      "bytes": 67453,
+      "filename": "runtime-wheels/dota2forge_core-0.1.0a4-py3-none-any.whl",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "badd006aab7b7925e7d1922f8c2f7d3cd9d5610f46a8a50a872d3cafe9316f68"
+    },
+    {
+      "bytes": 13727339,
+      "filename": "runtime-wheels/dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "bytes": 31941,
+      "filename": "runtime-wheels/dota2uid-0.1.0a6-py3-none-any.whl",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "a818e59e6bbc64a93713f08b248cfc4cdbed8ab6df42526197f1d66a4f50cd28"
+    },
+    {
+      "bytes": 302705,
+      "filename": "screenshots/hero-items.png",
+      "http": {
+        "final_hostname": "raw.githubusercontent.com",
+        "status": 200
+      },
+      "matches_candidate_bytes": true,
+      "matches_git_blob": true,
+      "sha256": "11f5062ebae74f34db21a3ce59614cede05f54e3e51d0c6fef5219078cdefdde"
+    }
+  ],
+  "release_tag": "v0.1.0a6",
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "review_time": "2026-10-08T09:43:33.350767+08:00",
+  "source_commit": "f585ed310d6dd444c9046fba9fb8313ffc90c193",
+  "source_pr": "https://github.com/HBLADEH/Dota2Forge/pull/7",
+  "tag_commit": "db1237042b9366298c176873342d97f3c590fee6",
+  "tree_mismatch": [],
+  "validation_limits": [
+    "This proves anonymous asset availability and distribution byte equivalence; it does not claim plugin management recovery, production deployment or real chat delivery."
+  ],
+  "zip_mismatch": []
+}

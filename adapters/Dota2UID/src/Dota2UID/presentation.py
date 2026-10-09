@@ -34,6 +34,7 @@ from dota2forge_renderer.formatting import (
 from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
 
 HELP = (
+    "do素材状态 / do下载素材 / do更新素材（下载与更新限管理员）\n"
     "Dota2Forge / Dota2UID\n"
     "do绑定 <Dota账号ID或SteamID64>\n"
     "do改绑 <ID>：替换自己的绑定\n"

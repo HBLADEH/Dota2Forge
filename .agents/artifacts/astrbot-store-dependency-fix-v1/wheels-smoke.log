@@ -1,0 +1,44 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-1wlbbeqn\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-1wlbbeqn\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-1wlbbeqn\venv
+Resolved 1 package in 17ms
+Prepared 1 package in 28ms
+Installed 1 package in 39ms
+ + dota2forge-core==0.1.0a4
+Wheel install/import passed: dota2forge-core
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-yr77431r\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-yr77431r\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-yr77431r\venv
+Resolved 3 packages in 113ms
+Prepared 3 packages in 224ms
+Installed 3 packages in 111ms
+ + dota2forge-core==0.1.0a4
+ + dota2forge-renderer==0.1.0a4
+ + pillow==12.3.0
+Wheel install/import passed: dota2forge-renderer
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-2ht59644\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-2ht59644\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-2ht59644\venv
+Resolved 4 packages in 13ms
+Prepared 4 packages in 189ms
+Installed 4 packages in 116ms
+ + astrbot-plugin-dota2forge==0.1.0a7
+ + dota2forge-core==0.1.0a4
+ + dota2forge-renderer==0.1.0a4
+ + pillow==12.3.0
+Wheel install/import passed: astrbot-plugin-dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-sesqobem\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-sesqobem\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-sesqobem\venv
+Resolved 4 packages in 13ms
+Prepared 4 packages in 173ms
+Installed 4 packages in 113ms
+ + dota2forge-core==0.1.0a4
+ + dota2forge-renderer==0.1.0a4
+ + dota2uid==0.1.0a4
+ + pillow==12.3.0
+Wheel install/import passed: dota2uid

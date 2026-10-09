@@ -2,6 +2,8 @@
 
 2026-10-06，用户授权按上架核查顺序执行。已公开[分发仓库](https://github.com/HBLADEH/Dota2UID)及[0.1.0a3运行包](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a3)，完成隔离SDK安装与生命周期验收，提交[商店索引PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)。PR目标vp，仅新增Dota2UID条目和tool_plugins分类，原42个插件不变；目前OPEN，待维护者审核，尚未上架。
 
+2026-10-08另行授权的[a6随包发行与部署](../../.agents/artifacts/dota2uid-bundled-release-v1/README.md)已完成；PR #40的installMsg与说明同步新安装/状态恢复入口，其他索引元数据不变，仍待审核。以下章节保留a3当轮的历史验证与边界，a6使用[随包指南](gscore-bundled-install.md)。
+
 ## 公开分发与安装
 
 独立仓库只维护生成结果，业务仍由主仓共享Core/Renderer与独立适配器维护。默认main，根入口、guard、依赖清单、版本、空配置示例、README、许可、ICON与共享截图齐全；另附公开安装器、固定wheel摘要和本地INSTALL.md。没有提交实际配置、数据库、缓存，也未提交或改写主仓既有工作。

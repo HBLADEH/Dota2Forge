@@ -1,0 +1,54 @@
+{
+  "sdk_7f": {
+    "source_sha256": "fb77e4052aa0a3cd6c0da24f4e940893d673f5dfbc14c5be8990777d5549bf61",
+    "baseline_secret_preview_reproduced": true,
+    "guarded_cases": [
+      {
+        "built_stack": false,
+        "native_response_complete": true,
+        "native_auth_401": true,
+        "gzip_preserved": true,
+        "native_secret_trace_absent": true,
+        "other_api_trace_preserved": true,
+        "sdk_trace_class_unchanged": true
+      },
+      {
+        "built_stack": true,
+        "native_response_complete": true,
+        "native_auth_401": true,
+        "gzip_preserved": true,
+        "native_secret_trace_absent": true,
+        "other_api_trace_preserved": true,
+        "sdk_trace_class_unchanged": true
+      }
+    ]
+  },
+  "sdk_87": {
+    "source_sha256": "fb77e4052aa0a3cd6c0da24f4e940893d673f5dfbc14c5be8990777d5549bf61",
+    "baseline_secret_preview_reproduced": true,
+    "guarded_cases": [
+      {
+        "built_stack": false,
+        "native_response_complete": true,
+        "native_auth_401": true,
+        "gzip_preserved": true,
+        "native_secret_trace_absent": true,
+        "other_api_trace_preserved": true,
+        "sdk_trace_class_unchanged": true
+      },
+      {
+        "built_stack": true,
+        "native_response_complete": true,
+        "native_auth_401": true,
+        "gzip_preserved": true,
+        "native_secret_trace_absent": true,
+        "other_api_trace_preserved": true,
+        "sdk_trace_class_unchanged": true
+      }
+    ]
+  },
+  "production_configuration_values_read": false,
+  "production_mutations": false,
+  "real_provider_calls": false,
+  "runtime_sdk_app_imported": false
+}
