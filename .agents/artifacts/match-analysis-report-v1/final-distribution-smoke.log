@@ -1,10 +1,10 @@
 Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
-Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gws0wz6k\venv
-Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gws0wz6k\venv\Scripts\activate
-Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gws0wz6k\venv
-Resolved 12 packages in 33ms
-Prepared 12 packages in 369ms
-Installed 12 packages in 148ms
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-2ug34s2v\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-2ug34s2v\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-2ug34s2v\venv
+Resolved 12 packages in 62ms
+Prepared 12 packages in 411ms
+Installed 12 packages in 153ms
  + anyio==4.15.1
  + astrbot-plugin-dota2forge==0.1.0a9
  + certifi==2026.7.22
@@ -20,12 +20,12 @@ Installed 12 packages in 148ms
 Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
 SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
 Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
-Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-3nl_gxu0\venv
-Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-3nl_gxu0\venv\Scripts\activate
-Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-3nl_gxu0\venv
-Resolved 8 packages in 9ms
-Prepared 8 packages in 326ms
-Installed 8 packages in 185ms
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-6uvivd2i\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-6uvivd2i\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-6uvivd2i\venv
+Resolved 8 packages in 7ms
+Prepared 8 packages in 241ms
+Installed 8 packages in 126ms
  + anyio==4.15.1
  + certifi==2026.7.22
  + h11==0.16.0

@@ -10,6 +10,8 @@
 
 [总览](report-1.png)、[天辉详情](report-2.png)、[夜魇详情](report-3.png)均1600px宽，2990/2870/2870px高，最大约1.3MiB。已视觉检查图标/文字/图表无重叠、内容非空；空白槽可来自0或null，模型保留差别，页脚说明。正物品ID缺图仍保留ID/名称。真实昵称在实际用户回复中保留，验收样图使用匿名标签。
 
-版本为Core a6、Renderer a5、Dota2UID a9（AstrBot源码a9但未发行）。[统一离线检查](offline-check.log)1985通过、92.61%；scripts/Core/Assets均过80%，Ruff/mypy通过。双端候选和五wheel隔离安装日志：[distribution smoke](final-distribution-smoke.log)、[wheel smoke](wheel-smoke.log)；五包构建见[build](build.log)。
+Core a6、Renderer a5、Dota2UID a9已公开：[Release](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a9)。主仓PR #10提交 `7e650a2fb9a2db9c242c260a7d72ac11424c1989` 合并；分发PR #2/#3提交 `129e8e67fb8582f14d28e12d71ace769bbe196de` / `cfce3fa66b22ec843e64f9b60d5196bf360d75f2` 合并。
+
+[统一离线检查](offline-check.log)1985通过/288.12s、92.61%；scripts/Core/Assets均过80%，Ruff/mypy通过。双端候选和五wheel隔离安装：[distribution smoke](final-distribution-smoke.log)、[wheel smoke](wheel-smoke.log)；五包构建见[build](build.log)。[匿名Release校验](public-validation.json)核对仓库/ZIP、四个wheel、四个sdist和两个清单共11项；资产SHA、发布仓库摘要及18个文件均匹配候选，Assets a1仍为原公开字节。完整清单见[manifest](release-assets.json)/[SHA256SUMS](SHA256SUMS)。真机更新与 `do比赛 9035146588` QQ递送待用户确认。
 
 离线结果、尚未发布与真机边界见[任务](../../tasks/active/2026-10-09-match-analysis-report.md)。旧780px卡保持兼容，新增宽图不预先宣称QQ压缩/递送效果。
