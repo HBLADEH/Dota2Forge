@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前源码为五包：Core/Renderer a4、Assets a1、AstrBot a8、Dota2UID a7。Dota2UID a7随包后台配置版已公开并部署，见[验收](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)。AstrBot已公开a7依赖修复版，新a8待发布。GsCore索引PR #40已同步a7提示、仍待审核，[执行记录](gscore-store-publish.md)与[初始核查](gscore-store-readiness.md)保留历史边界。
+当前源码为五包：Core a5、Renderer a4、Assets a1、AstrBot/Dota2UID a8。Dota2UID a8 携带赛前购买时间修复，发行进度见[任务](../../.agents/tasks/active/2026-10-09-stratz-purchase-release.md)；a7随包后台配置版已公开并部署，见[验收](../../.agents/artifacts/dota2uid-webconsole-config-v1/README.md)。AstrBot已公开a7依赖修复版，新a8待发布。GsCore索引PR #40已同步a7提示、仍待审核，[执行记录](gscore-store-publish.md)与[初始核查](gscore-store-readiness.md)保留历史边界。
 
 ## 生成与审查
 

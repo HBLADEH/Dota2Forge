@@ -167,7 +167,10 @@ def test_classified_detail_errors_name_match_subject(code):
     assert "比赛" in text and "玩家" not in text
 
 
-def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(config_path, caller, run_async):
+@pytest.mark.parametrize("purchase_time", [-89, 0])
+def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(
+    config_path, caller, run_async, purchase_time
+):
     requests = []
 
     def handler(request):
@@ -189,7 +192,7 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(config_path,
                                 "steamAccountId": 123,
                                 "stats": {
                                     "networthPerMinute": [100],
-                                    "itemPurchases": [],
+                                    "itemPurchases": [{"time": purchase_time, "itemId": 1}],
                                 },
                             }
                         ],
@@ -204,6 +207,7 @@ def test_runtime_direct_lookup_does_not_bind_fetch_player_or_recent(config_path,
         runtime = Runtime(config_path, client_factory=lambda: client)
         direct = await runtime.handle(caller, "do比赛", "7000000001")
         assert "比赛 7000000001" in direct[0] and "[我方]" not in "\n".join(direct)
+        assert "购买事件 1 条" in "\n".join(direct)
         assert "尚未绑定" in (await runtime.handle(caller, "do账号", ""))[0]
         await runtime.handle(caller, "do绑定", "123")
         own = await runtime.handle(caller, "do比赛", "7000000001")
