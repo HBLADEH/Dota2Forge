@@ -1,10 +1,10 @@
 Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
-Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-qr0zrm4j\venv
-Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-qr0zrm4j\venv\Scripts\activate
-Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-qr0zrm4j\venv
-Resolved 12 packages in 26ms
-Prepared 12 packages in 379ms
-Installed 12 packages in 187ms
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gj3zam_d\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gj3zam_d\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gj3zam_d\venv
+Resolved 12 packages in 15ms
+Prepared 12 packages in 365ms
+Installed 12 packages in 168ms
  + anyio==4.15.1
  + astrbot-plugin-dota2forge==0.1.0a9
  + certifi==2026.7.22
@@ -20,12 +20,12 @@ Installed 12 packages in 187ms
 Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
 SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
 Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
-Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-v1abk_qq\venv
-Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-v1abk_qq\venv\Scripts\activate
-Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-v1abk_qq\venv
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-4w5k0lrw\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-4w5k0lrw\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-4w5k0lrw\venv
 Resolved 8 packages in 7ms
-Prepared 8 packages in 284ms
-Installed 8 packages in 166ms
+Prepared 8 packages in 228ms
+Installed 8 packages in 121ms
  + anyio==4.15.1
  + certifi==2026.7.22
  + h11==0.16.0

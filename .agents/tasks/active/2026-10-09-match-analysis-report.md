@@ -25,4 +25,6 @@ Status: in_progress
 统一禁网检查1985项通过/288.12s，聚合92.61%；scripts/Core/Assets各自超过80%，Ruff和mypy85源文件通过。[检查日志](../../artifacts/match-analysis-report-v1/offline-check.log)。专项覆盖STRATZ字段/排名/序列、旧订阅记录兼容、缺失统计、双端图片与文本、宽图和长回复分段。五包构建、双端发行smoke及五wheel离线安装导入通过。版本元数据专项110项及更新后的发行测试通过。
 
 ## 阻塞与下一步
-新增报告代码和指定比赛预览已完成；沿用此前用户“直接推送合并，再真机更新测试”的授权准备Dota2UID a9（Core a6/Renderer a5）。两端依赖同步到新下限防止错配，Assets a1保留原公开字节；不操作生产宿主、不发布AstrBot新版本。新版主仓与Dota2UID分发合并/公开资产匿名校验待完成。之后用户更新、停用旧实例、完整冷启动，再用 `do核心状态` / `do比赛 9035146588` 真机验收；未反馈前不宣称QQ实机通过。
+主仓PR #10已合并提交 `7e650a2fb9a2db9c242c260a7d72ac11424c1989`，Python3.12/3.13 CI成功。Dota2UID PR #2/#3已合并提交 `129e8e67fb8582f14d28e12d71ace769bbe196de` / `cfce3fa66b22ec843e64f9b60d5196bf360d75f2`。[v0.1.0a9 Release](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a9)已发布：11项资产匿名下载和SHA256、仓库ZIP及18个文件与候选匹配，Assets a1沿用原公开字节。[匿名校验摘要](../../artifacts/match-analysis-report-v1/public-validation.json)、[manifest](../../artifacts/match-analysis-report-v1/release-assets.json)、[SHA256SUMS](../../artifacts/match-analysis-report-v1/SHA256SUMS)。
+
+用户接下来停用旧实例、更新Dota2UID并完整冷启动，用 `do核心状态` 确认Core a6/Renderer a5/Dota2UID a9，再执行 `do比赛 9035146588`。真实QQ图片压缩/顺序/数量和宿主配置保留待用户反馈；未反馈前不宣称真机通过。本次没有操作生产宿主，也未发布AstrBot a9。
