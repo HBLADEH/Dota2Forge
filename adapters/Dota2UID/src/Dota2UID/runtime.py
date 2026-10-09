@@ -36,6 +36,7 @@ from dota2forge_core import (
     ValidationError,
 )
 from dota2forge_core.infrastructure import SystemClock
+from dota2forge_core.infrastructure._worker import run_storage
 from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog
 from dota2forge_core.infrastructure.opendota import OpenDotaProvider
 from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
@@ -133,6 +134,9 @@ class Runtime:
         self._sending: asyncio.Task[object] | None = None
         self._overload_sending: asyncio.Task[object] | None = None
         self._dispatch_count = 0
+        self._dispatch_tasks: set[asyncio.Task[object]] = set()
+        self._dispatch_drained = asyncio.Event()
+        self._dispatch_drained.set()
         self._pending_delivery: _RecentCandidate | None = None
         self._selections = RecentSelectionStore(clock=selection_clock)
         self._renderer_factory = renderer_factory
@@ -153,7 +157,30 @@ class Runtime:
 
     async def poll_subscriptions(self, send: SubscriptionSend) -> None:
         if self._state == State.READY and self._subscriptions is not None:
-            await self._subscriptions.tick(send)
+            polling = asyncio.current_task()
+            if polling is not None:
+                self._dispatch_tasks.add(polling)
+                self._dispatch_drained.clear()
+            worker = asyncio.create_task(self._subscriptions.tick(send))
+            try:
+                await asyncio.shield(worker)
+            except asyncio.CancelledError:
+                worker.cancel()
+                while not worker.done():
+                    try:
+                        await asyncio.shield(worker)
+                    except asyncio.CancelledError:
+                        continue
+                    except Exception:
+                        break
+                if not worker.cancelled():
+                    worker.exception()
+                raise
+            finally:
+                if polling is not None:
+                    self._dispatch_tasks.discard(polling)
+                    if not self._dispatch_tasks:
+                        self._dispatch_drained.set()
 
     @property
     def state(self) -> State:
@@ -218,11 +245,12 @@ class Runtime:
             ready = False
             try:
                 if self._config_loader is None:
-                    await asyncio.to_thread(ensure_config, self._config_path)
-                    config = await asyncio.to_thread(load_config, self._config_path)
+                    await run_storage(lambda: ensure_config(self._config_path))
+                    config = await run_storage(lambda: load_config(self._config_path))
                 else:
                     try:
-                        config = await asyncio.to_thread(self._config_loader, self._config_path)
+                        loader = self._config_loader
+                        config = await run_storage(lambda: loader(self._config_path))
                     except ConfigurationError:
                         raise
                     except Exception:
@@ -230,7 +258,7 @@ class Runtime:
                     if not isinstance(config, Config):
                         raise ConfigurationError()
                 await self._start_assets(config)
-                await asyncio.to_thread(config.database.parent.mkdir, parents=True, exist_ok=True)
+                await run_storage(lambda: config.database.parent.mkdir(parents=True, exist_ok=True))
                 repository = SQLiteBindingRepository(config.database)
                 await repository.initialize()
                 if self.state == State.STOPPING:
@@ -324,7 +352,20 @@ class Runtime:
         # Retain ownership even if a host timeout cancels the waiter.
         await asyncio.shield(self._close_task)
 
+    async def _drain_dispatches(self) -> None:
+        """Wait until every dispatch task has completed its cancellation cleanup.
+
+        ``client_closed`` and ``state=stopped`` only describe owned resources. A
+        transport callback can still be unwinding after those resources close;
+        generation replacement must wait for the task's ``finally`` block too.
+        """
+        while self._dispatch_tasks:
+            await asyncio.shield(self._dispatch_drained.wait())
+
     async def _finish_close(self) -> None:
+        if self._subscriptions is not None:
+            await self._subscriptions.close()
+        await self._drain_dispatches()
         async with self._lock:
             try:
                 try:
@@ -353,7 +394,19 @@ class Runtime:
 
     async def handle(self, caller: Caller, keyword: str, text: str) -> list[str]:
         """Return text only; callers must use dispatch to confirm chat delivery."""
-        return (await self._handle(caller, keyword, text, capture=False)).messages
+        if self._state in {State.STOPPING, State.STOPPED}:
+            return [UNAVAILABLE]
+        task = asyncio.current_task()
+        if task is not None:
+            self._dispatch_tasks.add(task)
+            self._dispatch_drained.clear()
+        try:
+            return (await self._handle(caller, keyword, text, capture=False)).messages
+        finally:
+            if task is not None:
+                self._dispatch_tasks.discard(task)
+                if not self._dispatch_tasks:
+                    self._dispatch_drained.set()
 
     async def dispatch(
         self,
@@ -372,14 +425,25 @@ class Runtime:
             if self._overload_sending is not None:
                 return
             self._overload_sending = asyncio.current_task()
+            overload = self._overload_sending
+            if overload is not None:
+                self._dispatch_tasks.add(overload)
+                self._dispatch_drained.clear()
             try:
                 await send(TextReply("Dota2UID 当前排队请求较多，请稍后手动再试。"))
                 LOGGER.info("delivery state=completed operation=%s replies=1 images=0", operation)
             finally:
                 self._overload_sending = None
+                if overload is not None:
+                    self._dispatch_tasks.discard(overload)
+                    if not self._dispatch_tasks:
+                        self._dispatch_drained.set()
             return
         self._dispatch_count += 1
         task = asyncio.current_task()
+        if task is not None:
+            self._dispatch_tasks.add(task)
+            self._dispatch_drained.clear()
         try:
             async with self._send_lock:
                 if self._state in {State.STOPPING, State.STOPPED}:
@@ -463,6 +527,10 @@ class Runtime:
                 self._sending = None
                 self._pending_delivery = None
             self._dispatch_count -= 1
+            if task is not None:
+                self._dispatch_tasks.discard(task)
+                if not self._dispatch_tasks:
+                    self._dispatch_drained.set()
 
     async def _binding(self, identity: PlatformIdentity) -> PlayerBinding | None:
         assert self._service is not None

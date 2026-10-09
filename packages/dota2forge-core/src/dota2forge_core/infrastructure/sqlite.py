@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 import math
 import sqlite3
 from collections.abc import Callable
@@ -13,6 +12,7 @@ from pathlib import Path
 from ..domain.errors import BindingConflictError, RepositoryError, ValidationError
 from ..domain.identity import AccountId, PlatformIdentity
 from ..domain.models import PlayerBinding
+from ._worker import run_storage
 
 _APPLICATION_ID = 0x44324647
 _SCHEMA_VERSION = 1
@@ -23,7 +23,7 @@ _KEY = "namespace = ? AND platform = ? AND bot_id = ? AND user_id = ?"
 class SQLiteBindingRepository:
     """Use a dedicated database and call initialize before use.
 
-    No connection survives an operation. Cancellation stops awaiting a worker;
+    No connection survives an operation. Cancellation waits for its worker to exit;
     an already-running transaction may still commit. Re-read before retrying
     an ambiguous replacement. Identical binds and repeated deletes are idempotent.
     """
@@ -44,7 +44,7 @@ class SQLiteBindingRepository:
         self._timeout = timeout_seconds
 
     async def initialize(self) -> None:
-        await asyncio.to_thread(self._run, self._initialize, write=True, initialize=True)
+        await run_storage(lambda: self._run(self._initialize, write=True, initialize=True))
 
     async def get(self, identity: PlatformIdentity) -> PlayerBinding | None:
         key = self._identity_key(identity)
@@ -55,7 +55,7 @@ class SQLiteBindingRepository:
             ).fetchone()
             return self._decode(row) if row is not None else None
 
-        return await asyncio.to_thread(self._run, query)
+        return await run_storage(lambda: self._run(query))
 
     async def save(self, binding: PlayerBinding, *, replace: bool = False) -> PlayerBinding:
         if not isinstance(binding, PlayerBinding) or type(replace) is not bool:
@@ -80,7 +80,7 @@ class SQLiteBindingRepository:
             )
             return binding
 
-        return await asyncio.to_thread(self._run, write, write=True)
+        return await run_storage(lambda: self._run(write, write=True))
 
     async def delete(self, identity: PlatformIdentity) -> bool:
         key = self._identity_key(identity)
@@ -88,7 +88,7 @@ class SQLiteBindingRepository:
         def delete(connection: sqlite3.Connection) -> bool:
             return connection.execute(f"DELETE FROM bindings WHERE {_KEY}", key).rowcount > 0
 
-        return await asyncio.to_thread(self._run, delete, write=True)
+        return await run_storage(lambda: self._run(delete, write=True))
 
     def _run[T](
         self,

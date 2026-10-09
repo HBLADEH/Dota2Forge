@@ -268,3 +268,74 @@ def test_provider_construction_failure_closes_candidate(config_path, run_async, 
         await runtime.close()
 
     run_async(check())
+
+
+def test_close_waits_for_transport_cleanup_and_queued_dispatches(config_path, caller, run_async):
+    async def check():
+        entered, cancelling, release = asyncio.Event(), asyncio.Event(), asyncio.Event()
+        runtime = Runtime(config_path)
+
+        async def delayed_send(reply):
+            entered.set()
+            try:
+                await asyncio.Event().wait()
+            except asyncio.CancelledError:
+                cancelling.set()
+                await release.wait()
+                raise
+
+        sending = asyncio.create_task(runtime.dispatch(caller, "do菜单", "", delayed_send))
+        await entered.wait()
+        queued = [
+            asyncio.create_task(runtime.dispatch(caller, "do菜单", "", delayed_send))
+            for _ in range(3)
+        ]
+        await asyncio.sleep(0)
+        closed = asyncio.create_task(runtime.close())
+        await cancelling.wait()
+        assert not closed.done() and runtime.state == State.STOPPING
+        assert runtime._dispatch_count == 4
+        closed.cancel()
+        with pytest.raises(asyncio.CancelledError):
+            await closed
+        assert not runtime._close_task.done()
+        release.set()
+        await runtime.close()
+        await asyncio.gather(sending, *queued, return_exceptions=True)
+        assert runtime.state == State.STOPPED and runtime.client_closed
+        assert not runtime._dispatch_tasks and runtime._dispatch_count == 0
+
+    run_async(check())
+
+
+def test_subscription_host_cancellation_waits_for_owned_tick_cleanup(
+    config_path, monkeypatch, run_async
+):
+    async def check():
+        runtime = Runtime(config_path)
+        await runtime.start()
+        entered, cancelled, release = asyncio.Event(), asyncio.Event(), asyncio.Event()
+
+        async def tick(send):
+            entered.set()
+            try:
+                await asyncio.Event().wait()
+            except asyncio.CancelledError:
+                cancelled.set()
+                await release.wait()
+                raise
+
+        monkeypatch.setattr(runtime._subscriptions, "tick", tick)
+        poll = asyncio.create_task(runtime.poll_subscriptions(lambda event, text: None))
+        await entered.wait()
+        poll.cancel()
+        await cancelled.wait()
+        poll.cancel()
+        await asyncio.sleep(0)
+        assert not poll.done()
+        release.set()
+        with pytest.raises(asyncio.CancelledError):
+            await poll
+        await runtime.close()
+
+    run_async(check())

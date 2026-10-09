@@ -1,6 +1,5 @@
 """Dedicated SQLite subscription store, with transactional checkpoints and outbox."""
 
-import asyncio
 import math
 import sqlite3
 from collections.abc import Callable
@@ -31,6 +30,7 @@ from ._subscription_codec import (
     encode_checkpoint,
     encode_event,
 )
+from ._worker import run_storage
 
 _APPLICATION_ID = 0x44325355
 _SCHEMA_VERSION = 3
@@ -83,7 +83,7 @@ class SQLiteSubscriptionRepository:
         self._max_pending_events = max_pending_events
 
     async def initialize(self) -> None:
-        await asyncio.to_thread(self._run, self._initialize, write=True, initialize=True)
+        await run_storage(lambda: self._run(self._initialize, write=True, initialize=True))
 
     async def save(self, subscription: Subscription) -> Subscription:
         if (
@@ -126,7 +126,7 @@ class SQLiteSubscriptionRepository:
             )
             return subscription
 
-        return await asyncio.to_thread(self._run, save, write=True)
+        return await run_storage(lambda: self._run(save, write=True))
 
     async def list(
         self,
@@ -162,7 +162,7 @@ class SQLiteSubscriptionRepository:
             ).fetchall()
             return tuple(decode_subscription(row) for row in rows)
 
-        return await asyncio.to_thread(self._run, query)
+        return await run_storage(lambda: self._run(query))
 
     async def delete(self, identity: PlatformIdentity, subscription_id: str) -> bool:
         owner = self._owner(identity)
@@ -181,7 +181,7 @@ class SQLiteSubscriptionRepository:
             )
             return True
 
-        return await asyncio.to_thread(self._run, delete, write=True)
+        return await run_storage(lambda: self._run(delete, write=True))
 
     async def commit(
         self,
@@ -256,7 +256,7 @@ class SQLiteSubscriptionRepository:
             )
             return True
 
-        return await asyncio.to_thread(self._run, commit, write=True)
+        return await run_storage(lambda: self._run(commit, write=True))
 
     async def pending(
         self,
@@ -274,7 +274,7 @@ class SQLiteSubscriptionRepository:
             ).fetchall()
             return tuple(decode_event(row) for row in rows)
 
-        return await asyncio.to_thread(self._run, query)
+        return await run_storage(lambda: self._run(query))
 
     async def acknowledge(self, identity: PlatformIdentity, event_id: str) -> bool:
         owner = self._owner(identity)
@@ -290,7 +290,7 @@ class SQLiteSubscriptionRepository:
             connection.execute("DELETE FROM subscription_events WHERE event_id = ?", (event_id,))
             return True
 
-        return await asyncio.to_thread(self._run, acknowledge, write=True)
+        return await run_storage(lambda: self._run(acknowledge, write=True))
 
     @staticmethod
     def _owner(identity: PlatformIdentity) -> tuple[str, str, str, str]:
@@ -307,7 +307,7 @@ class SQLiteSubscriptionRepository:
                 owner,
             ).rowcount
 
-        return await asyncio.to_thread(self._run, delete, write=True)
+        return await run_storage(lambda: self._run(delete, write=True))
 
     async def scopes(
         self, namespace: str, *, after: SubscriptionScope | None = None
@@ -328,7 +328,7 @@ class SQLiteSubscriptionRepository:
             ).fetchall()
             return tuple(SubscriptionScope(row[0], row[1], row[2]) for row in rows)
 
-        return await asyncio.to_thread(self._run, query)
+        return await run_storage(lambda: self._run(query))
 
     async def deliverable(
         self, scope: SubscriptionScope, *, limit: int = 20, after_sequence: int = 0
@@ -347,7 +347,7 @@ class SQLiteSubscriptionRepository:
             ).fetchall()
             return tuple(decode_event(row) for row in rows)
 
-        return await asyncio.to_thread(self._run, query)
+        return await run_storage(lambda: self._run(query))
 
     async def event_sequence(self, scope: SubscriptionScope, event_id: str) -> int | None:
         require_subscription_id(event_id)
@@ -360,7 +360,7 @@ class SQLiteSubscriptionRepository:
             ).fetchone()
             return int(row[0]) if row is not None else None
 
-        return await asyncio.to_thread(self._run, query)
+        return await run_storage(lambda: self._run(query))
 
     async def claim(
         self, identity: PlatformIdentity, event_id: str, attempted_at: datetime
@@ -383,7 +383,7 @@ class SQLiteSubscriptionRepository:
             ).rowcount
             return event if changed else None
 
-        return await asyncio.to_thread(self._run, claim, write=True)
+        return await run_storage(lambda: self._run(claim, write=True))
 
     async def release(self, identity: PlatformIdentity, event_id: str) -> bool:
         owner = self._owner(identity)
@@ -403,7 +403,7 @@ class SQLiteSubscriptionRepository:
                 > 0
             )
 
-        return await asyncio.to_thread(self._run, release, write=True)
+        return await run_storage(lambda: self._run(release, write=True))
 
     @classmethod
     def _filters(
