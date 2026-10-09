@@ -24,5 +24,7 @@ Core a5/Dota2UID a8 包元数据、双端 Core 下限、uv.lock及生成参考�
 
 五包[构建](../../artifacts/dota2uid-pregame-release-v1/build.log)、[隔离安装](../../artifacts/dota2uid-pregame-release-v1/wheel-smoke.log)、[双端分发smoke](../../artifacts/dota2uid-pregame-release-v1/distribution-smoke.log)均退出0。a8-review-v1为本地候选；Renderer a4/Assets a1的wheel/sdist逐字节复用a7公开资产并校验SHA256。
 
+主仓 PR #9 已合并为 `33e97e2f27feb46ddb01cd55e09ee9298e7cfef4`，Python 3.12/3.13 CI 均成功。Dota2UID 分发 PR #1 已合并为 `c11c8d40ad5cb3e57a119f9edea9ff58371722f0`；`v0.1.0a8` 已公开，[Release](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a8) 的 11 个资产匿名下载、SHA256、仓库 ZIP 和 18 个公开文件均与候选一致。[公开校验摘要](../../artifacts/dota2uid-pregame-release-v1/public-validation.json)与[资产清单](../../artifacts/dota2uid-pregame-release-v1/release-assets.json)。
+
 ## 阻塞与下一步
-准备新版包元数据、锁文件和分发候选，验证后推送主仓并合并；随包公开发行后由用户冷启动自测。
+代码、随包运行库和公开发行已完成。用户接下来需停止旧实例、更新 Dota2UID 分发、完整冷启动，执行 `do核心状态` 和 `do比赛 9035146588`；真实 QQ 结果、宿主版本和配置/绑定保留情况待用户反馈。确认真机通过后再将本任务移入 done。

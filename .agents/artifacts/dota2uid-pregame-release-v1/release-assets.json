@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "tag": "v0.1.0a8",
+  "source_commit": "41dafc9c52dad343bd2c2016123d524d358d01f6",
+  "distribution_commit": "c11c8d40ad5cb3e57a119f9edea9ff58371722f0",
+  "runtime_manifest_sha256": "b57d5074e45e968547a8f23d270034ff6bbb441c92985728fea195635ffab409",
+  "assets": [
+    {
+      "filename": "Dota2UID.zip",
+      "bytes": 15702458,
+      "sha256": "f9719b13ca8230eaa327e8918986faef0ed0f5b2ecd4f107251fce1659c0fbc1"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 21057,
+      "sha256": "f6e2cbefe573edbf90919106e7ff2b70daa69787cda3be4006b4b7bba0b04662"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a5-py3-none-any.whl",
+      "bytes": 67640,
+      "sha256": "12a0cfaf9a47951e2e371d1fc35a18a14f5a45876471848d4cfc79b2bfcbc031"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a4-py3-none-any.whl",
+      "bytes": 13727339,
+      "sha256": "c1bbceb2619a57c1db8880c99a4eaa99c55db4fac4fe8ea67d399bd372f472c6"
+    },
+    {
+      "filename": "dota2uid-0.1.0a8-py3-none-any.whl",
+      "bytes": 37935,
+      "sha256": "acf7fdd9f7528cf862a64bb0d22ecb6b24cf36b85476ffef1d546c51520c2675"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "bytes": 16361,
+      "sha256": "c8c65d9e23e0b7a51f1de02183f004152ae8b6980dc1505143cd25c7a6b3477e"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a5.tar.gz",
+      "bytes": 47583,
+      "sha256": "a89679820730c752c74d1c748d9d9857a4cb55830075bccd653b74eb6b9d0583"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a4.tar.gz",
+      "bytes": 13718574,
+      "sha256": "7e19200e2d99bbe41839d978a71637e6a131ffa3367483253ebbe2fcec7b9034"
+    },
+    {
+      "filename": "dota2uid-0.1.0a8.tar.gz",
+      "bytes": 35812,
+      "sha256": "0f446ca97cfdfa40bf4b07860114d78019dc3770e0ac690114d9ac43381ac4c3"
+    }
+  ]
+}
