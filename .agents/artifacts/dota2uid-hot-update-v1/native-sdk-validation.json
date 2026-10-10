@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "python": "3.13.2",
+  "sdk_metadata_version": "0.11.0",
+  "pillow_version": "11.3.0",
+  "source_files_checked": 641,
+  "sdk_source_unchanged": true,
+  "sdk_functions_replaced": false,
+  "external_network_disabled": true,
+  "real_chat_or_production_modified": false,
+  "candidate_versions": {
+    "dota2forge-core": "0.1.0a8",
+    "dota2forge-renderer": "0.1.0a5",
+    "dota2forge-assets": "0.1.0a1",
+    "dota2uid": "0.1.0a10"
+  },
+  "cold_awaiting_config": true,
+  "live_configuration_reload_ready": true,
+  "native_generation_reload_ready": true,
+  "new_runtime_type_and_four_module_origins": true,
+  "new_core_code_canary_verified": true,
+  "native_reload_waits_for_active_send_cancellation_cleanup": true,
+  "native_api_401_403_admin_status": true,
+  "configuration_binding_subscription_hashes_preserved": true,
+  "unique_config_command_hook_scheduler_registration": true,
+  "failed_preparation_retains_live_runtime_and_restores_registration": true,
+  "final_shutdown_drained": true,
+  "upgrade_fixture": "disposable synthetic Core a7-to-a8 wheel with an executable canary; derived from canonical wheel, never a public release"
+}

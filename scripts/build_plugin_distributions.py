@@ -239,6 +239,14 @@ def bundled_readme(content: str) -> str:
         "；既有 a4 分发不含这些新增安装行为。",
     )
     content = content.replace("bundled 候选随仓库提供", "本随包预发行版随仓库提供")
+    content = content.replace(
+        "公开a9按冷启动流程更新，本地a10兼容切换边界见上文，真实聊天效果待用户复测。",
+        "a9公开运行库更新须冷启动；a10兼容bundled更新可按本地候选步骤重载，真实聊天效果待用户复测。",
+    )
+    content = content.replace(
+        "公开a9的共享库更新须冷启动；本地a10兼容代际更新可受控重载，旧版首次升级仍须冷启动。",
+        "公开a9的共享库更新须冷启动；a10兼容代际更新可受控重载，旧版首次升级仍须冷启动。",
+    )
     start = "## 丨安装与首次配置"
     end = "## 丨快速开始"
     replacement = (
@@ -247,17 +255,18 @@ def bundled_readme(content: str) -> str:
         "仓库携带匹配的四个项目运行包，启动时校验并准备插件专用运行目录，"
         "不需要先安装本项目 PyPI 包。\n"
         "2. 用主人身份发送 `do核心状态` 查看准备和加载结果。"
-        "缺包或校验失败时发送 `do安装核心`，按提示完成恢复后完整重启宿主。"
+        "缺包或校验失败时发送 `do安装核心`，按提示完成恢复后重载插件。"
         "恢复只使用清单固定版本与 SHA256，不接受聊天 URL、版本或 pip 参数。\n"
         "3. 在后台 **插件配置 → Dota2UID → 插件参数配置** 填写 "
         "STRATZ Token 和独立 `namespace`，点击确认修改。"
-        "主人发送 `do停用` 确认关闭后，再重载当前插件。"
+        "重载当前插件后读取保存的配置；旧 a6–a9 首次升级本版须完整冷启动。"
         "Token 不发送到聊天。\n\n"
         "`do帮助` / `do菜单` 在运行库未就绪时返回文字提示；配置未完成单独显示。"
         "HTTPX、Pillow 继续使用宿主兼容版本，第三方冲突须按 "
         "[安装指南](../../docs/cookbook/gscore-bundled-install.md)维护。"
-        "运行中的安装或修复只准备新运行库，激活需要冷启动；"
-        "已有绑定和配置保留。详细安装、更新与回退步骤见同一指南。\n\n"
+        "运行中的安装或修复只准备新运行库，兼容更新通过受控重载启用；"
+        "状态分别显示期望、准备、运行版本与摘要。未知消费者、schema/第三方变化或"
+        "关闭超时仍需冷启动；已有绑定和配置保留。详细安装、更新与回退见同一指南。\n\n"
         "独立分发目录与 ZIP 由[发行生成器](../../docs/cookbook/plugin-release.md)生成。"
         "这是随包预发行分发；生成器只准备分发文件，生成动作本身不代表公开发布。\n\n"
     )
@@ -512,6 +521,15 @@ def distribution_files(
         if public_wheels is not None:
             if bundled:
                 content.update(bundled_runtime_files(public_wheels, pinned, repo))
+                deployment = json.loads(content["deployment.json"])
+                deployment["hot_reload"] = {
+                    "protocol": 1,
+                    "contract": "dota2forge-storage-1-3-report-2",
+                    "business_sha256": hashlib.sha256(
+                        content["_dota2forge_business.py"]
+                    ).hexdigest(),
+                }
+                content["deployment.json"] = json_bytes(deployment)
             else:
                 content["install_runtime.py"] = text_bytes(root / GS_RUNTIME_SOURCE)
                 content["runtime-wheels.json"] = runtime_wheels(public_wheels, pinned, repo)

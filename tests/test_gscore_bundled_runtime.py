@@ -45,7 +45,7 @@ def owned_offline_loop(monkeypatch):
 
 def wheel_files(name, version="0.1.0a6"):
     dist = f"{name.replace('-', '_')}-{version}.dist-info"
-    return {
+    files = {
         f"{runtime.PACKAGES[name]}/__init__.py": b'"""Synthetic test package."""\n',
         f"{dist}/METADATA": (
             f"Metadata-Version: 2.3\nName: {name}\nVersion: {version}\nRequires-Python: >=3.12\n"
@@ -54,6 +54,18 @@ def wheel_files(name, version="0.1.0a6"):
         f"{dist}/RECORD": b"",
         f"{dist}/licenses/LICENSE": b"Synthetic fixture license",
     }
+    if name == "dota2forge-core":
+        files.update(
+            {
+                "dota2forge_core/infrastructure/sqlite.py": (
+                    b"_APPLICATION_ID = 0x44324647\n_SCHEMA_VERSION = 1\n"
+                ),
+                "dota2forge_core/infrastructure/subscriptions.py": (
+                    b"_APPLICATION_ID = 0x44325355\n_SCHEMA_VERSION = 3\n"
+                ),
+            }
+        )
+    return files
 
 
 def write_wheel(path, files):
@@ -967,3 +979,164 @@ asyncio.run(replacement.close())
     )
     assert result.returncode == 0, result.stderr.decode("utf-8", errors="replace")
     assert len(list((data / "runtime").glob("*/*/.complete.json"))) == 1
+
+
+def test_frozen_bridge_manifest_and_prepared_pointer_do_not_change_active_version(plugin):
+    root, data, manifest = plugin
+    source = b'"""Synthetic frozen bridge."""\n'
+    (root / "_dota2forge_business.py").write_bytes(source)
+    config = json.loads((root / "deployment.json").read_bytes())
+    config["hot_reload"] = {
+        "protocol": 1,
+        "contract": runtime.HOT_RELOAD_CONTRACT,
+        "business_sha256": hashlib.sha256(source).hexdigest(),
+    }
+    (root / "deployment.json").write_text(json.dumps(config), "utf-8")
+    initial = runtime.BundledRuntime(root, data)
+    initial.freeze()
+    assert initial.versions == VERSIONS and initial.bridge == source
+    assert asyncio.run(initial.prepare()) is not None
+    initial.record_active()
+    active = (data / "runtime/active.json").read_bytes()
+    # A later Git update changes the manifest; the first owner retains its copy.
+    manifest["repository"] = "https://github.com/another/Dota2UID"
+    (root / "runtime-wheels.json").write_text(json.dumps(manifest), "utf-8")
+    deployment(root)
+    assert asyncio.run(initial.prepare()) == initial.generation
+    assert initial.bridge == source
+    later = runtime.BundledRuntime(root, data)
+    assert asyncio.run(later.prepare()) is not None
+    assert later.digest != initial.digest
+    assert (data / "runtime/active.json").read_bytes() == active
+    later.record_active()
+    assert (data / "runtime/active.json").read_bytes() != active
+
+
+@pytest.mark.parametrize("case", ["protocol", "bridge", "contract", "missing"])
+def test_freeze_rejects_invalid_handoff_manifest(plugin, case):
+    root, data, _ = plugin
+    source = b"value = 1\n"
+    (root / "_dota2forge_business.py").write_bytes(source)
+    config = json.loads((root / "deployment.json").read_bytes())
+    hot = {
+        "protocol": 1,
+        "contract": runtime.HOT_RELOAD_CONTRACT,
+        "business_sha256": hashlib.sha256(source).hexdigest(),
+    }
+    if case == "protocol":
+        hot["protocol"] = True
+    elif case == "bridge":
+        hot["business_sha256"] = "0" * 64
+    elif case == "contract":
+        hot["contract"] = None
+    else:
+        (root / "_dota2forge_business.py").unlink()
+    config["hot_reload"] = hot
+    (root / "deployment.json").write_text(json.dumps(config), "utf-8")
+    with pytest.raises((runtime.BootstrapError, OSError)):
+        runtime.BundledRuntime(root, data).freeze()
+
+
+def test_storage_fingerprint_checks_schema_and_detects_failed_start_writes(tmp_path):
+    import sqlite3
+    from contextlib import closing
+
+    assert set(runtime.storage_fingerprint(tmp_path).values()) == {"missing"}
+    for name, app, version in (
+        ("bindings.sqlite3", 0x44324647, 1),
+        ("subscriptions.sqlite3", 0x44325355, 3),
+    ):
+        with closing(sqlite3.connect(tmp_path / name)) as connection:
+            connection.execute(f"PRAGMA application_id = {app}")
+            connection.execute(f"PRAGMA user_version = {version}")
+            connection.execute("CREATE TABLE synthetic(value INTEGER)")
+    before = runtime.storage_fingerprint(tmp_path)
+    with closing(sqlite3.connect(tmp_path / "bindings.sqlite3")) as connection:
+        connection.execute("INSERT INTO synthetic VALUES (42)")
+        connection.commit()
+    assert runtime.storage_fingerprint(tmp_path) != before
+    with closing(sqlite3.connect(tmp_path / "subscriptions.sqlite3")) as connection:
+        connection.execute("PRAGMA user_version = 99")
+    with pytest.raises(runtime.BootstrapError) as error:
+        runtime.storage_fingerprint(tmp_path)
+    assert error.value.code == "reload_incompatible"
+
+
+@pytest.fixture
+def module_switch(tmp_path, monkeypatch):
+    old = runtime.BundledRuntime(tmp_path / "old-plugin", tmp_path / "data")
+    new = runtime.BundledRuntime(tmp_path / "new-plugin", tmp_path / "data")
+    old.generation, new.generation = tmp_path / "old", tmp_path / "new"
+    old.contract = new.contract = runtime.HOT_RELOAD_CONTRACT
+    old.generation.mkdir()
+    new.generation.mkdir()
+    module = ModuleType("dota2forge_core")
+    module.__file__ = str(old.generation / "dota2forge_core/__init__.py")
+    # Only the module-table bookkeeping is exercised here; real imports are
+    # covered separately in an isolated interpreter so test collection is intact.
+    monkeypatch.setattr(
+        runtime,
+        "sys",
+        SimpleNamespace(
+            modules={"dota2forge_core": module},
+            path=[str(old.generation), "synthetic-host"],
+            path_hooks=list(sys.path_hooks),
+            path_importer_cache={"synthetic-host": object()},
+        ),
+    )
+    runtime.claim_runtime(old, "synthetic-owner")
+    return old, new, module
+
+
+def test_switch_detaches_all_late_imports_and_restores_only_project_state(module_switch):
+    old, new, module = module_switch
+    switch = runtime.RuntimeSwitch(old, new, "synthetic-owner", "plugins.Dota2UID")
+    late = ModuleType("dota2forge_core.late")
+    late.__file__ = str(old.generation / "dota2forge_core/late.py")
+    runtime.sys.modules[late.__name__] = late
+    host_finder = runtime.sys.path_importer_cache["synthetic-host"]
+    switch.detach()
+    assert "dota2forge_core" not in runtime.sys.modules and late.__name__ not in runtime.sys.modules
+    candidate = ModuleType("dota2forge_core")
+    candidate.__file__ = str(new.generation / "dota2forge_core/__init__.py")
+    runtime.sys.modules[candidate.__name__] = candidate
+    unrelated = ModuleType("another_plugin")
+    runtime.sys.modules[unrelated.__name__] = unrelated
+    runtime.sys.path.insert(0, str(new.generation))
+    runtime.sys.path.append("later-host")
+    switch.restore()
+    assert runtime.sys.modules["dota2forge_core"] is module
+    assert runtime.sys.modules[late.__name__] is late
+    assert runtime.sys.modules[unrelated.__name__] is unrelated
+    assert "later-host" in runtime.sys.path and str(new.generation) not in runtime.sys.path
+    assert runtime.sys.path_importer_cache["synthetic-host"] is host_finder
+
+
+@pytest.mark.parametrize("case", ["source", "lease", "contract", "consumer", "replaced"])
+def test_switch_rejects_unknown_sources_shared_consumers_and_changed_modules(module_switch, case):
+    old, new, module = module_switch
+    expected = "reload_incompatible"
+    if case == "source":
+        module.__file__ = str(new.generation / "unexpected.py")
+        expected = "module_conflict"
+    elif case == "lease":
+        runtime._leases()["another-owner"] = str(old.generation)
+    elif case == "contract":
+        new.contract = "incompatible-storage"
+    elif case == "consumer":
+        consumer = ModuleType("another_plugin")
+        consumer.Core = module
+        runtime.sys.modules[consumer.__name__] = consumer
+        expected = "runtime_shared"
+    else:
+        switch = runtime.RuntimeSwitch(old, new, "synthetic-owner", "plugins.Dota2UID")
+        runtime.sys.modules["dota2forge_core"] = ModuleType("dota2forge_core")
+        with pytest.raises(runtime.BootstrapError) as error:
+            switch.detach()
+        assert error.value.code == "module_conflict"
+        assert not switch.detached
+        return
+    with pytest.raises(runtime.BootstrapError) as error:
+        runtime.RuntimeSwitch(old, new, "synthetic-owner", "plugins.Dota2UID")
+    assert error.value.code == expected
+    assert runtime.sys.modules["dota2forge_core"] is module
