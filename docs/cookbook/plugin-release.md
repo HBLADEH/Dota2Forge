@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前源码为五包：Core a6、Renderer a5、Assets a1、双端 a9。新比赛宽幅报告/STRATZ IMP发行进度见[任务](../../.agents/tasks/active/2026-10-09-match-analysis-report.md)；Dota2UID a8赛前时间修复已公开。AstrBot现行公开a7，新a9仅源码准备。GsCore索引PR #40仍待审核，[执行记录](gscore-store-publish.md)保留历史边界。
+当前源码为Core a7、Renderer a5、Assets a1、AstrBot a9/Dota2UID a10。Dota2UID a9宽幅报告已公开，a10受控热切换尚未发布，见[任务](../../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)。AstrBot现行公开a7，新a9仅源码准备。GsCore索引PR #40的状态以[执行记录](gscore-store-publish.md)为历史边界。
 
 ## 生成与审查
 
@@ -17,6 +17,8 @@ uv run --locked python scripts/build_plugin_distributions.py --output dist/plugi
 插件README从两个适配器说明生成，注入当次版本与目标仓库；主仓文档链接转为完整URL，MIT许可保留本地链接。共享[主宰图标](../assets/branding/juggernaut-icon-v1.png)分别为GsCore根ICON.png与AstrBot根logo.png；GsCore索引avatar/cover指向目标main的ICON.png，远端未同步时尚不可用。已审查截图按白名单复制到对应根screenshots/，README图片路径转为本地，源图/目标均纳入摘要和ZIP大小检查，缺图在输出前失败。当前双端共用AstrBot主宰出装卡，GsCore说明标明原宿主，[其余待补](plugin-showcase.md)；原始聊天图片不自动收录。
 
 GsCore随包模式使用 `--gscore-bundled --gscore-wheels dist`。先构建五包，携带匹配的四个项目 wheel，生成deployment.json、清单摘要、bootstrap与延迟业务入口。`--source-ref`可传main或40位小写源码SHA，固定文档链接；a7发行源码为3a2f6d0c8c3739d7a8da38cc4e116dc94d327023。根依赖仅保留HTTPX/Pillow，AstrBot与薄模式保持原契约。安装恢复和冷启动见[随包指南](gscore-bundled-install.md)。
+
+a10候选的deployment.json另记录protocol=1、存储兼容标识与业务桥接SHA256，热切换前校验wheel内schema。发行方改变存储/报告读写兼容性时须同步新标识并保留旧版本冷启动边界；不能只修改版本号沿用热切换承诺。旧a6–a9缺少排空协议，第一次升级a10须冷启动。
 
 ```text
 dist/plugin-distributions/a7-candidate-v1/

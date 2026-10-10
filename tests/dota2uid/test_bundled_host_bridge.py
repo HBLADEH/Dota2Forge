@@ -62,6 +62,16 @@ class SyntheticManager:
         self.prepare_calls = []
         self.activate_calls = 0
         self.close_calls = 0
+        self.contract = "synthetic-contract"
+        self.versions = {"dota2uid": "synthetic-version"}
+        self.digest = "synthetic-digest"
+        self.bridge = None
+
+    def freeze(self):
+        self.bridge = (self.plugin_root / "_dota2forge_business.py").read_bytes()
+
+    def record_active(self):
+        pass
 
     async def prepare(self, *, allow_download=False):
         self.prepare_calls.append(allow_download)
@@ -255,6 +265,20 @@ def host(tmp_path, monkeypatch):
     backend = ModuleType(package + "._dota2forge_runtime")
     backend.BundledRuntime = SyntheticManager
     backend.BootstrapError = SyntheticBootstrapError
+    backend.claim_runtime = lambda manager, owner_key: None
+    backend.storage_fingerprint = lambda data_root: {}
+
+    class SyntheticSwitch:
+        def __init__(self, previous, candidate, owner_key, bridge_name):
+            self.detached = False
+
+        def detach(self):
+            self.detached = True
+
+        def restore(self):
+            self.detached = False
+
+    backend.RuntimeSwitch = SyntheticSwitch
     monkeypatch.setitem(sys.modules, backend.__name__, backend)
 
     def load():
@@ -382,9 +406,9 @@ def test_install_prepares_but_never_activates_and_repeated_install_is_idempotent
         assert module.owner.manager.activate_calls == 0
         assert module.owner.business is None
         status = await module.status_dota2uid()
-        assert status["state"] == "pending_restart" and status["prepared"] is True
+        assert status["state"] == "pending_reload" and status["prepared"] is True
         assert status["business_state"] == "unavailable"
-        assert "完整重启" in bot.replies[-1]
+        assert "重载插件" in bot.replies[-1]
         await module.start_dota2uid()
         assert module.owner.manager.activate_calls == 0
         await module.install_dota2uid(bot, SyntheticEvent())
@@ -564,7 +588,7 @@ def test_business_import_failure_rolls_back_only_new_business_registrations(host
 
 
 @pytest.mark.parametrize("native_cleanup", [False, True])
-def test_live_hot_reload_requires_restart_and_restores_management_hooks(
+def test_live_hot_reload_closes_old_runtime_and_restores_unique_management_hooks(
     host, run_async, native_cleanup
 ):
     module = host.load()
@@ -580,9 +604,10 @@ def test_live_hot_reload_requires_restart_and_restores_management_hooks(
                 children.clear()
             host.app.router.routes.clear()
         reloaded = host.load()
-        assert reloaded.owner is module.owner and reloaded.owner.restart_required
+        assert reloaded.owner is not module.owner and not reloaded.owner.restart_required
         await reloaded.start_dota2uid()
-        assert reloaded.owner.business is old_business
+        assert reloaded.owner.business is not old_business
+        assert old_business.runtime.client_closed and old_business.runtime.state.value == "stopped"
         assert reloaded.owner.manager.prepare_calls == [False]
         assert all(len(collection) == 1 for collection in host.hooks.values())
         assert len(host.app.router.routes) == 2
@@ -592,9 +617,9 @@ def test_live_hot_reload_requires_restart_and_restores_management_hooks(
         }
         bot = CapturingBot()
         await reloaded.core_status_dota2uid(bot, SyntheticEvent())
-        assert "完整重启" in bot.replies[-1]
+        assert "运行版本" in bot.replies[-1]
         await reloaded.help_dota2uid(bot, SyntheticEvent(command="do帮助", user_pm=6))
-        assert "do安装核心" in bot.replies[-1]
+        assert "等待配置" in bot.replies[-1]
         await reloaded.close_dota2uid()
 
     run_async(check())
@@ -703,7 +728,7 @@ def test_install_during_startup_reports_progress_and_shutdown_prevents_activatio
     run_async(check())
 
 
-def test_install_with_active_business_only_prepares_and_waits_for_cold_start(
+def test_install_with_active_business_keeps_active_manager_and_waits_for_reload(
     host, config_path, run_async
 ):
     (host.data / "config.toml").write_text(config_path.read_text("utf-8"), "utf-8")
@@ -715,19 +740,21 @@ def test_install_with_active_business_only_prepares_and_waits_for_cold_start(
         bot = CapturingBot()
         await module.install_dota2uid(bot, SyntheticEvent())
         await module.owner.install_task
-        assert module.owner.manager.prepare_calls == [False, True]
-        assert module.owner.manager.activate_calls == 1
+        assert module.owner.manager.prepare_calls == [True]
+        assert module.owner.manager.activate_calls == 0
+        assert module.owner.active_manager.prepare_calls == [False]
+        assert module.owner.active_manager.activate_calls == 1
         assert module.owner.business is business and not business.runtime.client_closed
         status = await module.status_dota2uid()
-        assert status["state"] == "pending_restart" and status["business_state"] == "ready"
+        assert status["state"] == "pending_reload" and status["business_state"] == "ready"
         await module.start_dota2uid()
-        assert module.owner.manager.activate_calls == 1
+        assert module.owner.manager.activate_calls == 0
         await module.stop_dota2uid()
 
     run_async(check())
 
 
-def test_stopped_reload_still_rejects_loaded_different_generation(host, run_async):
+def test_failed_activation_restores_old_generation_and_new_business_instance(host, run_async):
     module = host.load()
 
     async def check():
@@ -736,7 +763,9 @@ def test_stopped_reload_still_rejects_loaded_different_generation(host, run_asyn
         reloaded = host.load()
         reloaded.owner.manager.activate_error = "module_conflict"
         await reloaded.start_dota2uid()
-        assert reloaded.owner.business is None
+        assert reloaded.owner.business is not module.owner.business
+        assert reloaded.owner.switch_state == "rolled_back"
+        assert reloaded.owner.business.runtime.state.value == "awaiting_config"
         assert (await reloaded.status_dota2uid())["bootstrap_error"] == "module_conflict"
         bot = CapturingBot()
         await reloaded.core_status_dota2uid(bot, SyntheticEvent())
@@ -760,7 +789,7 @@ def test_completion_reply_failure_does_not_erase_prepared_runtime(host, run_asyn
         await module.install_dota2uid(bot, SyntheticEvent())
         await module.owner.install_task
         status = await module.status_dota2uid()
-        assert status["state"] == "pending_restart" and status["bootstrap_error"] == ""
+        assert status["state"] == "pending_reload" and status["bootstrap_error"] == ""
         assert status["prepared"] is True
         await module.stop_dota2uid()
 
@@ -850,5 +879,186 @@ def test_shutdown_waits_only_for_plugin_start_not_the_host_callers_later_work(ho
         assert "Dota2UID账号与查询" not in host.registry.lst
         later_work.set()
         await caller
+
+    run_async(check())
+
+
+def test_legacy_owner_requires_cold_start_without_replacing_live_resources(host, run_async):
+    module = host.load()
+
+    async def check():
+        await module.start_dota2uid()
+        business = module.owner.business
+        module.owner.protocol = 0
+        reloaded = host.load()
+        await reloaded.start_dota2uid()
+        assert reloaded.owner.restart_required and reloaded.owner.business is business
+        assert (await reloaded.status_dota2uid())["bootstrap_error"] == "reload_incompatible"
+        assert business.runtime.state.value == "awaiting_config"
+        await reloaded.stop_dota2uid()
+        assert business.runtime.state.value == "stopped"
+
+    run_async(check())
+
+
+def test_failed_preparation_retains_previous_business_and_restores_native_registration(
+    host, config_path, run_async
+):
+    (host.data / "config.toml").write_text(
+        "subscriptions_enabled=true\n" + config_path.read_text("utf-8"), "utf-8"
+    )
+    module = host.load()
+
+    async def check():
+        await module.start_dota2uid()
+        business = module.owner.business
+        host.registry.lst.clear()
+        host.jobs.clear()
+        reloaded = host.load()
+        reloaded.owner.manager.prepare_error = "hash_mismatch"
+        await reloaded.start_dota2uid()
+        assert reloaded.owner.business is business and not business.runtime.client_closed
+        assert reloaded.owner.switch_state == "retained" and len(host.jobs) == 1
+        assert "do绑定" in host.commands()
+        bot = CapturingBot()
+        await host.commands()["do绑定"][0](bot, SyntheticEvent(command="do绑定", text="42"))
+        assert "绑定已保存" in bot.replies[-1]
+        assert (await reloaded.status_dota2uid())["bootstrap_error"] == "hash_mismatch"
+        await reloaded.stop_dota2uid()
+        assert business.runtime.client_closed and not host.jobs
+
+    run_async(check())
+
+
+def test_reload_timeout_does_not_detach_old_modules_and_keeps_owned_close(
+    host, config_path, monkeypatch, run_async
+):
+    import asyncio
+
+    (host.data / "config.toml").write_text(config_path.read_text("utf-8"), "utf-8")
+    module = host.load()
+
+    async def check():
+        await module.start_dota2uid()
+        entered, release = asyncio.Event(), asyncio.Event()
+        business = module.owner.business
+        original = module.owner.finish_close
+
+        async def delayed_close():
+            entered.set()
+            await release.wait()
+            await original()
+
+        monkeypatch.setattr(module.owner, "finish_close", delayed_close)
+        reloaded = host.load()
+        monkeypatch.setattr(reloaded, "CLOSE_TIMEOUT", 0.01)
+        await reloaded.start_dota2uid()
+        assert entered.is_set() and not module.owner.close_task.done()
+        assert reloaded.owner.restart_required and reloaded.owner.error == "close_timeout"
+        assert reloaded.owner.manager.activate_calls == 0
+        release.set()
+        await reloaded.stop_dota2uid()
+        assert module.owner.close_task.done() and business.runtime.client_closed
+
+    run_async(check())
+
+
+def test_rapid_reload_skips_intermediate_owner_and_closes_active_owner_once(host, run_async):
+    import asyncio
+
+    initial = host.load()
+
+    async def check():
+        await initial.start_dota2uid()
+        old = initial.owner.business
+        intermediate = host.load()
+        newest = host.load()
+        await asyncio.gather(intermediate.start_dota2uid(), newest.start_dota2uid())
+        assert intermediate.owner.manager.activate_calls == 0
+        assert newest.owner.business is not old and old.runtime.state.value == "stopped"
+        assert newest.owner.switch_state == "idle"
+        assert all(len(collection) == 1 for collection in host.hooks.values())
+        assert len(host.app.router.routes) == 2
+        await newest.stop_dota2uid()
+
+    run_async(check())
+
+
+def test_reload_uses_frozen_business_and_configuration(host, config_path, run_async):
+    (host.data / "config.toml").write_text(config_path.read_text("utf-8"), "utf-8")
+    module = host.load()
+
+    async def check():
+        await module.start_dota2uid()
+        reloaded = host.load()
+        frozen = reloaded.owner.config_values["namespace"]
+        host.configurations["Dota2UID"].config["namespace"].data = "later-config"
+        (host.plugin / "_dota2forge_business.py").write_text(
+            'raise RuntimeError("later-git-update")\n', "utf-8"
+        )
+        await reloaded.start_dota2uid()
+        assert reloaded.owner.switch_state == "idle"
+        assert reloaded.owner.business.runtime._config.namespace == frozen
+        await reloaded.stop_dota2uid()
+
+    run_async(check())
+
+
+def test_failed_start_after_data_write_refuses_automatic_rollback(host, monkeypatch, run_async):
+    backend = sys.modules[host.package + "._dota2forge_runtime"]
+    initial = host.load()
+
+    async def check():
+        await initial.start_dota2uid()
+        old = initial.owner.business
+        checks = iter([{}, {}, {"changed": "synthetic-digest"}])
+        monkeypatch.setattr(backend, "storage_fingerprint", lambda root: next(checks))
+        (host.plugin / "_dota2forge_business.py").write_text(
+            'raise RuntimeError("synthetic-after-schema-write")\n', "utf-8"
+        )
+        reloaded = host.load()
+        await reloaded.start_dota2uid()
+        assert reloaded.owner.business is None and reloaded.owner.restart_required
+        assert reloaded.owner.error == "storage_changed"
+        assert old.runtime.state.value == "stopped"
+        await reloaded.stop_dota2uid()
+
+    run_async(check())
+
+
+def test_reload_during_candidate_initialization_restores_before_latest_switch(
+    host, monkeypatch, run_async
+):
+    import asyncio
+
+    initial = host.load()
+
+    async def check():
+        await initial.start_dota2uid()
+        original = initial.owner.business
+        intermediate = host.load()
+        entered, release = asyncio.Event(), asyncio.Event()
+        load = intermediate.owner.load_business
+
+        async def delayed_load(source, values):
+            business = await load(source, values)
+            entered.set()
+            await release.wait()
+            return business
+
+        monkeypatch.setattr(intermediate.owner, "load_business", delayed_load)
+        switching = asyncio.create_task(intermediate.start_dota2uid())
+        await entered.wait()
+        newest = host.load()
+        newest_start = asyncio.create_task(newest.start_dota2uid())
+        release.set()
+        await asyncio.gather(switching, newest_start)
+        assert intermediate.owner.switch_state == "rolled_back"
+        assert newest.owner.switch_state == "idle" and newest.owner.error is None
+        assert newest.owner.business is not original
+        assert newest.owner.business.runtime.state.value == "awaiting_config"
+        assert original.runtime.state.value == "stopped"
+        assert all(len(collection) == 1 for collection in host.hooks.values())
+        await newest.stop_dota2uid()
 
     run_async(check())
