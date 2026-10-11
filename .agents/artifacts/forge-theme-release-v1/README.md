@@ -15,6 +15,8 @@
 
 [UID匿名校验](Dota2UID-public-validation.json)与[AstrBot匿名校验](astrbot_plugin_dota2forge-public-validation.json)均通过：codeload分发提交与候选全文件一致，Release ZIP与仓库一致，各11个附件完整匿名下载与SHA256核对，标签SHA另由GitHub ref读取确认。没有覆盖旧Release资产或操作PyPI。
 
-Cloud已通过发布页“更新插件版本”提交alpha.10，返回版本详情页；再次解析时平台明确显示现有插件当前版本alpha.10，确认提交已被接收。随后公共详情页仍显示alpha.7 Published及“暂无更新日志”；alpha.10的公开审核／缓存更新尚未确认，不能把提交写为审核通过。没有重复提交、撤回旧版或改绑仓库。后续在[Cloud版本页](https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions)核实新版上架与日志显示；[接续任务](../../tasks/active/2026-10-11-forge-theme-release.md)。
+Cloud已通过发布页“更新插件版本”提交alpha.10，返回版本详情页；再次解析时平台明确显示现有插件当前版本alpha.10，确认提交已被接收。随后公共详情页仍显示alpha.7 Published及“暂无更新日志”；alpha.10的公开审核／缓存更新尚未确认，不能把提交写为审核通过。没有重复提交、撤回旧版或改绑仓库。后续在[Cloud版本页](https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions)核实新版上架与日志显示；[接续任务](../../tasks/done/2026-10-11-forge-theme-release.md)。
 
 新主题的实际宿主／QQ／AstrBot聊天、客户端压缩与订阅投递尚未验证。旧UID a6–a9首次升级冷启动；之后仅兼容bundled代际可受控重载。AstrBot升级停止宿主，用实际Python执行安装器后冷启动。配置、数据库和真实宿主均未操作。
+
+2026-10-12接续确认：Cloud alpha.10 已显示 Published，更新日志非空；[核实记录](../plugin-readme-release-20261012/cloud-baseline.json)。上述未确认描述为原提交时状态。

@@ -39,7 +39,7 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
             "dota2forge-assets": "0.1.0a1",
             (
                 "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
-            ): "0.1.0a10" if plugin.startswith("astrbot") else "0.1.0a12",
+            ): "0.1.0a11" if plugin.startswith("astrbot") else "0.1.0a13",
         }
         compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
         assert (candidate / plugin / "LICENSE").read_text("utf-8") == (ROOT / "LICENSE").read_text(
@@ -59,7 +59,7 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
         "dota2forge-assets==0.1.0a1",
         "dota2forge-core[stratz]==0.1.0a7",
         "dota2forge-renderer==0.1.0a6",
-        "dota2uid[stratz]==0.1.0a12",
+        "dota2uid[stratz]==0.1.0a13",
     ]
     assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
     helper = candidate / "Dota2UID/_dota2forge_config.py"
@@ -74,13 +74,13 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
     astr = (candidate / "astrbot_plugin_dota2forge/metadata.yaml").read_text("utf-8")
     assert f"repo: {ASTR_REPO}" in astr and 'astrbot_version: ">=4.5.0"' in astr
     requirements = (candidate / "astrbot_plugin_dota2forge/requirements.txt").read_text("utf-8")
-    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a10" in requirements
+    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a11" in requirements
     assert "dota2forge-core[stratz]==0.1.0a7" in requirements
     changelog = (candidate / "astrbot_plugin_dota2forge/CHANGELOG.md").read_bytes()
     assert changelog == distribution.text_bytes(
         ROOT / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md"
     )
-    assert "0.1.0-alpha.10" in changelog.decode("utf-8")
+    assert "0.1.0-alpha.11" in changelog.decode("utf-8")
     with ZipFile(candidate / "astrbot_plugin_dota2forge.zip") as archive:
         assert archive.read("CHANGELOG.md") == changelog
     manifest = json.loads((candidate / "manifest.json").read_text("utf-8"))
@@ -288,11 +288,20 @@ def test_plugin_readmes_and_icons_remain_usable_outside_the_workspace(candidate)
             else icon_name
         )
         assert f'src="{icon_url}"' in content
-        assert "0.1.0a6" in content and repo in content
-        assert "待实机截图" in content
-        assert ("0.1.0-alpha.10" if plugin.startswith("astrbot") else "尚未上架商店") in content
+        adapter = "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
+        version = distribution.versions(ROOT)[adapter]
+        displayed = (
+            distribution.astrbot_version(version) if plugin.startswith("astrbot") else version
+        )
+        assert f"> 发行版本：`{displayed}`" in content and repo in content
+        assert "远古锻炉" in content and "## 效果展示" in content
+        assert "M0 预发行" in content
+        assert "STRATZ IMP" in content and "不是精确天梯分" in content
+        assert "## 安装与首次配置" in content and "## 快速开始" in content
+        if plugin.startswith("astrbot"):
+            assert f'<a href="{repo}/blob/main/CHANGELOG.md">更新日志</a>' in content
         assert "<!-- distribution-release -->" not in content
-        targets = re.findall(r'!?\[[^\]\n]*\]\(([^\s)]+)\)|src="([^"]+)"', content)
+        targets = re.findall(r'!?\[[^\]\n]*\]\(([^\s)]+)\)|(?:src|href)="([^"]+)"', content)
         for link, source in targets:
             target = link or source
             if not urlsplit(target).scheme:
@@ -331,37 +340,43 @@ def test_readme_uses_requested_release_identity_and_requires_one_marker(tmp_path
             distribution.readme(tmp_path, "Dota2UID", repo, "0.2.0")
 
 
-@pytest.mark.parametrize(
-    "plugin,caption",
-    [
-        ("astrbot_plugin_dota2forge", "AstrBot 主宰热门出装实机卡片"),
-        ("Dota2UID", "主宰热门出装共享卡片（来自 AstrBot）"),
-    ],
-)
-def test_reviewed_screenshot_is_local_in_zip_and_covered_by_both_digests(
-    candidate, plugin, caption
-):
+@pytest.mark.parametrize("plugin", ["astrbot_plugin_dota2forge", "Dota2UID"])
+def test_reviewed_screenshots_are_in_zip_and_covered_by_both_digests(candidate, plugin):
     """A standalone README must retain its image without remote monorepo assets."""
-    source = "docs/assets/screenshots/astrbot/hero-items.png"
-    target = f"{plugin}/screenshots/hero-items.png"
-    original = (ROOT / source).read_bytes()
     content = (candidate / plugin / "README.md").read_text("utf-8")
-    image_url = (
-        ASTR_REPO.replace("https://github.com/", "https://raw.githubusercontent.com/")
-        + "/main/screenshots/hero-items.png"
-        if plugin.startswith("astrbot")
-        else "screenshots/hero-items.png"
-    )
-    assert f"![{caption}]({image_url})" in content
-    if plugin == "Dota2UID":
-        assert "复用此前 AstrBot 实机原图" in content and "不构成 GsCore 聊天收发" in content
-    assert (candidate / target).read_bytes() == original
-    with ZipFile(candidate / f"{plugin}.zip") as packed:
-        assert packed.read("screenshots/hero-items.png") == original
+    assert "GsCore / Dota2UID" in content and "两端共用图片渲染器" in content
+    assert "已脱敏" in content
+    expected_images = {
+        "menu.png",
+        "player.png",
+        "recent.png",
+        "match-overview.png",
+        "match-radiant.png",
+        "match-dire.png",
+        "hero-items.png",
+    }
+    assert set(distribution.SHOWCASE_IMAGES[plugin]) == expected_images
     manifest = json.loads((candidate / "manifest.json").read_text("utf-8"))
-    digest = hashlib.sha256(original).hexdigest()
-    assert manifest["source_sha256"][source] == digest
-    assert manifest["files_sha256"][target] == digest
+    with ZipFile(candidate / f"{plugin}.zip") as packed:
+        assert {name for name in packed.namelist() if name.startswith("screenshots/")} == {
+            f"screenshots/{name}" for name in expected_images
+        }
+        for name, source in distribution.SHOWCASE_IMAGES[plugin].items():
+            target = f"{plugin}/screenshots/{name}"
+            original = (ROOT / source).read_bytes()
+            image_url = (
+                ASTR_REPO.replace("https://github.com/", "https://raw.githubusercontent.com/")
+                + f"/main/screenshots/{name}"
+                if plugin.startswith("astrbot")
+                else f"screenshots/{name}"
+            )
+            assert f'src="{image_url}"' in content
+            assert f"../../{source}" not in content
+            assert (candidate / target).read_bytes() == original
+            assert packed.read(f"screenshots/{name}") == original
+            digest = hashlib.sha256(original).hexdigest()
+            assert manifest["source_sha256"][source] == digest
+            assert manifest["files_sha256"][target] == digest
 
 
 def test_missing_reviewed_screenshot_fails_before_creating_candidate(tmp_path, monkeypatch):

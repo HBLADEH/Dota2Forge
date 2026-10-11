@@ -1,0 +1,465 @@
+{
+  "coordinates": "original pixels, half-open [left, top, right, bottom]",
+  "files": {
+    "hero-items.png": {
+      "dimensions": [
+        780,
+        1674
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [],
+      "reviewed_bytes": 364334,
+      "reviewed_sha256": "ad6120bd71cfdd46fb7138f2588af8c4f7a4736481c8a095b4da4fce8f96ae7c",
+      "source_bytes": 364334,
+      "source_sha256": "ad6120bd71cfdd46fb7138f2588af8c4f7a4736481c8a095b4da4fce8f96ae7c"
+    },
+    "match-dire.png": {
+      "dimensions": [
+        1600,
+        2870
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [
+        {
+          "box": [
+            122,
+            204,
+            348,
+            252
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            210,
+            404,
+            824,
+            444
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            834,
+            824,
+            874
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            1264,
+            824,
+            1304
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            1694,
+            824,
+            1734
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            2124,
+            824,
+            2164
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            783,
+            2744,
+            934,
+            2780
+          ],
+          "field": "source_url_match_id"
+        }
+      ],
+      "reviewed_bytes": 1087292,
+      "reviewed_sha256": "20dd37667a37a8a80bc2f41df92b8f3aab07e518903bc08a6896855602385f06",
+      "source_bytes": 1115018,
+      "source_sha256": "1d04d0d3784713a55b6f7ef8504672a5142ab58bd59e94eda36fac61ca9339b4"
+    },
+    "match-overview.png": {
+      "dimensions": [
+        1600,
+        2990
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [
+        {
+          "box": [
+            122,
+            204,
+            348,
+            252
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            126,
+            484,
+            350,
+            520
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            576,
+            350,
+            612
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            668,
+            350,
+            704
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            760,
+            350,
+            796
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            852,
+            350,
+            888
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            1064,
+            350,
+            1100
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            1156,
+            350,
+            1192
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            1248,
+            350,
+            1284
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            1340,
+            350,
+            1376
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            126,
+            1432,
+            350,
+            1468
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            412,
+            2035,
+            786,
+            2071
+          ],
+          "field": "highlight_name"
+        },
+        {
+          "box": [
+            412,
+            2165,
+            786,
+            2201
+          ],
+          "field": "highlight_name"
+        },
+        {
+          "box": [
+            412,
+            2295,
+            786,
+            2331
+          ],
+          "field": "highlight_name"
+        },
+        {
+          "box": [
+            1186,
+            2035,
+            1560,
+            2071
+          ],
+          "field": "highlight_name"
+        },
+        {
+          "box": [
+            1186,
+            2165,
+            1560,
+            2201
+          ],
+          "field": "highlight_name"
+        },
+        {
+          "box": [
+            1186,
+            2295,
+            1560,
+            2331
+          ],
+          "field": "highlight_name"
+        },
+        {
+          "box": [
+            783,
+            2714,
+            934,
+            2750
+          ],
+          "field": "source_url_match_id"
+        }
+      ],
+      "reviewed_bytes": 573382,
+      "reviewed_sha256": "da2cf075dda3eeb04f70011d8acd221e618e941ea6a821f5289e87cdba42cf89",
+      "source_bytes": 626054,
+      "source_sha256": "b7c77cc414e4fa70d9397b5b48e2bca16bcb2fd77216e6d202ef27fde983c8a3"
+    },
+    "match-radiant.png": {
+      "dimensions": [
+        1600,
+        2870
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [
+        {
+          "box": [
+            122,
+            204,
+            348,
+            252
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            210,
+            404,
+            824,
+            444
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            834,
+            824,
+            874
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            1264,
+            824,
+            1304
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            1694,
+            824,
+            1734
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            210,
+            2124,
+            824,
+            2164
+          ],
+          "field": "participant_name"
+        },
+        {
+          "box": [
+            783,
+            2744,
+            934,
+            2780
+          ],
+          "field": "source_url_match_id"
+        }
+      ],
+      "reviewed_bytes": 981609,
+      "reviewed_sha256": "021432c35f17c58eb52813b6f17874ea0844a723c7acb421af5684f361150d5c",
+      "source_bytes": 1012127,
+      "source_sha256": "452866412415dbb52fef8e3fc2c80a5f3d35d4bb487afeeeb813079792283143"
+    },
+    "menu.png": {
+      "dimensions": [
+        780,
+        1780
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [],
+      "reviewed_bytes": 227939,
+      "reviewed_sha256": "eb2639c9bdc160f73090565d49b9fe589c95f1e2ad8091fd50fc2d858a39c6cf",
+      "source_bytes": 227939,
+      "source_sha256": "eb2639c9bdc160f73090565d49b9fe589c95f1e2ad8091fd50fc2d858a39c6cf"
+    },
+    "player.png": {
+      "dimensions": [
+        780,
+        960
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [
+        {
+          "box": [
+            34,
+            268,
+            242,
+            312
+          ],
+          "field": "nickname"
+        },
+        {
+          "box": [
+            92,
+            630,
+            226,
+            664
+          ],
+          "field": "account_id"
+        }
+      ],
+      "reviewed_bytes": 112215,
+      "reviewed_sha256": "abb5885a3585d5779487b0df6c4ab86e915ee054968a20864da69c2a3a56adf2",
+      "source_bytes": 120931,
+      "source_sha256": "310b6725c589e4885455a92b90fd0704c6c78d58464b7b75cdf5b3291e296e23"
+    },
+    "recent.png": {
+      "dimensions": [
+        780,
+        1560
+      ],
+      "pixels_outside_redactions_unchanged": true,
+      "redactions": [
+        {
+          "box": [
+            92,
+            210,
+            226,
+            246
+          ],
+          "field": "account_id"
+        },
+        {
+          "box": [
+            124,
+            424,
+            274,
+            460
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            124,
+            632,
+            274,
+            668
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            124,
+            840,
+            274,
+            876
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            124,
+            1048,
+            274,
+            1084
+          ],
+          "field": "match_id"
+        },
+        {
+          "box": [
+            124,
+            1256,
+            274,
+            1292
+          ],
+          "field": "match_id"
+        }
+      ],
+      "reviewed_bytes": 236978,
+      "reviewed_sha256": "abb56267fe9fec6d3b9483fb3f61b0bd7e930c838e75cf452e326d08d0147af1",
+      "source_bytes": 257721,
+      "source_sha256": "caeb371fbb0ac6047f3cb93ba6b4d774e5dcfcd29e4709b5813621fda8aa0318"
+    }
+  },
+  "mask_rgb": [
+    66,
+    72,
+    81
+  ],
+  "plugin": "Dota2UID",
+  "plugin_version": null,
+  "received_date": "2026-10-12",
+  "reviewed_directory": "docs/assets/screenshots/gscore/forge-2026-10-12",
+  "source_host": "GsCore",
+  "user_approved_local_redaction": true
+}

@@ -61,10 +61,18 @@ def bundled_source(tmp_path):
         distribution.GS_BUNDLED_INSTALL_GUIDE,
         distribution.ASTR_INSTALL_GUIDE,
         distribution.ICON_SOURCE,
-        "docs/assets/screenshots/astrbot/hero-items.png",
         "adapters/Dota2UID/config.example.toml",
         "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
     ]
+    relative_files.extend(
+        sorted(
+            {
+                source
+                for images in distribution.SHOWCASE_IMAGES.values()
+                for source in images.values()
+            }
+        )
+    )
     for folder in distribution.PACKAGES.values():
         relative_files.append(folder + "/pyproject.toml")
         if folder.startswith("adapters/"):
@@ -259,17 +267,17 @@ def test_bundled_readme_preserves_source_references_and_local_installation_links
     ).decode()
     source_url = f"https://github.com/HBLADEH/Dota2Forge/blob/{source_ref}"
     for label, path in (
-        ("截图清单", "docs/cookbook/plugin-showcase.md"),
-        ("部署证据", ".agents/artifacts/gscore-current-deployment-v1/README.md"),
-        ("发行生成器", "docs/cookbook/plugin-release.md"),
-        ("来源与范围", "docs/assets/screenshots/README.md"),
+        ("订阅指南", "docs/cookbook/subscriptions.md"),
+        ("开发指南", "docs/cookbook/development.md"),
+        ("后台配置指南", "docs/cookbook/gscore-configuration.md"),
+        ("截图记录", "docs/assets/screenshots/README.md"),
         ("素材说明", "docs/cookbook/illustrations.md"),
     ):
         assert f"[{label}]({source_url}/{path})" in readme
         assert f"[{label}](INSTALL.md)" not in readme
-    for label in ("安装文档", "随包安装指南", "安装指南", "生命周期步骤"):
+    for label in ("安装指南", "安装与更新指南"):
         assert f"[{label}](INSTALL.md)" in readme
-    assert "[MIT](LICENSE)" in readme
+    assert "[MIT 许可证](LICENSE)" in readme
     assert "](../../" not in readme
 
 
@@ -303,7 +311,10 @@ def test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime(
     source_url = f"https://github.com/HBLADEH/Dota2Forge/blob/{source_ref}"
     for plugin in ("Dota2UID", "astrbot_plugin_dota2forge"):
         readme = (pinned / plugin / "README.md").read_text("utf-8")
-        assert f"]({source_url}/README.md)" in readme
+        if plugin == "astrbot_plugin_dota2forge":
+            assert f'href="{source_url}/README.md"' in readme
+        else:
+            assert f"]({source_url}/README.md)" in readme
         assert distribution.PROJECT_SOURCE_URL not in readme
     guide = (pinned / "Dota2UID/INSTALL.md").read_text("utf-8")
     assert f"]({source_url}/adapters/Dota2UID/README.md)" in guide
