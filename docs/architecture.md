@@ -2,7 +2,7 @@
 
 仓库采用 Python 3.12+ 与 uv workspace。五个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
-当前源码版本为Core a7、Renderer a6、Assets a1、AstrBot a10、Dota2UID a11。公开Dota2UID a9已有宽幅比赛报告；a10受控热切换仍是本地候选，见[实施任务](../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)。AstrBot现行公开a7的依赖修复及手动素材部署见[修复任务](../.agents/tasks/done/2026-10-07-astrbot-store-dependency-fix.md)。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
+当前源码版本为Core a7、Renderer a6、Assets a1、AstrBot a10、Dota2UID a12。公开UID a11及AstrBot a10已含远古锻炉主题，Cloud新版公开状态尚待确认，见[发行记录](cookbook/plugin-release.md)。UID a12修复订阅命令前缀冲突，[进度](../.agents/tasks/active/2026-10-11-subscription-command-prefix.md)另记。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
 
 GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。公开a6–a9更新仍冷启动；本地a10以owner协议、独占租约、来源与数据兼容检查及完整任务排空实施整组热切换，准备/运行指针分开，失败保留或重建旧业务。Core SQLite取消等待已开始线程退出；宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包契约](subsystems/gscore-bundled-runtime.md)。
 

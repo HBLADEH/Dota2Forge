@@ -1,0 +1,17 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+411 files already formatted
+RUN ruff check .
+B020 Loop control variable `raw` overrides iterable it iterates
+  --> .agents\artifacts\subscription-command-prefix-v1\check_matcher.py:81:9
+   |
+79 |     fixed_commands = tuple(key for key in commands if key != "do订阅")
+80 |     rows = []
+81 |     for raw, expected in (
+   |         ^^^
+82 |         (raw, ("do订阅玩家", "123456789")),
+83 |         ("do订阅比赛 9001", ("do订阅比赛", "9001")),
+   |
+
+Found 1 error.
+Required command failed: ruff

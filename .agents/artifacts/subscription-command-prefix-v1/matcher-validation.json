@@ -1,0 +1,62 @@
+{
+  "sdk_source_sha256": {
+    "models": "4138d766408953974e4c691b34b2e71035fbd4423f5766100b0edc282493310b",
+    "trigger": "d5d74efdcbcee42dbebc452f8edeb41d5fbace87e6702aec68ca68bb7f3a2b16",
+    "trigger_index": "3910298ffc7c9a289413cbcb00a4a2862ffb75b634bc9356def95a372b49d952"
+  },
+  "before": [
+    "do订阅",
+    "玩家 123456789"
+  ],
+  "reordered": [
+    "do订阅",
+    "玩家 123456789"
+  ],
+  "fixed": [
+    {
+      "raw_text": "do订阅玩家 123456789",
+      "keyword": "do订阅玩家",
+      "text": "123456789"
+    },
+    {
+      "raw_text": "do订阅比赛 9001",
+      "keyword": "do订阅比赛",
+      "text": "9001"
+    },
+    {
+      "raw_text": "do订阅列表",
+      "keyword": "do订阅列表",
+      "text": ""
+    },
+    {
+      "raw_text": "do订阅 比赛 123456789",
+      "keyword": "do订阅",
+      "text": "比赛 123456789"
+    },
+    {
+      "raw_text": "do订阅",
+      "keyword": "do订阅",
+      "text": ""
+    },
+    {
+      "raw_text": "do订阅\t段位\t123456789",
+      "keyword": "do订阅",
+      "text": "段位\t123456789"
+    },
+    {
+      "raw_text": "do订阅　日报　123456789",
+      "keyword": "do订阅",
+      "text": "日报　123456789"
+    },
+    {
+      "raw_text": "do订阅 未知 123",
+      "keyword": "do订阅",
+      "text": "未知 123"
+    },
+    {
+      "raw_text": "do订阅玩家 123 extra",
+      "keyword": "do订阅玩家",
+      "text": "123 extra"
+    }
+  ]
+}
