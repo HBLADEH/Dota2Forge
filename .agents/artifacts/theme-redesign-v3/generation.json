@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-11",
+  "method": "built-in image_gen",
+  "model": null,
+  "model_status": "Tool did not return model identifier",
+  "prompt": "用途：Dota2Forge聊天图片卡片新主题的原创装饰横幅，仅用于用户预览。设计受到Dota 2暗黑奇幻、远古遗迹和锻造氛围启发。超宽横向3:1构图。风化黑玄武岩、厚重的切面石材、细微磨损的古铜结构。画面右侧三分之一出现一个沉默的远古锻造遗迹，内有很克制的暖红余烬，背后远处少量冷青绿色雾光。左侧三分之二是连续安静的深暗灰黑石面和阴影，留充足中文标题叠放空间。主色炭黑、钢灰、暗铜、焦红；精致的游戏环境概念绘画，纹理细腻、构图稳重、手机缩小后仍干净。整体低对比，但右侧有辨识度强的石制锻炉轮廓，没有中心亮光。不要画任何文字、字母、数字、logo、Dota标识、水印、UI、英雄、人物、怪物、武器、装备图标、徽章或战绩。不要复制现有官方宣传画。仅生成原创无字背景。",
+  "original_image": "forge-atmosphere.png",
+  "original_preserved": true,
+  "role": "Original decorative background; no heroes, icons, data or labels generated",
+  "image_sha256": "c97e235b03f81c3fefe0708629f07552269a8dd7109bffe0f0561f19883e0471",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "processing": "Original preserved; previews use cover crop and 46% dark overlay only"
+}

@@ -1,0 +1,36 @@
+"""Forge theme tokens; local presentation only, independent of host and data."""
+
+INK = WHITE = "#e8e3d8"
+MUTED = "#adb1b6"
+PAPER = "#101216"
+PANEL = "#1b2025"
+INSET = "#242a30"
+GOLD = AMBER = "#c0a777"
+GREEN = "#92c6a2"
+RED = "#ed7865"
+LINE = "#3b4148"
+
+
+def help_text(adapter_label: str) -> str:
+    """Complete common commands, ordered by purpose; images are not buttons."""
+    return (
+        f"Dota2Forge / {adapter_label}\n"
+        "查段位：do查询 [ID]（预估 MMR，不是精确分数）\n"
+        "查战绩：do战绩 [条数] / do战绩 <ID> <条数>\n"
+        "看比赛：do比赛 <比赛ID> / do比赛 第N场\n"
+        "找出装：do[英雄名或简称]出装，如 do主宰出装 / doAM出装\n"
+        "OpenDota职业比赛热门出装统计，不代表最优或购买顺序。\n"
+        "第一次使用：do绑定 <Dota账号ID或SteamID64>\n"
+        "账号管理：do账号 / do改绑 <ID> / do解绑\n"
+        "翻页：do战绩 第N页，使用本会话最后有效列表\n"
+        "帮助：do菜单 / do帮助\n"
+        "自动播报：do订阅玩家 <玩家ID> / do订阅比赛 <比赛ID>\n"
+        "通知类型：do订阅 [比赛|段位|日报] [ID]\n"
+        "管理订阅：do订阅列表 [游标] / do取消订阅 <订阅ID>\n"
+        "人工重试：do重试推送 <事件ID>，可能重复，先核实是否送达。\n"
+        "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
+        "素材：do素材状态 / do下载素材 / do更新素材（下载与更新限管理员）\n"
+        "条数 1–100，默认 10；只绑定自己，不支持 @ 他人。\n"
+        "ID 为规范十进制 Dota账号ID或SteamID64；比赛ID独立。\n"
+        "绑定只是查询偏好，不证明 Steam 账号所有权。"
+    )

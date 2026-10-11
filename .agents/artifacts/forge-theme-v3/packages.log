@@ -1,0 +1,114 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 8 items
+
+tests\test_packages.py .FFF....                                          [100%]
+
+================================== FAILURES ===================================
+_ test_workspace_package_installed[astrbot-plugin-dota2forge-astrbot_plugin_dota2forge] _
+
+distribution = 'astrbot-plugin-dota2forge', module = 'astrbot_plugin_dota2forge'
+
+    @pytest.mark.parametrize(
+        ("distribution", "module"),
+        [
+            ("dota2forge-core", "dota2forge_core"),
+            ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
+            ("dota2uid", "Dota2UID"),
+            ("dota2forge-renderer", "dota2forge_renderer"),
+            ("dota2forge-assets", "dota2forge_assets"),
+        ],
+    )
+    def test_workspace_package_installed(distribution, module):
+        assert importlib.import_module(module).__doc__
+>       assert importlib.metadata.version(distribution) == (
+            {
+                "astrbot-plugin-dota2forge": "0.1.0a10",
+                "dota2uid": "0.1.0a11",
+                "dota2forge-core": "0.1.0a7",
+                "dota2forge-renderer": "0.1.0a6",
+                "dota2forge-assets": "0.1.0a1",
+            }.get(distribution, "0.1.0a4")
+        )
+E       AssertionError: assert '0.1.0a9' == '0.1.0a10'
+E
+E         - 0.1.0a10
+E         ?       ^^
+E         + 0.1.0a9
+E         ?       ^
+
+tests\test_packages.py:24: AssertionError
+_____________ test_workspace_package_installed[dota2uid-Dota2UID] _____________
+
+distribution = 'dota2uid', module = 'Dota2UID'
+
+    @pytest.mark.parametrize(
+        ("distribution", "module"),
+        [
+            ("dota2forge-core", "dota2forge_core"),
+            ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
+            ("dota2uid", "Dota2UID"),
+            ("dota2forge-renderer", "dota2forge_renderer"),
+            ("dota2forge-assets", "dota2forge_assets"),
+        ],
+    )
+    def test_workspace_package_installed(distribution, module):
+        assert importlib.import_module(module).__doc__
+>       assert importlib.metadata.version(distribution) == (
+            {
+                "astrbot-plugin-dota2forge": "0.1.0a10",
+                "dota2uid": "0.1.0a11",
+                "dota2forge-core": "0.1.0a7",
+                "dota2forge-renderer": "0.1.0a6",
+                "dota2forge-assets": "0.1.0a1",
+            }.get(distribution, "0.1.0a4")
+        )
+E       AssertionError: assert '0.1.0a10' == '0.1.0a11'
+E
+E         - 0.1.0a11
+E         ?        ^
+E         + 0.1.0a10
+E         ?        ^
+
+tests\test_packages.py:24: AssertionError
+__ test_workspace_package_installed[dota2forge-renderer-dota2forge_renderer] __
+
+distribution = 'dota2forge-renderer', module = 'dota2forge_renderer'
+
+    @pytest.mark.parametrize(
+        ("distribution", "module"),
+        [
+            ("dota2forge-core", "dota2forge_core"),
+            ("astrbot-plugin-dota2forge", "astrbot_plugin_dota2forge"),
+            ("dota2uid", "Dota2UID"),
+            ("dota2forge-renderer", "dota2forge_renderer"),
+            ("dota2forge-assets", "dota2forge_assets"),
+        ],
+    )
+    def test_workspace_package_installed(distribution, module):
+        assert importlib.import_module(module).__doc__
+>       assert importlib.metadata.version(distribution) == (
+            {
+                "astrbot-plugin-dota2forge": "0.1.0a10",
+                "dota2uid": "0.1.0a11",
+                "dota2forge-core": "0.1.0a7",
+                "dota2forge-renderer": "0.1.0a6",
+                "dota2forge-assets": "0.1.0a1",
+            }.get(distribution, "0.1.0a4")
+        )
+E       AssertionError: assert '0.1.0a5' == '0.1.0a6'
+E
+E         - 0.1.0a6
+E         ?       ^
+E         + 0.1.0a5
+E         ?       ^
+
+tests\test_packages.py:24: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_packages.py::test_workspace_package_installed[astrbot-plugin-dota2forge-astrbot_plugin_dota2forge]
+FAILED tests/test_packages.py::test_workspace_package_installed[dota2uid-Dota2UID]
+FAILED tests/test_packages.py::test_workspace_package_installed[dota2forge-renderer-dota2forge_renderer]
+========================= 3 failed, 5 passed in 0.67s =========================
