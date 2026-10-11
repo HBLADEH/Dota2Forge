@@ -1,0 +1,38 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-698apkc9\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-698apkc9\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-698apkc9\venv
+Resolved 12 packages in 325ms
+Prepared 12 packages in 1.61s
+Installed 12 packages in 143ms
+ + anyio==4.15.1
+ + astrbot-plugin-dota2forge==0.1.0a10 (from file:///D:/workstation/Dota2Forge/dist/astrbot_plugin_dota2forge-0.1.0a10-py3-none-any.whl#sha256=e432ac871f0c3b63ee9c2b25cbf9ad11828ef5e20d5782ba41a4675fa9ae298c)
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1 (from file:///D:/workstation/Dota2Forge/dist/dota2forge_assets-0.1.0a1-py3-none-any.whl#sha256=9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250)
+ + dota2forge-core==0.1.0a7 (from file:///D:/workstation/Dota2Forge/dist/dota2forge_core-0.1.0a7-py3-none-any.whl#sha256=d29bb659fc699fa7a505f49e7c4d463e1e277d6ede61942c0fa6f4d017555c4c)
+ + dota2forge-renderer==0.1.0a6 (from file:///D:/workstation/Dota2Forge/dist/dota2forge_renderer-0.1.0a6-py3-none-any.whl#sha256=7fc1910c8604a6cfdd7c181d42cb3c12ec28618871260455b01da86a7876b697)
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-tu935wry\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-tu935wry\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-tu935wry\venv
+Resolved 8 packages in 6ms
+Prepared 8 packages in 264ms
+Installed 8 packages in 139ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: Dota2UID
