@@ -1,0 +1,5 @@
+error: the argument '--package <PACKAGE>' cannot be used multiple times
+
+Usage: uv.exe build [OPTIONS] [SRC]
+
+For more information, try '--help'.

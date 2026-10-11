@@ -1,0 +1,79 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 89 items
+
+tests\test_plugin_distributions.py ..................................... [ 41%]
+....                                                                     [ 46%]
+tests\test_gscore_public_runtime.py .......................              [ 71%]
+tests\test_bundled_distributions.py ....FF...................            [100%]
+
+================================== FAILURES ===================================
+_ test_bundled_readme_preserves_source_references_and_local_installation_links[main] _
+
+bundled_source = (WindowsPath('<user-profile>/AppData/Local/Temp/pytest-of-BLADE/pytest-376/test_bundled_readme_preserves_0/source'), WindowsPath('<user-profile>/AppData/Local/Temp/pytest-of-BLADE/pytest-376/test_bundled_readme_preserves_0/source/wheels'))
+source_ref = 'main'
+
+    @pytest.mark.parametrize("source_ref", ["main", "0123456789abcdef0123456789abcdef01234567"])
+    def test_bundled_readme_preserves_source_references_and_local_installation_links(
+        bundled_source, source_ref
+    ):
+        root, _ = bundled_source
+        readme = distribution.readme(
+            root,
+            "Dota2UID",
+            GS_REPO,
+            distribution.versions(root)["dota2uid"],
+            public_runtime=True,
+            gscore_bundled=True,
+            source_ref=source_ref,
+        ).decode()
+        source_url = f"https://github.com/HBLADEH/Dota2Forge/blob/{source_ref}"
+        for label, path in (
+            ("截图清单", "docs/cookbook/plugin-showcase.md"),
+            ("开发指南", "docs/cookbook/development.md"),
+            ("发行生成器", "docs/cookbook/plugin-release.md"),
+            ("截图记录", "docs/assets/screenshots/README.md"),
+            ("素材说明", "docs/cookbook/illustrations.md"),
+        ):
+>           assert f"[{label}]({source_url}/{path})" in readme
+E           assert '[截图清单](https://github.com/HBLADEH/Dota2Forge/blob/main/docs/cookbook/plugin-showcase.md)' in '<p align="center">\n  <img src="ICON.png" width="128" height="128" alt="Dota2Forge 图标">\n</p>\n\n<h1 align="center">D...图标为独立生成的同人插画。第三方素材与字体遵循各自许可，见[素材说明](https://github.com/HBLADEH/Dota2Forge/blob/main/docs/cookbook/illustrations.md)。\n'
+
+tests\test_bundled_distributions.py:276: AssertionError
+_ test_bundled_readme_preserves_source_references_and_local_installation_links[0123456789abcdef0123456789abcdef01234567] _
+
+bundled_source = (WindowsPath('<user-profile>/AppData/Local/Temp/pytest-of-BLADE/pytest-376/test_bundled_readme_preserves_1/source'), WindowsPath('<user-profile>/AppData/Local/Temp/pytest-of-BLADE/pytest-376/test_bundled_readme_preserves_1/source/wheels'))
+source_ref = '0123456789abcdef0123456789abcdef01234567'
+
+    @pytest.mark.parametrize("source_ref", ["main", "0123456789abcdef0123456789abcdef01234567"])
+    def test_bundled_readme_preserves_source_references_and_local_installation_links(
+        bundled_source, source_ref
+    ):
+        root, _ = bundled_source
+        readme = distribution.readme(
+            root,
+            "Dota2UID",
+            GS_REPO,
+            distribution.versions(root)["dota2uid"],
+            public_runtime=True,
+            gscore_bundled=True,
+            source_ref=source_ref,
+        ).decode()
+        source_url = f"https://github.com/HBLADEH/Dota2Forge/blob/{source_ref}"
+        for label, path in (
+            ("截图清单", "docs/cookbook/plugin-showcase.md"),
+            ("开发指南", "docs/cookbook/development.md"),
+            ("发行生成器", "docs/cookbook/plugin-release.md"),
+            ("截图记录", "docs/assets/screenshots/README.md"),
+            ("素材说明", "docs/cookbook/illustrations.md"),
+        ):
+>           assert f"[{label}]({source_url}/{path})" in readme
+E           assert '[截图清单](https://github.com/HBLADEH/Dota2Forge/blob/0123456789abcdef0123456789abcdef01234567/docs/cookbook/plugin-showcase.md)' in '<p align="center">\n  <img src="ICON.png" width="128" height="128" alt="Dota2Forge 图标">\n</p>\n\n<h1 align="center">D...https://github.com/HBLADEH/Dota2Forge/blob/0123456789abcdef0123456789abcdef01234567/docs/cookbook/illustrations.md)。\n'
+
+tests\test_bundled_distributions.py:276: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_bundled_distributions.py::test_bundled_readme_preserves_source_references_and_local_installation_links[main]
+FAILED tests/test_bundled_distributions.py::test_bundled_readme_preserves_source_references_and_local_installation_links[0123456789abcdef0123456789abcdef01234567]
+======================== 2 failed, 87 passed in 50.01s ========================

@@ -31,7 +31,7 @@ wheels = [
 
 [[package]]
 name = "astrbot-plugin-dota2forge"
-version = "0.1.0a10"
+version = "0.1.0a11"
 source = { editable = "adapters/astrbot_plugin_dota2forge" }
 dependencies = [
     { name = "dota2forge-assets" },
@@ -302,7 +302,7 @@ dev = [
 
 [[package]]
 name = "dota2uid"
-version = "0.1.0a12"
+version = "0.1.0a13"
 source = { editable = "adapters/Dota2UID" }
 dependencies = [
     { name = "dota2forge-assets" },

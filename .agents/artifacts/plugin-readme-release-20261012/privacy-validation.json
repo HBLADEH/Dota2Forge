@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "files": 7,
+  "redaction_regions": 40,
+  "originals_unchanged": true,
+  "reviewed_hashes_match": true,
+  "pixels_outside_redactions_unchanged": true,
+  "image_metadata_empty": true
+}

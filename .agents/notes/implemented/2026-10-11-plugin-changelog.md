@@ -1,7 +1,7 @@
 # AstrBot 根目录更新日志随发行打包
 
 Category: feature
-Related task: [主题发行](../../tasks/active/2026-10-11-forge-theme-release.md)
+Related task: [主题发行](../../tasks/done/2026-10-11-forge-theme-release.md)
 Related code: [发行生成器](../../../scripts/build_plugin_distributions.py)
 Related docs: [分发契约](../../../docs/subsystems/plugin-distribution.md)
 
