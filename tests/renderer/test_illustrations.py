@@ -189,7 +189,7 @@ def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(ra
         tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
         known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
         with Image.open(io.BytesIO(artifact.data)) as image:
-            medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+            medal = (20 + tier * 20, 40, 60) if known else (27, 32, 37)
             assert image.getpixel((640, 440)) == medal
             if known and 1 <= tier <= 7:
                 assert image.getpixel((640, 372)) == (240, stars * 30, 180)
@@ -217,7 +217,7 @@ def test_rank_missing_stars_or_medal_keeps_data_card_but_corrupt_art_fails(rank_
     try:
         artifact = renderer.render(card)
         with Image.open(io.BytesIO(artifact.data)) as image:
-            assert image.getpixel((640, 372)) == (16, 23, 26)
+            assert image.getpixel((640, 372)) == (27, 32, 37)
     finally:
         renderer.close()
     (path / "ranks/5.png").write_bytes(original + b"tampered")

@@ -1,0 +1,268 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 171 items
+
+tests\renderer\test_hero_items_card.py .                                 [  0%]
+tests\renderer\test_illustrations.py ................................... [ 21%]
+...........FFFFFFF.....                                                  [ 34%]
+tests\renderer\test_item_label_layout.py ...                             [ 36%]
+tests\renderer\test_match_report_cards.py .......                        [ 40%]
+tests\renderer\test_readable_detail_cards.py ..                          [ 41%]
+tests\renderer\test_renderer_cards.py .................................. [ 61%]
+.......                                                                  [ 65%]
+tests\renderer\test_renderer_worker.py ..                                [ 66%]
+tests\dota2uid\test_presentation.py .................................... [ 87%]
+.................                                                        [ 97%]
+tests\astrbot_consumer\test_application.py ....                          [100%]
+
+================================== FAILURES ===================================
+_ test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[None] _
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_badge_uses_correct_m37'), {'versi... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+rank = None
+
+    @pytest.mark.parametrize(
+        "rank",
+        [
+            0,
+            80,
+            *[tier * 10 + stars for tier in range(1, 8) for stars in range(1, 6)],
+            None,
+            1,
+            16,
+            50,
+            81,
+            999,
+        ],
+    )
+    def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(rank_pack, rank):
+        path, _ = rank_pack
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", rank)))
+            tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
+            known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+>               assert image.getpixel((640, 440)) == medal
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:193: AssertionError
+_ test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[1] _
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_badge_uses_correct_m38'), {'versi... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+rank = 1
+
+    @pytest.mark.parametrize(
+        "rank",
+        [
+            0,
+            80,
+            *[tier * 10 + stars for tier in range(1, 8) for stars in range(1, 6)],
+            None,
+            1,
+            16,
+            50,
+            81,
+            999,
+        ],
+    )
+    def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(rank_pack, rank):
+        path, _ = rank_pack
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", rank)))
+            tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
+            known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+>               assert image.getpixel((640, 440)) == medal
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:193: AssertionError
+_ test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[16] _
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_badge_uses_correct_m39'), {'versi... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+rank = 16
+
+    @pytest.mark.parametrize(
+        "rank",
+        [
+            0,
+            80,
+            *[tier * 10 + stars for tier in range(1, 8) for stars in range(1, 6)],
+            None,
+            1,
+            16,
+            50,
+            81,
+            999,
+        ],
+    )
+    def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(rank_pack, rank):
+        path, _ = rank_pack
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", rank)))
+            tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
+            known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+>               assert image.getpixel((640, 440)) == medal
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:193: AssertionError
+_ test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[50] _
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_badge_uses_correct_m40'), {'versi... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+rank = 50
+
+    @pytest.mark.parametrize(
+        "rank",
+        [
+            0,
+            80,
+            *[tier * 10 + stars for tier in range(1, 8) for stars in range(1, 6)],
+            None,
+            1,
+            16,
+            50,
+            81,
+            999,
+        ],
+    )
+    def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(rank_pack, rank):
+        path, _ = rank_pack
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", rank)))
+            tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
+            known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+>               assert image.getpixel((640, 440)) == medal
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:193: AssertionError
+_ test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[81] _
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_badge_uses_correct_m41'), {'versi... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+rank = 81
+
+    @pytest.mark.parametrize(
+        "rank",
+        [
+            0,
+            80,
+            *[tier * 10 + stars for tier in range(1, 8) for stars in range(1, 6)],
+            None,
+            1,
+            16,
+            50,
+            81,
+            999,
+        ],
+    )
+    def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(rank_pack, rank):
+        path, _ = rank_pack
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", rank)))
+            tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
+            known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+>               assert image.getpixel((640, 440)) == medal
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:193: AssertionError
+_ test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[999] _
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_badge_uses_correct_m42'), {'versi... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+rank = 999
+
+    @pytest.mark.parametrize(
+        "rank",
+        [
+            0,
+            80,
+            *[tier * 10 + stars for tier in range(1, 8) for stars in range(1, 6)],
+            None,
+            1,
+            16,
+            50,
+            81,
+            999,
+        ],
+    )
+    def test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing(rank_pack, rank):
+        path, _ = rank_pack
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", rank)))
+            tier, stars = divmod(rank, 10) if rank is not None else (-1, -1)
+            known = rank in (0, 80) or (1 <= tier <= 7 and 1 <= stars <= 5)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                medal = (20 + tier * 20, 40, 60) if known else (16, 23, 26)
+>               assert image.getpixel((640, 440)) == medal
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:193: AssertionError
+___ test_rank_missing_stars_or_medal_keeps_data_card_but_corrupt_art_fails ____
+
+rank_pack = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-354/test_rank_missing_stars_or_med0'), {'versio... 'file': 'decor/header.png', 'sha256': '43c5deabe7fc8b5f8763b390cf6fef9fd0d9da7d30fb71a09884c9356725279b', ...}}, ...})
+
+    def test_rank_missing_stars_or_medal_keeps_data_card_but_corrupt_art_fails(rank_pack):
+        path, _ = rank_pack
+        card = PlayerCard(PlayerProfile(ACCOUNT, META, "合成玩家", 51))
+        (path / "rank_stars/1.png").unlink()
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(card)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+                assert image.getpixel((640, 372)) == (120, 40, 60)
+        finally:
+            renderer.close()
+        original = (path / "ranks/5.png").read_bytes()
+        (path / "ranks/5.png").unlink()
+        renderer = PillowRenderer(illustration_path=path)
+        try:
+            artifact = renderer.render(card)
+            with Image.open(io.BytesIO(artifact.data)) as image:
+>               assert image.getpixel((640, 372)) == (16, 23, 26)
+E               assert (27, 32, 37) == (16, 23, 26)
+E
+E                 At index 0 diff: 27 != 16
+E                 Use -v to get more diff
+
+tests\renderer\test_illustrations.py:220: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/renderer/test_illustrations.py::test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[None]
+FAILED tests/renderer/test_illustrations.py::test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[1]
+FAILED tests/renderer/test_illustrations.py::test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[16]
+FAILED tests/renderer/test_illustrations.py::test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[50]
+FAILED tests/renderer/test_illustrations.py::test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[81]
+FAILED tests/renderer/test_illustrations.py::test_rank_badge_uses_correct_medal_and_transparent_stars_without_guessing[999]
+FAILED tests/renderer/test_illustrations.py::test_rank_missing_stars_or_medal_keeps_data_card_but_corrupt_art_fails
+======================= 7 failed, 164 passed in 32.20s ========================

@@ -32,25 +32,9 @@ from dota2forge_renderer.formatting import (
     value_text as value_text,
 )
 from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
+from dota2forge_renderer.theme import help_text
 
-HELP = (
-    "do素材状态 / do下载素材 / do更新素材（下载与更新限管理员）\n"
-    "Dota2Forge / Dota2UID\n"
-    "do绑定 <Dota账号ID或SteamID64>\n"
-    "do改绑 <ID>：替换自己的绑定\n"
-    "do账号 / do解绑\n"
-    "do查询 [ID]\n"
-    "do[英雄名或简称]出装：OpenDota职业比赛热门出装统计\n"
-    "do战绩 [条数] 或 do战绩 <ID> <条数>\n"
-    "do比赛 <比赛ID>：直接查询历史单局详情\n"
-    "do比赛 第N场 / do战绩 第N页：使用本会话最后有效列表\n"
-    "do订阅 [比赛|段位|日报] [ID] / do订阅列表 [游标]\n"
-    "do订阅玩家 <玩家ID> / do订阅比赛 <比赛ID>：完成后播报详情分析\n"
-    "do取消订阅 <订阅ID> / do重试推送 <事件ID>\n"
-    "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
-    "条数 1–100，默认 10；只绑定自己，不支持 @ 他人。\n"
-    "绑定只是查询偏好，不证明 Steam 账号所有权。"
-)
+HELP = help_text("Dota2UID")
 
 
 def player_source_text(source: DataSource, account: AccountId) -> str:

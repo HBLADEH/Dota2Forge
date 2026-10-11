@@ -1,0 +1,132 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 72 items
+
+tests\test_plugin_distributions.py ...............................F..... [ 51%]
+....                                                                     [ 56%]
+tests\test_gscore_public_runtime.py .......................              [ 88%]
+tests\test_gscore_bundled_runtime.py F                                   [ 90%]
+tests\astrbot_consumer\test_host_bridge.py ..                            [ 93%]
+tests\dota2uid\test_install_and_bridge.py .....                          [100%]
+
+================================== FAILURES ===================================
+______ test_plugin_readmes_and_icons_remain_usable_outside_the_workspace ______
+
+candidate = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-357/test_plugin_readmes_and_icons_0/candidate')
+
+    def test_plugin_readmes_and_icons_remain_usable_outside_the_workspace(candidate):
+        """The standalone ZIP must resolve its icon/license without the monorepo layout."""
+        icon = (ROOT / distribution.ICON_SOURCE).read_bytes()
+        assert icon.startswith(b"\x89PNG\r\n\x1a\n")
+        for plugin, icon_name, repo in (
+            ("Dota2UID", "ICON.png", GS_REPO),
+            ("astrbot_plugin_dota2forge", "logo.png", ASTR_REPO),
+        ):
+            folder = candidate / plugin
+            content = (folder / "README.md").read_text("utf-8")
+            icon_url = (
+                repo.replace("https://github.com/", "https://raw.githubusercontent.com/")
+                + f"/main/{icon_name}"
+                if plugin.startswith("astrbot")
+                else icon_name
+            )
+            assert f'src="{icon_url}"' in content
+            assert "0.1.0a6" in content and repo in content
+            assert "待实机截图" in content
+>           assert ("0.1.0-alpha.9" if plugin.startswith("astrbot") else "尚未上架商店") in content
+E           assert '0.1.0-alpha.9' in '<p align="center">\n  <img src="https://raw.githubusercontent.com/HBLADEH/astrbot_plugin_dota2forge/main/logo.png" wi...ve；图标不是官方标识。字体与第三方素材各按原许可使用，见[素材说明](https://github.com/HBLADEH/Dota2Forge/blob/main/docs/cookbook/illustrations.md)。\n'
+
+tests\test_plugin_distributions.py:282: AssertionError
+_ test_non_bytecode_disabled_parent_imports_and_stop_reload_reuse_one_generation _
+
+plugin = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-357/test_non_bytecode_disabled_par0/plugin'), W...: 'dota2uid-0.1.0a6-py3-none-any.whl', 'sha256': '177258e4ca39d0138a75d74441d4e7609f099cdd87557c6a142edcec18f8dad0'}}})
+
+    def test_non_bytecode_disabled_parent_imports_and_stop_reload_reuse_one_generation(plugin):
+        root, data, manifest = plugin
+        temporary_sources = data.parent / "actual_source"
+        temporary_sources.mkdir()
+        real_snapshot(temporary_sources)
+        for name, module in runtime.PACKAGES.items():
+            files = {
+                path.relative_to(temporary_sources).as_posix(): path.read_bytes()
+                for path in (temporary_sources / module).rglob("*")
+                if path.is_file()
+            }
+            files.update(
+                {
+                    filename: payload
+                    for filename, payload in wheel_files(name).items()
+                    if ".dist-info/" in filename
+                }
+            )
+            entry = manifest["wheels"][name]
+            entry["sha256"] = write_wheel(root / "runtime-wheels" / entry["filename"], files)
+        (root / "runtime-wheels.json").write_text(json.dumps(manifest), "utf-8")
+        deployment(root)
+        host_source = data.parent / "host_source"
+        host_source.mkdir()
+        (host_source / "host_cache_probe.py").write_text("value = 1\n", "utf-8")
+        child = """import asyncio, importlib.util, pathlib, sys, threading
+    spec = importlib.util.spec_from_file_location('bootstrap', sys.argv[1])
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    root, data = pathlib.Path(sys.argv[2]), pathlib.Path(sys.argv[3])
+    manager = module.BundledRuntime(root, data)
+    generation = asyncio.run(manager.prepare())
+    assert generation is not None, manager.error
+    assert sys.dont_write_bytecode is False
+    manager.activate()
+    import dota2forge_core, dota2forge_assets, dota2forge_renderer, Dota2UID.runtime
+    from importlib.resources import files
+    assert files('dota2forge_renderer').joinpath('assets','v1','OFL.txt').read_bytes()
+    assert not list(generation.rglob('__pycache__'))
+    assert module._complete(generation, manager._digest, threading.Event())
+    assert sys.dont_write_bytecode is False
+    sys.path.insert(0, sys.argv[4])
+    import host_cache_probe
+    assert list(pathlib.Path(sys.argv[4]).rglob('*.pyc'))
+    asyncio.run(manager.close())
+    replacement = module.BundledRuntime(root, data)
+    assert asyncio.run(replacement.prepare()) == generation, replacement.error
+    replacement.activate()
+    assert replacement.state == 'runtime_available'
+    assert module._complete(generation, replacement._digest, threading.Event())
+    assert not list(generation.rglob('__pycache__'))
+    hooks = [h for h in sys.path_hooks
+             if getattr(h,'_dota2forge_generation',None)==str(generation)]
+    assert len(hooks) == 1
+    asyncio.run(replacement.close())
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-I",
+                "-c",
+                child,
+                str(ROOT / "scripts/gscore_bundled_runtime.py"),
+                str(root),
+                str(data),
+                str(host_source),
+            ],
+            capture_output=True,
+            timeout=30,
+        )
+>       assert result.returncode == 0, result.stderr.decode("utf-8", errors="replace")
+E       AssertionError: Traceback (most recent call last):
+
+E           File "<string>", line 8, in <module>
+
+E         AssertionError: invalid_wheel
+
+E
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\workstation\\Dota2Forge\\.venv\\Scripts\\python.exe', '-I', '-c', "import asyncio, importl...r=b'Traceback (most recent call last):\r\n  File "<string>", line 8, in <module>\r\nAssertionError: invalid_wheel\r\n').returncode
+
+tests\test_gscore_bundled_runtime.py:980: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_plugin_distributions.py::test_plugin_readmes_and_icons_remain_usable_outside_the_workspace
+FAILED tests/test_gscore_bundled_runtime.py::test_non_bytecode_disabled_parent_imports_and_stop_reload_reuse_one_generation
+======================== 2 failed, 70 passed in 15.11s ========================

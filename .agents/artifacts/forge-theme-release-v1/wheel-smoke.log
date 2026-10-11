@@ -1,0 +1,77 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-f65w6gtm\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-f65w6gtm\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-f65w6gtm\venv
+Resolved 1 package in 52ms
+Prepared 1 package in 31ms
+Installed 1 package in 42ms
+ + dota2forge-core==0.1.0a7
+Wheel install/import passed: dota2forge-core
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-fcu73dfx\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-fcu73dfx\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-fcu73dfx\venv
+Resolved 3 packages in 305ms
+Prepared 3 packages in 1.86s
+Installed 3 packages in 218ms
+ + dota2forge-core==0.1.0a7
+ + dota2forge-renderer==0.1.0a6
+ + pillow==12.3.0
+Wheel install/import passed: dota2forge-renderer
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-6a4uoav6\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-6a4uoav6\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-6a4uoav6\venv
+Resolved 9 packages in 494ms
+Prepared 9 packages in 746ms
+Installed 9 packages in 437ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Wheel install/import passed: dota2forge-assets
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-34mdt2qc\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-34mdt2qc\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-34mdt2qc\venv
+Resolved 12 packages in 94ms
+Prepared 12 packages in 402ms
+Installed 12 packages in 204ms
+ + anyio==4.15.1
+ + astrbot-plugin-dota2forge==0.1.0a10
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1
+ + dota2forge-core==0.1.0a7
+ + dota2forge-renderer==0.1.0a6
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Wheel install/import passed: astrbot-plugin-dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-1w2h9dxz\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-1w2h9dxz\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-1w2h9dxz\venv
+Resolved 12 packages in 87ms
+Prepared 12 packages in 333ms
+Installed 12 packages in 152ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1
+ + dota2forge-core==0.1.0a7
+ + dota2forge-renderer==0.1.0a6
+ + dota2uid==0.1.0a11
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Wheel install/import passed: dota2uid

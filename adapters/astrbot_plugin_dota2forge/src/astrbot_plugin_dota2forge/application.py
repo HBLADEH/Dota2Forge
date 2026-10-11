@@ -57,24 +57,12 @@ from dota2forge_renderer.formatting import (
 from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
 from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
 from dota2forge_renderer.reporting import match_report_text, split_report_text
+from dota2forge_renderer.theme import help_text
 
 from .commands import AstrAction, AstrCommandError, parse_command
 from .selection import Key, SelectionError, SelectionStore, Session
 
-HELP = (
-    "Dota2Forge / AstrBot\n"
-    "do菜单 / do帮助\ndo绑定 <ID> / do改绑 <ID>\n"
-    "do素材状态 / do下载素材 / do更新素材（下载与更新限管理员）\n"
-    "do账号 / do解绑\ndo查询 [ID]\n"
-    "do[英雄名或简称]出装：OpenDota职业比赛热门出装统计\n"
-    "do战绩 [条数] / do战绩 <ID> <条数>\n"
-    "do战绩 第N页\ndo比赛 <ID> / do比赛 第N场\n"
-    "do订阅 [比赛|段位|日报] [ID] / do订阅列表 [游标]\n"
-    "do订阅玩家 <玩家ID> / do订阅比赛 <比赛ID>：完成后播报详情分析\n"
-    "do取消订阅 <订阅ID> / do重试推送 <事件ID>\n"
-    "订阅默认关闭；群订阅仅限 Bot 管理员。失败推送不自动重发。\n"
-    "ID 为规范十进制 Dota 账号 ID 或 SteamID64。绑定只是查询偏好。"
-)
+HELP = help_text("AstrBot")
 
 
 @dataclass(frozen=True, slots=True)

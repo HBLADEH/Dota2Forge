@@ -35,11 +35,11 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
         assert release["plugin"] == plugin and len(release["versions"]) == 4
         assert release["versions"] == {
             "dota2forge-core": "0.1.0a7",
-            "dota2forge-renderer": "0.1.0a5",
+            "dota2forge-renderer": "0.1.0a6",
             "dota2forge-assets": "0.1.0a1",
-            ("astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"): "0.1.0a9"
-            if plugin.startswith("astrbot")
-            else "0.1.0a10",
+            (
+                "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
+            ): "0.1.0a10" if plugin.startswith("astrbot") else "0.1.0a11",
         }
         compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
         assert (candidate / plugin / "LICENSE").read_text("utf-8") == (ROOT / "LICENSE").read_text(
@@ -58,8 +58,8 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
     assert gs["project"]["gscore_auto_update_dep"] == [
         "dota2forge-assets==0.1.0a1",
         "dota2forge-core[stratz]==0.1.0a7",
-        "dota2forge-renderer==0.1.0a5",
-        "dota2uid[stratz]==0.1.0a10",
+        "dota2forge-renderer==0.1.0a6",
+        "dota2uid[stratz]==0.1.0a11",
     ]
     assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
     helper = candidate / "Dota2UID/_dota2forge_config.py"
@@ -74,9 +74,20 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
     astr = (candidate / "astrbot_plugin_dota2forge/metadata.yaml").read_text("utf-8")
     assert f"repo: {ASTR_REPO}" in astr and 'astrbot_version: ">=4.5.0"' in astr
     requirements = (candidate / "astrbot_plugin_dota2forge/requirements.txt").read_text("utf-8")
-    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a9" in requirements
+    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a10" in requirements
     assert "dota2forge-core[stratz]==0.1.0a7" in requirements
+    changelog = (candidate / "astrbot_plugin_dota2forge/CHANGELOG.md").read_bytes()
+    assert changelog == distribution.text_bytes(
+        ROOT / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md"
+    )
+    assert "0.1.0-alpha.10" in changelog.decode("utf-8")
+    with ZipFile(candidate / "astrbot_plugin_dota2forge.zip") as archive:
+        assert archive.read("CHANGELOG.md") == changelog
     manifest = json.loads((candidate / "manifest.json").read_text("utf-8"))
+    assert (
+        manifest["source_sha256"]["adapters/astrbot_plugin_dota2forge/CHANGELOG.md"]
+        == hashlib.sha256(changelog).hexdigest()
+    )
     assert manifest["status"] == "local_candidate"
     for name, digest in manifest["files_sha256"].items():
         assert hashlib.sha256((candidate / name).read_bytes()).hexdigest() == digest
@@ -277,9 +288,9 @@ def test_plugin_readmes_and_icons_remain_usable_outside_the_workspace(candidate)
             else icon_name
         )
         assert f'src="{icon_url}"' in content
-        assert "0.1.0a5" in content and repo in content
+        assert "0.1.0a6" in content and repo in content
         assert "待实机截图" in content
-        assert ("0.1.0-alpha.9" if plugin.startswith("astrbot") else "尚未上架商店") in content
+        assert ("0.1.0-alpha.10" if plugin.startswith("astrbot") else "尚未上架商店") in content
         assert "<!-- distribution-release -->" not in content
         targets = re.findall(r'!?\[[^\]\n]*\]\(([^\s)]+)\)|src="([^"]+)"', content)
         for link, source in targets:

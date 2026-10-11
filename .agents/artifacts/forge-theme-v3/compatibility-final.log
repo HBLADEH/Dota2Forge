@@ -1,0 +1,12 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 4 items
+
+tests\renderer\test_forge_theme.py ..                                    [ 50%]
+tests\test_gscore_bundled_runtime.py .                                   [ 75%]
+tests\test_plugin_distributions.py .                                     [100%]
+
+============================= 4 passed in 38.73s ==============================
