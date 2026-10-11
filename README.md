@@ -44,7 +44,7 @@ uv build --all-packages
 ## 文档
 
 - [当前架构](docs/architecture.md)
-- [主题与组件重设计预览](docs/cookbook/theme-preview.md)：设计提案及生产Renderer合成验收；源码已实施，尚未发布或切换运行宿主
+- [主题与组件重设计预览](docs/cookbook/theme-preview.md)：设计提案及生产Renderer合成验收；双端GitHub预发行已公开，Cloud状态见发行记录，真实宿主另验收
 - [Core 业务契约](docs/subsystems/core.md) 与 [离线闭环验证](docs/cookbook/core-offline.md)
 - [治理检查契约与限制](docs/subsystems/governance.md)
 - [包参考（自动生成）](docs/generated/packages.md)
