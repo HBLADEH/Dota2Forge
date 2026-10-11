@@ -1,0 +1,22 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 173 items
+
+tests\renderer\test_forge_theme.py ..                                    [  1%]
+tests\renderer\test_hero_items_card.py .                                 [  1%]
+tests\renderer\test_illustrations.py ................................... [ 21%]
+.......................                                                  [ 35%]
+tests\renderer\test_item_label_layout.py ...                             [ 36%]
+tests\renderer\test_match_report_cards.py .......                        [ 41%]
+tests\renderer\test_readable_detail_cards.py ..                          [ 42%]
+tests\renderer\test_renderer_cards.py .................................. [ 61%]
+.......                                                                  [ 65%]
+tests\renderer\test_renderer_worker.py ..                                [ 67%]
+tests\dota2uid\test_presentation.py .................................... [ 87%]
+.................                                                        [ 97%]
+tests\astrbot_consumer\test_application.py ....                          [100%]
+
+============================ 173 passed in 32.51s =============================

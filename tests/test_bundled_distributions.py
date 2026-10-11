@@ -63,6 +63,7 @@ def bundled_source(tmp_path):
         distribution.ICON_SOURCE,
         "docs/assets/screenshots/astrbot/hero-items.png",
         "adapters/Dota2UID/config.example.toml",
+        "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
     ]
     for folder in distribution.PACKAGES.values():
         relative_files.append(folder + "/pyproject.toml")

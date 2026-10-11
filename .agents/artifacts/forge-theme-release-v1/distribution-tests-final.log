@@ -1,0 +1,173 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 89 items
+
+tests\test_plugin_distributions.py ..................................... [ 41%]
+....                                                                     [ 46%]
+tests\test_gscore_public_runtime.py ....................FF.              [ 71%]
+tests\test_bundled_distributions.py .........................            [100%]
+
+================================== FAILURES ===================================
+___ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n] ___
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-364/test_public_generation_keeps_o0')
+line_ending = '\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "docs/assets/screenshots/astrbot/hero-items.png",
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+        ]
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+        write_wheels(wheels)
+>       candidate = distribution.build_distributions(
+            root,
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            REPO,
+            wheels,
+            wheels,
+        )
+
+tests\test_gscore_public_runtime.py:242:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-364/test_public_generation_keeps_o0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-364\\test_public_generation_keeps_o0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+__ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n] __
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-364/test_public_generation_keeps_o1')
+line_ending = '\r\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "docs/assets/screenshots/astrbot/hero-items.png",
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+        ]
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+        write_wheels(wheels)
+>       candidate = distribution.build_distributions(
+            root,
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            REPO,
+            wheels,
+            wheels,
+        )
+
+tests\test_gscore_public_runtime.py:242:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-364/test_public_generation_keeps_o1/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-364\\test_public_generation_keeps_o1\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n]
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n]
+======================== 2 failed, 87 passed in 14.80s ========================

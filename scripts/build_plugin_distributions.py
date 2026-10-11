@@ -477,6 +477,7 @@ def distribution_files(
                 {
                     "main.py": PRELUDE.encode() + text_bytes(astr_host / "main.py.template"),
                     "metadata.yaml": metadata.encode("utf-8"),
+                    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
                     "_conf_schema.json": text_bytes(astr_host / "_conf_schema.json"),
                     "requirements.txt": ("\n".join(dependencies) + "\n").encode(),
                 }
@@ -593,6 +594,8 @@ def distribution_files(
         sources.append(root / folder / "pyproject.toml")
         if folder.startswith("adapters/"):
             sources.append(root / folder / "README.md")
+        if folder == PACKAGES["astrbot-plugin-dota2forge"]:
+            sources.append(root / folder / "CHANGELOG.md")
         sources.extend(
             p
             for p in (root / folder / "src").rglob("*")
