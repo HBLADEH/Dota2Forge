@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "compared_release": "HBLADEH/Dota2UID v0.1.0a12",
+  "shared_package_versions_unchanged": true,
+  "assets": [
+    {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "sha256": "9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7-py3-none-any.whl",
+      "sha256": "d29bb659fc699fa7a505f49e7c4d463e1e277d6ede61942c0fa6f4d017555c4c",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a6-py3-none-any.whl",
+      "sha256": "7fc1910c8604a6cfdd7c181d42cb3c12ec28618871260455b01da86a7876b697",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "sha256": "1f4914fde2ba9287219930cb200235a0f569fd15c49f64be8b6bdfdbd16723c7",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7.tar.gz",
+      "sha256": "70329d33ef562e3315ee0203b6c27f0c19ea5caf70c30101075260f42cae81e1",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a6.tar.gz",
+      "sha256": "76679c8a3affd18271f9b7218670a081a4d9a03c7f956f144656a4140f22f6f3",
+      "matches_previous_release": true
+    }
+  ]
+}

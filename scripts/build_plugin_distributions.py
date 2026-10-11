@@ -39,10 +39,22 @@ ASTR_INSTALL_GUIDE = "docs/cookbook/astrbot-public-install.md"
 # Only explicitly reviewed, identity-free images belong in the standalone plugin ZIPs.
 SHOWCASE_IMAGES = {
     "Dota2UID": {
-        "hero-items.png": "docs/assets/screenshots/astrbot/hero-items.png",
+        "menu.png": "docs/assets/screenshots/gscore/forge-2026-10-12/menu.png",
+        "player.png": "docs/assets/screenshots/gscore/forge-2026-10-12/player.png",
+        "recent.png": "docs/assets/screenshots/gscore/forge-2026-10-12/recent.png",
+        "match-overview.png": "docs/assets/screenshots/gscore/forge-2026-10-12/match-overview.png",
+        "match-radiant.png": "docs/assets/screenshots/gscore/forge-2026-10-12/match-radiant.png",
+        "match-dire.png": "docs/assets/screenshots/gscore/forge-2026-10-12/match-dire.png",
+        "hero-items.png": "docs/assets/screenshots/gscore/forge-2026-10-12/hero-items.png",
     },
     "astrbot_plugin_dota2forge": {
-        "hero-items.png": "docs/assets/screenshots/astrbot/hero-items.png",
+        "menu.png": "docs/assets/screenshots/gscore/forge-2026-10-12/menu.png",
+        "player.png": "docs/assets/screenshots/gscore/forge-2026-10-12/player.png",
+        "recent.png": "docs/assets/screenshots/gscore/forge-2026-10-12/recent.png",
+        "match-overview.png": "docs/assets/screenshots/gscore/forge-2026-10-12/match-overview.png",
+        "match-radiant.png": "docs/assets/screenshots/gscore/forge-2026-10-12/match-radiant.png",
+        "match-dire.png": "docs/assets/screenshots/gscore/forge-2026-10-12/match-dire.png",
+        "hero-items.png": "docs/assets/screenshots/gscore/forge-2026-10-12/hero-items.png",
     },
 }
 PRELUDE = (
@@ -157,14 +169,22 @@ def readme(
         content = content.replace(f"../../{source}", f"screenshots/{name}")
     if gscore_bundled and plugin == "Dota2UID":
         content = bundled_readme(content)
+    elif plugin == "Dota2UID":
+        content = thin_readme(content)
     if gscore_bundled and plugin == "Dota2UID":
         content = re.sub(
-            r"]\(\.\./\.\./docs/cookbook/(?:dota2uid|gscore-bundled-install)\.md\)",
-            "](INSTALL.md)",
+            r'(\]\(|href=")\.\./\.\./docs/cookbook/'
+            r'(?:dota2uid|gscore-bundled-install)\.md(?=[)"])',
+            r"\1INSTALL.md",
             content,
         )
     elif public_runtime or gscore_bundled:
-        content = re.sub(r"]\(\.\./\.\./(?:docs/|\.agents/)[^)]+\)", "](INSTALL.md)", content)
+        content = re.sub(
+            r'(\]\(|href=")\.\./\.\./docs/cookbook/'
+            r'(?:astrbot|astrbot-public-install|dota2uid|gscore-public-install)\.md(?=[)"])',
+            r"\1INSTALL.md",
+            content,
+        )
     elif plugin.startswith("astrbot"):
         pinned = versions(root)
         packages = " ".join(
@@ -201,7 +221,9 @@ def readme(
             "本目录按PyPI包名解析锁定版本，生成器未发布包；需先保证依赖可取得。共享库更新后必须冷启动。",
         )
     content = content.replace("](../../LICENSE)", "](LICENSE)")
+    content = content.replace('href="../../LICENSE"', 'href="LICENSE"')
     content = content.replace("](../../", f"]({source_url}/")
+    content = content.replace('href="../../', f'href="{source_url}/')
     display_version = astrbot_version(version) if plugin.startswith("astrbot") else version
     content = content.replace(
         marker,
@@ -213,9 +235,48 @@ def readme(
         content = content.replace(f'src="{icon_name}"', f'src="{raw}/main/{icon_name}"')
         for name in SHOWCASE_IMAGES.get(plugin, {}):
             content = content.replace(f"](screenshots/{name})", f"]({raw}/main/screenshots/{name})")
-        for name in ("INSTALL.md", "LICENSE"):
+            content = content.replace(
+                f'src="screenshots/{name}"', f'src="{raw}/main/screenshots/{name}"'
+            )
+        for name in ("INSTALL.md", "CHANGELOG.md", "LICENSE"):
             content = content.replace(f"]({name})", f"]({repo}/blob/main/{name})")
+            content = content.replace(f'href="{name}"', f'href="{repo}/blob/main/{name}"')
     return content.encode("utf-8")
+
+
+def replace_installation(content: str, replacement: str) -> str:
+    """Require one installation section before adapting a distribution variant."""
+    start = "## 安装与首次配置"
+    end = "## 快速开始"
+    pattern = rf"{re.escape(start)}\n.*?(?={re.escape(end)})"
+    content, count = re.subn(pattern, lambda _: replacement, content, flags=re.DOTALL)
+    if count != 1:
+        raise ValueError("Dota2UID README must contain one installation section")
+    return content
+
+
+def thin_readme(content: str) -> str:
+    """Keep thin distributions on the host-Python installer instead of bundled commands."""
+    return replace_installation(
+        content,
+        "## 安装与首次配置\n\n"
+        "要求 **Python 3.12+、GsCore**。本目录为薄分发，运行库安装到宿主环境；"
+        "公开随包版本请使用对应安装指南。\n\n"
+        "1. 停止 GsCore；已有实例先由主人发送 `do停用`，确认关闭再退出宿主。\n"
+        "2. 在 GsCore 根目录克隆插件，使用运行宿主的 Python 安装组件。"
+        "Windows `.venv` 示例：\n\n"
+        "   ```sh\n"
+        "   git clone https://github.com/HBLADEH/Dota2UID.git gsuid_core/plugins/Dota2UID\n"
+        "   .venv/Scripts/python.exe gsuid_core/plugins/Dota2UID/install_runtime.py "
+        "--host-python .venv/Scripts/python.exe\n"
+        "   ```\n\n"
+        "   Linux 替换为 `.venv/bin/python`，Docker 使用容器内的实际解释器。\n\n"
+        "3. 启动 GsCore，在后台 **插件配置 → Dota2UID → 插件参数配置** 填写 "
+        "STRATZ Token 和独立 `namespace`，确认修改后先停用、再重载。\n\n"
+        "四个运行包来自GitHub Releases，安装器校验固定版本与SHA256；"
+        "共享库更新后必须冷启动。Token 留空时为 `awaiting_config`。"
+        "完整步骤见[安装指南](../../docs/cookbook/gscore-public-install.md)。\n\n",
+    )
 
 
 def bundled_readme(content: str) -> str:
@@ -247,10 +308,10 @@ def bundled_readme(content: str) -> str:
         "公开a9的共享库更新须冷启动；本地a10兼容代际更新可受控重载，旧版首次升级仍须冷启动。",
         "公开a9的共享库更新须冷启动；a10兼容代际更新可受控重载，旧版首次升级仍须冷启动。",
     )
-    start = "## 丨安装与首次配置"
-    end = "## 丨快速开始"
+    start = "## 安装与首次配置"
     replacement = (
         f"{start}\n\n"
+        "要求 **Python 3.12+、GsCore**，宿主需提供兼容的 HTTPX 和 Pillow。\n\n"
         "1. 通过 GsCore 的 URL 安装功能添加本分发仓库，然后完整重启宿主。"
         "仓库携带匹配的四个项目运行包，启动时校验并准备插件专用运行目录，"
         "不需要先安装本项目 PyPI 包。\n"
@@ -259,7 +320,7 @@ def bundled_readme(content: str) -> str:
         "恢复只使用清单固定版本与 SHA256，不接受聊天 URL、版本或 pip 参数。\n"
         "3. 在后台 **插件配置 → Dota2UID → 插件参数配置** 填写 "
         "STRATZ Token 和独立 `namespace`，点击确认修改。"
-        "重载当前插件后读取保存的配置；旧 a6–a9 首次升级本版须完整冷启动。"
+        "保存后先 `do停用`，确认关闭再重载当前插件；旧 a6–a9 首次升级本版须完整冷启动。"
         "Token 不发送到聊天。\n\n"
         "`do帮助` / `do菜单` 在运行库未就绪时返回文字提示；配置未完成单独显示。"
         "HTTPX、Pillow 继续使用宿主兼容版本，第三方冲突须按 "
@@ -267,13 +328,10 @@ def bundled_readme(content: str) -> str:
         "运行中的安装或修复只准备新运行库，兼容更新通过受控重载启用；"
         "状态分别显示期望、准备、运行版本与摘要。未知消费者、schema/第三方变化或"
         "关闭超时仍需冷启动；已有绑定和配置保留。详细安装、更新与回退见同一指南。\n\n"
-        "独立分发目录与 ZIP 由[发行生成器](../../docs/cookbook/plugin-release.md)生成。"
-        "这是随包预发行分发；生成器只准备分发文件，生成动作本身不代表公开发布。\n\n"
+        "这是随包预发行版本，安装与恢复步骤见[安装指南]"
+        "(../../docs/cookbook/gscore-bundled-install.md)。\n\n"
     )
-    pattern = rf"{re.escape(start)}\n.*?(?={re.escape(end)})"
-    content, count = re.subn(pattern, lambda _: replacement, content, flags=re.DOTALL)
-    if count != 1:
-        raise ValueError("Dota2UID README must contain one installation section")
+    content = replace_installation(content, replacement)
     row = "| `do菜单` / `do帮助` | 查看帮助图片 |"
     content = content.replace(
         row,

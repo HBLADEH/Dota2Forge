@@ -25,6 +25,6 @@ Status: done
 统一门禁完整检查2009 passed/456.61s；scripts/Core/Assets覆盖率94/93/92。最后增补58个适配器运行时/桥接/send断言均通过；该选择性pytest因全仓覆盖率26%触发项目80%门槛退出1。双端最终本地候选smoke、真实SDK隔离原生热切换、Ruff/mypy和治理检查通过。Linux/Docker及真实QQ未验证。
 
 ## 阻塞与下一步
-2026-10-11复核：主仓PR #12和独立分发PR #4已合并，维护者审查／合并门槛完成。用户随后授权双端主题发版；本任务的受控热切换随[Dota2UID a11](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a11)公开，a10未另行创建Release。原a10资产候选保留，不覆盖或冒充本次a11附件；[接续发行与匿名验证](../active/2026-10-11-forge-theme-release.md)。下段为提交当时状态，已由本次a11替代。
+2026-10-11复核：主仓PR #12和独立分发PR #4已合并，维护者审查／合并门槛完成。用户随后授权双端主题发版；本任务的受控热切换随[Dota2UID a11](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a11)公开，a10未另行创建Release。原a10资产候选保留，不覆盖或冒充本次a11附件；[接续发行与匿名验证](../done/2026-10-11-forge-theme-release.md)。下段为提交当时状态，已由本次a11替代。
 
 主仓scripts维护者评审是进入main和公开Release的门槛。PR #12与#4目前均OPEN/CLEAN、无reviewDecision；主仓CI通过。待维护者审查并按依赖顺序合并主仓与分发PR后，更新release-assets.json/SHA256SUMS为两个main merge SHA，匿名核验11个Release载荷，创建prerelease `v0.1.0a10` 并上传资产；商店索引PR #40仍独立待审，本任务不改索引或生产宿主。
