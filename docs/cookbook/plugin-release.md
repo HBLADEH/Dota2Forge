@@ -1,8 +1,10 @@
 # 本地插件发行候选准备
 
-当前源码为Core a7、Renderer a6、Assets a1、AstrBot a10/Dota2UID a12；a12订阅入口修复与发行见[任务](../../.agents/tasks/active/2026-10-11-subscription-command-prefix.md)。旧UID a6–a9首次升级仍冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
+当前源码：Core a7、Renderer a6、Assets a1、AstrBot a10、Dota2UID a12。旧UID a6–a9首次升级冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
 
-2026-10-11已公开[Dota2UID a11](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a11)与[AstrBot alpha.10](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a10)，两端各11个附件匿名校验通过；[发行证据](../../.agents/artifacts/forge-theme-release-v1/README.md)。AstrBot根更新日志随仓库／ZIP与Release说明发布；Cloud已接收alpha.10提交，公共页新版上架及日志刷新尚未确认。真实宿主未更新。
+2026-10-11双端主题已公开（UID a11／AstrBot alpha.10），各11附件匿名校验通过，[证据](../../.agents/artifacts/forge-theme-release-v1/README.md)。AstrBot更新日志随仓库／ZIP／Release发布；Cloud已接收alpha.10，公共新版及日志显示尚待确认，真实宿主未更新。
+
+随后公开[Dota2UID a12](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a12)，修复订阅短命令抢占；11附件匿名下载与摘要通过，共享组件版本／字节不变，[证据](../../.agents/artifacts/subscription-command-prefix-v1/README.md)。生产宿主与聊天仍未复测。
 
 ## 生成与审查
 
