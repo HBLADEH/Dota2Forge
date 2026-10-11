@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "anonymous": true,
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "tag": "v0.1.0a11",
+  "source_commit": "223967ba635ce1b6d4f3d9674eb68d3831a20dd2",
+  "distribution_commit": "86a1132eb23c77af4e1dd39526d5abaf8e3473b9",
+  "repository_files_match_candidate": 18,
+  "zip_matches_repository": true,
+  "assets": [
+    {
+      "filename": "Dota2UID.zip",
+      "bytes": 15722606,
+      "sha256": "cf399525b5da2e876899c916cb591ad3553667e547f88a05de2361aadb946a85"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 21202,
+      "sha256": "9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7-py3-none-any.whl",
+      "bytes": 69774,
+      "sha256": "d29bb659fc699fa7a505f49e7c4d463e1e277d6ede61942c0fa6f4d017555c4c"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a6-py3-none-any.whl",
+      "bytes": 13738385,
+      "sha256": "7fc1910c8604a6cfdd7c181d42cb3c12ec28618871260455b01da86a7876b697"
+    },
+    {
+      "filename": "dota2uid-0.1.0a11-py3-none-any.whl",
+      "bytes": 39892,
+      "sha256": "6b3188517fc4684ea28c7427fe4b10b829de9ab8771993b91c9400da32ca4f99"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "bytes": 16441,
+      "sha256": "1f4914fde2ba9287219930cb200235a0f569fd15c49f64be8b6bdfdbd16723c7"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7.tar.gz",
+      "bytes": 49455,
+      "sha256": "70329d33ef562e3315ee0203b6c27f0c19ea5caf70c30101075260f42cae81e1"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a6.tar.gz",
+      "bytes": 13727576,
+      "sha256": "76679c8a3affd18271f9b7218670a081a4d9a03c7f956f144656a4140f22f6f3"
+    },
+    {
+      "filename": "dota2uid-0.1.0a11.tar.gz",
+      "bytes": 38679,
+      "sha256": "35cc4ec0c5b2850e74fe8c67194d20929c7813591d21c679f34785c67f280d57"
+    },
+    {
+      "filename": "release-assets.json",
+      "bytes": 1966,
+      "sha256": "2abb2022e38cf13cacf3b3bb3aef35de4779b8e54f63ead5998e00cb3bd26f40"
+    },
+    {
+      "filename": "SHA256SUMS",
+      "bytes": 904,
+      "sha256": "f78a0a4c06dbaa25abf4b850210f0eafd13b0850b628ac7b527c0d4eb791ea76"
+    }
+  ],
+  "production_host_modified": false,
+  "chat_verified": false
+}
