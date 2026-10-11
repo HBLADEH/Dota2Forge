@@ -63,3 +63,7 @@ do段位是do查询别名，do最近是do战绩别名；常规命令遵循AstrBo
 深色卡片的英雄/装备插图支持 illustration_path 配置；显式下载与路径基准见[本地插图指南](illustrations.md)。新源码候选留空按 auto/manual/off 使用托管素材，首次完成前占位，普通回复不下载资源。2026-10-05本机已更新三个wheel和发现资源，配置独立素材目录并冷启动ready，安装包已确认加载新背景。用户确认本轮/do菜单及所测其他指令图片/图标正常，OneBot已连接；分页/五人详情/手机可读性未获本轮逐项反馈，详见[部署/聊天证据](../../.agents/artifacts/dota-style-host-v2/README.md)。
 
 截图前升级另见[证据](../../.agents/artifacts/astrbot-screenshot-update-v1/README.md)：保留配置、绑定、订阅与558张素材，停用确认客户端关闭后停机安装；18个静态命令及动态出装捕获通过宿主SDK检查，菜单/玩家MMR/出装合成PNG可解码。桌面插件页已显示新主宰图标与0.1.0a2；按[清单](plugin-showcase.md)采集真实聊天图片，不以合成图替代。
+
+## 配置说明
+
+按数据连接（Token、namespace）、图片与素材（reply_mode、illustration_path）、订阅播报、维护四组理解参数。远古锻炉主题随Renderer a6源码候选提供；先完成一次查询，再按需要启用订阅。沿用AstrBot配置界面，权限、热重载与实际安装范围按上文验证；本轮未发布或切换真实宿主。

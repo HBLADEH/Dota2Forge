@@ -1,0 +1,109 @@
+{
+  "purpose": "design preview only",
+  "fixture": "synthetic; no real account or match identities",
+  "network": "none in rendering",
+  "production_code_changed": false,
+  "manual_visual_review": "passed: 390px menu/player/recent/hero-items, full components and wide report/team; native chat compression not verified",
+  "cards": [
+    {
+      "name": "menu",
+      "width": 780,
+      "height": 1770,
+      "bytes": 381760,
+      "sha256": "d5d00951ab9fbaed5a38b992cac92bc6a7793970c0e48f77dad14c1791217987",
+      "text_boxes": 32,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "player",
+      "width": 780,
+      "height": 1060,
+      "bytes": 347836,
+      "sha256": "0774e3045ad3358ddc525fd5cff0ec18c212d2ccb331c1904cfb2bab9e61447a",
+      "text_boxes": 16,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "recent",
+      "width": 780,
+      "height": 1610,
+      "bytes": 584792,
+      "sha256": "1eb0dcbae3119843f20dc4ba81dabe26df860c0b163fb5a946b97ae5b885810e",
+      "text_boxes": 30,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "hero-items",
+      "width": 780,
+      "height": 1670,
+      "bytes": 600573,
+      "sha256": "7ec4c23beb199704a56080dace0ad663565c06c57318d49bd022ed0a984e2aeb",
+      "text_boxes": 60,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "match-overview",
+      "width": 1600,
+      "height": 2630,
+      "bytes": 874715,
+      "sha256": "62604d0626bf86c487d5547bfff5fcf298cad13716865ab3fc199bac9adbd91f",
+      "text_boxes": 165,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "match-team",
+      "width": 1600,
+      "height": 3140,
+      "bytes": 1237283,
+      "sha256": "bcd59fa6e1b2a45de44501a66aa365f4153420b937abaad9372da3de7c4aa8c4",
+      "text_boxes": 146,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "components",
+      "width": 1600,
+      "height": 1480,
+      "bytes": 611722,
+      "sha256": "575e817cbc65259fb0e58480a192004308575b4fe2d9f6f63aa7a9ab6e52bd0a",
+      "text_boxes": 30,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "proposal-main",
+      "width": 1720,
+      "height": 1550,
+      "bytes": 942398,
+      "sha256": "f12f304211ea01f4776b9cc1b95c6bac9295f082199f7d5e589bc3a1c5a790fa",
+      "text_boxes": 7,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "proposal-components",
+      "width": 1720,
+      "height": 1600,
+      "bytes": 818827,
+      "sha256": "2a5d601cc279d1999b077b1839101f0621780252a190c18d9eb2d0881e9b1684",
+      "text_boxes": 6,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    },
+    {
+      "name": "proposal-reports",
+      "width": 1720,
+      "height": 2020,
+      "bytes": 1064028,
+      "sha256": "2ecd15c8114ddaaf02ee9a44dd3d91c2530be391685170f2e94e447006b45a82",
+      "text_boxes": 6,
+      "text_bounds": "passed",
+      "text_overlap": "passed"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Dota2Forge · AstrBot 安装与更新
 
-当前源码为未发布的0.1.0-alpha.8候选（适配器a8、Assets a1、Core/Renderer a4）；已公开alpha.7依赖修复版仍可按本指南安装，Python 3.12+，AstrBot >=4.5.0。新候选requirements通过固定SHA256的GitHub Release wheel地址取得四个运行组件；旧alpha.7为三个组件；全新商店安装由AstrBot执行依赖安装，不需要PyPI上的项目包。商店发布状态需在版本页核实，GitHub更新不会替换Cloud缓存的旧版ZIP。
+本次版本为0.1.0-alpha.10（适配器a10、Assets a1、Core a7、Renderer a6），要求Python 3.12+、AstrBot >=4.5.0。发行状态见主项目[发行记录](https://github.com/HBLADEH/Dota2Forge/blob/main/docs/cookbook/plugin-release.md)与本插件Releases。requirements通过固定SHA256的GitHub Release wheel地址取得四个运行组件；旧alpha.7为三个组件；全新商店安装由AstrBot执行依赖安装，不需要PyPI上的项目包。商店发布状态需在版本页核实，GitHub更新不会替换Cloud缓存的旧版ZIP。
 
 ## 官方商店安装
 
@@ -33,11 +33,11 @@
 
 停用插件并退出AstrBot，备份配置和插件数据后，在插件目录 `git pull --ff-only`，用相同Python重新执行上述安装器，成功后重新启动。不要在运行过程中替换共享库；不要覆盖实际配置或数据库。回退应同时恢复匹配版本的插件目录及运行包，并保留数据备份。
 
-新源码候选默认 reply_mode=image、asset_download_mode=auto、illustration_path=""。首次启动后台下载到持久化插件数据下 illustrations 托管根；首次完成前用占位卡，已有完整有效快照不重复联网。Token未填也可准备公共素材，业务仍等待配置。下载无需玩家凭据，ZIP/wheel仍不含Valve图片；该自动功能尚未发布到商店或生产部署。
+alpha.10默认 reply_mode=image、asset_download_mode=auto、illustration_path=""。首次启动后台下载到持久化插件数据下 illustrations 托管根；首次完成前用占位卡，已有完整有效快照不重复联网。Token未填也可准备公共素材，业务仍等待配置。下载无需玩家凭据，ZIP/wheel不含Valve图片；新版生产部署和真实聊天另行验收。
 
 使用 /do素材状态 查看进度与可用/404/失败数量；Bot管理员或主人可用 /do下载素材 补缺、/do更新素材 刷新，不接受URL或其他参数。asset_download_mode=manual 仅按管理员命令下载；off 禁止素材联网。已有非空 illustration_path 优先，不覆盖自定义目录；相对路径以 data/plugin_data/astrbot_plugin_dota2forge 为基准。UI镜像失败仍保留成功英雄/装备，网络失败不会写成官方缺图。素材代理用 asset_proxy，留空可继承 AstrBot http_proxy，必须从容器可达。
 
-旧alpha.7没有自动功能；继续使用主项目v0.1.0a4的[显式下载工具](https://github.com/HBLADEH/Dota2Forge/blob/v0.1.0a4/scripts/download_dota_assets.py)或准备已有完整素材。新候选安装Assets包后可直接运行打包CLI，无需复制源码：
+旧alpha.7没有自动功能；继续使用主项目v0.1.0a4的[显式下载工具](https://github.com/HBLADEH/Dota2Forge/blob/v0.1.0a4/scripts/download_dota_assets.py)或准备已有完整素材。alpha.10安装Assets包后可直接运行打包CLI，无需复制源码：
 
 ```sh
 docker exec astrbot python -m dota2forge_assets.cli --output /AstrBot/data/plugin_data/astrbot_plugin_dota2forge/illustrations-v1

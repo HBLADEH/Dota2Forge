@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前源码为Core a7、Renderer a5、Assets a1、AstrBot a9/Dota2UID a10。Dota2UID a9宽幅报告已公开，a10受控热切换尚未发布，见[任务](../../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)。AstrBot现行公开a7，新a9仅源码准备。GsCore索引PR #40的状态以[执行记录](gscore-store-publish.md)为历史边界。
+当前源码为Core a7、Renderer a6、Assets a1、AstrBot a10/Dota2UID a11。双端主题发行及Cloud更新日志状态见[发行任务](../../.agents/tasks/active/2026-10-11-forge-theme-release.md)；此前Dota2UID a9、AstrBot alpha.7公开记录保留历史边界。受控热切换源码已随主仓PR #12合并，旧a6–a9首次升级仍冷启动。GsCore索引PR #40状态见[执行记录](gscore-store-publish.md)。
 
 ## 生成与审查
 
@@ -35,6 +35,8 @@ dist/plugin-distributions/a7-candidate-v1/
 两个根目录均含release.json和标准库版本检查；它们锁定该次Core、Renderer、Assets与对应适配器的确切版本。生成器保留宿主兼容声明，替换目标repo/author/version；第三方HTTPX/Pillow约束取自五包元数据，消费者约束漂移会失败。
 
 ZIP条目顺序、时间戳和权限固定；相同输入字节重复生成一致。输出完整暂存后才就位，已有目录只接受完全相同内容；改变、缺项或额外文件会失败并保留原目录。检查manifest后再同步分发仓库。薄桥接ZIP须通过16,000,000 bytes保守上限，不携带字体、Pillow、独立美术素材包或本机配置；运行资源由Renderer wheel提供。实机截图中的第三方画面权利见[截图来源](../assets/screenshots/README.md)，不因加入说明转为MIT美术。
+
+AstrBot CHANGELOG.md从适配器根复制到分发根和ZIP，源文件与输出均入SHA256清单；[日志打包决策](../../.agents/notes/implemented/2026-10-11-plugin-changelog.md)及Cloud验收另记，Release正文不能代替根文件。
 
 ## 配置与升级边界
 

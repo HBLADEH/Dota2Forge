@@ -12,7 +12,7 @@ from dota2forge_core import (
 )
 
 from .cards import REPORT_WIDTH, ImageArtifact, MatchReportCard, RenderError
-from .engine import AMBER, GREEN, LINE, MUTED, PANEL, RED, WHITE, _Canvas
+from .engine import _Canvas
 from .formatting import duration_text, game_mode_text, timestamp, value_text
 from .reporting import (
     imp_text,
@@ -23,6 +23,7 @@ from .reporting import (
     position_text,
     report_groups,
 )
+from .theme import AMBER, GREEN, LINE, MUTED, RED, WHITE
 
 if TYPE_CHECKING:
     from .engine import PillowRenderer
@@ -148,8 +149,7 @@ def table(
         canvas.text(x, y, heading, size=26, color=MUTED, width=width)
     y += 42
     for player in team:
-        canvas.draw.rectangle((28, y - 8, REPORT_WIDTH - 28, y + 78), fill=PANEL)
-        canvas.draw.rectangle((28, y - 8, 32, y + 78), fill=color)
+        canvas.panel(28, y - 8, REPORT_WIDTH - 56, 86, color)
         canvas.illustration("heroes", player.hero_id, 38, y + 7, (74, 44))
         canvas.text(128, y, canvas.engine.hero(player.hero_id), size=26, width=218)
         name = participant_name(player)
@@ -301,7 +301,7 @@ def team_sheet(engine: "PillowRenderer", card: MatchReportCard, pages: int) -> I
         y = 356
         for player in team:
             color = GREEN if player.is_radiant else RED
-            canvas.line(y - 12)
+            canvas.panel(28, y - 12, REPORT_WIDTH - 56, 410, color)
             canvas.illustration("heroes", player.hero_id, 38, y + 4, (150, 86))
             own = (
                 " [我方]"

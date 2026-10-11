@@ -9,7 +9,7 @@ from pathlib import Path
 from types import TracebackType
 
 from dota2forge_core import DataMetadata, DataSource, MatchParseState, MatchParticipant
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 from .cards import (
     DETAIL_PER_PAGE,
@@ -42,10 +42,40 @@ from .formatting import (
 )
 from .hero_items import STAGE_LABELS, item_card_name
 from .illustrations import Illustrations
+from .theme import (
+    AMBER as AMBER,
+)
+from .theme import (
+    GOLD as GOLD,
+)
+from .theme import (
+    GREEN as GREEN,
+)
+from .theme import (
+    INK as INK,
+)
+from .theme import (
+    INSET,
+)
+from .theme import (
+    LINE as LINE,
+)
+from .theme import (
+    MUTED as MUTED,
+)
+from .theme import (
+    PANEL as PANEL,
+)
+from .theme import (
+    PAPER as PAPER,
+)
+from .theme import (
+    RED as RED,
+)
+from .theme import (
+    WHITE as WHITE,
+)
 
-INK, MUTED, PAPER, WHITE = "#ece3d2", "#b4b7b3", "#10171a", "#fff5e2"
-GREEN, RED, AMBER, LINE = "#83d6ab", "#ef8a78", "#dabb80", "#46504c"
-PANEL, GOLD = "#1b2427", "#c0a06a"
 FONT_SHA256 = "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
 type Box = tuple[float, float, float, float]
 
@@ -72,8 +102,6 @@ class _Canvas:
         self.draw = ImageDraw.Draw(self.image)
         self.engine = engine
         self.boxes: list[Box] = []
-        if height > 210:
-            self.draw.rectangle((18, 190, width - 19, height - 19), outline=LINE)
 
     def __enter__(self) -> "_Canvas":
         return self
@@ -118,7 +146,26 @@ class _Canvas:
         self.draw.text((x, y), value, font=typeface, anchor="lt", fill=color)
 
     def line(self, y: int) -> None:
-        self.draw.line((36, y, self.width - 36, y), fill=LINE, width=2)
+        self.draw.line((36, y, self.width - 36, y), fill=LINE, width=1)
+
+    def panel(self, x: int, y: int, width: int, height: int, accent: str | None = None) -> None:
+        self.draw.polygon(
+            (
+                (x + 6, y),
+                (x + width, y),
+                (x + width, y + height - 6),
+                (x + width - 6, y + height),
+                (x, y + height),
+                (x, y + 6),
+            ),
+            fill=PANEL,
+        )
+        if accent is not None:
+            self.draw.rectangle((x, y + 6, x + 3, y + height - 6), fill=accent)
+
+    def command(self, y: int, value: str) -> None:
+        self.panel(28, y - 14, self.width - 56, 60)
+        self.text(44, y, value, size=28, color=GOLD, truncate=False)
 
     def paragraph(self, y: int, value: str) -> None:
         remaining = safe_text(value)
@@ -130,45 +177,89 @@ class _Canvas:
                 and self.draw.textlength(remaining[: end + 1], font=font) <= 708
             ):
                 end += 1
+            # Keep short Latin terms such as MMR intact at a Chinese line boundary.
+            if 0 < end < len(remaining):
+                word_start = end
+                if remaining[end].isascii() and remaining[end].isalnum():
+                    while (
+                        word_start > 0
+                        and remaining[word_start - 1].isascii()
+                        and remaining[word_start - 1].isalnum()
+                    ):
+                        word_start -= 1
+                    if word_start > 0:
+                        end = word_start
             self.text(36, y + index * 46, remaining[:end] if index < 2 else remaining)
             remaining = remaining[end:]
             if not remaining:
                 break
 
     def header(self, title: str, subtitle: str) -> None:
-        self.draw.rectangle((0, 0, self.width, 174), fill="#202b2d")
         art = self.engine._illustrations.image("decor", "header")
-        if art is not None:
-            with ImageOps.fit(art, (self.width, 174)) as banner:
-                self.image.paste(banner, (0, 0), banner)
-            with (
-                Image.new("RGB", (self.width, 174), "#10171a") as shade,
-                self.image.crop((0, 0, self.width, 174)) as banner,
-                Image.blend(banner, shade, 0.6) as shaded,
-            ):
-                self.image.paste(shaded, (0, 0))
+        if art is None:
+            self._forge_header()
         else:
-            self.draw.polygon(
-                (
-                    (self.width - 228, 0),
-                    (self.width, 0),
-                    (self.width, 174),
-                    (self.width - 286, 174),
-                ),
-                fill="#283333",
+            self._header_art(art)
+        self.draw.line((36, 172, self.width - 36, 172), fill=GOLD, width=1)
+        self.draw.rectangle((0, 0, 7, 174), fill=RED)
+        self.text(36, 20, "Dota2Forge", size=30, color=GOLD)
+        self.text(36, 70, title, size=40, color=WHITE)
+        self.text(36, 134, subtitle, size=26, color=MUTED)
+
+    def _forge_header(self) -> None:
+        """Draw original ruin planes locally; runtime wheels contain no bitmap art."""
+        for y in range(174):
+            shade = round(7 * (1 - y / 174))
+            self.draw.line((0, y, self.width, y), fill=(16 + shade, 18 + shade, 22 + shade))
+        with Image.new("RGBA", (self.width, 174)) as glow:
+            painter = ImageDraw.Draw(glow)
+            painter.ellipse((self.width * 0.68, 84, self.width * 1.02, 246), fill=(151, 75, 38, 64))
+            painter.ellipse((self.width * 0.63, -80, self.width * 0.86, 72), fill=(58, 86, 102, 32))
+            with glow.filter(ImageFilter.GaussianBlur(32)) as haze:
+                self.image.paste(haze, (0, 0), haze)
+
+        def plane(points: tuple[tuple[float, int], ...], fill: str) -> None:
+            self.draw.polygon(tuple((round(x * self.width), y) for x, y in points), fill=fill)
+
+        plane(((0.65, 174), (0.68, 67), (0.71, 58), (0.74, 174)), "#1B2025")
+        plane(((0.68, 67), (0.70, 60), (0.71, 156), (0.69, 174)), "#242B30")
+        plane(((0.74, 174), (0.78, 8), (0.80, -6), (0.85, 15), (0.83, 174)), "#252B30")
+        plane(((0.80, -6), (0.85, 15), (0.83, 174), (0.81, 131)), "#1A2025")
+        plane(((0.78, 8), (0.80, -6), (0.81, 131), (0.79, 166)), "#30353A")
+        plane(((0.86, 174), (0.88, 51), (0.93, 27), (0.99, 174)), "#232629")
+        plane(((0.93, 27), (0.95, 65), (0.94, 174), (0.90, 174)), "#2B2B29")
+        plane(((0.95, 174), (0.98, -8), (1.04, 15), (1.04, 174)), "#191E23")
+        plane(((0.58, 160), (0.75, 147), (0.78, 174), (0.58, 174)), "#1C2023")
+        plane(((0.74, 172), (0.83, 145), (0.97, 160), (1.0, 174)), "#302A25")
+        # Sparse seams and embers stay at the right, clear of the text column.
+        for x1, y1, x2, y2, color in (
+            (0.78, 8, 0.795, 86, "#494B46"),
+            (0.795, 86, 0.79, 129, "#353C40"),
+            (0.88, 118, 0.927, 96, "#4E3C2B"),
+            (0.828, 152, 0.87, 164, "#704B32"),
+            (0.82, 158, 0.825, 141, "#87513A"),
+        ):
+            self.draw.line(
+                (round(x1 * self.width), y1, round(x2 * self.width), y2), fill=color, width=1
             )
-        self.draw.line((0, 172, self.width, 172), fill=GOLD, width=2)
-        self.draw.rectangle((0, 0, 8, 174), fill=RED)
-        self.draw.line((636, 24, 714, 72, 636, 120), fill=GOLD, width=3)
-        self.text(36, 28, "Dota2Forge", size=42, color=WHITE)
-        self.text(36, 94, title, size=32, color=WHITE, width=350)
-        self.text(self.width - 360, 100, subtitle, size=26, color=WHITE, width=324)
+
+    def _header_art(self, art: Image.Image) -> None:
+        if art.width > 2048 or art.height > 2048:
+            raise RenderError()
+        with ImageOps.fit(art, (self.width, 174)) as banner:
+            self.image.paste(banner, (0, 0), banner)
+        with (
+            Image.new("RGB", (self.width, 174), PAPER) as shade,
+            self.image.crop((0, 0, self.width, 174)) as banner,
+            Image.blend(banner, shade, 0.46) as shaded,
+        ):
+            self.image.paste(shaded, (0, 0))
 
     def illustration(
         self, kind: str, identifier: int | None, x: int, y: int, size: tuple[int, int]
     ) -> None:
         width, height = size
-        self.draw.rectangle((x, y, x + width, y + height), fill="#11191c", outline=GOLD)
+        self.draw.rectangle((x, y, x + width, y + height), fill=INSET)
         image = self.engine._illustrations.image(kind, identifier)
         if image is not None:
             resize = ImageOps.contain if kind == "items" else ImageOps.fit
@@ -309,58 +400,63 @@ class PillowRenderer:
             raise RenderError() from None
 
     def _menu(self, card: MenuCard) -> ImageArtifact:
-        with _Canvas(self, 1580 if card.include_admin else 1450) as canvas:
-            canvas.header("命令菜单", card.adapter_label)
-            groups = (
-                (
-                    "账号",
-                    (
-                        ("do绑定 <ID>", "绑定查询账号"),
-                        ("do改绑 <ID>", "替换已有绑定"),
-                        ("do账号 / do解绑", "查看 / 解除绑定"),
-                    ),
-                ),
-                (
-                    "查询",
-                    (
-                        ("do查询 [ID]", "玩家 / 预估 MMR"),
-                        ("do英雄名出装", "中文 / 英文 / 简称"),
-                        ("do战绩 [条数]", "默认 10 · 1–100 场"),
-                        ("do战绩 <ID> <条数>", "显式查询账号"),
-                        ("do比赛 <ID> / 第N场", "历史单局详情"),
-                        ("do战绩 第N页", "查看同次列表"),
-                    ),
-                ),
-                (
-                    "订阅（默认关闭）",
-                    (
-                        ("do订阅玩家 / 比赛", "玩家ID或比赛ID"),
-                        ("do订阅列表 [游标]", "本会话订阅和事件"),
-                        ("do取消订阅 <订阅ID>", "取消自己的订阅"),
-                        ("do重试推送 <事件ID>", "显式重试，可能重复"),
-                    ),
-                ),
+        with _Canvas(self, 1780) as canvas:
+            canvas.header("今天，先查哪一项？", card.adapter_label + " · 输入命令即可")
+            actions = (
+                ("查段位", "段位徽章与预估 MMR", "do查询 [ID]"),
+                ("查最近战绩", "默认 10 场，可选 1–100 场", "do战绩 [条数] / do战绩 <ID> <条数>"),
+                ("看一场比赛", "双方数据、装备、优势曲线与 IMP", "do比赛 <比赛ID> / do比赛 第N场"),
+                ("找热门出装", "四阶段购买统计，支持英雄全名与简称", "do主宰出装 / doAM出装"),
             )
-            y = 210
-            for label, rows in groups:
-                canvas.text(36, y, label, color=RED)
-                y += 54
-                for command, description in rows:
-                    canvas.text(36, y, command, size=28, width=420)
-                    canvas.text(464, y + 2, description, size=24, color=MUTED, width=280)
-                    canvas.line(y + 42)
-                    y += 62
+            for index, (title, description, command) in enumerate(actions):
+                y = 210 + index * 174
+                canvas.panel(28, y, 724, 154)
+                canvas.text(44, y + 16, f"0{index + 1}", size=26, color=GOLD, width=54)
+                canvas.text(110, y + 16, title, size=34, width=610)
+                canvas.text(110, y + 66, description, size=26, color=MUTED, width=610)
+                canvas.text(44, y + 112, command, size=28, color=GOLD, truncate=False)
+            canvas.text(36, 930, "第一次使用：do绑定 <ID>", size=30, color=GOLD)
+            canvas.text(36, 985, "账号管理：do账号 / do改绑 <ID> / do解绑", size=26)
+            canvas.text(36, 1030, "翻页：do战绩 第N页（同次列表）", size=26)
+            canvas.line(1090)
+            canvas.text(36, 1116, "自动播报 · 默认关闭", size=30, color=GOLD)
+            rows = (
+                "do订阅玩家 <ID> / do订阅比赛 <比赛ID>",
+                "do订阅 [比赛|段位|日报] [ID]",
+                "do订阅列表 [游标] / do取消订阅 <订阅ID>",
+                "do重试推送 <事件ID>：先核实送达，可能重复",
+            )
+            for index, command in enumerate(rows):
+                canvas.text(36, 1170 + index * 46, command, size=26, truncate=False)
+            canvas.text(
+                36,
+                1380,
+                "素材：do素材状态 / do下载素材 / do更新素材",
+                size=26,
+                color=GOLD,
+                truncate=False,
+            )
             if card.include_admin:
-                canvas.text(36, y + 4, "管理员", color=RED)
-                canvas.text(36, y + 54, "do停用", size=28)
-                y += 140
+                canvas.text(36, 1436, "管理员：do停用", size=26, color=GOLD, width=220)
             canvas.text(
-                36, y + 24, "ID：Dota 账号 ID 或 SteamID64；比赛 ID 独立。", size=24, color=MUTED
+                258 if card.include_admin else 36,
+                1436,
+                "素材下载与更新限管理员",
+                size=26,
+                color=MUTED,
+                width=490,
             )
-            canvas.text(36, y + 64, "绑定只是查询偏好，不证明账号所有权。", size=24, color=MUTED)
-            canvas.text(
-                36, y + 104, "群订阅仅限 Bot 管理员；日报为有限观察。", size=24, color=MUTED
-            )
+            canvas.line(1480)
+            for index, notice in enumerate(
+                (
+                    "ID：Dota 账号 ID 或 SteamID64；比赛 ID 独立。",
+                    "绑定只是查询偏好，不证明账号所有权。",
+                    "群订阅仅限 Bot 管理员；日报为有限观察。",
+                    "图片菜单是命令说明；无需点击，直接输入。",
+                    "帮助：do菜单 / do帮助",
+                )
+            ):
+                canvas.text(36, 1506 + index * 46, notice, size=26, color=MUTED)
             return canvas.encode()
 
     def _player(self, card: PlayerCard) -> ImageArtifact:
@@ -369,7 +465,7 @@ class PillowRenderer:
             canvas.header("玩家概况", "北京时间 UTC+8")
             canvas.text(36, 218, "昵称", size=24, color=MUTED)
             canvas.text(36, 270, safe_name(player.display_name), size=40)
-            canvas.line(340)
+            canvas.panel(28, 352, 724, 272)
             canvas.text(36, 380, "当前段位", size=24, color=MUTED)
             canvas.text(36, 434, rank_text(player.rank_tier), size=40, width=488)
             canvas.rank(player.rank_tier)
@@ -382,6 +478,7 @@ class PillowRenderer:
                 color=MUTED,
             )
             canvas.metadata(686, player.metadata)
+            canvas.command(836, "查最近比赛：do战绩")
             canvas.text(36, 884, "按段位区间估算，非精确分数；段位可能滞后。", size=24, color=MUTED)
             return canvas.encode()
 
@@ -394,7 +491,7 @@ class PillowRenderer:
             canvas.text(192, 262, "每阶段前 5 项 · 按购买次数排序", size=26, color=MUTED, width=552)
             y = 320
             for stage in result.stages:
-                canvas.draw.rounded_rectangle((28, y - 8, 752, y + 230), radius=12, fill=PANEL)
+                canvas.panel(28, y - 8, 724, 238)
                 canvas.text(44, y + 4, STAGE_LABELS[stage.stage], size=28, color=AMBER)
                 selected = sorted(stage.items or (), key=lambda item: (-item.count, item.item_id))[
                     :5
@@ -479,7 +576,8 @@ class PillowRenderer:
                 canvas.text(36, y + 110, "不代表完整历史没有战绩。", color=MUTED)
                 y += 208
             for index, match in enumerate(selected, start + 1):
-                canvas.draw.rectangle((20, y - 14, WIDTH - 20, y + 184), fill=PANEL)
+                color = AMBER if match.is_win is None else GREEN if match.is_win else RED
+                canvas.panel(28, y - 14, WIDTH - 56, 198, color)
                 canvas.illustration("heroes", match.hero_id, 36, y, (112, 64))
                 canvas.text(172, y, f"{index:02d}  {self.hero(match.hero_id)}", size=30, width=450)
                 outcome = "未知" if match.is_win is None else "胜" if match.is_win else "负"
@@ -516,7 +614,7 @@ class PillowRenderer:
                 canvas.text(36, y + 150, f"比赛 ID {match.match_id}", size=24, color=MUTED)
                 y += 208
             canvas.metadata(y + 8, recent.metadata)
-            canvas.text(36, y + 158, "do比赛 <比赛ID> / 第N场", size=24, color=MUTED)
+            canvas.command(y + 158, "看详情：do比赛 <比赛ID> / 第N场")
             canvas.text(
                 36, y + 196, "近期列表不保证完整历史 · 北京时间 UTC+8", size=24, color=MUTED
             )
@@ -525,10 +623,12 @@ class PillowRenderer:
     def _status(self, card: StatusCard) -> ImageArtifact:
         with _Canvas(self, 650) as canvas:
             canvas.header("账号状态", card.adapter_label)
+            canvas.panel(28, 206, 724, 160, GOLD)
             canvas.paragraph(238, card.message)
             canvas.line(386)
             canvas.text(36, 420, "绑定仅是查询偏好，不证明账号所有权。", size=24, color=MUTED)
             canvas.text(36, 520, "状态来自本次本地操作。", size=24, color=MUTED)
+            canvas.command(570, "查看账号：do账号 · 查段位：do查询")
             return canvas.encode()
 
     def _detail(self, card: MatchDetailCard) -> ImageArtifact:
@@ -583,7 +683,7 @@ class PillowRenderer:
                 )
                 if own is player:
                     name = "[我方] " + name
-                canvas.draw.rounded_rectangle((28, y - 8, 752, y + 312), radius=12, fill=PANEL)
+                canvas.panel(28, y - 8, 724, 320, team_color)
                 canvas.draw.rectangle((28, y + 6, 32, y + 64), fill=team_color)
                 canvas.illustration("heroes", player.hero_id, 44, y, (112, 64))
                 canvas.text(176, y, name, size=28, width=568)

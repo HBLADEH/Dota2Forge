@@ -1,0 +1,977 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 89 items
+
+tests\test_plugin_distributions.py ..................................... [ 41%]
+....                                                                     [ 46%]
+tests\test_gscore_public_runtime.py ....................FF.              [ 71%]
+tests\test_bundled_distributions.py FFF...F......FFFFFFFFFFF.            [100%]
+
+================================== FAILURES ===================================
+___ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n] ___
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_public_generation_keeps_o0')
+line_ending = '\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "docs/assets/screenshots/astrbot/hero-items.png",
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+        ]
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+        write_wheels(wheels)
+>       candidate = distribution.build_distributions(
+            root,
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            REPO,
+            wheels,
+            wheels,
+        )
+
+tests\test_gscore_public_runtime.py:242:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_public_generation_keeps_o0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_public_generation_keeps_o0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+__ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n] __
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_public_generation_keeps_o1')
+line_ending = '\r\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "docs/assets/screenshots/astrbot/hero-items.png",
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+        ]
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+        write_wheels(wheels)
+>       candidate = distribution.build_distributions(
+            root,
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            REPO,
+            wheels,
+            wheels,
+        )
+
+tests\test_gscore_public_runtime.py:242:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_public_generation_keeps_o1/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_public_generation_keeps_o1\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+___ test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap ____
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_carries_only_valid0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_carries_only_valid0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_carries_only_valid0')
+
+    def test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap(
+        bundled_source, tmp_path
+    ):
+        root, wheels = bundled_source
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:109:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_carries_only_valid0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_carries_only_valid0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_is_deterministic_keeps_astrbot_unchanged_and_uses_its_install_guide _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_is_deterministic_k0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_is_deterministic_k0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_is_deterministic_k0')
+
+    def test_bundle_is_deterministic_keeps_astrbot_unchanged_and_uses_its_install_guide(
+        bundled_source, tmp_path
+    ):
+        root, wheels = bundled_source
+>       bundle = build_bundle(root, wheels, tmp_path / "bundled")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:179:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_is_deterministic_k0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_is_deterministic_k0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_________ test_bundled_install_guide_links_use_the_source_repository __________
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundled_install_guide_lin0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundled_install_guide_lin0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundled_install_guide_lin0')
+
+    def test_bundled_install_guide_links_use_the_source_repository(bundled_source, tmp_path):
+        root, wheels = bundled_source
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:208:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundled_install_guide_lin0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundled_install_guide_lin0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime __
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_source_commit_pins_readme0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_source_commit_pins_readme0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_source_commit_pins_readme0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB479040B0>
+
+    def test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime(
+        bundled_source, tmp_path, monkeypatch
+    ):
+        root, wheels = bundled_source
+        source_ref = "0123456789abcdef0123456789abcdef01234567"
+        monkeypatch.setattr(distribution, "ROOT", root)
+        pinned = tmp_path / "pinned"
+>       assert (
+            distribution.main(
+                [
+                    "--output",
+                    str(pinned),
+                    "--astrbot-repo",
+                    ASTR_REPO,
+                    "--gscore-repo",
+                    GS_REPO,
+                    "--gscore-wheels",
+                    str(wheels),
+                    "--astrbot-wheels",
+                    str(wheels),
+                    "--gscore-bundled",
+                    "--source-ref",
+                    source_ref,
+                ]
+            )
+            == 0
+        )
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x000001BB477D22A0>(['--output', 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_source_commit_pins_readme0\\pi...', 'https://github.com/HBLADEH/astrbot_plugin_dota2forge', '--gscore-repo', 'https://github.com/HBLADEH/Dota2UID', ...])
+E        +    where <function main at 0x000001BB477D22A0> = distribution.main
+
+tests\test_bundled_distributions.py:282: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Distribution generation failed. Check source metadata, repository URLs and output.
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra0-py3-none-any] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native0')
+extra = {'gsuid_core/__init__.py': b'host SDK'}, tag = 'py3-none-any'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:394:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_rejects_sdk_native0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra1-py3-none-any] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native1/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native1/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native1')
+extra = {'dota2forge_core/extension.pyd': b'native'}, tag = 'py3-none-any'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:394:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native1/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_rejects_sdk_native1\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra2-py3-none-any] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native2/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native2/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native2')
+extra = {'dota2forge_core/hero.png': b'game PNG'}, tag = 'py3-none-any'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:394:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native2/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_rejects_sdk_native2\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra3-cp312-cp312-win_amd64] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native3/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native3/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native3')
+extra = {}, tag = 'cp312-cp312-win_amd64'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:394:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_rejects_sdk_native3/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_rejects_sdk_native3\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_invalid_bundle_does_not_overwrite_existing_candidate[missing] ______
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o0')
+change = 'missing'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB47852990>
+
+    @pytest.mark.parametrize("change", ["missing", "metadata", "corrupt"])
+    def test_invalid_bundle_does_not_overwrite_existing_candidate(
+        bundled_source, tmp_path, change, monkeypatch
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:404:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_invalid_bundle_does_not_o0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_invalid_bundle_does_not_overwrite_existing_candidate[metadata] _____
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o1/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o1/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o1')
+change = 'metadata'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB478534A0>
+
+    @pytest.mark.parametrize("change", ["missing", "metadata", "corrupt"])
+    def test_invalid_bundle_does_not_overwrite_existing_candidate(
+        bundled_source, tmp_path, change, monkeypatch
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:404:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o1/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_invalid_bundle_does_not_o1\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_invalid_bundle_does_not_overwrite_existing_candidate[corrupt] ______
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o2/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o2/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o2')
+change = 'corrupt'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB47A7DD90>
+
+    @pytest.mark.parametrize("change", ["missing", "metadata", "corrupt"])
+    def test_invalid_bundle_does_not_overwrite_existing_candidate(
+        bundled_source, tmp_path, change, monkeypatch
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:404:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_invalid_bundle_does_not_o2/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_invalid_bundle_does_not_o2\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____________ test_bundle_cli_reports_success_and_never_publishes _____________
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_cli_reports_succes0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_cli_reports_succes0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_cli_reports_succes0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB47852B70>
+capsys = <_pytest.capture.CaptureFixture object at 0x000001BB47853110>
+
+    def test_bundle_cli_reports_success_and_never_publishes(
+        bundled_source, tmp_path, monkeypatch, capsys
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       assert (
+            distribution.main(
+                [
+                    "--output",
+                    str(tmp_path / "candidate"),
+                    "--astrbot-repo",
+                    ASTR_REPO,
+                    "--gscore-repo",
+                    GS_REPO,
+                    "--gscore-wheels",
+                    str(wheels),
+                    "--gscore-bundled",
+                ]
+            )
+            == 0
+        )
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x000001BB477D22A0>(['--output', 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_cli_reports_succes0\\ca...', 'https://github.com/HBLADEH/astrbot_plugin_dota2forge', '--gscore-repo', 'https://github.com/HBLADEH/Dota2UID', ...])
+E        +    where <function main at 0x000001BB477D22A0> = distribution.main
+
+tests\test_bundled_distributions.py:440: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Distribution generation failed. Check source metadata, repository URLs and output.
+_ test_bundle_validation_fails_before_output_if_inputs_change_or_collide[oversize] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB478507A0>
+change = 'oversize'
+
+    @pytest.mark.parametrize("change", ["oversize", "collision", "changed"])
+    def test_bundle_validation_fails_before_output_if_inputs_change_or_collide(
+        bundled_source, tmp_path, monkeypatch, change
+    ):
+        root, wheels = bundled_source
+        original = bundled_runtime.validate_wheel
+        if change == "oversize":
+            monkeypatch.setattr(bundled_runtime, "MAX_WHEEL_BYTES", 1)
+
+            def validate(*args):
+                pytest.fail("Oversize wheel must fail before opening ZIP metadata")
+        else:
+
+            def validate(path, name, version, digest):
+                files = original(path, name, version, digest)
+                if change == "collision":
+                    files["common-marker"] = b"collision"
+                else:
+                    path.write_bytes(path.read_bytes() + b"modified during validation")
+                return files
+
+        monkeypatch.setattr(bundled_runtime, "validate_wheel", validate)
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:483:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b0/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_validation_fails_b0\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_validation_fails_before_output_if_inputs_change_or_collide[collision] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b1/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b1/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB478532F0>
+change = 'collision'
+
+    @pytest.mark.parametrize("change", ["oversize", "collision", "changed"])
+    def test_bundle_validation_fails_before_output_if_inputs_change_or_collide(
+        bundled_source, tmp_path, monkeypatch, change
+    ):
+        root, wheels = bundled_source
+        original = bundled_runtime.validate_wheel
+        if change == "oversize":
+            monkeypatch.setattr(bundled_runtime, "MAX_WHEEL_BYTES", 1)
+
+            def validate(*args):
+                pytest.fail("Oversize wheel must fail before opening ZIP metadata")
+        else:
+
+            def validate(path, name, version, digest):
+                files = original(path, name, version, digest)
+                if change == "collision":
+                    files["common-marker"] = b"collision"
+                else:
+                    path.write_bytes(path.read_bytes() + b"modified during validation")
+                return files
+
+        monkeypatch.setattr(bundled_runtime, "validate_wheel", validate)
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:483:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b1/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_validation_fails_b1\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_validation_fails_before_output_if_inputs_change_or_collide[changed] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b2/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b2/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001BB47A73800>
+change = 'changed'
+
+    @pytest.mark.parametrize("change", ["oversize", "collision", "changed"])
+    def test_bundle_validation_fails_before_output_if_inputs_change_or_collide(
+        bundled_source, tmp_path, monkeypatch, change
+    ):
+        root, wheels = bundled_source
+        original = bundled_runtime.validate_wheel
+        if change == "oversize":
+            monkeypatch.setattr(bundled_runtime, "MAX_WHEEL_BYTES", 1)
+
+            def validate(*args):
+                pytest.fail("Oversize wheel must fail before opening ZIP metadata")
+        else:
+
+            def validate(path, name, version, digest):
+                files = original(path, name, version, digest)
+                if change == "collision":
+                    files["common-marker"] = b"collision"
+                else:
+                    path.write_bytes(path.read_bytes() + b"modified during validation")
+                return files
+
+        monkeypatch.setattr(bundled_runtime, "validate_wheel", validate)
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:483:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:100: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:660: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:480: in distribution_files
+    "CHANGELOG.md": text_bytes(root / PACKAGES[adapter] / "CHANGELOG.md"),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\build_plugin_distributions.py:55: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-363/test_bundle_validation_fails_b2/source/adapters/astrbot_plugin_dota2forge/CHANGELOG.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-363\\test_bundle_validation_fails_b2\\source\\adapters\\astrbot_plugin_dota2forge\\CHANGELOG.md'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n]
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n]
+FAILED tests/test_bundled_distributions.py::test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap
+FAILED tests/test_bundled_distributions.py::test_bundle_is_deterministic_keeps_astrbot_unchanged_and_uses_its_install_guide
+FAILED tests/test_bundled_distributions.py::test_bundled_install_guide_links_use_the_source_repository
+FAILED tests/test_bundled_distributions.py::test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra0-py3-none-any]
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra1-py3-none-any]
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra2-py3-none-any]
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra3-cp312-cp312-win_amd64]
+FAILED tests/test_bundled_distributions.py::test_invalid_bundle_does_not_overwrite_existing_candidate[missing]
+FAILED tests/test_bundled_distributions.py::test_invalid_bundle_does_not_overwrite_existing_candidate[metadata]
+FAILED tests/test_bundled_distributions.py::test_invalid_bundle_does_not_overwrite_existing_candidate[corrupt]
+FAILED tests/test_bundled_distributions.py::test_bundle_cli_reports_success_and_never_publishes
+FAILED tests/test_bundled_distributions.py::test_bundle_validation_fails_before_output_if_inputs_change_or_collide[oversize]
+FAILED tests/test_bundled_distributions.py::test_bundle_validation_fails_before_output_if_inputs_change_or_collide[collision]
+FAILED tests/test_bundled_distributions.py::test_bundle_validation_fails_before_output_if_inputs_change_or_collide[changed]
+======================= 17 failed, 72 passed in 33.88s ========================

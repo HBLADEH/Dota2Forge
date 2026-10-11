@@ -1,0 +1,161 @@
+{
+  "fixture": "synthetic only",
+  "production_renderer": true,
+  "images": [
+    {
+      "file": "menu-no-art.png",
+      "width": 780,
+      "height": 1780,
+      "bytes": 222241,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "menu-admin-no-art.png",
+      "width": 780,
+      "height": 1780,
+      "bytes": 225492,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "player-no-art.png",
+      "width": 780,
+      "height": 960,
+      "bytes": 80614,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "player-unknown-no-art.png",
+      "width": 780,
+      "height": 960,
+      "bytes": 81995,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "recent-no-art.png",
+      "width": 780,
+      "height": 1560,
+      "bytes": 150104,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "recent-empty-no-art.png",
+      "width": 780,
+      "height": 728,
+      "bytes": 74109,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "status-no-art.png",
+      "width": 780,
+      "height": 650,
+      "bytes": 56340,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "detail-no-art.png",
+      "width": 780,
+      "height": 1706,
+      "bytes": 164870,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "hero-items-no-art.png",
+      "width": 780,
+      "height": 1674,
+      "bytes": 149195,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "report-overview-no-art.png",
+      "width": 1600,
+      "height": 2990,
+      "bytes": 490103,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "report-team-no-art.png",
+      "width": 1600,
+      "height": 2870,
+      "bytes": 424073,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "menu.png",
+      "width": 780,
+      "height": 1780,
+      "bytes": 222241,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "menu-admin.png",
+      "width": 780,
+      "height": 1780,
+      "bytes": 225492,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "player.png",
+      "width": 780,
+      "height": 960,
+      "bytes": 118291,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "player-unknown.png",
+      "width": 780,
+      "height": 960,
+      "bytes": 81995,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "recent.png",
+      "width": 780,
+      "height": 1560,
+      "bytes": 186191,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "recent-empty.png",
+      "width": 780,
+      "height": 728,
+      "bytes": 74109,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "status.png",
+      "width": 780,
+      "height": 650,
+      "bytes": 56340,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "detail.png",
+      "width": 780,
+      "height": 1706,
+      "bytes": 232825,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "hero-items.png",
+      "width": 780,
+      "height": 1674,
+      "bytes": 382021,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "report-overview.png",
+      "width": 1600,
+      "height": 2990,
+      "bytes": 559478,
+      "bounds_and_overlap": "passed"
+    },
+    {
+      "file": "report-team.png",
+      "width": 1600,
+      "height": 2870,
+      "bytes": 688643,
+      "bounds_and_overlap": "passed"
+    }
+  ],
+  "manual_review": "passed: regular cards at 390px; overview, unknown, status and complete team/report layouts inspected"
+}
