@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前为Core a7、Renderer a6、Assets a1、AstrBot a10/Dota2UID a11；[发行任务](../../.agents/tasks/active/2026-10-11-forge-theme-release.md)。旧UID a6–a9首次升级仍冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
+当前源码为Core a7、Renderer a6、Assets a1、AstrBot a10/Dota2UID a12；a12订阅入口修复与发行见[任务](../../.agents/tasks/active/2026-10-11-subscription-command-prefix.md)。旧UID a6–a9首次升级仍冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
 
 2026-10-11已公开[Dota2UID a11](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a11)与[AstrBot alpha.10](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a10)，两端各11个附件匿名校验通过；[发行证据](../../.agents/artifacts/forge-theme-release-v1/README.md)。AstrBot根更新日志随仓库／ZIP与Release说明发布；Cloud已接收alpha.10提交，公共页新版上架及日志刷新尚未确认。真实宿主未更新。
 

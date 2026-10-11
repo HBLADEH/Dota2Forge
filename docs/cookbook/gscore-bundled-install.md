@@ -1,6 +1,6 @@
 # Dota2UID 随包运行库安装
 
-本页对应 **0.1.0a11 bundled 预发行分发**，随包Core a7、Renderer a6、Assets a1，提供远古锻炉主题、比赛宽幅报告与STRATZ IMP。发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)与[发行记录](plugin-release.md)。旧a4使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
+本页对应 **0.1.0a12 bundled 预发行分发**，随包Core a7、Renderer a6、Assets a1，提供远古锻炉主题、比赛宽幅报告与STRATZ IMP，并修复订阅入口抢占。发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)与[发行记录](plugin-release.md)。旧a4使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
 
 a11沿用a10源码加入的受控热切换；[实施记录](../../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)区分SDK隔离验收与生产/QQ。旧a6–a9首次升级需一次冷启动，使新的排空协议生效。
 

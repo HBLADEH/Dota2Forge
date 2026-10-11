@@ -7,9 +7,11 @@ from types import ModuleType
 
 import httpx
 import pytest
+from _command_sdk import dispatch_message
 from _config_sdk import install_config_sdk
 from Dota2UID.install import install_bridge
 from Dota2UID.runtime import Runtime, State
+from Dota2UID.subscriptions import SUBSCRIPTION_PATTERN
 
 from scripts.build_plugin_distributions import build_distributions
 
@@ -224,7 +226,6 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
             "do比赛",
             "do出装",
             "do停用",
-            "do订阅",
             "do订阅玩家",
             "do订阅比赛",
             "do订阅列表",
@@ -232,7 +233,7 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
             "do重试推送",
         }
         assert commands["do停用"][1] == 0
-        assert list(regex_handlers) == [r"^do(?P<hero>.{1,64})出装$"]
+        assert set(regex_handlers) == {r"^do(?P<hero>.{1,64})出装$", SUBSCRIPTION_PATTERN}
         assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
         assert await cold.status_dota2uid() == {
             "state": "new",
@@ -245,6 +246,20 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
         bot = CapturingBot()
         await cold.command_dota2uid(bot, SyntheticEvent())
         assert "绑定已保存" in bot.replies[-1] and len(clients) == 1
+        for raw_text, expected in (
+            ("do订阅玩家 123456789", "已保存玩家对局订阅"),
+            ("do订阅比赛 9001", "已保存指定比赛订阅"),
+            ("do订阅列表", "账号 123456789"),
+            ("do订阅 比赛 123456789", "已保存比赛订阅"),
+            ("do订阅\t段位\t123456789", "已保存段位订阅"),
+            ("do订阅　日报　123456789", "已保存日报订阅"),
+            ("do订阅", "已保存比赛订阅"),
+            ("do订阅 未知 123", "参数不正确"),
+            ("do订阅玩家 123 extra", "参数不正确"),
+            ("do订阅 玩家 123", "参数不正确"),
+        ):
+            await dispatch_message(commands, regex_handlers, bot, SyntheticEvent(), raw_text)
+            assert expected in bot.replies[-1]
         dispatched = []
 
         async def capture(caller, keyword, text, send):

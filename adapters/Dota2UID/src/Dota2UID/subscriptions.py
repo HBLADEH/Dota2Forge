@@ -32,6 +32,10 @@ SUBSCRIPTION_COMMANDS = (
     "do取消订阅",
     "do重试推送",
 )
+# GsCore command triggers match every prefix; its trie can yield the shorter
+# command first regardless of registration order. Give only do订阅 a boundary.
+GSCORE_SUBSCRIPTION_COMMANDS = tuple(cmd for cmd in SUBSCRIPTION_COMMANDS if cmd != "do订阅")
+SUBSCRIPTION_PATTERN = r"^do订阅(?P<subscription_args>(?:\s[\s\S]*)?)$"
 KINDS = {
     "比赛": SubscriptionKind.NEW_MATCH,
     "段位": SubscriptionKind.RANK_CHANGE,
