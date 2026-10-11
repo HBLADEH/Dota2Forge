@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "source_commit": "15e1a50a07273c645f0a1066b61fe266dde216cc",
+  "plugins": {
+    "astrbot_plugin_dota2forge": {
+      "files": 20,
+      "screenshots": [
+        "hero-items.png",
+        "match-dire.png",
+        "match-overview.png",
+        "match-radiant.png",
+        "menu.png",
+        "player.png",
+        "recent.png"
+      ],
+      "zip_bytes": 5116778,
+      "zip_sha256": "9ffd8bc945c7c58b4571a6544168e2d225d6855351f09ebd3c40d7c0c34c3985",
+      "obsolete_managed_paths": [],
+      "links_and_images_passed": true
+    },
+    "Dota2UID": {
+      "files": 24,
+      "screenshots": [
+        "hero-items.png",
+        "match-dire.png",
+        "match-overview.png",
+        "match-radiant.png",
+        "menu.png",
+        "player.png",
+        "recent.png"
+      ],
+      "zip_bytes": 18912249,
+      "zip_sha256": "4a1809a3c42719c4913d8b2af41f1adb68e0bef371204ec3f4d8bfb68039d5d4",
+      "obsolete_managed_paths": [
+        "runtime-wheels/dota2uid-0.1.0a12-py3-none-any.whl"
+      ],
+      "links_and_images_passed": true
+    }
+  }
+}

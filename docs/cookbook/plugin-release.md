@@ -1,10 +1,8 @@
 # 本地插件发行候选准备
 
-当前源码：Core a7、Renderer a6、Assets a1、AstrBot a11、Dota2UID a13；双端 README 更新待发行。旧UID a6–a9首次升级冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
+当前源码和GitHub预发行：Core a7、Renderer a6、Assets a1、AstrBot a11、Dota2UID a13。旧UID a6–a9首次升级冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
 
-2026-10-11双端主题已公开（UID a11／AstrBot alpha.10），各11附件匿名校验通过，[证据](../../.agents/artifacts/forge-theme-release-v1/README.md)。2026-10-12已确认Cloud alpha.10 Published且日志非空，真实宿主未更新。
-
-随后公开[Dota2UID a12](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a12)，修复订阅短命令抢占；11附件匿名下载与摘要通过，共享组件版本／字节不变，[证据](../../.agents/artifacts/subscription-command-prefix-v1/README.md)。生产宿主与聊天仍未复测。
+2026-10-12双端 README 与七张脱敏GsCore图已公开：[AstrBot alpha.11](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a11)、[Dota2UID a13](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a13)。各11附件、仓库与ZIP匿名校验通过，共享组件版本/字节不变，[证据](../../.agents/artifacts/plugin-readme-release-20261012/README.md)。Cloud alpha.10 Published且日志非空，alpha.11已提交，当前Reviewing；真实宿主与主动推送未在本次验收。
 
 ## 生成与审查
 

@@ -1,0 +1,13 @@
+{
+  "observed_at_utc": "2026-10-11T19:41:21Z",
+  "url": "https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions",
+  "version": "0.1.0-alpha.11",
+  "status": "Reviewing",
+  "submitted": true,
+  "reviewer_message": "正在执行 VirusTotal 与 Agent 安全检查。",
+  "repository": "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+  "submission_count": 1,
+  "previous_version": "0.1.0-alpha.10",
+  "previous_status": "Published",
+  "verification": "browser form parsed alpha.11; one update submitted; returned version page shows alpha.11 Reviewing"
+}
