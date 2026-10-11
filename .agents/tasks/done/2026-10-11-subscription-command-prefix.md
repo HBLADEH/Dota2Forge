@@ -1,6 +1,6 @@
 # Dota2UID 玩家订阅命令入口修复
 
-Status: active
+Status: done
 
 ## 目标
 修复有效的 `do订阅玩家 <玩家ID>` 在 GsCore 被拒绝为参数错误的问题，并检查共享前缀的比赛订阅、订阅列表入口；沿用本会话插件发行授权准备Dota2UID a12修复版。
@@ -23,4 +23,8 @@ Status: active
 ## 阻塞与下一步
 统一禁网检查exit0，2013项通过；五包构建与逐包隔离安装／导入通过。Core、Renderer、Assets wheel摘要与已公开a11附件相同。首轮Ruff指出隔离脚本循环变量覆盖迭代输入，修正命名后重新完整检查通过，未解除门禁。
 
-接续：提交源码并等待CI，固定源码生成随包修复分发，记录公开发行和真实宿主未验证边界。
+源码[PR #15](https://github.com/HBLADEH/Dota2Forge/pull/15)已合并；head `2e4e56a4b2e8242938474f65d3084f7ba201c736` 的push／PR四项Python3.12／3.13 CI通过。固定该源码生成候选，SDK-free分发smoke通过。
+
+[Dota2UID a12](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a12)已公开，分发main／tag为`d66c12e80cedc7d3e9f131ce77f61866c2bd24f1`；仓库18文件与候选一致，ZIP与仓库一致，11个附件完整匿名下载／SHA256通过。匿名GitHub API曾限流，改用gh读取公开发布元数据，保持所有内容断言；区别见证据。
+
+本任务完成。生产宿主更新、QQ原命令重试及真实订阅推送仍待用户环境复测；未更改配置／数据库或发送聊天，AstrBot版本保持a10。
