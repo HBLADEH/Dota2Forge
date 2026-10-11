@@ -15,7 +15,7 @@
 
 本次 `0.1.0a12` / Core a7 沿用a10源码加入的bundled受控热切换。旧 a6–a9 首次升级需完整冷启动；之后兼容运行库更新可由宿主重载启用，`do核心状态` 分别显示期望、准备和运行版本。未知消费者、schema/第三方变化或关闭超时仍冷启动；[实施与验收](../../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)。
 
-a12修复GsCore短命令 `do订阅` 抢占玩家、比赛及列表订阅入口。源码回归与真实匹配器隔离检查通过，发行进度见[修复任务](../../.agents/tasks/active/2026-10-11-subscription-command-prefix.md)。旧版可暂用 `do订阅 比赛 <玩家ID>` 创建同类玩家订阅；首次轮询只建立基线，不补发历史。
+a12修复GsCore短命令 `do订阅` 抢占玩家、比赛及列表订阅入口；[Release](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a12)已公开，源码回归与真实匹配器隔离检查通过，[修复任务](../../.agents/tasks/done/2026-10-11-subscription-command-prefix.md)。旧版可暂用 `do订阅 比赛 <玩家ID>` 创建同类玩家订阅；首次轮询只建立基线，不补发历史。
 
 比赛分析提供1600px宽的全局总览和两队详情，显示STRATZ IMP、表现突出/偏弱名单与统计依据、团队优势曲线、完整指标和背包/中立装备。装备空白槽不写占位文字，缺失仍不补零。[验收与发行进度](../../.agents/tasks/active/2026-10-09-match-analysis-report.md)；旧a9按冷启动流程更新，兼容切换边界见上文，真实聊天效果待用户复测。
 

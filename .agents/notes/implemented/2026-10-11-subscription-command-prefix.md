@@ -1,7 +1,7 @@
 # GsCore 订阅短命令使用匹配边界
 
 Category: bug-fix
-Related task: [修复任务](../../tasks/active/2026-10-11-subscription-command-prefix.md)
+Related task: [修复任务](../../tasks/done/2026-10-11-subscription-command-prefix.md)
 Related code: [订阅入口定义](../../../adapters/Dota2UID/src/Dota2UID/subscriptions.py)、[薄桥接](../../../adapters/Dota2UID/src/Dota2UID/host_entry.py.template)、[随包业务桥接](../../../adapters/Dota2UID/src/Dota2UID/bundled_business_entry.py.template)
 Related docs: [订阅步骤](../../../docs/cookbook/subscriptions.md)
 

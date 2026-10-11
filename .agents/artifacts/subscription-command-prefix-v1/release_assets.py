@@ -79,8 +79,14 @@ def verify(args):
             if name.startswith(prefix) and not name.endswith("/")
         }
     assert public == expected
-    api = json.loads(
-        fetch(f"https://api.github.com/repos/HBLADEH/{args.plugin}/releases/tags/{manifest['tag']}")
+    api = (
+        json.loads(args.release_api_response.read_bytes())
+        if args.release_api_response
+        else json.loads(
+            fetch(
+                f"https://api.github.com/repos/HBLADEH/{args.plugin}/releases/tags/{manifest['tag']}"
+            )
+        )
     )
     assert api["tag_name"] == manifest["tag"] and not api["draft"] and api["prerelease"]
     rows = {row["filename"]: row for row in manifest["assets"]}
@@ -105,7 +111,9 @@ def verify(args):
         assert b"0.1.0-alpha.10" in public["CHANGELOG.md"]
     report = {
         "passed": True,
-        "anonymous": True,
+        "anonymous": args.release_api_response is None,
+        "assets_anonymous": True,
+        "release_metadata_source": "gh API" if args.release_api_response else "anonymous API",
         "repository": manifest["repository"],
         "tag": manifest["tag"],
         "source_commit": args.source_commit,
@@ -132,5 +140,6 @@ if __name__ == "__main__":
     parser.add_argument("--assets", type=Path, required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--distribution-commit", required=True)
+    parser.add_argument("--release-api-response", type=Path)
     options = parser.parse_args()
     (stage if options.operation == "stage" else verify)(options)
