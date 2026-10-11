@@ -1,8 +1,8 @@
 # 本地插件发行候选准备
 
-当前源码：Core a7、Renderer a6、Assets a1、AstrBot a10、Dota2UID a12。旧UID a6–a9首次升级冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
+当前源码：Core a7、Renderer a6、Assets a1、AstrBot a11、Dota2UID a13；双端 README 更新待发行。旧UID a6–a9首次升级冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
 
-2026-10-11双端主题已公开（UID a11／AstrBot alpha.10），各11附件匿名校验通过，[证据](../../.agents/artifacts/forge-theme-release-v1/README.md)。AstrBot更新日志随仓库／ZIP／Release发布；Cloud已接收alpha.10，公共新版及日志显示尚待确认，真实宿主未更新。
+2026-10-11双端主题已公开（UID a11／AstrBot alpha.10），各11附件匿名校验通过，[证据](../../.agents/artifacts/forge-theme-release-v1/README.md)。2026-10-12已确认Cloud alpha.10 Published且日志非空，真实宿主未更新。
 
 随后公开[Dota2UID a12](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a12)，修复订阅短命令抢占；11附件匿名下载与摘要通过，共享组件版本／字节不变，[证据](../../.agents/artifacts/subscription-command-prefix-v1/README.md)。生产宿主与聊天仍未复测。
 
@@ -16,9 +16,9 @@ uv run --locked python scripts/build_plugin_distributions.py --output dist/plugi
 
 此命令只生成本地候选。
 
-薄公开模式不传--gscore-bundled，读取四个已审查wheel元数据和SHA256，生成install_runtime.py/runtime-wheels.json/INSTALL.md；wheel上传GitHub Releases，不塞入桥接ZIP。根README操作链接转为INSTALL.md；步骤见[旧公开安装](gscore-public-install.md)。原包名模式不附安装器，要求索引依赖可取得。
+薄公开模式不传--gscore-bundled，读取四个已审查wheel元数据和SHA256，生成install_runtime.py/runtime-wheels.json/INSTALL.md；wheel上传GitHub Releases，不塞入桥接ZIP。根README安装链接转为INSTALL.md，其他文档保留源码链接；步骤见[旧公开安装](gscore-public-install.md)。原包名模式不附安装器，要求索引依赖可取得。
 
-插件README从两个适配器说明生成，注入当次版本与目标仓库；主仓文档链接转为完整URL，MIT许可保留本地链接。共享[主宰图标](../assets/branding/juggernaut-icon-v1.png)分别为GsCore根ICON.png与AstrBot根logo.png；GsCore索引avatar/cover指向目标main的ICON.png，远端未同步时尚不可用。已审查截图按白名单复制到对应根screenshots/，README图片路径转为本地，源图/目标均纳入摘要和ZIP大小检查，缺图在输出前失败。当前双端共用AstrBot主宰出装卡，GsCore说明标明原宿主，[其余待补](plugin-showcase.md)；原始聊天图片不自动收录。
+插件README从两端适配器生成，注入版本与目标仓库；主仓文档转为完整URL，MIT许可仍本地。共享[主宰图标](../assets/branding/juggernaut-icon-v1.png)为GsCore ICON.png与AstrBot logo.png；索引avatar/cover指向目标main，未同步时不可用。审查截图按白名单复制到screenshots/，Markdown/HTML引用同步转换，Cloud使用目标仓库raw URL；源图/目标入摘要与ZIP大小检查，缺图在输出前失败。双端采用2026-10-12七张GsCore卡片，身份已脱敏，配置图[待补](plugin-showcase.md)；见[截图记录](../assets/screenshots/README.md)，不自动收录原始聊天图片。
 
 GsCore随包模式使用 `--gscore-bundled --gscore-wheels dist`。先构建五包，携带匹配的四个项目 wheel，生成deployment.json、清单摘要、bootstrap与延迟业务入口。`--source-ref`可传main或40位小写源码SHA，固定文档链接。根依赖仅保留HTTPX/Pillow，AstrBot与薄模式保持原契约。安装恢复和冷启动见[随包指南](gscore-bundled-install.md)。
 
@@ -30,7 +30,7 @@ a10候选的deployment.json另记录protocol=1、存储兼容标识与业务桥�
 
 ZIP条目顺序、时间戳和权限固定；相同输入字节重复生成一致。输出完整暂存后才就位，已有目录只接受完全相同内容；改变、缺项或额外文件会失败并保留原目录。检查manifest后再同步分发仓库。薄桥接ZIP须通过16,000,000 bytes保守上限，不携带字体、Pillow、独立美术素材包或本机配置；运行资源由Renderer wheel提供。实机截图中的第三方画面权利见[截图来源](../assets/screenshots/README.md)，不因加入说明转为MIT美术。
 
-AstrBot CHANGELOG.md从适配器根复制到分发根和ZIP，源文件与输出均入SHA256清单；[日志打包决策](../../.agents/notes/implemented/2026-10-11-plugin-changelog.md)及Cloud验收另记，Release正文不能代替根文件。
+AstrBot CHANGELOG.md从适配器根复制到分发根和ZIP，源文件与输出均入SHA256清单；README日志链接使用目标仓库完整地址。[日志打包决策](../../.agents/notes/implemented/2026-10-11-plugin-changelog.md)及Cloud验收另记，Release正文不能代替根文件。
 
 ## 配置与升级边界
 

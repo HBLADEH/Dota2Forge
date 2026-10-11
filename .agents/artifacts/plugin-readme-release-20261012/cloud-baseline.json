@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-10-11T19:13:50Z",
+  "version_url": "https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions",
+  "changelog_url": "https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=changelog",
+  "version": "0.1.0-alpha.10",
+  "status": "Published",
+  "changelog_nonempty": true,
+  "changelog_heading": "0.1.0-alpha.10 — 2026-10-11",
+  "verification": "read browser UI; no update submitted yet"
+}
