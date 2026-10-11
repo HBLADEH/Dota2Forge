@@ -24,7 +24,7 @@ def test_workspace_package_installed(distribution, module):
     assert importlib.metadata.version(distribution) == (
         {
             "astrbot-plugin-dota2forge": "0.1.0a10",
-            "dota2uid": "0.1.0a11",
+            "dota2uid": "0.1.0a12",
             "dota2forge-core": "0.1.0a7",
             "dota2forge-renderer": "0.1.0a6",
             "dota2forge-assets": "0.1.0a1",

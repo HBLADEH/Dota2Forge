@@ -39,7 +39,7 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
             "dota2forge-assets": "0.1.0a1",
             (
                 "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
-            ): "0.1.0a10" if plugin.startswith("astrbot") else "0.1.0a11",
+            ): "0.1.0a10" if plugin.startswith("astrbot") else "0.1.0a12",
         }
         compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
         assert (candidate / plugin / "LICENSE").read_text("utf-8") == (ROOT / "LICENSE").read_text(
@@ -59,7 +59,7 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
         "dota2forge-assets==0.1.0a1",
         "dota2forge-core[stratz]==0.1.0a7",
         "dota2forge-renderer==0.1.0a6",
-        "dota2uid[stratz]==0.1.0a11",
+        "dota2uid[stratz]==0.1.0a12",
     ]
     assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
     helper = candidate / "Dota2UID/_dota2forge_config.py"

@@ -9,6 +9,7 @@ from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
 import pytest
+from _command_sdk import dispatch_message
 from _config_sdk import install_config_sdk
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -535,6 +536,48 @@ def test_ready_business_subscription_job_and_hero_dispatch(
         assert dispatched == [("do菜单", "", False), ("do出装", "AM", True)]
         await module.disable_dota2uid(bot, SyntheticEvent())
         assert not host.jobs and module.owner.business.runtime.client_closed
+
+    run_async(check())
+
+
+def test_subscription_messages_match_in_bundled_host(host, config_path, run_async):
+    (host.data / "config.toml").write_text(
+        "subscriptions_enabled=true\n" + config_path.read_text("utf-8"), "utf-8"
+    )
+    module = host.load()
+
+    async def check():
+        await module.start_dota2uid()
+        bot = CapturingBot()
+        regex_handlers = {
+            pattern: callback
+            for service in host.registry.lst.values()
+            for pattern, callback in service.TL.get("regex", {}).items()
+        }
+        try:
+            for raw_text, expected in (
+                ("do订阅玩家 123456789", "已保存玩家对局订阅"),
+                ("do订阅比赛 9001", "已保存指定比赛订阅"),
+                ("do订阅列表", "账号 123456789"),
+                ("do订阅 比赛 123456789", "已保存比赛订阅"),
+                ("do订阅 日报 123456789", "已保存日报订阅"),
+                ("do订阅 未知 123", "参数不正确"),
+                ("do订阅玩家 123 extra", "参数不正确"),
+            ):
+                await dispatch_message(
+                    host.commands(), regex_handlers, bot, SyntheticEvent(), raw_text
+                )
+                assert expected in bot.replies[-1]
+            await dispatch_message(
+                host.commands(),
+                regex_handlers,
+                bot,
+                SyntheticEvent(user_pm=6, user_type="group", group_id="synthetic-group"),
+                "do订阅玩家 123456789",
+            )
+            assert "仅限 Bot 管理员" in bot.replies[-1]
+        finally:
+            await module.stop_dota2uid()
 
     run_async(check())
 
