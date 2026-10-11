@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "navigation_alignment_verified_in_browser": "-webkit-center",
+  "player_and_recent_loaded_in_browser": true,
+  "image_widths": [
+    128,
+    360,
+    360
+  ],
+  "initial_main_hero_response_mismatched": true,
+  "initial_response_digest_not_recorded": true,
+  "main_and_fixed_commit_hero_recheck_passed": true,
+  "all_unmodified_main_image_urls_recheck_passed": true,
+  "images": [
+    {
+      "path": "logo.png",
+      "bytes": 1627903,
+      "sha256": "9f8101e417fe6d9302a634ce3a0b6c58f288e2a091dc6974e2aa30964390b059",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/hero-items.png",
+      "bytes": 364334,
+      "sha256": "ad6120bd71cfdd46fb7138f2588af8c4f7a4736481c8a095b4da4fce8f96ae7c",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/match-dire.png",
+      "bytes": 1087292,
+      "sha256": "20dd37667a37a8a80bc2f41df92b8f3aab07e518903bc08a6896855602385f06",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/match-overview.png",
+      "bytes": 573382,
+      "sha256": "da2cf075dda3eeb04f70011d8acd221e618e941ea6a821f5289e87cdba42cf89",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/match-radiant.png",
+      "bytes": 981609,
+      "sha256": "021432c35f17c58eb52813b6f17874ea0844a723c7acb421af5684f361150d5c",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/menu.png",
+      "bytes": 227939,
+      "sha256": "eb2639c9bdc160f73090565d49b9fe589c95f1e2ad8091fd50fc2d858a39c6cf",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/player.png",
+      "bytes": 112215,
+      "sha256": "abb5885a3585d5779487b0df6c4ab86e915ee054968a20864da69c2a3a56adf2",
+      "anonymous": true
+    },
+    {
+      "path": "screenshots/recent.png",
+      "bytes": 236978,
+      "sha256": "abb56267fe9fec6d3b9483fb3f61b0bd7e930c838e75cf452e326d08d0147af1",
+      "anonymous": true
+    }
+  ]
+}
