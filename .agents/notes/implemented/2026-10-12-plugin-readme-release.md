@@ -1,7 +1,7 @@
 # 双端说明与截图预发行
 
 Category: operations
-Related task: [发行任务](../../tasks/active/2026-10-12-plugin-readme-release.md)
+Related task: [发行任务](../../tasks/done/2026-10-12-plugin-readme-release.md)
 Related code: [生成器](../../../scripts/build_plugin_distributions.py)
 Related docs: [发行指南](../../../docs/cookbook/plugin-release.md)
 
@@ -18,4 +18,4 @@ Related docs: [发行指南](../../../docs/cookbook/plugin-release.md)
 本次是说明与分发更新，不改变业务或数据格式。原 GsCore 图在两端注明真实来源，不算 AstrBot 聊天验收。主仓 README 的过时发行和 IMP/素材现状同步修正。用户授权涵盖本次 GitHub 发布和 Cloud 更新；不延伸到生产部署或消息发送。
 
 ## Verification
-检查、源码 CI、分发摘要、匿名下载与 Cloud 状态按关联任务记录；实际宿主升级及主动订阅推送另行验收。
+统一离线2013项、最终分发专项89项、源码四项CI及双端SDK-free smoke通过；两端main/tag/ZIP和每端11附件完整匿名核对通过。Cloud只提交一次，已接收并显示Reviewing；审核结果由平台处理，不能宣称已上架。具体证据见关联任务；实际宿主升级及主动订阅推送另行验收。

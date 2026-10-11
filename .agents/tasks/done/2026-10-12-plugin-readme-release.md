@@ -1,6 +1,6 @@
 # 双端 README 与截图发布
 
-Status: in_progress
+Status: done
 
 ## 目标
 按用户“整理好以后，过一遍没什么问题就分别进行发布操作”的授权，复核并发布 AstrBot alpha.11 与 Dota2UID a13，包含专业化 README、七张脱敏截图及 AstrBot 居中导航；提交 AstrBot Cloud 更新并如实记录平台状态。
@@ -23,4 +23,6 @@ Status: in_progress
 统一离线入口exit0，2013项通过，覆盖率92.52%；Ruff/mypy和三组覆盖率门槛通过。最终文案后分发专项89项通过，文档治理及格式/lint复核通过；五包构建、独立安装、七图隐私/像素、三组共享wheel/sdist字节一致均通过，[证据](../../artifacts/plugin-readme-release-20261012/README.md)。Cloud alpha.10 Published且日志非空，前次任务已完成。
 
 ## 阻塞与下一步
-复核版本与说明、运行检查、合并源码，再生成并发布双端固定 SHA 候选。Cloud alpha.10 前次提交已接收，先读取平台当前状态再更新，避免重复提交旧版。
+源码PR #17已合并，四项CI通过；固定head 15e1a50a生成双端候选和SDK-free smoke通过。AstrBot alpha.11与UID a13的main/tag/Release公开，各11附件、仓库与ZIP完整匿名校验通过；公开AstrBot八张图片和居中导航复核通过，摘要与截图见上述证据。
+
+Cloud alpha.11只提交一次，已接收并显示Reviewing，刷新后仍待安全检查；提交验收完成，审核／公共文档刷新由平台处理，不能写为已上架。前次alpha.10的公开状态和日志已确认。真实宿主升级、主动推送和未实现能力保持原独立任务；两份2026-10-09未跟踪任务保留。最后提交发行证据与主仓版本链接。
