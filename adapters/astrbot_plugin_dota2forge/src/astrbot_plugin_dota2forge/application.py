@@ -14,6 +14,7 @@ from dota2forge_assets import AssetError
 from dota2forge_core import (
     BindingConflictError,
     BindingNotFoundError,
+    DeliveryOutcome,
     Dota2Service,
     HeroItemService,
     HeroResolutionError,
@@ -32,6 +33,7 @@ from dota2forge_core import (
     ProviderError,
     RecentMatches,
     RepositoryError,
+    SubscriptionEvent,
 )
 from dota2forge_renderer import (
     AsyncRenderer,
@@ -57,6 +59,10 @@ from dota2forge_renderer.formatting import (
 from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
 from dota2forge_renderer.match_details import participant_items_text, participant_stats_text
 from dota2forge_renderer.reporting import match_report_text, split_report_text
+from dota2forge_renderer.subscriptions import (
+    subscription_event_cards,
+    subscription_event_text_pages,
+)
 from dota2forge_renderer.theme import help_text
 
 from .commands import AstrAction, AstrCommandError, parse_command
@@ -76,6 +82,9 @@ class AstrImageReply:
 
 
 type AstrReply = AstrTextReply | AstrImageReply
+type AstrSubscriptionSend = Callable[
+    [SubscriptionEvent, tuple[AstrReply, ...]], Awaitable[DeliveryOutcome]
+]
 
 
 class AstrSend(Protocol):
@@ -247,6 +256,33 @@ class AstrApplication:
                 if binding == await self._binding(identity):
                     self._selections.remember(key, recent, binding)
 
+    async def dispatch_subscription(
+        self,
+        event: SubscriptionEvent,
+        send: AstrSubscriptionSend,
+        *,
+        permitted: Callable[[], bool] | None = None,
+    ) -> DeliveryOutcome:
+        """Render the complete persisted observation before one host delivery attempt."""
+        async with self._dispatch_lock:
+            if permitted is not None and not permitted():
+                return DeliveryOutcome.NOT_ATTEMPTED
+            texts = subscription_event_text_pages(event)
+            cards = subscription_event_cards(event)
+            fallback: tuple[AstrReply, ...] = tuple(AstrTextReply(text) for text in texts)
+            replies = fallback
+            if cards and self._image_mode and self._renderer is not None:
+                try:
+                    replies = tuple(
+                        [AstrImageReply(await self._renderer.render(card)) for card in cards]
+                    )
+                except RenderError:
+                    # The fallback is the same durable snapshot, including after a later page fails.
+                    replies = fallback
+            if permitted is not None and not permitted():
+                return DeliveryOutcome.NOT_ATTEMPTED
+            return await send(event, replies)
+
     async def _prepare(
         self,
         identity: PlatformIdentity,
@@ -385,9 +421,10 @@ class AstrApplication:
             ], None
 
     async def close(self) -> None:
-        self._selections.clear()
-        if self._renderer is not None:
-            await self._renderer.close()
+        async with self._dispatch_lock:
+            self._selections.clear()
+            if self._renderer is not None:
+                await self._renderer.close()
 
     async def replace_renderer(
         self,

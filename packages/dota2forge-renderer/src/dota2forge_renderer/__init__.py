@@ -13,6 +13,7 @@ from .cards import (
     StatusCard,
 )
 from .engine import PillowRenderer
+from .subscriptions import subscription_event_cards, subscription_event_text_pages
 from .worker import AsyncRenderer
 
 __all__ = [
@@ -28,4 +29,6 @@ __all__ = [
     "RecentMatchesCard",
     "RenderError",
     "StatusCard",
+    "subscription_event_cards",
+    "subscription_event_text_pages",
 ]

@@ -15,14 +15,17 @@ from .cards import REPORT_WIDTH, ImageArtifact, MatchReportCard, RenderError
 from .engine import _Canvas
 from .formatting import duration_text, game_mode_text, timestamp, value_text
 from .reporting import (
+    analysis_lines,
     imp_text,
     lane_text,
     participant_name,
     participation_text,
     performance_evidence,
+    performance_lines,
     position_text,
     report_groups,
 )
+from .subscriptions import FINITE_OBSERVATION_NOTICE
 from .theme import AMBER, GREEN, LINE, MUTED, RED, WHITE
 
 if TYPE_CHECKING:
@@ -36,10 +39,17 @@ def kda(player: MatchParticipant) -> str:
     )
 
 
-def report_header(canvas: _Canvas, report: MatchReport, label: str, page: int, pages: int) -> None:
+def report_header(canvas: _Canvas, card: MatchReportCard, label: str, pages: int) -> None:
+    report = card.report
     detail = report.detail
     assert isinstance(detail, MatchDetail)
-    canvas.header(label, f"第 {page} / {pages} 页")
+    event = card.subscription_event
+    if event is None:
+        canvas.header(label, f"第 {card.page} / {pages} 页")
+    else:
+        account = event.key.account_id or report.tracked_account_id
+        tracked = f"订阅玩家账号 {account.value}" if account is not None else "指定比赛订阅"
+        canvas.header("订阅比赛报告", f"{label} · 第 {card.page} / {pages} 页 · {tracked}")
     canvas.text(38, 206, f"比赛 {report.match_id.value}", size=38, color=WHITE, width=570)
     canvas.text(
         640,
@@ -72,7 +82,8 @@ def report_header(canvas: _Canvas, report: MatchReport, label: str, page: int, p
     canvas.line(324)
 
 
-def footer(canvas: _Canvas, report: MatchReport, y: int) -> None:
+def footer(canvas: _Canvas, card: MatchReportCard, y: int) -> None:
+    report = card.report
     detail = report.detail
     assert isinstance(detail, MatchDetail)
     canvas.metadata(y, detail.metadata)
@@ -93,6 +104,17 @@ def footer(canvas: _Canvas, report: MatchReport, y: int) -> None:
         f"{state} · {marker} · 解析时间 {timestamp(detail.parsed_at)}",
         color=MUTED,
     )
+    if card.subscription_event is not None:
+        canvas.text(38, y + 350, analysis_lines(report)[-1], size=26, color=MUTED)
+        canvas.text(38, y + 392, FINITE_OBSERVATION_NOTICE, size=26, color=MUTED)
+        canvas.text(
+            38,
+            y + 434,
+            f"事件ID {card.subscription_event.event_id}",
+            size=26,
+            color=MUTED,
+            truncate=False,
+        )
     canvas.text(
         38,
         y + 182,
@@ -227,6 +249,11 @@ def plot(
 
 
 def highlights(canvas: _Canvas, report: MatchReport, y: int) -> int:
+    if not report.imp_ranking:
+        canvas.text(38, y, "表现候选 · 非官方 MVP", size=30, color=AMBER)
+        for index, line in enumerate(performance_lines(report)):
+            canvas.text(38, y + 62 + index * 44, line, color=MUTED)
+        return y + 200
     for x, title, selected, color in (
         (38, "表现突出 · IMP 最高正分", report.strong_performers, GREEN),
         (812, "表现偏弱 · IMP 最低负分", report.weak_performers, RED),
@@ -256,8 +283,23 @@ def overview(engine: "PillowRenderer", card: MatchReportCard, pages: int) -> Ima
     report = card.report
     groups = report_groups(report)
     table_height = sum(120 + 92 * len(team) for _, team in groups)
-    with _Canvas(engine, min(3200, 350 + table_height + 1480), width=REPORT_WIDTH) as canvas:
-        report_header(canvas, report, "比赛全局分析", 1, pages)
+    subscription_height = 150 if card.subscription_event is not None else 0
+    highlight_height = 1480 if report.imp_ranking else 1216
+    metrics = report.analysis.team_metrics if isinstance(report.analysis, MatchAnalysis) else ()
+    networth = next((metric for metric in metrics if "networth" in metric.semantic.value), None)
+    experience = next((metric for metric in metrics if "experience" in metric.semantic.value), None)
+    compact_plots = card.subscription_event is not None and not any(
+        metric is not None and len(metric.values) >= 2 for metric in (networth, experience)
+    )
+    plot_height = 140 if compact_plots else 460
+    with _Canvas(
+        engine,
+        min(
+            3200, 350 + table_height + highlight_height + subscription_height - (460 - plot_height)
+        ),
+        width=REPORT_WIDTH,
+    ) as canvas:
+        report_header(canvas, card, "比赛全局分析", pages)
         y = 352
         if not groups:
             canvas.text(
@@ -271,33 +313,29 @@ def overview(engine: "PillowRenderer", card: MatchReportCard, pages: int) -> Ima
             y += 130
         for label, team in groups:
             y = table(canvas, report, label, team, y)
-        metrics = (
-            card.report.analysis.team_metrics
-            if isinstance(card.report.analysis, MatchAnalysis)
-            else ()
-        )
-        networth = next((metric for metric in metrics if "networth" in metric.semantic.value), None)
-        experience = next(
-            (metric for metric in metrics if "experience" in metric.semantic.value), None
-        )
         plot(canvas, networth, "团队净资产优势", 38, y + 6, 746)
         plot(canvas, experience, "团队经验优势", 812, y + 6, 746)
-        y = highlights(canvas, report, y + 460)
+        y = highlights(canvas, report, y + plot_height)
         canvas.text(
             38,
             y,
-            f"IMP 可用 {len(report.imp_ranking)} 人 · 本局正/负分相对表现排序，缺失不补零。",
+            (
+                f"IMP 可用 {len(report.imp_ranking)} 人 · 本局正/负分相对表现排序，缺失不补零。"
+                if report.imp_ranking
+                else "IMP 可用 0 人 · 来源未提供评分，不进行表现排序。"
+            ),
             color=MUTED,
         )
-        footer(canvas, report, y + 56)
+        footer(canvas, card, y + 56)
         return canvas.encode()
 
 
 def team_sheet(engine: "PillowRenderer", card: MatchReportCard, pages: int) -> ImageArtifact:
     report = card.report
     label, team = report_groups(report)[card.page - 2]
-    with _Canvas(engine, 720 + 430 * len(team), width=REPORT_WIDTH) as canvas:
-        report_header(canvas, report, f"{label}详细数据", card.page, pages)
+    subscription_height = 150 if card.subscription_event is not None else 0
+    with _Canvas(engine, 720 + 430 * len(team) + subscription_height, width=REPORT_WIDTH) as canvas:
+        report_header(canvas, card, f"{label}详细数据", pages)
         y = 356
         for player in team:
             color = GREEN if player.is_radiant else RED
@@ -365,7 +403,7 @@ def team_sheet(engine: "PillowRenderer", card: MatchReportCard, pages: int) -> I
                 canvas.illustration("items", item_id, x, y + 258, (136, 72))
                 engine._item_label(canvas, item_id, x, y + 338, 136)
             y += 430
-        footer(canvas, report, y + 16)
+        footer(canvas, card, y + 16)
         return canvas.encode()
 
 
@@ -375,6 +413,7 @@ def render_report(engine: "PillowRenderer", card: MatchReportCard) -> ImageArtif
         not isinstance(card.report.detail, MatchDetail)
         or type(card.page) is not int
         or not 1 <= card.page <= pages
+        or (card.subscription_event is not None and card.subscription_event.payload != card.report)
     ):
         raise RenderError()
     return overview(engine, card, pages) if card.page == 1 else team_sheet(engine, card, pages)

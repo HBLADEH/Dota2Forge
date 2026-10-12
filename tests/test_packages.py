@@ -3,6 +3,7 @@
 import importlib
 import importlib.metadata
 import importlib.util
+from importlib.resources import files
 from pathlib import Path
 
 import pytest
@@ -23,13 +24,39 @@ def test_workspace_package_installed(distribution, module):
     assert importlib.import_module(module).__doc__
     assert importlib.metadata.version(distribution) == (
         {
-            "astrbot-plugin-dota2forge": "0.1.0a11",
-            "dota2uid": "0.1.0a13",
+            "astrbot-plugin-dota2forge": "0.1.0a12",
+            "dota2uid": "0.1.0a14",
             "dota2forge-core": "0.1.0a7",
-            "dota2forge-renderer": "0.1.0a6",
+            "dota2forge-renderer": "0.1.0a7",
             "dota2forge-assets": "0.1.0a1",
         }.get(distribution, "0.1.0a4")
     )
+
+
+@pytest.mark.parametrize("distribution", ["astrbot-plugin-dota2forge", "dota2uid"])
+def test_subscription_renderer_consumers_reject_the_previous_public_renderer(distribution):
+    requirements = [Requirement(value) for value in importlib.metadata.requires(distribution) or ()]
+    renderer = next(value for value in requirements if value.name == "dota2forge-renderer")
+    assert not renderer.specifier.contains("0.1.0a6", prereleases=True)
+    assert renderer.specifier.contains("0.1.0a7", prereleases=True)
+
+
+def test_astrbot_development_bridge_declares_matching_local_components():
+    host = files("astrbot_plugin_dota2forge").joinpath("host")
+    requirements = {
+        requirement.name: requirement
+        for line in host.joinpath("requirements.txt").read_text("utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+        for requirement in [Requirement(line)]
+    }
+    for name in (
+        "astrbot-plugin-dota2forge",
+        "dota2forge-core",
+        "dota2forge-renderer",
+        "dota2forge-assets",
+    ):
+        assert str(requirements[name].specifier) == "==" + importlib.metadata.version(name)
+    assert "version: 0.1.0-alpha.12\n" in host.joinpath("metadata.yaml").read_text("utf-8")
 
 
 def test_core_keeps_http_optional_and_has_no_host_sdks():
