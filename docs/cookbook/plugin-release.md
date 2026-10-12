@@ -1,8 +1,8 @@
 # 本地插件发行候选准备
 
-订阅卡片开发版本Renderer a7、AstrBot a12、UID a14[尚未发布](../../.agents/tasks/done/2026-10-12-subscription-match-cards.md)，Core a7/Assets a1不变。公开适配器见下文，Renderer仍a6。旧UID a6–a9首次升级冷启动；[索引PR #40记录](gscore-store-publish.md)。
+2026-10-13订阅卡片已公开：[UID a14](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a14)、[Astr alpha.12](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a12)，Renderer a7；Core a7/Assets a1沿用原公开字节。各11附件、main/tag/ZIP匿名摘要一致，见[证据](../../.agents/artifacts/subscription-match-cards-release-v1/README.md)。Cloud alpha.12已单次提交，等待安全检查；alpha.11已Published。部署与聊天验收分别记录。
 
-2026-10-12双端 README 与七张脱敏GsCore图已公开：[AstrBot alpha.11](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a11)、[Dota2UID a13](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a13)。各11附件、仓库与ZIP匿名校验通过，共享组件版本/字节不变，[证据](../../.agents/artifacts/plugin-readme-release-20261012/README.md)。Cloud alpha.10 Published且日志非空，alpha.11已提交，当前Reviewing；真实宿主与主动推送未在本次验收。
+此前README与七张脱敏图发行见[记录](../../.agents/artifacts/plugin-readme-release-20261012/README.md)。旧UID a6–a9首次升级冷启动；[索引PR #40](gscore-store-publish.md)待审核。
 
 ## 生成与审查
 

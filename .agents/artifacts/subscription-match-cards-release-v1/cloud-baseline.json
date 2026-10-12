@@ -1,0 +1,16 @@
+{
+  "observed_at_utc": "2026-10-12T16:00:30Z",
+  "observed_date_local": "2026-10-13",
+  "timezone": "Asia/Shanghai",
+  "version_url": "https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions",
+  "version": "0.1.0-alpha.11",
+  "status": "Published",
+  "previous_version": "0.1.0-alpha.10",
+  "previous_status": "Published",
+  "reviewer_message": "VirusTotal 与 Claude Code Agent 安全检查均已通过。",
+  "reviewer_nonblocking_notes": [
+    "OneBot 私有属性 _wsr_api_clients 的宿主兼容性风险",
+    "alpha.11 INSTALL.md 第一段曾残留 alpha.10 信息"
+  ],
+  "verification": "Live Cloud versions page read through authenticated browser UI; owner plugin actions visible; no update submitted yet."
+}

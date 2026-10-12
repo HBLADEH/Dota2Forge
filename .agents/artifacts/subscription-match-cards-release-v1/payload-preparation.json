@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "unchanged_shared_versions": {
+    "dota2forge-core": "0.1.0a7",
+    "dota2forge-assets": "0.1.0a1"
+  },
+  "compared_release": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a13",
+  "new_versions": {
+    "dota2forge_renderer": "0.1.0a7",
+    "dota2uid": "0.1.0a14",
+    "astrbot_plugin_dota2forge": "0.1.0a12"
+  },
+  "local_dist_unchanged": true,
+  "assets": [
+    {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 21202,
+      "sha256": "9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250",
+      "source": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a13/dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7-py3-none-any.whl",
+      "bytes": 69774,
+      "sha256": "d29bb659fc699fa7a505f49e7c4d463e1e277d6ede61942c0fa6f4d017555c4c",
+      "source": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a13/dota2forge_core-0.1.0a7-py3-none-any.whl",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "bytes": 16441,
+      "sha256": "1f4914fde2ba9287219930cb200235a0f569fd15c49f64be8b6bdfdbd16723c7",
+      "source": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a13/dota2forge_assets-0.1.0a1.tar.gz",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7.tar.gz",
+      "bytes": 49455,
+      "sha256": "70329d33ef562e3315ee0203b6c27f0c19ea5caf70c30101075260f42cae81e1",
+      "source": "https://github.com/HBLADEH/Dota2UID/releases/download/v0.1.0a13/dota2forge_core-0.1.0a7.tar.gz",
+      "matches_previous_release": true
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a7-py3-none-any.whl",
+      "bytes": 13739770,
+      "sha256": "973553c362bb31520524d58c115593076a05bb6c0be6e09322d91cb9ccc8a5e4",
+      "source": "dist/dota2forge_renderer-0.1.0a7-py3-none-any.whl"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a7.tar.gz",
+      "bytes": 13728016,
+      "sha256": "d587ba9da980c130ae371239b735878aef38e697c100e8068b9a15d3eae6ab8f",
+      "source": "dist/dota2forge_renderer-0.1.0a7.tar.gz"
+    },
+    {
+      "filename": "dota2uid-0.1.0a14-py3-none-any.whl",
+      "bytes": 40731,
+      "sha256": "73affc8a07418c8b0b61b5f77ce5cb1bb8a5da0ff289fd4dee0b24027fffabd3",
+      "source": "dist/dota2uid-0.1.0a14-py3-none-any.whl"
+    },
+    {
+      "filename": "dota2uid-0.1.0a14.tar.gz",
+      "bytes": 39084,
+      "sha256": "717ffd8444564bf48f9fffe029ca089b125eada721d85f48148c5635bd963863",
+      "source": "dist/dota2uid-0.1.0a14.tar.gz"
+    },
+    {
+      "filename": "astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl",
+      "bytes": 27695,
+      "sha256": "f2de390dbe700f153ba547a3c4dff831661616c83b752a707cc8100c658702ab",
+      "source": "dist/astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl"
+    },
+    {
+      "filename": "astrbot_plugin_dota2forge-0.1.0a12.tar.gz",
+      "bytes": 27146,
+      "sha256": "dc78caac2e4ebe36c974509796cd81b1b40c49889e7f59ecaec6a30fcb7edb13",
+      "source": "dist/astrbot_plugin_dota2forge-0.1.0a12.tar.gz"
+    }
+  ]
+}

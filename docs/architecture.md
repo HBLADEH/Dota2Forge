@@ -2,7 +2,7 @@
 
 仓库采用 Python 3.12+ 与 uv workspace。五个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
-当前开发源码为Core a7、Renderer a7、Assets a1、AstrBot a12、Dota2UID a14；本轮订阅卡片版本尚未发布。已公开Renderer a6、AstrBot a11及UID a13，Cloud状态见[发行记录](cookbook/plugin-release.md)。UID a12修复订阅命令前缀冲突，[进度](../.agents/tasks/done/2026-10-11-subscription-command-prefix.md)另记。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
+当前源码及GitHub预发行为Core a7、Renderer a7、Assets a1、AstrBot a12、Dota2UID a14，订阅卡片已公开；Cloud审核状态见[发行记录](cookbook/plugin-release.md)。UID a12修复订阅命令前缀冲突，[进度](../.agents/tasks/done/2026-10-11-subscription-command-prefix.md)另记。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
 
 GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。公开a6–a9更新仍冷启动；本地a10以owner协议、独占租约、来源与数据兼容检查及完整任务排空实施整组热切换，准备/运行指针分开，失败保留或重建旧业务。Core SQLite取消等待已开始线程退出；宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包契约](subsystems/gscore-bundled-runtime.md)。
 
@@ -26,7 +26,7 @@ GsCore原生热重载/卸载不保证执行旧关闭钩子；公开版先停用�
 
 Core订阅提供玩家新比赛、指定比赛完成报告、段位变化及北京时间每日有限观察战报；独立SQLite检查点/outbox/schema v3发送尝试，原子占用后投递，成功确认，不确定或取消不盲发。Core没有Scheduler或消息I/O；双端Runtime/桥接显式拥有计时器，默认关闭，群订阅要求当前Bot管理员。改绑/解绑先取消该身份旧订阅。AstrBot主动推送仅支持OneBot v11反向WebSocket；两端不跨库去重。详情/经济/购买分析和非官方MVP候选保留来源边界。日期、有限窗口、权限、重试和stop/reload边界见[订阅契约](subsystems/subscriptions.md)，实机进度见[Step13任务](../.agents/tasks/active/2026-10-02-subscriptions.md)。
 
-比赛订阅源码已复用完整比赛报告卡，双端按reply_mode准备整组图片/文本后一次宿主调用；保留订阅玩家、事件ID、来源和缺失边界，渲染失败回退同一报告。生产部署及真实聊天可读性尚未验证，见[卡片任务](../.agents/tasks/done/2026-10-12-subscription-match-cards.md)。
+比赛订阅复用完整报告卡，双端按reply_mode准备整组图片/文本后一次宿主调用，保留玩家、事件ID、来源和缺失边界。2026-10-13现行服务器GsCore a14/Renderer a7及订阅job已核验；更新/重启发生在手工安装前，操作者未知，本轮只读验收。配置及服务配置摘要、SDK源码和库版本一致，原数据库schema/计数保留；旧库行/素材摘要无基线，不称逐字节未变。真实聊天待验，见[证据](../.agents/artifacts/subscription-match-cards-release-v1/README.md)。
 
 治理配置与检查器覆盖实际 workspace 包配置、Python 静态及常量动态导入、依赖声明、文档长度、链接、决策记录和包参考漂移。检查器使用配置指定的显式包路径，导入名由各包 Hatchling 配置解析。
 

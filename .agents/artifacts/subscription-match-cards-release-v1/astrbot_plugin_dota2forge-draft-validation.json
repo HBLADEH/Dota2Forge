@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "repository": "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+  "release_id": 410878910,
+  "tag": "v0.1.0a12",
+  "draft": true,
+  "prerelease": true,
+  "distribution_commit": "915396d6b8e137045874f21195eb6e9347852b2f",
+  "assets": 11,
+  "all_sizes_and_github_sha256_match": true
+}

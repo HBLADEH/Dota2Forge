@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "scope": "current_a14_restore_point",
+  "is_pre_upgrade_backup": false,
+  "backup_path": "/srv/data/services/bot-stack/backups/dota2uid-a14-current-20261012T182945Z",
+  "directory_mode": "0700",
+  "private_configuration_and_database_modes": "0600",
+  "plugin_source": "verified_fresh_public_clone",
+  "plugin_head": "85b878e95651676b10e85c407450770bc0188c0b",
+  "plugin_files_verified": 24,
+  "configuration_sha256": "6f471384bdab4f600016900f8882ed826e8501e89956029e7ce439b18f451fec",
+  "service_configuration_sha256": "ebd014ca1cb1a892f725a8acf562656f48afba9a4970382b59b8185c22943f6d",
+  "databases": {
+    "bindings.sqlite3": {
+      "exists": true,
+      "schema_version": 1,
+      "counts": {
+        "bindings": 1
+      },
+      "table_sha256": {
+        "bindings": "9f72cee039e6c98d5b023b4ab3bc6545d753873ce9c12ea1d7640079f09d5f75"
+      },
+      "files_sha256": {
+        "": "30c142cea69836545231eb58bec2bc4fefe58a9d5bdacad7a36197cfc09bf0a1"
+      }
+    },
+    "subscriptions.sqlite3": {
+      "exists": true,
+      "schema_version": 3,
+      "counts": {
+        "subscriptions": 1,
+        "subscription_events": 0,
+        "subscription_attempts": 0
+      },
+      "table_sha256": {
+        "subscriptions": "655edf7fb02c1a066c1bd20a23c898c6900a7c8b239e9f29d8a90d6038987137",
+        "subscription_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "subscription_attempts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "files_sha256": {
+        "": "366eed8cbdd5ca58e709e040c93d0df8f27d946864f4001391cbcb1504cb7497"
+      }
+    }
+  },
+  "sqlite_source_mode": "ro_query_only_read_transaction",
+  "sqlite_backup_integrity_check": "ok",
+  "privacy": {
+    "credentials_or_identity_output": false,
+    "raw_logs_output": false,
+    "provider_called": false,
+    "messages_sent": false
+  },
+  "production_stop_restart_or_business_data_mutation": false,
+  "private_restorepoint_created": true,
+  "source_database_writes_performed": false
+}

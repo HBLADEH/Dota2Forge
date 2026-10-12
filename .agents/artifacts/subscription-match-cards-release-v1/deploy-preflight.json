@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "read_only": true,
+  "hosts": {
+    "gscore": {
+      "state": "running",
+      "started_at": "2026-10-11T20:40:00.61646108Z",
+      "image_id": "sha256:288105490f0231cbd9117a04bbfd44c2b5c6ec579317d4ed37a8641a38bd2fc1",
+      "image": "docker.cnb.cool/gscore-mirror/gsuid_core:latest",
+      "working_dir": "/gsuid_core",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/srv/data/services/bot-stack/data/gscore/data",
+          "Destination": "/gsuid_core/data",
+          "Name": null
+        },
+        {
+          "Type": "bind",
+          "Source": "/srv/data/services/bot-stack/data/gscore/plugins",
+          "Destination": "/gsuid_core/gsuid_core/plugins",
+          "Name": null
+        },
+        {
+          "Type": "volume",
+          "Source": "/var/lib/docker/volumes/bot-stack_gscore_playwright/_data",
+          "Destination": "/ms-playwright",
+          "Name": "bot-stack_gscore_playwright"
+        },
+        {
+          "Type": "volume",
+          "Source": "/var/lib/docker/volumes/bot-stack_gscore_venv/_data",
+          "Destination": "/venv",
+          "Name": "bot-stack_gscore_venv"
+        }
+      ],
+      "audit_exit_code": 0,
+      "audit": {
+        "python": "3.12.12",
+        "global_versions": {
+          "gsuid-core": "0.11.1",
+          "httpx": "0.28.1",
+          "pillow": "12.3.0",
+          "dota2forge-core": null,
+          "dota2forge-renderer": null,
+          "dota2forge-assets": null,
+          "dota2uid": null
+        },
+        "sdk_head": "70eeeacb151d1b92f4cad9aa766efec5d567c25e",
+        "sdk_tree": {
+          "files": 1478,
+          "sha256": "943633da7c78781446ce40d8bf7e1683fc7982b9b1c5d59e323037631d40c13a"
+        },
+        "plugin_head": "72259b18d98199d9b883da7bee48d5783cdc769f",
+        "plugin_tree": {
+          "files": 24,
+          "sha256": "a9b402670e690fde4d4276fc87e9ded87a7c98a36d88a09806a0d9801ba62dfd"
+        },
+        "plugin_status_changes": 0,
+        "release": {
+          "plugin": "Dota2UID",
+          "schema_version": 1,
+          "versions": {
+            "dota2forge-assets": "0.1.0a1",
+            "dota2forge-core": "0.1.0a7",
+            "dota2forge-renderer": "0.1.0a6",
+            "dota2uid": "0.1.0a13"
+          }
+        },
+        "configuration": {
+          "exists": true,
+          "sha256": "6f471384bdab4f600016900f8882ed826e8501e89956029e7ce439b18f451fec",
+          "token_configured": true,
+          "reply_mode": "image",
+          "subscriptions_enabled": true,
+          "subscription_interval_seconds": 300,
+          "asset_download_mode": "auto"
+        },
+        "databases": {
+          "bindings.sqlite3": {
+            "exists": true,
+            "schema_version": 1,
+            "counts": {
+              "bindings": 1
+            }
+          },
+          "subscriptions.sqlite3": {
+            "exists": true,
+            "schema_version": 3,
+            "counts": {
+              "subscriptions": 1,
+              "subscription_events": 0,
+              "subscription_attempts": 0
+            }
+          }
+        },
+        "service_configuration": {
+          "exists": true,
+          "sha256": "ebd014ca1cb1a892f725a8acf562656f48afba9a4970382b59b8185c22943f6d"
+        },
+        "active_runtime": {
+          "exists": true,
+          "versions": {
+            "dota2forge-assets": "0.1.0a1",
+            "dota2forge-core": "0.1.0a7",
+            "dota2forge-renderer": "0.1.0a6",
+            "dota2uid": "0.1.0a13"
+          },
+          "manifest_sha256": "7b643ee0fd9ad3bd0fccc2650b1d9d37672f95d8cb987ec8c37ac24898a53a29",
+          "generation_file_count": 96,
+          "generation_files_match": true,
+          "generation_complete_manifest_matches": true
+        },
+        "runtime_top_files": [
+          ".prepare.lock",
+          "0fde667fdcab5f7fa27f45fef748338e80e9c0d203b4128507972825c6375e57",
+          "172bbfbf927962e8423fc5baabc687909d7a5ff2023c4f0adc6d34788450e6d1",
+          "45f1f54d00aab6ab7efa57200d44cf30a199d54acd1f2df1f166d9dfbc360093",
+          "76c57fb3f0b5d98ee2bae96c83c8e69bce74a3f11399530f12c67d5fdac34ad1",
+          "7b643ee0fd9ad3bd0fccc2650b1d9d37672f95d8cb987ec8c37ac24898a53a29",
+          "active.json",
+          "b57d5074e45e968547a8f23d270034ff6bbb441c92985728fea195635ffab409",
+          "c50893436ee56635fa035a13293dbc7d2062d9104e230f38b5aaa6987008159f",
+          "current.json",
+          "db35f0c3a45297e66433627ecb4d18fb121d8f69dae8ef7d8c2e9d71da5faf7a"
+        ],
+        "data_owner_uid": 0,
+        "data_owner_gid": 0,
+        "plugin_owner_uid": 0,
+        "plugin_owner_gid": 0,
+        "privacy": {
+          "credentials_or_identity_output": false,
+          "sdk_or_business_imported": false,
+          "provider_called": false,
+          "messages_sent": false,
+          "production_mutations": false
+        }
+      },
+      "error_category": null
+    },
+    "astrbot": {
+      "state": "running",
+      "started_at": "2026-10-06T20:18:29.373314653Z",
+      "image_id": "sha256:bcb9146a8b87365f138f85bdf7eca4cc87f872a47e2246fa797920fb597335b5",
+      "image": "soulter/astrbot:latest",
+      "working_dir": "/AstrBot",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/srv/data/services/bot-stack/data/astrbot",
+          "Destination": "/AstrBot/data",
+          "Name": null
+        },
+        {
+          "Type": "bind",
+          "Source": "/etc/localtime",
+          "Destination": "/etc/localtime",
+          "Name": null
+        },
+        {
+          "Type": "bind",
+          "Source": "/etc/timezone",
+          "Destination": "/etc/timezone",
+          "Name": null
+        }
+      ],
+      "audit_exit_code": 0,
+      "audit": {
+        "python": "3.12.13",
+        "global_versions": {
+          "astrbot": "4.26.7",
+          "httpx": "0.28.1",
+          "pillow": "12.3.0",
+          "dota2forge-core": "0.1.0a4",
+          "dota2forge-renderer": "0.1.0a4",
+          "dota2forge-assets": null,
+          "astrbot-plugin-dota2forge": "0.1.0a7"
+        },
+        "source_version_lines": [
+          "version = \"4.28.2\""
+        ],
+        "dota2forge_plugin_exists": false,
+        "dota2forge_related_data_exists": false,
+        "gscore_adapter_plugin_exists": true,
+        "privacy": {
+          "credentials_or_identity_output": false,
+          "sdk_or_business_imported": false,
+          "provider_called": false,
+          "messages_sent": false,
+          "production_mutations": false
+        }
+      },
+      "error_category": null
+    }
+  },
+  "passed": true
+}
