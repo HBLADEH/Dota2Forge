@@ -19,8 +19,8 @@ Dota2Forge 为 AstrBot 和 GsCore 提供共享的玩家查询、近期战绩、�
 
 使用对应的独立分发仓库，具体步骤与升级边界见插件说明：
 
-- **AstrBot**：[alpha.11 预发行](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a11) · [安装指南](docs/cookbook/astrbot-public-install.md)。需要 Python 3.12+、AstrBot >=4.5.0；停止宿主后用实际解释器安装固定版本运行组件，再冷启动。
-- **GsCore**：[Dota2UID a13 随包预发行](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a13) · [安装指南](docs/cookbook/gscore-bundled-install.md)。匹配项目运行库在插件专用目录准备；旧 a6–a9 首次升级需冷启动，兼容的新版随包更新支持受控重载。
+- **AstrBot**：[alpha.12 预发行](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a12) · [安装指南](docs/cookbook/astrbot-public-install.md)。需要 Python 3.12+、AstrBot >=4.5.0；停止宿主后用实际解释器安装固定版本运行组件，再冷启动。
+- **GsCore**：[Dota2UID a14 随包预发行](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a14) · [安装指南](docs/cookbook/gscore-bundled-install.md)。匹配项目运行库在插件专用目录准备；旧 a6–a9 首次升级需冷启动，兼容的新版随包更新支持受控重载。
 
 AstrBot Cloud 的提交与审核情况见[发行记录](docs/cookbook/plugin-release.md)；[GsCore 索引 PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)状态见[商店记录](docs/cookbook/gscore-store-publish.md)。本仓源码版本不代表商店已经同步。
 

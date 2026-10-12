@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "already_current": true,
+  "manual_apply_performed": false,
+  "manual_stop_or_restart_performed": false,
+  "manual_backup_created_by_verification_helper": false,
+  "production_read_only": true,
+  "plugin": {
+    "path": "/gsuid_core/gsuid_core/plugins/Dota2UID",
+    "head": "85b878e95651676b10e85c407450770bc0188c0b",
+    "expected_public_head": "85b878e95651676b10e85c407450770bc0188c0b",
+    "files_verified": 24,
+    "tree": {
+      "files": 24,
+      "sha256": "a9f65a3e0033d71875371e47c4d577ff4a8cc055b6dc9aee0df24bd19fb8e46a"
+    }
+  },
+  "container": {
+    "running": true,
+    "image_id": "sha256:288105490f0231cbd9117a04bbfd44c2b5c6ec579317d4ed37a8641a38bd2fc1",
+    "started_at": "2026-10-12T18:18:41.610372903Z",
+    "started_at_matches_baseline": false
+  },
+  "active_runtime": {
+    "exists": true,
+    "versions": {
+      "dota2forge-assets": "0.1.0a1",
+      "dota2forge-core": "0.1.0a7",
+      "dota2forge-renderer": "0.1.0a7",
+      "dota2uid": "0.1.0a14"
+    },
+    "manifest_sha256": "9cbbd156542f9bac809f1959ecb3c94eae2798e830e7a476856f579e7b704dac",
+    "file_count": 96,
+    "complete_matches": true,
+    "files_match": true
+  },
+  "preserved": {
+    "sdk_head": true,
+    "sdk_tree": true,
+    "global_versions": true,
+    "configuration_sha256": true,
+    "service_configuration_sha256": true
+  },
+  "databases": {
+    "bindings.sqlite3": {
+      "schema_version": 1,
+      "counts": {
+        "bindings": 1
+      },
+      "counts_match_baseline": true,
+      "current_table_sha256": {
+        "bindings": "9f72cee039e6c98d5b023b4ab3bc6545d753873ce9c12ea1d7640079f09d5f75"
+      },
+      "current_files_sha256": {
+        "": "dd23026c527ad3b6dec114041cd11486cb879c4983f779ce366f53608c192b57"
+      }
+    },
+    "subscriptions.sqlite3": {
+      "schema_version": 3,
+      "counts": {
+        "subscriptions": 1,
+        "subscription_events": 0,
+        "subscription_attempts": 0
+      },
+      "counts_match_baseline": true,
+      "current_table_sha256": {
+        "subscriptions": "655edf7fb02c1a066c1bd20a23c898c6900a7c8b239e9f29d8a90d6038987137",
+        "subscription_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "subscription_attempts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "current_files_sha256": {
+        "": "ac827c94036c83ee286a54612832d4a6d758538eb15eebda7c240d72210cad84"
+      }
+    }
+  },
+  "materials": {
+    "present_image_files": 1656,
+    "current_files_fingerprint": {
+      "files": 1656,
+      "sha256": "6d32db615008b578b30678ab96d3a49b25920e4a418f708cac6b923183e4b034"
+    },
+    "baseline_file_hashes_available": false
+  },
+  "python_libraries": {
+    "current_fingerprint": {
+      "files": 40359,
+      "sha256": "ffa7d8353f83e3a4d8074c32412023970801cc68e96e2eb98602990366c1cd30"
+    },
+    "current_pillow_native": {
+      "files": 8,
+      "sha256": "081ae22da11d59e2265d93410ea79f652722dd92ff448ccaa542d4b0dbc30483"
+    },
+    "baseline_file_hashes_available": false
+  },
+  "lifecycle_evidence": [
+    {
+      "timestamp_utc": "2026-10-12T16:12:54.510421504Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T16:12:57.739413163Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:26.950025855Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:32.939398133Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:34.163625511Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:37.011471877Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:37.043566500Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:37.043958169Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:37.044987901Z",
+      "kind": "native_plugin_update_or_reload_marker",
+      "raw_log_output": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:39.637203270Z",
+      "kind": "stopped",
+      "state": "stopped",
+      "client_closed": true,
+      "job_registered": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:40.439949961Z",
+      "kind": "initialized",
+      "state": "ready",
+      "subscriptions_enabled": true,
+      "job_registered": true
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:40.959252433Z",
+      "kind": "stopped",
+      "state": "stopped",
+      "client_closed": true,
+      "job_registered": false
+    },
+    {
+      "timestamp_utc": "2026-10-12T18:18:53.536430223Z",
+      "kind": "initialized",
+      "state": "ready",
+      "subscriptions_enabled": true,
+      "job_registered": true
+    }
+  ],
+  "plugin_reflog": {
+    "available": true,
+    "records": [
+      {
+        "commit": "85b878e95651676b10e85c407450770bc0188c0b",
+        "observed_at": "2026-10-13T02:18:32+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "72259b18d98199d9b883da7bee48d5783cdc769f",
+        "observed_at": "2026-10-12T04:10:05+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "d66c12e80cedc7d3e9f131ce77f61866c2bd24f1",
+        "observed_at": "2026-10-12T01:16:08+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "86a1132eb23c77af4e1dd39526d5abaf8e3473b9",
+        "observed_at": "2026-10-11T23:07:33+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "282497c319e8adb3ecc45250795a39cb92f48f05",
+        "observed_at": "2026-10-10T09:43:04+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "cfce3fa66b22ec843e64f9b60d5196bf360d75f2",
+        "observed_at": "2026-10-09T23:42:01+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "c11c8d40ad5cb3e57a119f9edea9ff58371722f0",
+        "observed_at": "2026-10-09T20:06:15+08:00",
+        "action": "pull_fast_forward",
+        "raw_reflog_output": false
+      },
+      {
+        "commit": "dd57b64b37b9f9e2cb98b561c62640bc6ddd154c",
+        "observed_at": "2026-10-09T02:40:30+08:00",
+        "action": "other",
+        "raw_reflog_output": false
+      }
+    ]
+  },
+  "update_actor": "unknown",
+  "proof_limits": [
+    "Preflight contains database schema/counts, not prior row/file hashes.",
+    "Preflight contains library versions and SDK tree, not prior library/material file hashes.",
+    "No manual cold-deployment backup or shutdown record was created by this helper."
+  ],
+  "privacy": {
+    "credentials_or_identity_output": false,
+    "raw_logs_output": false,
+    "raw_reflog_output": false,
+    "provider_called_by_helper": false,
+    "messages_sent_by_helper": false
+  }
+}

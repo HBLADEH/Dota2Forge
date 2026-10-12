@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "synthetic_only": true,
+  "source": "FIXTURE",
+  "active_runtime_manifest_sha256": "9cbbd156542f9bac809f1959ecb3c94eae2798e830e7a476856f579e7b704dac",
+  "runtime_versions": {
+    "dota2forge-assets": "0.1.0a1",
+    "dota2forge-core": "0.1.0a7",
+    "dota2forge-renderer": "0.1.0a7",
+    "dota2uid": "0.1.0a14"
+  },
+  "host_pillow": "12.3.0",
+  "pages": [
+    {
+      "page": 1,
+      "width": 1600,
+      "height": 2556,
+      "bytes": 464655,
+      "format": "PNG"
+    },
+    {
+      "page": 2,
+      "width": 1600,
+      "height": 3020,
+      "bytes": 468490,
+      "format": "PNG"
+    },
+    {
+      "page": 3,
+      "width": 1600,
+      "height": 3020,
+      "bytes": 473532,
+      "format": "PNG"
+    }
+  ],
+  "network_blocked": true,
+  "sdk_or_adapter_imported": false,
+  "real_configuration_or_database_read": false,
+  "provider_called": false,
+  "messages_sent": false,
+  "rendered_pngs_saved": false,
+  "active_record_unchanged": true
+}
