@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "mode": "validate-only",
+  "error_category": "previous_plugin_drift",
+  "safe_to_restart_original": false,
+  "raw_exception_output": false,
+  "production_stop_restart_or_install_performed": false,
+  "expected_previous_head": "72259b18d98199d9b883da7bee48d5783cdc769f",
+  "followup_observed_head": "85b878e95651676b10e85c407450770bc0188c0b",
+  "followup_result": "Target already matches the public a14 release; switched to read-only acceptance.",
+  "evidence": "deployment-already-current.json"
+}

@@ -41,6 +41,6 @@ pending按sequence读1–100条，不删；deliverable跳过已有发送尝试�
 
 GsCore用gsuid_core.aps.scheduler显式注册唯一interval job；AstrBot initialize拥有唯一asyncio timer，主动推送目前仅支持OneBot v11反向WebSocket，用明确self_id发送，避免Context.send_message无法选择同连接bot。连接表按本机SDK版本核对；其他AstrBot平台创建/重试明确拒绝。
 
-两端比赛订阅在reply_mode=image时复用总览与分队详情卡，标注订阅玩家、事件ID和有限观察。整组渲染完成后以一次宿主调用提交；RenderError使用保存报告的完整分段文本，不重查Provider。text模式、段位/日报/旧摘要/缺详情事件继续文字；不同文字段保留换行。发送失败不再补发；不确定回执保留占用，单次调用不保证客户端完整显示。UID薄/bundled桥接均接入，AstrBot保持OneBot路由与权限。源码与合成验收见[卡片任务](../../.agents/tasks/done/2026-10-12-subscription-match-cards.md)，生产和真实聊天未验证。
+两端比赛订阅在reply_mode=image时复用总览与分队详情卡，标注订阅玩家、事件ID和有限观察。整组渲染完成后以一次宿主调用提交；RenderError使用保存报告的完整分段文本，不重查Provider。text模式、段位/日报/旧摘要/缺详情事件继续文字；不同文字段保留换行。发送失败不再补发；不确定回执保留占用，单次调用不保证客户端完整显示。UID薄/bundled桥接均接入，AstrBot保持OneBot路由与权限。[源码验收](../../.agents/tasks/done/2026-10-12-subscription-match-cards.md)及[服务器a14核验](../../.agents/artifacts/subscription-match-cards-release-v1/README.md)已完成，真实聊天仍待验证。
 
 计时器每60秒唤醒，按配置间隔门控（默认300、最小60），每轮一个分页轮转scope、每kind最多5订阅及5事件，非重入；日报只在配置小时之后。429尊重retry_after；无冷却信息或鉴权失败暂停至重新加载；存储/程序错误安全暂停。停用先移除/取消timer并等待在途轮询，再关闭HTTP/Renderer；导入和构造不启动任务。两端独立库不做跨平台去重，不同时订阅同一目标来假定唯一投递。操作见[接入指南](../cookbook/subscriptions.md)。

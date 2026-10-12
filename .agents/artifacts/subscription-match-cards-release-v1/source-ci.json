@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "commit": "425fc9f66b489778f35f2690427a5d8b60f40df3",
+  "checks": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T16:07:26Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/HBLADEH/Dota2Forge/actions/runs/38274818840/job/114897572905",
+      "name": "offline (3.12)",
+      "startedAt": "2026-10-12T16:04:21Z",
+      "status": "COMPLETED",
+      "workflowName": "Dota2Forge CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T16:07:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/HBLADEH/Dota2Forge/actions/runs/38274811687/job/114897549966",
+      "name": "offline (3.12)",
+      "startedAt": "2026-10-12T16:04:18Z",
+      "status": "COMPLETED",
+      "workflowName": "Dota2Forge CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T16:07:13Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/HBLADEH/Dota2Forge/actions/runs/38274818840/job/114897573036",
+      "name": "offline (3.13)",
+      "startedAt": "2026-10-12T16:04:22Z",
+      "status": "COMPLETED",
+      "workflowName": "Dota2Forge CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T16:06:12Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/HBLADEH/Dota2Forge/actions/runs/38274811687/job/114897549739",
+      "name": "offline (3.13)",
+      "startedAt": "2026-10-12T16:04:18Z",
+      "status": "COMPLETED",
+      "workflowName": "Dota2Forge CI"
+    }
+  ]
+}

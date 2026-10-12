@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "anonymous": true,
+  "assets_anonymous": true,
+  "release_metadata_source": "anonymous API",
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "tag": "v0.1.0a14",
+  "source_commit": "425fc9f66b489778f35f2690427a5d8b60f40df3",
+  "distribution_commit": "85b878e95651676b10e85c407450770bc0188c0b",
+  "repository_files_match_candidate": 24,
+  "zip_matches_repository": true,
+  "assets": [
+    {
+      "filename": "Dota2UID.zip",
+      "bytes": 18914374,
+      "sha256": "ca33d2ee15ec59c405e31eb4404809e82c64fa42885bc392efe223ae90bc717f"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 21202,
+      "sha256": "9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7-py3-none-any.whl",
+      "bytes": 69774,
+      "sha256": "d29bb659fc699fa7a505f49e7c4d463e1e277d6ede61942c0fa6f4d017555c4c"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a7-py3-none-any.whl",
+      "bytes": 13739770,
+      "sha256": "973553c362bb31520524d58c115593076a05bb6c0be6e09322d91cb9ccc8a5e4"
+    },
+    {
+      "filename": "dota2uid-0.1.0a14-py3-none-any.whl",
+      "bytes": 40731,
+      "sha256": "73affc8a07418c8b0b61b5f77ce5cb1bb8a5da0ff289fd4dee0b24027fffabd3"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "bytes": 16441,
+      "sha256": "1f4914fde2ba9287219930cb200235a0f569fd15c49f64be8b6bdfdbd16723c7"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a7.tar.gz",
+      "bytes": 49455,
+      "sha256": "70329d33ef562e3315ee0203b6c27f0c19ea5caf70c30101075260f42cae81e1"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a7.tar.gz",
+      "bytes": 13728016,
+      "sha256": "d587ba9da980c130ae371239b735878aef38e697c100e8068b9a15d3eae6ab8f"
+    },
+    {
+      "filename": "dota2uid-0.1.0a14.tar.gz",
+      "bytes": 39084,
+      "sha256": "717ffd8444564bf48f9fffe029ca089b125eada721d85f48148c5635bd963863"
+    },
+    {
+      "filename": "release-assets.json",
+      "bytes": 1966,
+      "sha256": "d8c8209cd8a349fefbe71db94d2b0392c5ecb5f2d723a96b53e2b2e32df554f9"
+    },
+    {
+      "filename": "SHA256SUMS",
+      "bytes": 904,
+      "sha256": "f23087a21e8be38da5f281639ad25c6e07427bd8562867485a2f00ac300116ae"
+    }
+  ],
+  "production_host_modified": false,
+  "chat_verified": false
+}

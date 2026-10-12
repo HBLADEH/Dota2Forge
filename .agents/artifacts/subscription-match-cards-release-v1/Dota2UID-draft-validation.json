@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "repository": "https://github.com/HBLADEH/Dota2UID",
+  "release_id": 410879256,
+  "tag": "v0.1.0a14",
+  "draft": true,
+  "prerelease": true,
+  "distribution_commit": "85b878e95651676b10e85c407450770bc0188c0b",
+  "assets": 11,
+  "all_sizes_and_github_sha256_match": true
+}
