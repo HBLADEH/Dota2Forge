@@ -9,6 +9,7 @@ from dota2forge_core import (
     MatchReport,
     PlayerProfile,
     RecentMatches,
+    SubscriptionEvent,
 )
 
 WIDTH = 780
@@ -85,6 +86,7 @@ class MatchDetailCard:
 class MatchReportCard:
     report: MatchReport
     page: int = 1
+    subscription_event: SubscriptionEvent | None = field(default=None, repr=False)
 
 
 type Card = (
