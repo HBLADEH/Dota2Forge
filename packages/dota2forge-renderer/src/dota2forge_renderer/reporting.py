@@ -36,7 +36,9 @@ def participant_name(player: MatchParticipant) -> str:
         return "匿名参赛者"
     if player.account_id is None:
         return "身份未知"
-    return safe_name(player.display_name)
+    return (
+        safe_name(player.display_name) if player.display_name else f"账号 {player.account_id.value}"
+    )
 
 
 @lru_cache(maxsize=1)
@@ -95,6 +97,19 @@ def performance_evidence(report: MatchReport, player: MatchParticipant) -> str:
 
 
 def performance_lines(report: MatchReport) -> list[str]:
+    if not report.imp_ranking:
+        candidate = report.performance_candidate
+        if candidate is None:
+            return [
+                "没有可用 IMP；表现候选未知（参赛者胜负或 K/D/A 数据不足）。",
+                "Provider 未提供官方 MVP；未知分数不补零。",
+            ]
+        account, slot = candidate
+        account_text = value_text(None if account is None else account.value)
+        return [
+            f"表现候选（非官方 MVP）：账号 {account_text} · 槽位 {value_text(slot)}",
+            "没有可用 IMP；候选基于胜方 K/D/A、死亡和 GPM，不是官方评分。",
+        ]
     lines = ["STRATZ IMP 评分（来源模型，非官方 MVP；统计依据不等于评分公式）"]
     for label, players in (
         ("表现突出", report.strong_performers),
@@ -125,9 +140,18 @@ def analysis_lines(report: MatchReport) -> list[str]:
             )
         else:
             lines.append(f"{label}：来源返回空序列")
-    purchases = sum(len(player.purchases or ()) for player in report.analysis.participants or ())
-    metrics = sum(len(player.metrics) for player in report.analysis.participants or ())
-    lines.append(f"分析：经济序列 {metrics} 项，购买事件 {purchases} 条。")
+    participants = report.analysis.participants
+    if participants is None:
+        lines.append("分析：参赛者分析未知；经济序列和购买事件未提供。")
+        return lines
+    purchases = sum(len(player.purchases or ()) for player in participants)
+    metrics = sum(len(player.metrics) for player in participants)
+    purchase_observation = (
+        f"购买事件观察到 {purchases} 条（部分玩家购买事件未提供）"
+        if any(player.purchases is None for player in participants)
+        else f"购买事件 {purchases} 条"
+    )
+    lines.append(f"分析：经济序列 {metrics} 项，{purchase_observation}。")
     return lines
 
 
@@ -173,7 +197,12 @@ def match_report_text(report: MatchReport) -> list[str]:
             )
             lines.extend(
                 (
-                    f"{hero_name(player)} · {participant_name(player)}{own}",
+                    f"{hero_name(player)} · {participant_name(player)}{own}"
+                    + (
+                        f" · 账号 {player.account_id.value}"
+                        if player.account_id is not None and player.display_name
+                        else ""
+                    ),
                     f"{position_text(player.position)} / {lane_text(player.lane)} · "
                     f"IMP {imp_text(player)}",
                     performance_evidence(report, player),

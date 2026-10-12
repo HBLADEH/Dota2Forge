@@ -1,6 +1,6 @@
 # 本地插件发行候选准备
 
-当前源码和GitHub预发行：Core a7、Renderer a6、Assets a1、AstrBot a11、Dota2UID a13。旧UID a6–a9首次升级冷启动；索引PR #40见[执行记录](gscore-store-publish.md)。
+订阅卡片开发版本Renderer a7、AstrBot a12、UID a14[尚未发布](../../.agents/tasks/done/2026-10-12-subscription-match-cards.md)，Core a7/Assets a1不变。公开适配器见下文，Renderer仍a6。旧UID a6–a9首次升级冷启动；[索引PR #40记录](gscore-store-publish.md)。
 
 2026-10-12双端 README 与七张脱敏GsCore图已公开：[AstrBot alpha.11](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a11)、[Dota2UID a13](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a13)。各11附件、仓库与ZIP匿名校验通过，共享组件版本/字节不变，[证据](../../.agents/artifacts/plugin-readme-release-20261012/README.md)。Cloud alpha.10 Published且日志非空，alpha.11已提交，当前Reviewing；真实宿主与主动推送未在本次验收。
 
@@ -12,8 +12,6 @@
 uv run --locked python scripts/build_plugin_distributions.py --output dist/plugin-distributions/release-v1 --astrbot-repo https://github.com/HBLADEH/astrbot_plugin_dota2forge --gscore-repo https://github.com/HBLADEH/Dota2UID --gscore-wheels dist --astrbot-wheels dist --gscore-bundled --source-ref 223967ba635ce1b6d4f3d9674eb68d3831a20dd2
 ```
 
-此命令只生成本地候选。
-
 薄公开模式不传--gscore-bundled，读取四个已审查wheel元数据和SHA256，生成install_runtime.py/runtime-wheels.json/INSTALL.md；wheel上传GitHub Releases，不塞入桥接ZIP。根README安装链接转为INSTALL.md，其他文档保留源码链接；步骤见[旧公开安装](gscore-public-install.md)。原包名模式不附安装器，要求索引依赖可取得。
 
 插件README从两端适配器生成，注入版本与目标仓库；主仓文档转为完整URL，MIT许可仍本地。共享[主宰图标](../assets/branding/juggernaut-icon-v1.png)为GsCore ICON.png与AstrBot logo.png；索引avatar/cover指向目标main，未同步时不可用。审查截图按白名单复制到screenshots/，Markdown/HTML引用同步转换，Cloud使用目标仓库raw URL；源图/目标入摘要与ZIP大小检查，缺图在输出前失败。双端采用2026-10-12七张GsCore卡片，身份已脱敏，配置图[待补](plugin-showcase.md)；见[截图记录](../assets/screenshots/README.md)，不自动收录原始聊天图片。
@@ -22,9 +20,9 @@ GsCore随包模式使用 `--gscore-bundled --gscore-wheels dist`。先构建五�
 
 a10候选的deployment.json另记录protocol=1、存储兼容标识与业务桥接SHA256，热切换前校验wheel内schema。发行方改变存储/报告读写兼容性时须同步新标识并保留旧版本冷启动边界；不能只修改版本号沿用热切换承诺。旧a6–a9缺少排空协议，第一次升级a10须冷启动。
 
-输出含双端根目录与ZIP、输入／产物SHA256清单manifest.json，以及gscore-index-entry.json草稿；草稿只供新增条目审查，不能覆盖完整官方索引。
+输出双端根目录与ZIP、SHA256清单manifest.json及gscore-index-entry.json草稿；草稿只供新增条目审查，不能覆盖官方索引。
 
-两个根目录均含release.json和标准库版本检查；它们锁定该次Core、Renderer、Assets与对应适配器的确切版本。生成器保留宿主兼容声明，替换目标repo/author/version；第三方HTTPX/Pillow约束取自五包元数据，消费者约束漂移会失败。
+双端release.json和标准库检查锁定Core、Renderer、Assets及适配器版本。生成器保留宿主兼容声明，替换repo/author/version；HTTPX/Pillow约束取自包元数据，消费者漂移失败。
 
 ZIP条目顺序、时间戳和权限固定；相同输入字节重复生成一致。输出完整暂存后才就位，已有目录只接受完全相同内容；改变、缺项或额外文件会失败并保留原目录。检查manifest后再同步分发仓库。薄桥接ZIP须通过16,000,000 bytes保守上限，不携带字体、Pillow、独立美术素材包或本机配置；运行资源由Renderer wheel提供。实机截图中的第三方画面权利见[截图来源](../assets/screenshots/README.md)，不因加入说明转为MIT美术。
 
@@ -52,4 +50,4 @@ uv run --locked python scripts/smoke_plugin_distributions.py --candidate dist/pl
 
 后者先核对产物摘要，为两端分别创建无项目包的新venv，使用生成清单安装，命令固定offline/no-index/no-cache。独立进程以-I/-B执行版本检查、空Token首配、配置后新实例就绪、绑定/关闭/重启保留，不在候选中写字节码；Provider使用拒绝请求的合成transport；素材使用合成目录/PNG transport验证首装后台完成及重启无请求，不读真实Token或发送聊天。
 
-这一检查没有宿主SDK，不等同商店真实安装、公开下载可达、Linux/所有解释器兼容或实际权限/图片上传验收。GsCore公开包/入口、固定SDK组件与升级/卸载已验收，索引PR #40待审核；QQ/真实商店界面与AstrBot Cloud申请分别接续。CI与发布流水线变更单独交维护者评审。
+无宿主SDK；商店、公开下载、跨平台、权限/图片上传仍需实机验收。GsCore公开包/入口、固定SDK组件及升级/卸载已验收；索引PR #40、QQ/商店界面及AstrBot Cloud分别接续。CI/发布流水线变更交维护者评审。

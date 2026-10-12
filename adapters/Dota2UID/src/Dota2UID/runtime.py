@@ -14,6 +14,7 @@ from dota2forge_assets.session import ManagerFactory
 from dota2forge_core import (
     BindingConflictError,
     BindingNotFoundError,
+    DeliveryOutcome,
     Dota2Service,
     HeroItemService,
     HeroResolutionError,
@@ -55,6 +56,10 @@ from dota2forge_renderer import (
 )
 from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
 from dota2forge_renderer.reporting import match_report_text, split_report_text
+from dota2forge_renderer.subscriptions import (
+    subscription_event_cards,
+    subscription_event_text_pages,
+)
 
 from .commands import Action, Caller, Command, CommandError, parse_command
 from .config import Config, ConfigurationError, ConfigurationPending, ensure_config, load_config
@@ -62,7 +67,11 @@ from .presentation import HELP, match_detail_text, player_text, provider_error_t
 from .replies import ImageReply, Reply, TextReply
 from .selection import RecentSelectionStore, ResultKey, SelectionError, result_key
 from .subscription_routes import delivery_route, destination
-from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController, SubscriptionSend
+from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController
+
+type SubscriptionDelivery = Callable[
+    [SubscriptionEvent, tuple[Reply, ...]], Awaitable[DeliveryOutcome]
+]
 
 UNAVAILABLE = "Dota2UID 尚未就绪或已停用，请管理员检查配置并按文档重新加载。"
 AWAITING_CONFIG = (
@@ -155,13 +164,42 @@ class Runtime:
             raise InvalidIdentityError()
         return delivery_route(event, self._config)
 
-    async def poll_subscriptions(self, send: SubscriptionSend) -> None:
+    async def _deliver_subscription(
+        self, event: SubscriptionEvent, send: SubscriptionDelivery
+    ) -> DeliveryOutcome:
+        async with self._send_lock:
+            if self._state != State.READY or self._config is None:
+                return DeliveryOutcome.NOT_ATTEMPTED
+            replies: tuple[Reply, ...] = tuple(
+                TextReply(text) for text in subscription_event_text_pages(event)
+            )
+            cards = subscription_event_cards(event)
+            if self._config.reply_mode == "image" and self._renderer is not None and cards:
+                try:
+                    rendered = tuple(
+                        [ImageReply(await self._renderer.render(card)) for card in cards]
+                    )
+                except RenderError:
+                    LOGGER.warning(
+                        "render state=fallback operation=subscription cards=%d", len(cards)
+                    )
+                else:
+                    replies = rendered
+            if self._state != State.READY:
+                return DeliveryOutcome.NOT_ATTEMPTED
+            return await send(event, replies)
+
+    async def poll_subscriptions(self, send: SubscriptionDelivery) -> None:
         if self._state == State.READY and self._subscriptions is not None:
+
+            async def deliver(event: SubscriptionEvent, _text: str) -> DeliveryOutcome:
+                return await self._deliver_subscription(event, send)
+
             polling = asyncio.current_task()
             if polling is not None:
                 self._dispatch_tasks.add(polling)
                 self._dispatch_drained.clear()
-            worker = asyncio.create_task(self._subscriptions.tick(send))
+            worker = asyncio.create_task(self._subscriptions.tick(deliver))
             try:
                 await asyncio.shield(worker)
             except asyncio.CancelledError:

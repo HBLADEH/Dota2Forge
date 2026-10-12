@@ -3,7 +3,6 @@
 from dota2forge_core import (
     DailyCoverage,
     DailyReport,
-    MatchAnalysis,
     MatchReport,
     MatchSummary,
     RankChange,
@@ -11,24 +10,88 @@ from dota2forge_core import (
 )
 from dota2forge_core.domain.match_detail import MatchDetail
 
+from .cards import MatchReportCard
 from .formatting import rank_text, timestamp, value_text
-from .reporting import performance_lines
+from .reporting import (
+    analysis_lines,
+    match_report_text,
+    performance_lines,
+    report_groups,
+    split_report_text,
+)
+
+FINITE_OBSERVATION_NOTICE = "这是有限来源观察，不代表完整战绩或精确MMR。"
 
 
-def subscription_event_text(event: SubscriptionEvent) -> str:
+def subscription_event_cards(event: SubscriptionEvent) -> tuple[MatchReportCard, ...]:
+    """Prepare every report page from the persisted observation, without I/O."""
+    report = event.payload
+    if not isinstance(report, MatchReport) or not isinstance(report.detail, MatchDetail):
+        return ()
+    return tuple(
+        MatchReportCard(report, page, subscription_event=event)
+        for page in range(1, 2 + len(report_groups(report)))
+    )
+
+
+def subscription_event_text_pages(event: SubscriptionEvent) -> tuple[str, ...]:
+    """Preserve complete report fields in bounded, same-observation fallback pages."""
     payload = event.payload
-    account_label = (
+    if not isinstance(payload, MatchReport) or not isinstance(payload.detail, MatchDetail):
+        return tuple(split_report_text([subscription_event_text(event)]))
+    header: tuple[str, ...] = (
+        "Dota2Forge 订阅提醒",
+        _account_label(event),
+        f"比赛对局报告：{payload.match_id.value}",
+    )
+    if payload.tracked_account_id is not None:
+        header += (f"订阅玩家：{payload.tracked_account_id.value}",)
+    source = (
+        f"来源 {payload.metadata.source.value.upper()} | "
+        f"抓取 {timestamp(payload.metadata.fetched_at)}"
+    )
+    prefix = "\n".join(header)
+    metadata_lines = [source]
+    if payload.detail.metadata.fetched_at != payload.metadata.fetched_at:
+        metadata_lines.append(
+            f"详情来源 {payload.detail.metadata.source.value.upper()} | "
+            f"抓取 {timestamp(payload.detail.metadata.fetched_at)}"
+        )
+    metadata_lines.extend(
+        (
+            f"数据观测时间 {timestamp(payload.detail.metadata.observed_at)}",
+            f"分析抓取 {timestamp(payload.analysis.metadata.fetched_at)}",
+        )
+    )
+    suffix = "\n".join((*metadata_lines, FINITE_OBSERVATION_NOTICE, f"事件ID {event.event_id}"))
+    body_pages = [
+        "\n".join(line for line in text.splitlines() if line != source)
+        for text in match_report_text(payload)
+    ]
+    body_limit = 1400 - len(prefix) - len(suffix) - 2
+    return tuple(
+        "\n".join((prefix, body, suffix)) for body in split_report_text(body_pages, body_limit)
+    )
+
+
+def _account_label(event: SubscriptionEvent) -> str:
+    return (
         f"账号 {event.key.account_id.value}"
         if event.key.account_id is not None
         else f"比赛 {event.key.match_id.value if event.key.match_id else '未知'}"
     )
-    lines = ["Dota2Forge 订阅提醒", account_label]
+
+
+def subscription_event_text(event: SubscriptionEvent) -> str:
+    payload = event.payload
+    lines = ["Dota2Forge 订阅提醒", _account_label(event)]
     if isinstance(payload, MatchReport):
         lines.extend(match_report_lines(payload))
     elif isinstance(payload, MatchSummary):
+        outcome = "未知" if payload.is_win is None else "胜" if payload.is_win else "负"
         lines.extend(
             [
-                f"新比赛 {payload.match_id} | {'胜' if payload.is_win else '负'}",
+                f"新比赛 {payload.match_id} | {outcome}",
                 f"开始时间：{timestamp(payload.started_at)}",
                 f"英雄ID {value_text(payload.hero_id)} | K/D/A "
                 f"{value_text(payload.kills)}/{value_text(payload.deaths)}/{value_text(payload.assists)}",
@@ -53,14 +116,13 @@ def subscription_event_text(event: SubscriptionEvent) -> str:
                 }[payload.coverage],
             ]
         )
-    lines.extend(
-        [
-            f"来源：{payload.metadata.source.value.upper()} | "
-            f"抓取 {timestamp(payload.metadata.fetched_at)}",
-            "这是有限来源观察，不代表完整战绩或精确MMR。",
-            f"事件ID {event.event_id}",
-        ]
+    source_line = (
+        f"来源：{payload.metadata.source.value.upper()} | "
+        f"抓取 {timestamp(payload.metadata.fetched_at)}"
     )
+    if source_line not in lines:
+        lines.append(source_line)
+    lines.extend((FINITE_OBSERVATION_NOTICE, f"事件ID {event.event_id}"))
     return "\n".join(lines)
 
 
@@ -101,14 +163,7 @@ def match_report_lines(report: MatchReport) -> list[str]:
                 f"{value_text(player.kills)}/{value_text(player.deaths)}/"
                 f"{value_text(player.assists)} GPM {value_text(player.gold_per_minute)}"
             )
-    if isinstance(report.analysis, MatchAnalysis):
-        metric_count = sum(len(player.metrics) for player in report.analysis.participants or ())
-        purchase_count = sum(
-            len(player.purchases or ()) for player in report.analysis.participants or ()
-        )
-        lines.append(f"分析：经济序列 {metric_count} 项，购买事件 {purchase_count} 条。")
-    else:
-        lines.append("分析：数据源未提供经济序列或购买事件；Provider 未提供官方 MVP。")
+    lines.append(analysis_lines(report)[-1])
     lines.append(
         f"来源：{detail.metadata.source.value.upper()} | "
         f"抓取 {timestamp(detail.metadata.fetched_at)}"
