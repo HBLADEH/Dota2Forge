@@ -10,6 +10,7 @@ import httpx
 from dota2forge_assets import ASSET_COMMANDS, AssetError, AssetSession, AssetStatus
 from dota2forge_assets.session import ManagerFactory
 from dota2forge_core import (
+    DeliveryOutcome,
     Dota2Service,
     HeroItemService,
     InvalidIdentityError,
@@ -29,12 +30,12 @@ from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
 from dota2forge_core.infrastructure.stratz import StratzProvider
 from dota2forge_renderer import AsyncRenderer, MenuCard, PillowRenderer, RenderError
 
-from .application import AstrApplication, AstrSend, AstrTextReply
+from .application import AstrApplication, AstrSend, AstrSubscriptionSend, AstrTextReply
 from .commands import AstrCommandError, parse_command
 from .config import Config, ConfigurationError, ConfigurationPending, load_config
 from .identity import Caller
 from .subscription_routes import delivery_route, destination
-from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController, SubscriptionSend
+from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController
 
 LOGGER = logging.getLogger("Dota2Forge.AstrBot")
 UNAVAILABLE = "Dota2Forge 尚未就绪，请管理员检查插件配置并重新加载。"
@@ -95,9 +96,21 @@ class Runtime:
             raise InvalidIdentityError()
         return delivery_route(event, self._config.namespace)
 
-    async def poll_subscriptions(self, send: SubscriptionSend) -> None:
-        if self._state == State.READY and self._subscriptions is not None:
-            await self._subscriptions.tick(send)
+    async def poll_subscriptions(self, send: AstrSubscriptionSend) -> None:
+        if (
+            self._state == State.READY
+            and self._subscriptions is not None
+            and self._application is not None
+        ):
+
+            async def deliver(event: SubscriptionEvent, _text: str) -> DeliveryOutcome:
+                if self._state != State.READY or self._application is None:
+                    return DeliveryOutcome.NOT_ATTEMPTED
+                return await self._application.dispatch_subscription(
+                    event, send, permitted=lambda: self._state == State.READY
+                )
+
+            await self._subscriptions.tick(deliver)
 
     @property
     def state(self) -> State:

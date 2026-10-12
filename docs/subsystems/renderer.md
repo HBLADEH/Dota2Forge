@@ -2,7 +2,7 @@
 
 [dota2forge_renderer](../../packages/dota2forge-renderer/src/dota2forge_renderer/)依赖Core归一化模型和Pillow，禁止平台SDK、Provider请求、SQL和环境读取。Core不依赖Renderer。普通导入不加载本地字体/资源；PillowRenderer首次render才加载版本化资源，close清理缓存。
 
-0.1.0a3支持Pillow>=11.3,<13；为兼容GsCore锁定fastembed的<12约束，Pillow11.3下共享Renderer与双端消费者424检查通过。运行安装器保留宿主约束并执行pip check，见[发行决策](../../.agents/notes/implemented/2026-10-06-gscore-public-release.md)。
+Pillow>=11.3,<13兼容GsCore fastembed的<12约束；安装器保留宿主约束并执行pip check，验证见[发行决策](../../.agents/notes/implemented/2026-10-06-gscore-public-release.md)。
 
 ## 卡片与资源
 
@@ -22,7 +22,9 @@ None/0/False区别保留；装备0/None均视觉置空，不写占位文字；�
 
 10-05段位/金币图已部署本机双端，宿主合成玩家卡、资源关闭及冷启动ready验证通过；41种段位/九类卡片手机预览与1195项禁网检查通过。新徽章真实聊天尚待用户反馈，见[段位验收](../../.agents/artifacts/rank-icons-v1/README.md)。
 
-Renderer a6源码采用[远古锻炉主题](../../.agents/notes/implemented/2026-10-11-forge-theme.md)：共享炭黑／暗金属面板、铜金命令和阵营色，完整Noto字体。默认标题本地绘制遗迹切面／余烬光效；显式decor.header仍优先并加46%遮罩，不打包位图或联网。菜单1780px，按查段位／战绩／比赛／出装组织，账号与订阅靠后，管理员停用按权限；图片仍是命令说明。双端共用help_text，参数、订阅／素材及权限提示保留。subscription_event_text继续消费Core不可变报告／段位／日报事件，保留字段／来源／时间／事件ID／分析缺失与非官方MVP边界，只生成文本。
+Renderer a6源码采用[远古锻炉主题](../../.agents/notes/implemented/2026-10-11-forge-theme.md)：共享炭黑／暗金属面板、铜金命令和阵营色，完整Noto字体。默认标题本地绘制遗迹切面／余烬光效；显式decor.header仍优先并加46%遮罩，不打包位图或联网。菜单1780px，按查段位／战绩／比赛／出装组织，账号与订阅靠后，管理员停用按权限；图片仍是命令说明。双端共用help_text，参数、订阅／素材及权限提示保留。
+
+订阅比赛报告复用MatchReportCard，可选subscription_event标明订阅提醒、玩家及事件ID；subscription_event_cards返回总览和实际分队页，subscription_event_text_pages保留完整字段并按1400字符分段。双端图片模式先渲染整组，再一次宿主调用提交；RenderError回退同一快照文本。来源/抓取相同不重复，IMP缺失保留非官方KDA候选；有限观察与未知字段不补零。段位/日报/缺详情事件保持文本；渲染发送与素材替换/关闭共享锁。见[决策](../../.agents/notes/implemented/2026-10-12-subscription-match-cards.md)，尚未部署或真实聊天验收。
 
 AsyncRenderer通过工作线程绘制编码，一实例最多一条线程及四个等待者。调用者取消不停止已开始线程，所有权保留；下一次绘制和close先等待旧线程。关闭任务shield，即使等待者被取消仍能继续完成；closed拒绝新请求。调用方应在宿主停用/退出时await close。
 

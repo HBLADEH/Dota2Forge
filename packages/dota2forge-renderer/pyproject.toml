@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dota2forge-renderer"
-version = "0.1.0a6"
+version = "0.1.0a7"
 description = "Dota2Forge shared Pillow cards"
 license = "MIT"
 license-files = ["LICENSE", "src/dota2forge_renderer/assets/v1/OFL.txt"]

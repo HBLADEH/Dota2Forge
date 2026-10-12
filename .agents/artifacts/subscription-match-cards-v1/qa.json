@@ -1,0 +1,37 @@
+{
+  "synthetic_only": true,
+  "cards": [
+    {
+      "file": "report-1.png",
+      "width": 1600,
+      "height": 2556,
+      "bytes": 458674,
+      "text_boxes": 171,
+      "layout_bounds_passed": true
+    },
+    {
+      "file": "report-2.png",
+      "width": 1600,
+      "height": 3020,
+      "bytes": 464386,
+      "text_boxes": 179,
+      "layout_bounds_passed": true
+    },
+    {
+      "file": "report-3.png",
+      "width": 1600,
+      "height": 3020,
+      "bytes": 470742,
+      "text_boxes": 179,
+      "layout_bounds_passed": true
+    }
+  ],
+  "text_page_lengths": [
+    505,
+    1370,
+    249,
+    1378,
+    249
+  ],
+  "text_limit": 1400
+}
