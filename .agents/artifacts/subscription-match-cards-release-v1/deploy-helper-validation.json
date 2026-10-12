@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": {
+    "successful_atomic_replace_keeps_independent_complete_backup": true,
+    "postreplace_failure_rolls_back_full_plugin_git_and_data": true,
+    "postflight_accepts_legitimate_auto_poll_checkpoint_change": true,
+    "postflight_rejects_sdk_library_and_config_drift": true,
+    "postflight_rejects_subscription_row_drift": true,
+    "restart_requires_explicit_verified_rollback_flag": true
+  },
+  "production_access": false,
+  "synthetic_data_only": true
+}

@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "source_commit": "425fc9f66b489778f35f2690427a5d8b60f40df3",
+  "source_merge_commit": "1cacecde3eb041af05e7de8ce53189e5a46742cf",
+  "distribution_pushes_force": false,
+  "isolated_checkout_backup_preserved": true,
+  "repositories": [
+    {
+      "repository": "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+      "previous_main": "7f385694fc06c7c1b40544b5e2a60e48b16a98bd",
+      "distribution_commit": "915396d6b8e137045874f21195eb6e9347852b2f",
+      "tag": "v0.1.0a12",
+      "release_id": 410878910,
+      "release_url": "https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a12",
+      "prerelease": true,
+      "public_validation": "astrbot_plugin_dota2forge-public-validation.json"
+    },
+    {
+      "repository": "https://github.com/HBLADEH/Dota2UID",
+      "previous_main": "72259b18d98199d9b883da7bee48d5783cdc769f",
+      "distribution_commit": "85b878e95651676b10e85c407450770bc0188c0b",
+      "tag": "v0.1.0a14",
+      "release_id": 410879256,
+      "release_url": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a14",
+      "prerelease": true,
+      "public_validation": "Dota2UID-public-validation.json"
+    }
+  ],
+  "transient_push_issue": {
+    "duplicate_non_force_uid_push_rejected": true,
+    "reason": "Earlier identical non-force push completed while another push was still uploading. GitHub rejected the duplicate ref update because main already equalled the intended commit.",
+    "resolved_by": "Read-only anonymous API/ref verification confirmed exact intended main and tag. No force push or ref overwrite."
+  }
+}

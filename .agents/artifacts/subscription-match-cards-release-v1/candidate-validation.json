@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "source_commit": "425fc9f66b489778f35f2690427a5d8b60f40df3",
+  "private_files_absent": true,
+  "forbidden_source_samples_absent": true,
+  "forbidden_source_samples_checked": 12,
+  "versions": {
+    "dota2forge-core": "0.1.0a7",
+    "dota2forge-renderer": "0.1.0a7",
+    "dota2forge-assets": "0.1.0a1",
+    "dota2uid": "0.1.0a14",
+    "astrbot-plugin-dota2forge": "0.1.0a12"
+  },
+  "project_payloads_scanned": [
+    "astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl",
+    "astrbot_plugin_dota2forge-0.1.0a12.tar.gz",
+    "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+    "dota2forge_assets-0.1.0a1.tar.gz",
+    "dota2forge_core-0.1.0a7-py3-none-any.whl",
+    "dota2forge_core-0.1.0a7.tar.gz",
+    "dota2forge_renderer-0.1.0a7-py3-none-any.whl",
+    "dota2forge_renderer-0.1.0a7.tar.gz",
+    "dota2uid-0.1.0a14-py3-none-any.whl",
+    "dota2uid-0.1.0a14.tar.gz"
+  ],
+  "candidates": [
+    {
+      "plugin": "Dota2UID",
+      "repository_files": 24,
+      "zip_bytes": 18914374,
+      "zip_matches_folder": true,
+      "reviewed_screenshots": [
+        {
+          "filename": "screenshots/hero-items.png",
+          "sha256": "ad6120bd71cfdd46fb7138f2588af8c4f7a4736481c8a095b4da4fce8f96ae7c"
+        },
+        {
+          "filename": "screenshots/match-dire.png",
+          "sha256": "20dd37667a37a8a80bc2f41df92b8f3aab07e518903bc08a6896855602385f06"
+        },
+        {
+          "filename": "screenshots/match-overview.png",
+          "sha256": "da2cf075dda3eeb04f70011d8acd221e618e941ea6a821f5289e87cdba42cf89"
+        },
+        {
+          "filename": "screenshots/match-radiant.png",
+          "sha256": "021432c35f17c58eb52813b6f17874ea0844a723c7acb421af5684f361150d5c"
+        },
+        {
+          "filename": "screenshots/menu.png",
+          "sha256": "eb2639c9bdc160f73090565d49b9fe589c95f1e2ad8091fd50fc2d858a39c6cf"
+        },
+        {
+          "filename": "screenshots/player.png",
+          "sha256": "abb5885a3585d5779487b0df6c4ab86e915ee054968a20864da69c2a3a56adf2"
+        },
+        {
+          "filename": "screenshots/recent.png",
+          "sha256": "abb56267fe9fec6d3b9483fb3f61b0bd7e930c838e75cf452e326d08d0147af1"
+        }
+      ]
+    },
+    {
+      "plugin": "astrbot_plugin_dota2forge",
+      "repository_files": 20,
+      "zip_bytes": 5117284,
+      "zip_matches_folder": true,
+      "reviewed_screenshots": [
+        {
+          "filename": "screenshots/hero-items.png",
+          "sha256": "ad6120bd71cfdd46fb7138f2588af8c4f7a4736481c8a095b4da4fce8f96ae7c"
+        },
+        {
+          "filename": "screenshots/match-dire.png",
+          "sha256": "20dd37667a37a8a80bc2f41df92b8f3aab07e518903bc08a6896855602385f06"
+        },
+        {
+          "filename": "screenshots/match-overview.png",
+          "sha256": "da2cf075dda3eeb04f70011d8acd221e618e941ea6a821f5289e87cdba42cf89"
+        },
+        {
+          "filename": "screenshots/match-radiant.png",
+          "sha256": "021432c35f17c58eb52813b6f17874ea0844a723c7acb421af5684f361150d5c"
+        },
+        {
+          "filename": "screenshots/menu.png",
+          "sha256": "eb2639c9bdc160f73090565d49b9fe589c95f1e2ad8091fd50fc2d858a39c6cf"
+        },
+        {
+          "filename": "screenshots/player.png",
+          "sha256": "abb5885a3585d5779487b0df6c4ab86e915ee054968a20864da69c2a3a56adf2"
+        },
+        {
+          "filename": "screenshots/recent.png",
+          "sha256": "abb56267fe9fec6d3b9483fb3f61b0bd7e930c838e75cf452e326d08d0147af1"
+        }
+      ]
+    }
+  ]
+}

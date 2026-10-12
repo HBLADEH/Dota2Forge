@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "repositories": [
+    {
+      "plugin": "astrbot_plugin_dota2forge",
+      "candidate_tree_matches": true,
+      "files": 20
+    },
+    {
+      "plugin": "Dota2UID",
+      "candidate_tree_matches": true,
+      "files": 24
+    }
+  ]
+}

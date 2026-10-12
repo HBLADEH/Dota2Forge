@@ -1,0 +1,9 @@
+{
+  "production_mutations": false,
+  "stage_root": "/tmp/dota2forge-subscription-cards-20261012T181557Z",
+  "raw_target_output": false,
+  "tag_matches": true,
+  "public_commit": "85b878e95651676b10e85c407450770bc0188c0b",
+  "passed": true,
+  "target_digest_verified": true
+}
