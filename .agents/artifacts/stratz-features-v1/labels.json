@@ -1,0 +1,25 @@
+{
+  "language_fields": [
+    "displayName",
+    "description",
+    "attributes",
+    "lore",
+    "aghanimDescription",
+    "shardDescription",
+    "notes"
+  ],
+  "label_example": {
+    "data": {
+      "constants": {
+        "ability": {
+          "id": 5007,
+          "name": "axe_berserkers_call",
+          "language": {
+            "displayName": "狂战士之吼"
+          }
+        }
+      }
+    }
+  },
+  "fetched_at": "2026-10-13T20:23:09.473994+00:00"
+}

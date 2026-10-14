@@ -1,0 +1,736 @@
+{
+  "checked_on": "2026-10-14",
+  "observations": {
+    "constants_and_meta": {
+      "fetched_at": "2026-10-13T19:44:24.807480+00:00",
+      "data": {
+        "constants": {
+          "gameVersions": [
+            {
+              "id": 8,
+              "name": "6.72c",
+              "asOfDateTime": 1307059200
+            },
+            {
+              "id": 7,
+              "name": "6.72b",
+              "asOfDateTime": 1304467200
+            },
+            {
+              "id": 6,
+              "name": "6.72",
+              "asOfDateTime": 1303862400
+            },
+            {
+              "id": 5,
+              "name": "6.71b",
+              "asOfDateTime": 1295740800
+            },
+            {
+              "id": 4,
+              "name": "6.71",
+              "asOfDateTime": 1295568000
+            },
+            {
+              "id": 3,
+              "name": "6.70c",
+              "asOfDateTime": 1293667200
+            },
+            {
+              "id": 2,
+              "name": "6.70b",
+              "asOfDateTime": 1293494400
+            },
+            {
+              "id": 1,
+              "name": "6.70",
+              "asOfDateTime": 1295308800
+            }
+          ]
+        },
+        "heroStats": {
+          "days": [
+            {
+              "day": 1791590400,
+              "heroId": 1,
+              "winCount": 842,
+              "matchCount": 1740
+            },
+            {
+              "day": 1791590400,
+              "heroId": 2,
+              "winCount": 45585,
+              "matchCount": 89862
+            },
+            {
+              "day": 1791504000,
+              "heroId": 1,
+              "winCount": 754,
+              "matchCount": 1533
+            },
+            {
+              "day": 1791504000,
+              "heroId": 2,
+              "winCount": 41295,
+              "matchCount": 81581
+            }
+          ],
+          "grouped": [
+            {
+              "day": 1791590400,
+              "heroId": 1,
+              "winCount": 842,
+              "matchCount": 1740
+            },
+            {
+              "day": 1791590400,
+              "heroId": 2,
+              "winCount": 45585,
+              "matchCount": 89862
+            },
+            {
+              "day": 1791504000,
+              "heroId": 1,
+              "winCount": 754,
+              "matchCount": 1533
+            },
+            {
+              "day": 1791504000,
+              "heroId": 2,
+              "winCount": 41295,
+              "matchCount": 81581
+            }
+          ],
+          "versions": [
+            {
+              "gameVersionId": 181,
+              "heroId": 1,
+              "durationMinute": 0,
+              "winCount": 5853,
+              "matchCount": 12455
+            },
+            {
+              "gameVersionId": 181,
+              "heroId": 2,
+              "durationMinute": 0,
+              "winCount": 290470,
+              "matchCount": 561340
+            },
+            {
+              "gameVersionId": 180,
+              "heroId": 1,
+              "durationMinute": 0,
+              "winCount": 183075,
+              "matchCount": 374420
+            },
+            {
+              "gameVersionId": 180,
+              "heroId": 2,
+              "durationMinute": 0,
+              "winCount": 8081666,
+              "matchCount": 15391380
+            }
+          ],
+          "p1": [
+            {
+              "day": 1791590400,
+              "heroId": 2,
+              "winCount": 281,
+              "matchCount": 636
+            },
+            {
+              "day": 1791504000,
+              "heroId": 2,
+              "winCount": 239,
+              "matchCount": 556
+            }
+          ],
+          "p3": [
+            {
+              "day": 1791590400,
+              "heroId": 2,
+              "winCount": 45585,
+              "matchCount": 89862
+            },
+            {
+              "day": 1791504000,
+              "heroId": 2,
+              "winCount": 41295,
+              "matchCount": 81581
+            }
+          ],
+          "legend": [
+            {
+              "day": 1791590400,
+              "heroId": 2,
+              "winCount": 11660,
+              "matchCount": 23018
+            },
+            {
+              "day": 1791504000,
+              "heroId": 2,
+              "winCount": 10513,
+              "matchCount": 20915
+            }
+          ]
+        }
+      }
+    },
+    "guide_shape": {
+      "fetched_at": "2026-10-13T19:44:25.026981+00:00",
+      "data": {
+        "itemFullPurchase": {
+          "count": 688,
+          "sample": [
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "itemId": 226,
+              "instance": 0,
+              "time": 30,
+              "matchCount": 1483,
+              "winCount": 868
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "itemId": 4205,
+              "instance": 0,
+              "time": 30,
+              "matchCount": 1827,
+              "winCount": 1010
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "itemId": 226,
+              "instance": 0,
+              "time": 38,
+              "matchCount": 1173,
+              "winCount": 639
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "itemId": 1,
+              "instance": 0,
+              "time": 22,
+              "matchCount": 3416,
+              "winCount": 1157
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "itemId": 125,
+              "instance": 0,
+              "time": 3,
+              "matchCount": 603,
+              "winCount": 363
+            }
+          ]
+        },
+        "abilityMinLevel": {
+          "count": 197,
+          "sample": [
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 8158,
+              "level": 1,
+              "matchCount": 1,
+              "winCount": 1
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 5334,
+              "level": 1,
+              "matchCount": 1,
+              "winCount": 1
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 5007,
+              "level": 4,
+              "matchCount": 132893,
+              "winCount": 67430
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 5010,
+              "level": 9,
+              "matchCount": 247,
+              "winCount": 110
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 6102,
+              "level": 13,
+              "matchCount": 11,
+              "winCount": 2
+            }
+          ]
+        },
+        "talent": {
+          "count": 9,
+          "sample": [
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 562,
+              "matchCount": 14012,
+              "winCount": 9020
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 6102,
+              "matchCount": 112027,
+              "winCount": 61948
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 6145,
+              "matchCount": 45281,
+              "winCount": 26211
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 1189,
+              "matchCount": 43052,
+              "winCount": 21675
+            },
+            {
+              "heroId": 2,
+              "week": 2962,
+              "position": "POSITION_1",
+              "abilityId": 6608,
+              "matchCount": 58035,
+              "winCount": 36218
+            }
+          ]
+        },
+        "guides": [
+          {
+            "group_count": 6125,
+            "hero_matches": false,
+            "position": null,
+            "patch_id": 190,
+            "abilities": null,
+            "purchase_count": null,
+            "purchase_time_range": null,
+            "source_equipment_fields": 0
+          }
+        ]
+      }
+    },
+    "constants_schema": {
+      "fetched_at": "2026-10-13T19:44:25.225353+00:00",
+      "data": {
+        "__type": {
+          "name": "ConstantQuery",
+          "fields": [
+            {
+              "name": "hero",
+              "args": [
+                {
+                  "name": "id",
+                  "defaultValue": null
+                },
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "HeroType",
+                "ofType": null
+              }
+            },
+            {
+              "name": "heroes",
+              "args": [
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "HeroType"
+                }
+              }
+            },
+            {
+              "name": "roles",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "RoleType"
+                }
+              }
+            },
+            {
+              "name": "item",
+              "args": [
+                {
+                  "name": "id",
+                  "defaultValue": null
+                },
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "ItemType",
+                "ofType": null
+              }
+            },
+            {
+              "name": "items",
+              "args": [
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ItemType"
+                }
+              }
+            },
+            {
+              "name": "ability",
+              "args": [
+                {
+                  "name": "id",
+                  "defaultValue": null
+                },
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "AbilityType",
+                "ofType": null
+              }
+            },
+            {
+              "name": "abilities",
+              "args": [
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AbilityType"
+                }
+              }
+            },
+            {
+              "name": "gameModes",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "GameModeType"
+                }
+              }
+            },
+            {
+              "name": "lobbyTypes",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "LobbyTypeType"
+                }
+              }
+            },
+            {
+              "name": "clusters",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ClusterType"
+                }
+              }
+            },
+            {
+              "name": "regions",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "RegionType"
+                }
+              }
+            },
+            {
+              "name": "gameVersion",
+              "args": [
+                {
+                  "name": "id",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "GameVersionType",
+                "ofType": null
+              }
+            },
+            {
+              "name": "gameVersions",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "GameVersionType"
+                }
+              }
+            },
+            {
+              "name": "npc",
+              "args": [
+                {
+                  "name": "id",
+                  "defaultValue": null
+                },
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "NpcType",
+                "ofType": null
+              }
+            },
+            {
+              "name": "npcs",
+              "args": [
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "NpcType"
+                }
+              }
+            },
+            {
+              "name": "patchNotes",
+              "args": [
+                {
+                  "name": "languageId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PatchNoteLanguageType"
+                }
+              }
+            },
+            {
+              "name": "customAbilities",
+              "args": [
+                {
+                  "name": "languageId",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AbilityCustomGameType"
+                }
+              }
+            },
+            {
+              "name": "modifiers",
+              "args": [
+                {
+                  "name": "skip",
+                  "defaultValue": null
+                },
+                {
+                  "name": "take",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ModifierType"
+                }
+              }
+            },
+            {
+              "name": "proSteamAccounts",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ProSteamAccountType"
+                }
+              }
+            },
+            {
+              "name": "popularTeamIds",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TeamType"
+                }
+              }
+            },
+            {
+              "name": "casters",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "SteamAccountType"
+                }
+              }
+            },
+            {
+              "name": "tiWinners",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "SteamAccountType"
+                }
+              }
+            },
+            {
+              "name": "facets",
+              "args": [
+                {
+                  "name": "gameVersionId",
+                  "defaultValue": null
+                },
+                {
+                  "name": "language",
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FacetType"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "client_closed": true
+}

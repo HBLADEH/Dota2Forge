@@ -221,6 +221,7 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
         "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
         "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
         "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+        "adapters/Dota2UID/src/Dota2UID/host_ai.py.template",
     ]
     relative_files.extend(
         sorted(
@@ -246,6 +247,9 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
     guide = root / distribution.GS_INSTALL_GUIDE
     guide_text = guide.read_text("utf-8")
     guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+    changelog_path = root / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md"
+    changelog_text = changelog_path.read_text("utf-8")
+    changelog_path.write_bytes(changelog_text.replace("\n", line_ending).encode("utf-8"))
     wheels = root / "wheels"
     write_wheels(wheels)
     candidate = distribution.build_distributions(
@@ -285,11 +289,11 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
         "https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/"
         in public_requirements
     )
-    assert "astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl#sha256=" in public_requirements
+    assert "astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl#sha256=" in public_requirements
     local_requirements = smoke.offline_astrbot_requirements(astr, wheels)
     assert "https://" not in "\n".join(local_requirements)
     assert all("#sha256=" in line for line in local_requirements[:4])
-    adapter_wheel = wheels / "astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl"
+    adapter_wheel = wheels / "astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl"
     original = adapter_wheel.read_bytes()
     adapter_wheel.write_bytes(original + b"corrupt")
     with pytest.raises(ValueError, match="checksum mismatch"):
@@ -299,7 +303,7 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
         smoke.offline_astrbot_requirements(astr, wheels)
     adapter_wheel.write_bytes(original)
     (astr / "requirements.txt").write_text(
-        public_requirements.replace("/v0.1.0a12/", "/v0.1.0a6/"), "utf-8"
+        public_requirements.replace("/v0.1.0a13/", "/v0.1.0a6/"), "utf-8"
     )
     with pytest.raises(ValueError, match="public runtime manifest"):
         smoke.offline_astrbot_requirements(astr, wheels)
@@ -321,7 +325,12 @@ def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path
     assert "[截图记录](INSTALL.md)" not in astr_readme
     assert "dota2uid" not in (astr / "runtime-wheels.json").read_text("utf-8")
     manifest_sources = json.loads((candidate / "manifest.json").read_text("utf-8"))["source_sha256"]
-    assert "wheels/astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl" in manifest_sources
+    assert "wheels/astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl" in manifest_sources
+    assert (
+        manifest_sources["adapters/astrbot_plugin_dota2forge/CHANGELOG.md"]
+        == hashlib.sha256(changelog_path.read_bytes()).hexdigest()
+    )
+    assert (astr / "CHANGELOG.md").read_bytes() == changelog_text.encode("utf-8")
     plain = distribution.build_distributions(
         root, tmp_path / "plain", "https://github.com/HBLADEH/astrbot_plugin_dota2forge", REPO
     )

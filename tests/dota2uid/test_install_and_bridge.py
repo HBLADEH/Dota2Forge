@@ -225,6 +225,10 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
             "do战绩",
             "do比赛",
             "do出装",
+            "do强势",
+            "do攻略",
+            "do攻略样例",
+            "do复盘",
             "do停用",
             "do订阅玩家",
             "do订阅比赛",
@@ -233,7 +237,11 @@ def test_host_bridge_cold_hot_stop_reload_and_command_registration(
             "do重试推送",
         }
         assert commands["do停用"][1] == 0
-        assert set(regex_handlers) == {r"^do(?P<hero>.{1,64})出装$", SUBSCRIPTION_PATTERN}
+        assert set(regex_handlers) == {
+            r"^do(?P<hero>.{1,64})出装$",
+            SUBSCRIPTION_PATTERN,
+            r"^do(?P<guide_hero>.{1,64})攻略(?:\s+(?P<guide_args>.{1,80}))?$",
+        }
         assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
         assert await cold.status_dota2uid() == {
             "state": "new",
