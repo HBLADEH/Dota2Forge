@@ -1,0 +1,115 @@
+{
+  "fetched_at": "2026-10-13T19:55:22.006344+00:00",
+  "languages": {
+    "enumValues": [
+      {
+        "name": "ENGLISH"
+      },
+      {
+        "name": "BRAZILIAN"
+      },
+      {
+        "name": "BULGARIAN"
+      },
+      {
+        "name": "CZECH"
+      },
+      {
+        "name": "DANISH"
+      },
+      {
+        "name": "DUTCH"
+      },
+      {
+        "name": "FINNISH"
+      },
+      {
+        "name": "FRENCH"
+      },
+      {
+        "name": "GERMAN"
+      },
+      {
+        "name": "GREEK"
+      },
+      {
+        "name": "HUNGARIAN"
+      },
+      {
+        "name": "ITALIAN"
+      },
+      {
+        "name": "JAPANESE"
+      },
+      {
+        "name": "KOREAN"
+      },
+      {
+        "name": "KOREANA"
+      },
+      {
+        "name": "NORWEGIAN"
+      },
+      {
+        "name": "POLISH"
+      },
+      {
+        "name": "PORTUGUESE"
+      },
+      {
+        "name": "ROMANIAN"
+      },
+      {
+        "name": "RUSSIAN"
+      },
+      {
+        "name": "S_CHINESE"
+      },
+      {
+        "name": "SPANISH"
+      },
+      {
+        "name": "SWEDISH"
+      },
+      {
+        "name": "T_CHINESE"
+      },
+      {
+        "name": "THAI"
+      },
+      {
+        "name": "TURKISH"
+      },
+      {
+        "name": "UKRAINIAN"
+      }
+    ]
+  },
+  "daily_count": 14,
+  "daily_timestamps": [
+    1789344000,
+    1789430400,
+    1789516800,
+    1789603200,
+    1790812800,
+    1790899200,
+    1790985600,
+    1791072000,
+    1791158400,
+    1791244800,
+    1791331200,
+    1791417600,
+    1791504000,
+    1791590400
+  ],
+  "p1_rows": 0,
+  "p3_rows": 307,
+  "same_results": false,
+  "p3_positions": [
+    "POSITION_1"
+  ],
+  "p3_week_indices": [
+    2962
+  ],
+  "client_closed": true
+}

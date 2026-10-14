@@ -4,11 +4,16 @@ from dataclasses import dataclass, field
 
 from dota2forge_core import (
     AccountId,
+    GuideSample,
+    HeroGuide,
     HeroItemStatistics,
+    HeroMetaRanking,
     MatchDetail,
     MatchReport,
     PlayerProfile,
     RecentMatches,
+    ReviewChartRequest,
+    ReviewEvidence,
     SubscriptionEvent,
 )
 
@@ -89,6 +94,31 @@ class MatchReportCard:
     subscription_event: SubscriptionEvent | None = field(default=None, repr=False)
 
 
+@dataclass(frozen=True, slots=True)
+class HeroMetaCard:
+    ranking: HeroMetaRanking
+    page: int = 1
+
+
+@dataclass(frozen=True, slots=True)
+class HeroGuideCard:
+    guide: HeroGuide
+    page: int = 1
+    detailed: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class GuideSampleCard:
+    sample: GuideSample
+    page: int = 1
+
+
+@dataclass(frozen=True, slots=True)
+class ReviewDataCard:
+    evidence: ReviewEvidence
+    request: ReviewChartRequest
+
+
 type Card = (
     MenuCard
     | PlayerCard
@@ -97,4 +127,8 @@ type Card = (
     | StatusCard
     | MatchDetailCard
     | MatchReportCard
+    | HeroMetaCard
+    | HeroGuideCard
+    | GuideSampleCard
+    | ReviewDataCard
 )

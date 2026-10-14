@@ -20,4 +20,4 @@ STRATZ IMP原样保存于MatchParticipant，双端 `do比赛` 展示本局最高
 uv run --locked python scripts/check_governance.py --all
 ```
 
-2026-10-09 对用户指定比赛的只读诊断确认存在赛前购买时间；单次核查不保证其他比赛的字段覆盖或长期稳定性。解析任务未实现。
+2026-10-09 对用户指定比赛的只读诊断确认存在赛前购买时间；单次核查不保证其他比赛的字段覆盖或长期稳定性。解析任务未实现。2026-10-14新增[证据驱动复盘规划](../../Dota2Forge_STRATZ_FEATURE_PLAN.md)与[双端AI接续任务](../../.agents/tasks/done/2026-10-14-ai-match-review.md)，现已新增共享复盘事实及两端四个原生AI工具，操作见[多轮复盘](native-review.md)，边界见[契约](../subsystems/native-review.md)。开发候选未生产发布，真实模型/聊天未联调。

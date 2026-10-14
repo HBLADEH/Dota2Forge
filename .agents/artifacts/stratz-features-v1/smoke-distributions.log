@@ -1,0 +1,38 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-03xqan4f\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-03xqan4f\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-03xqan4f\venv
+Resolved 12 packages in 53ms
+Prepared 12 packages in 552ms
+Installed 12 packages in 287ms
+ + anyio==4.15.1
+ + astrbot-plugin-dota2forge==0.1.0a13 (from file:///D:/workstation/Dota2Forge/dist/release-assets/stratz-features-20261014-v1/astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl#sha256=f54fb262dada6cf62ba1d27b17a1ca2d901e45e8468289e91f6e419b47f6a5a5)
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1 (from file:///D:/workstation/Dota2Forge/dist/release-assets/stratz-features-20261014-v1/dota2forge_assets-0.1.0a1-py3-none-any.whl#sha256=9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250)
+ + dota2forge-core==0.1.0a8 (from file:///D:/workstation/Dota2Forge/dist/release-assets/stratz-features-20261014-v1/dota2forge_core-0.1.0a8-py3-none-any.whl#sha256=a6483fd607294b4aa798efd09fbdedd0ea7bb9dc5a395794760f04b7780b985f)
+ + dota2forge-renderer==0.1.0a8 (from file:///D:/workstation/Dota2Forge/dist/release-assets/stratz-features-20261014-v1/dota2forge_renderer-0.1.0a8-py3-none-any.whl#sha256=d285d73b978342113ce3b0ddeb800b9e2485b37b56bccc3fb58be41d748a91f2)
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-8_9w8jpi\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-8_9w8jpi\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-8_9w8jpi\venv
+Resolved 8 packages in 14ms
+Prepared 8 packages in 371ms
+Installed 8 packages in 304ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: Dota2UID

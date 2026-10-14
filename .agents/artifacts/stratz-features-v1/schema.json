@@ -1,0 +1,3525 @@
+{
+  "checked_on": "2026-10-14",
+  "types": {
+    "HeroStatsQuery": {
+      "name": "HeroStatsQuery",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "stats",
+          "description": "Detailed output of data per minute for each hero.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroPositionTimeDetailType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "groupByTime",
+              "description": null,
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "name": "groupByPosition",
+              "description": null,
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "name": "groupByBracket",
+              "description": null,
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "name": "minTime",
+              "description": "Integer in minutes which determines the start of the data. For example, 10 would result in every event after 10:00 mark in-game. Minimum input value is 0.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "maxTime",
+              "description": "Integer in minutes which determines the start of the data. For example, 10 would result in every event before 10:00 mark in-game Maximum input value is 75.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "matchUp",
+          "description": "Returns back a list of the hero matchups, showing how that hero's win rate is affected with or against other heroes.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroDryadType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "orderBy",
+              "description": "Id representing how to order dryads and triads. Synergy is STRATZ formula to help determine the best outcome of wins and picks in one. Accepted Inputs : Synergy = 0, Pick = 1, Win = 2, Loss = 3, Disadvantage = 4, Advantage = 5",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Byte",
+                "ofType": null
+              }
+            },
+            {
+              "name": "matchLimit",
+              "description": "Minimum amount of MatchCount required for a Duo to qualify",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "itemFullPurchase",
+          "description": "Returns the items purchased for the selected hero. Adjusting the time adjusts the purchase amount. Shows win rate by item timings.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroItemPurchaseType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "minTime",
+              "description": "Integer in minutes which determines the start of the data. For example, 10 would result in every event after 10:00 mark in-game. Minimum input value is 0.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "maxTime",
+              "description": "Integer in minutes which determines the start of the data. For example, 10 would result in every event before 10:00 mark in-game Maximum input value is 75.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "matchLimit",
+              "description": "Minimum amount of MatchCount required for a Duo to qualify",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "itemStartingPurchase",
+          "description": "This snapshots all items in the inventory of a hero at -00:30.   It tracks if an item was given or purchased.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroItemStartingPurchaseType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "itemBootPurchase",
+          "description": "The purchase Item Components for a Hero's Boots.  Tracks things like activations or uses throughout the game.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroItemBootPurchaseType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "itemNeutral",
+          "description": "The amount of times a Nutreal Item was found and won.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroNeutralItemType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "laneOutcome",
+          "description": "Using out formula for determining the outcome of lane, the overall success of that hero in that role.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroLaneOutcomeType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "isWith",
+              "description": "The lane outcomes are split into with heroes and against. Send false if you want lane matchups against the heroid. Send true if you want friendly.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "heroVsHeroMatchup",
+          "description": "This is used on the Hero page to show the comparison of skill with the selected hero with other heroes.  It includes our Synergy and our Advantage formulas to ensure that a hero with a high win rate isn't simply just on the top of all the fields.",
+          "type": {
+            "kind": "OBJECT",
+            "name": "HeroMatchupType",
+            "ofType": null
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "matchLimit",
+              "description": "Minimum amount of MatchCount required for a Duo to qualify",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "talent",
+          "description": "This is used on the Hero page to show the comparison of all Hero Talents with the selected hero.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroAbilityTalentType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "winHour",
+          "description": "Returns the last 12 hours by hour showing the amount of matches and the amount of wins by hero id.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroWinHourType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracket",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "regionIds",
+              "description": "An array of region ids to include in this query, excluding all results that do not include one of these regions.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "BasicRegionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "gameModeIds",
+              "description": "An array of game mode ids to include in this query, excluding all results that do not include one of these game modes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "GameModeEnumType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "groupBy",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "FilterHeroWinRequestGroupBy",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "winDay",
+          "description": "Returns the last 12 days by day showing the amount of matches and the amount of wins by hero id.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroWinDayType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracket",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "regionIds",
+              "description": "An array of region ids to include in this query, excluding all results that do not include one of these regions.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "BasicRegionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "gameModeIds",
+              "description": "An array of game mode ids to include in this query, excluding all results that do not include one of these game modes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "GameModeEnumType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "groupBy",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "FilterHeroWinRequestGroupBy",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "winWeek",
+          "description": "Returns the last 12 weeks by week showing the amount of matches and the amount of wins by hero id.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroWinWeekType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracket",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "regionIds",
+              "description": "An array of region ids to include in this query, excluding all results that do not include one of these regions.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "BasicRegionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "gameModeIds",
+              "description": "An array of game mode ids to include in this query, excluding all results that do not include one of these game modes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "GameModeEnumType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "groupBy",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "FilterHeroWinRequestGroupBy",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "winMonth",
+          "description": "Returns the data by month showing the amount of matches and the amount of wins by hero id.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroWinMonthType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracket",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "regionIds",
+              "description": "An array of region ids to include in this query, excluding all results that do not include one of these regions.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "BasicRegionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "gameModeIds",
+              "description": "An array of game mode ids to include in this query, excluding all results that do not include one of these game modes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "GameModeEnumType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "groupBy",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "FilterHeroWinRequestGroupBy",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "winGameVersion",
+          "description": "Returns the data by game version showing the amount of matches and the amount of wins by hero id.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroWinGameVersionType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroIds",
+              "description": "An array of hero ids to include in this query, excluding all results that do not include one of these heroes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracket",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "regionIds",
+              "description": "An array of region ids to include in this query, excluding all results that do not include one of these regions.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "BasicRegionType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "gameModeIds",
+              "description": "An array of game mode ids to include in this query, excluding all results that do not include one of these game modes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "GameModeEnumType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "groupBy",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "FilterHeroWinRequestGroupBy",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "guide",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroGuideListType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "withHeroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "againstHeroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "isPro",
+              "description": "Determines that the query require the results come with a player that is qualified as a Pro.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "name": "positionId",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "MatchPlayerPositionType",
+                "ofType": null
+              }
+            },
+            {
+              "name": "itemId",
+              "description": "The item id to include in this query, excluding all results that do not have this item.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "neutralItemId",
+              "description": "The item id of the dedicated neutral item slot (7.24 and after). From game versions 7.23 to 7.24, this was the BackPack3Id (the 4th backpack slot item id).",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "rampages",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroRampageObjectType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "request",
+              "description": null,
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FilterHeroRampageType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "abilityMinLevel",
+          "description": "This helps determine at what level do you max a skill.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroAbilityMinType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "abilityMaxLevel",
+          "description": "This helps determine at what level you first level a skill. (Level 1)",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroAbilityMaxType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "week",
+              "description": "The week to include in this query, excluding all results that do not include this week. The value is an epoc TimeStamp of the week of data you want. Leaving null gives the current week.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Long",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "positionIds",
+              "description": "An array of positions ids (enum MatchPlayerPositionType) to include in this query, excluding all results that do not include one of these lanes.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchPlayerPositionType",
+                  "ofType": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "banDay",
+          "description": "This data for each day where a Hero is actually banned. This does not include data in which a hero was nominated for a ban but didn't actual get banned. Only data where a player actually requests a ban and its banned is shown.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroBanType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "heroId",
+              "description": "The hero id to include in this query, excluding all results that do not include this hero.",
+              "defaultValue": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Short",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "day",
+              "description": "The day to include in this query, excluding all results that do not include this day. The value is an epoc TimeStamp of the day of data you want. Leaving null gives the current day.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "bracketBasicIds",
+              "description": "An array of rank ids to include in this query, excluding all results that do not include one of these ranks. The value ranges from 0-8 with 0 being unknown MMR and 1-8 is low to high MMR brackets. Example 7 is Divine.",
+              "defaultValue": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RankBracketBasicEnum",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "groupByDay",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "name": "groupByRank",
+              "description": "Only used when doing matchesGroupBy endpoint.  This is how the data will be grouped and makes your return Id field.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ConstantsQuery": null,
+    "HeroWinDayType": {
+      "name": "HeroWinDayType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "day",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Long",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "winCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        }
+      ]
+    },
+    "HeroWinHourType": {
+      "name": "HeroWinHourType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "hour",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Long",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "winCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        }
+      ]
+    },
+    "HeroWinGameVersionType": {
+      "name": "HeroWinGameVersionType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "gameVersionId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "durationMinute",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Byte",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "winCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        }
+      ]
+    },
+    "FilterHeroWinRequestGroupBy": {
+      "name": "FilterHeroWinRequestGroupBy",
+      "kind": "ENUM",
+      "description": null,
+      "enumValues": [
+        {
+          "name": "HERO_ID",
+          "description": null
+        },
+        {
+          "name": "ALL",
+          "description": null
+        },
+        {
+          "name": "HERO_ID_DURATION_MINUTES",
+          "description": null
+        },
+        {
+          "name": "TIME",
+          "description": null
+        },
+        {
+          "name": "HERO_ID_POSITION_BRACKET",
+          "description": null
+        }
+      ],
+      "fields": null
+    },
+    "RankBracket": {
+      "name": "RankBracket",
+      "kind": "ENUM",
+      "description": null,
+      "enumValues": [
+        {
+          "name": "UNCALIBRATED",
+          "description": null
+        },
+        {
+          "name": "HERALD",
+          "description": null
+        },
+        {
+          "name": "GUARDIAN",
+          "description": null
+        },
+        {
+          "name": "CRUSADER",
+          "description": null
+        },
+        {
+          "name": "ARCHON",
+          "description": null
+        },
+        {
+          "name": "LEGEND",
+          "description": null
+        },
+        {
+          "name": "ANCIENT",
+          "description": null
+        },
+        {
+          "name": "DIVINE",
+          "description": null
+        },
+        {
+          "name": "IMMORTAL",
+          "description": null
+        }
+      ],
+      "fields": null
+    },
+    "RankBracketBasicEnum": {
+      "name": "RankBracketBasicEnum",
+      "kind": "ENUM",
+      "description": null,
+      "enumValues": [
+        {
+          "name": "UNCALIBRATED",
+          "description": null
+        },
+        {
+          "name": "HERALD_GUARDIAN",
+          "description": null
+        },
+        {
+          "name": "CRUSADER_ARCHON",
+          "description": null
+        },
+        {
+          "name": "LEGEND_ANCIENT",
+          "description": null
+        },
+        {
+          "name": "DIVINE_IMMORTAL",
+          "description": null
+        },
+        {
+          "name": "FILTERED",
+          "description": null
+        },
+        {
+          "name": "ALL",
+          "description": null
+        }
+      ],
+      "fields": null
+    },
+    "MatchPlayerPositionType": {
+      "name": "MatchPlayerPositionType",
+      "kind": "ENUM",
+      "description": null,
+      "enumValues": [
+        {
+          "name": "POSITION_1",
+          "description": null
+        },
+        {
+          "name": "POSITION_2",
+          "description": null
+        },
+        {
+          "name": "POSITION_3",
+          "description": null
+        },
+        {
+          "name": "POSITION_4",
+          "description": null
+        },
+        {
+          "name": "POSITION_5",
+          "description": null
+        },
+        {
+          "name": "UNKNOWN",
+          "description": null
+        },
+        {
+          "name": "FILTERED",
+          "description": null
+        },
+        {
+          "name": "ALL",
+          "description": null
+        }
+      ],
+      "fields": null
+    },
+    "GameModeEnumType": {
+      "name": "GameModeEnumType",
+      "kind": "ENUM",
+      "description": null,
+      "enumValues": [
+        {
+          "name": "NONE",
+          "description": null
+        },
+        {
+          "name": "ALL_PICK",
+          "description": null
+        },
+        {
+          "name": "CAPTAINS_MODE",
+          "description": null
+        },
+        {
+          "name": "RANDOM_DRAFT",
+          "description": null
+        },
+        {
+          "name": "SINGLE_DRAFT",
+          "description": null
+        },
+        {
+          "name": "ALL_RANDOM",
+          "description": null
+        },
+        {
+          "name": "INTRO",
+          "description": null
+        },
+        {
+          "name": "THE_DIRETIDE",
+          "description": null
+        },
+        {
+          "name": "REVERSE_CAPTAINS_MODE",
+          "description": null
+        },
+        {
+          "name": "THE_GREEVILING",
+          "description": null
+        },
+        {
+          "name": "TUTORIAL",
+          "description": null
+        },
+        {
+          "name": "MID_ONLY",
+          "description": null
+        },
+        {
+          "name": "LEAST_PLAYED",
+          "description": null
+        },
+        {
+          "name": "NEW_PLAYER_POOL",
+          "description": null
+        },
+        {
+          "name": "COMPENDIUM_MATCHMAKING",
+          "description": null
+        },
+        {
+          "name": "CUSTOM",
+          "description": null
+        },
+        {
+          "name": "CAPTAINS_DRAFT",
+          "description": null
+        },
+        {
+          "name": "BALANCED_DRAFT",
+          "description": null
+        },
+        {
+          "name": "ABILITY_DRAFT",
+          "description": null
+        },
+        {
+          "name": "EVENT",
+          "description": null
+        },
+        {
+          "name": "ALL_RANDOM_DEATH_MATCH",
+          "description": null
+        },
+        {
+          "name": "SOLO_MID",
+          "description": null
+        },
+        {
+          "name": "ALL_PICK_RANKED",
+          "description": null
+        },
+        {
+          "name": "TURBO",
+          "description": null
+        },
+        {
+          "name": "MUTATION",
+          "description": null
+        },
+        {
+          "name": "UNKNOWN",
+          "description": null
+        }
+      ],
+      "fields": null
+    },
+    "GameVersionType": {
+      "name": "GameVersionType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "id",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "name",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "asOfDateTime",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    },
+    "HeroGuideListType": {
+      "name": "HeroGuideListType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Int",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "guides",
+          "description": "Guides are auto-generated of games that are successful in a game.",
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "HeroGuideType",
+              "ofType": null
+            }
+          },
+          "args": [
+            {
+              "name": "itemId",
+              "description": "The item id to include in this query, excluding all results that do not have this item.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "neutralItemId",
+              "description": "The item id of the dedicated neutral item slot (7.24 and after). From game versions 7.23 to 7.24, this was the BackPack3Id (the 4th backpack slot item id).",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Short",
+                "ofType": null
+              }
+            },
+            {
+              "name": "skip",
+              "description": "The amount of data to skip before collecting your query. This is useful for Paging.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "take",
+              "description": "The amount to have returned in your query. The maximum of this is always dynamic. Limit : ",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "HeroGuideType": {
+      "name": "HeroGuideType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "steamAccountId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "matchId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "match",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "MatchType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "matchPlayer",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "MatchPlayerType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "createdDateTime",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "itemIds",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "neutralItemIds",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          "args": []
+        }
+      ]
+    },
+    "HeroItemPurchaseType": {
+      "name": "HeroItemPurchaseType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "week",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "bracketBasicIds",
+          "description": null,
+          "type": {
+            "kind": "ENUM",
+            "name": "RankBracketBasicEnum",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "position",
+          "description": null,
+          "type": {
+            "kind": "ENUM",
+            "name": "MatchPlayerPositionType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "itemId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "instance",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "time",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "winCount",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "winsAverage",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Decimal",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    },
+    "HeroAbilityMinType": {
+      "name": "HeroAbilityMinType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "week",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "bracketBasicIds",
+          "description": null,
+          "type": {
+            "kind": "ENUM",
+            "name": "RankBracketBasicEnum",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "position",
+          "description": null,
+          "type": {
+            "kind": "ENUM",
+            "name": "MatchPlayerPositionType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "abilityId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Int",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "level",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Int",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "winCount",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    },
+    "HeroAbilityTalentType": {
+      "name": "HeroAbilityTalentType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "heroId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "week",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "bracketBasicIds",
+          "description": null,
+          "type": {
+            "kind": "ENUM",
+            "name": "RankBracketBasicEnum",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "position",
+          "description": null,
+          "type": {
+            "kind": "ENUM",
+            "name": "MatchPlayerPositionType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "abilityId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "matchCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Long",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "winCount",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Long",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "time",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "winsAverage",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Decimal",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "timeAverage",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Decimal",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    },
+    "PlayerAbilityType": {
+      "name": "PlayerAbilityType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "abilityId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "time",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "level",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "gameVersionId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "abilityType",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "AbilityType",
+            "ofType": null
+          },
+          "args": [
+            {
+              "name": "gameVerionId",
+              "description": "The game version id to include in this query, excluding all results that do not have this game version.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "name": "langaugeId",
+              "description": "The language id to include in this query, excluding all results that do not have this language.",
+              "defaultValue": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "isTalent",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    },
+    "MatchPlayerStatsType": {
+      "name": "MatchPlayerStatsType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "matchId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "steamAccountId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "gameVersionId",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "level",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "killEvents",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsKillEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "deathEvents",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsDeathEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "assistEvents",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsAssistEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "lastHitsPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "goldPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "experiencePerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "healPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "heroDamagePerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "towerDamagePerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "towerDamageReport",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsTowerDamageReportType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "courierKills",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsCourierKillEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "wards",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsWardEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "itemPurchases",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerItemPurchaseEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "itemUsed",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsItemUsedEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "allTalks",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsAllTalkEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "chatWheels",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsChatWheelEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "actionsPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "actionReport",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "MatchPlayerStatsActionReportType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "locationReport",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsLocationReportType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "farmDistributionReport",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "MatchPlayerStatsFarmDistributionReportType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "runes",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsRuneEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "abilityCastReport",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsAbilityCastReportType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "heroDamageReport",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "MatchPlayerStatsHeroDamageReportType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "inventoryReport",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerInventoryType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "networthPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "campStack",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "matchPlayerBuffEvent",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerStatsBuffEventType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "deniesPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "impPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "tripsFountainPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "spiritBearInventoryReport",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerSpiritBearInventoryType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "heroDamageReceivedPerMinute",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "wardDestruction",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "MatchPlayerWardDestuctionObjectType",
+              "ofType": null
+            }
+          },
+          "args": []
+        }
+      ]
+    },
+    "ItemType": {
+      "name": "ItemType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "id",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "name",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "displayName",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "shortName",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "isSupportFullItem",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "language",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "ItemLanguageType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "stat",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "ItemStatType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "attributes",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "ItemAttributeType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "components",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "ItemComponentType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "image",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    },
+    "AbilityType": {
+      "name": "AbilityType",
+      "kind": "OBJECT",
+      "description": null,
+      "enumValues": null,
+      "fields": [
+        {
+          "name": "id",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "name",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "uri",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "language",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "AbilityLanguageType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "stat",
+          "description": null,
+          "type": {
+            "kind": "OBJECT",
+            "name": "AbilityStatType",
+            "ofType": null
+          },
+          "args": []
+        },
+        {
+          "name": "attributes",
+          "description": null,
+          "type": {
+            "kind": "LIST",
+            "name": null,
+            "ofType": {
+              "kind": "OBJECT",
+              "name": "AbilityAttributeType",
+              "ofType": null
+            }
+          },
+          "args": []
+        },
+        {
+          "name": "isTalent",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "args": []
+        }
+      ]
+    }
+  },
+  "fetched_at": "2026-10-13T19:39:53.361889+00:00",
+  "client_closed": true
+}

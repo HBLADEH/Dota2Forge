@@ -1,0 +1,17 @@
+{
+  "graphql_errors": true,
+  "invalid_fields": [],
+  "error_categories": {
+    "complex": false,
+    "argument": false,
+    "required": false,
+    "permission": false,
+    "rate": false,
+    "invalid": false,
+    "unknown": false,
+    "schema": false
+  },
+  "selected_count": 0,
+  "players": [],
+  "detail_valid": false
+}

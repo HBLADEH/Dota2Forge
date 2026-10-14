@@ -21,6 +21,23 @@ def test_bridge_registration_permissions_reloading_and_png_messages(
 ):
     commands = {}
     regex_handlers = {}
+    tools = {}
+    llm_hooks = []
+
+    def llm_tool(*, name):
+        def decorate(func):
+            assert "Args:" in func.__doc__
+            tools[name] = func
+            return func
+
+        return decorate
+
+    def on_llm_request():
+        def decorate(func):
+            llm_hooks.append(func)
+            return func
+
+        return decorate
 
     class Star:
         def __init__(self, context):
@@ -133,7 +150,12 @@ def test_bridge_registration_permissions_reloading_and_png_messages(
     sys.modules["astrbot.api"].logger = logging.getLogger("synthetic")
     sys.modules["astrbot.api.event"].AstrMessageEvent = Event
     sys.modules["astrbot.api.event"].filter = SimpleNamespace(
-        command=command, regex=regex, permission_type=permission_type, PermissionType=PermissionType
+        command=command,
+        regex=regex,
+        permission_type=permission_type,
+        PermissionType=PermissionType,
+        llm_tool=llm_tool,
+        on_llm_request=on_llm_request,
     )
     sys.modules["astrbot.api.star"].Star = Star
     sys.modules["astrbot.api.star"].Context = object
@@ -161,6 +183,13 @@ def test_bridge_registration_permissions_reloading_and_png_messages(
     module = importlib.util.module_from_spec(spec)
     monkeypatch.setitem(sys.modules, "synthetic_astr_bridge", module)
     spec.loader.exec_module(module)
+    assert set(tools) == {
+        "get_dota2_meta",
+        "get_dota2_hero_guide",
+        "get_dota2_review_context",
+        "render_dota2_review_data",
+    }
+    assert len(llm_hooks) == 1
     monkeypatch.delitem(sys.modules, "synthetic_astr_bridge._dota2forge_bootstrap", raising=False)
     assert set(commands) == {
         "do素材状态",
@@ -176,6 +205,10 @@ def test_bridge_registration_permissions_reloading_and_png_messages(
         "do战绩",
         "do比赛",
         "do出装",
+        "do强势",
+        "do攻略",
+        "do攻略样例",
+        "do复盘",
         "do最近",
         "do段位",
         "do停用",
@@ -189,7 +222,10 @@ def test_bridge_registration_permissions_reloading_and_png_messages(
     }
     assert commands["do停用"].permission == PermissionType.ADMIN
     assert commands["do状态"].permission == PermissionType.ADMIN
-    assert list(regex_handlers) == [r"^/?do(?P<hero>.{1,64})出装$"]
+    assert set(regex_handlers) == {
+        r"^/?do(?P<hero>.{1,64})出装$",
+        r"^/?do(?P<guide_hero>.{1,64})攻略(?:\s+(?P<guide_args>.{1,80}))?$",
+    }
     clients = []
 
     def factory():

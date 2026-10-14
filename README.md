@@ -1,5 +1,7 @@
 # Dota2Forge
 
+开发分支候选新增版本强势、STRATZ攻略/样例与原生多轮复盘按需补图；本轮尚未发布，旧发行包不包含这些能力。参见[新指令](docs/cookbook/hero-meta.md)与[复盘](docs/cookbook/native-review.md)。
+
 **将 Dota 2 数据锻造成可复用的 Bot 能力。**
 
 [GitHub 仓库](https://github.com/HBLADEH/Dota2Forge) · [CI 检查](https://github.com/HBLADEH/Dota2Forge/actions/workflows/ci.yml)

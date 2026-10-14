@@ -20,7 +20,10 @@ from .cards import (
     REPORT_WIDTH,
     WIDTH,
     Card,
+    GuideSampleCard,
+    HeroGuideCard,
     HeroItemsCard,
+    HeroMetaCard,
     ImageArtifact,
     MatchDetailCard,
     MatchReportCard,
@@ -28,6 +31,7 @@ from .cards import (
     PlayerCard,
     RecentMatchesCard,
     RenderError,
+    ReviewDataCard,
     StatusCard,
 )
 from .formatting import (
@@ -395,6 +399,14 @@ class PillowRenderer:
                 from .match_report_layout import render_report
 
                 return render_report(self, card)
+            if isinstance(card, (HeroMetaCard, HeroGuideCard, GuideSampleCard)):
+                from .feature_layout import render_feature
+
+                return render_feature(self, card)
+            if isinstance(card, ReviewDataCard):
+                from .feature_layout import render_review_data
+
+                return render_review_data(self, card)
             raise TypeError("Unsupported Dota2Forge card input")
         except (OSError, ValueError, KeyError, Image.DecompressionBombError):
             raise RenderError() from None
@@ -415,9 +427,9 @@ class PillowRenderer:
                 canvas.text(110, y + 16, title, size=34, width=610)
                 canvas.text(110, y + 66, description, size=26, color=MUTED, width=610)
                 canvas.text(44, y + 112, command, size=28, color=GOLD, truncate=False)
-            canvas.text(36, 930, "第一次使用：do绑定 <ID>", size=30, color=GOLD)
-            canvas.text(36, 985, "账号管理：do账号 / do改绑 <ID> / do解绑", size=26)
-            canvas.text(36, 1030, "翻页：do战绩 第N页（同次列表）", size=26)
+            canvas.text(36, 930, "版本强势：do强势 [位置] [段位=传奇]", size=30, color=GOLD)
+            canvas.text(36, 985, "英雄攻略：do主宰攻略 1号位 [详细]", size=26)
+            canvas.text(36, 1030, "AI复盘：do复盘 <比赛ID> [英雄]", size=26)
             canvas.line(1090)
             canvas.text(36, 1116, "自动播报 · 默认关闭", size=30, color=GOLD)
             rows = (
@@ -452,8 +464,8 @@ class PillowRenderer:
                     "ID：Dota 账号 ID 或 SteamID64；比赛 ID 独立。",
                     "绑定只是查询偏好，不证明账号所有权。",
                     "群订阅仅限 Bot 管理员；日报为有限观察。",
-                    "图片菜单是命令说明；无需点击，直接输入。",
-                    "帮助：do菜单 / do帮助",
+                    "首次绑定：do绑定 <ID> / do改绑 <ID> / do解绑",
+                    "帮助：do菜单 / do帮助 · 翻页：do战绩 第N页",
                 )
             ):
                 canvas.text(36, 1506 + index * 46, notice, size=26, color=MUTED)

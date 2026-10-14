@@ -82,6 +82,7 @@ def bundled_source(tmp_path):
         for name in (
             "host_entry.py.template",
             "host_config.py.template",
+            "host_ai.py.template",
             "bundled_host_entry.py.template",
             "bundled_business_entry.py.template",
         )
