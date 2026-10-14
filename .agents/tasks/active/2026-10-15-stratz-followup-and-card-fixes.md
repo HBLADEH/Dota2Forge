@@ -23,4 +23,4 @@ Status: in_progress
 已确认真实SDK H14不填query，改为可信event.raw_text回退；新增“这把”等识别与取本主题事实提示。主宰实测14个技能ID0导致失败，保留为未标识后3样例恢复；物品/技能/天赋独立校验。用户比赛实际有1经济序列/38购买/2团队序列，analysis_error为空，不含身份输出。[证据](../../artifacts/stratz-feedback-20261015/README.md)。52项针对性禁网回归、实际SDK空query边界验证、8张合成卡片QA及五包构建/隔离安装通过；最终统一检查运行中。
 
 ## 阻塞与下一步
-核对实际SDK钩子与复盘上下文，最小只读诊断主宰字段形状，补充针对性回归与卡片QA；AstrBot保持不发版。
+最终统一入口exit0：2106项禁网测试/401.26秒，覆盖91.01%，scripts/Core/Assets94%/90%/92%，Ruff/mypy102源文件与治理通过。[日志](../../artifacts/stratz-feedback-20261015/check-all.log)。准备固定SHA的修复候选，匹配分发消费/摘要验证后更新原GS测试分支；AstrBot不发版，用户自行实机验证。
