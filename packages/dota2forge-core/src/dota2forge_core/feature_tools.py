@@ -201,7 +201,10 @@ def sample_data(sample: GuideSample) -> dict[str, object]:
         "label_error": sample.label_error,
         "purchase_event_count": None if sample.purchases is None else len(sample.purchases),
         "purchase_event_limit": 128,
-        "upgrade_semantic": "event order, NOT hero level; source_level is zero-based skill rank",
+        "upgrade_semantic": (
+            "event order, NOT hero level; source_level is zero-based skill rank; "
+            "ability_id 0 is unidentified, not assumed to be an attribute or talent"
+        ),
         "upgrades": None
         if sample.upgrades is None
         else [
@@ -276,5 +279,7 @@ def guide_data(guide: HeroGuide | GuideSample) -> dict[str, object]:
             for a in sorted(guide.talents, key=lambda row: (-row.matches, row.ability_id))[:16]
         ],
         "samples": [sample_data(s) for s in guide.samples],
-        "limitations": "各统计桶分母独立，不合成整套方案胜率。",
+        "limitations": (
+            "各统计桶分母独立，不合成整套方案胜率。技能ID0为来源未标识，不猜属性点/天赋。"
+        ),
     }

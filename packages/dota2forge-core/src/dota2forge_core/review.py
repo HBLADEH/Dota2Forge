@@ -13,6 +13,7 @@ from .ports import MatchAnalysisProvider, MatchDetailProvider
 
 REVIEW_INSTRUCTION = (
     "基于工具提供的来源事实进行 Dota2 复盘。先简短回答最重要的发现和下一步建议，"
+    "至少给出一项有字段依据的发现和一条可执行建议，不要只复述KDA等结算数字。"
     "按用户追问继续分析；只有图能解释问题或用户要图时调用 render_dota2_review_data。"
     "区分观察、推测和建议，每项判断引用比赛时间/字段。无事件证据不能认定某次死亡、"
     "团战、视野或操作的原因；终局补刀不是对线期补刀，购买记录不是任意时刻库存。"

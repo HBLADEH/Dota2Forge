@@ -43,6 +43,10 @@ def clock_text(seconds: int) -> str:
     return ("-" if seconds < 0 else "") + f"{abs(seconds) // 60:02}:{abs(seconds) % 60:02}"
 
 
+def skill_name(ability_id: int, name: str | None) -> str:
+    return name or ("未标识技能 ID 0" if ability_id == 0 else f"技能 ID {ability_id}")
+
+
 def feature_cards(
     result: HeroMetaRanking | HeroGuide | GuideSample, *, detailed: bool = False
 ) -> tuple[Card, ...]:
@@ -51,8 +55,19 @@ def feature_cards(
             HeroMetaCard(result, p + 1) for p in range(max(1, (len(result.entries) + 4) // 5))
         )
     if isinstance(result, HeroGuide):
-        return tuple(HeroGuideCard(result, p + 1, detailed) for p in range(4 if detailed else 2))
+        return tuple(HeroGuideCard(result, p, detailed) for p in guide_pages(result, detailed))
     return (GuideSampleCard(result), GuideSampleCard(result, 2))
+
+
+def guide_pages(guide: HeroGuide, detailed: bool) -> tuple[int, ...]:
+    pages = [1]
+    if guide.samples:
+        pages.append(2)
+        if detailed:
+            pages.append(3)
+    if detailed and guide.talents:
+        pages.append(4)
+    return tuple(pages)
 
 
 def sample_summary(sample: GuideSample) -> list[str]:
@@ -107,25 +122,41 @@ def feature_text(card: Card) -> str:
         maximum = 4 if card.detailed else 2
         if type(card.page) is not int or not 1 <= card.page <= maximum:
             raise RenderError()
+        pages = guide_pages(guide, card.detailed)
+        ordinal = pages.index(card.page) + 1 if card.page in pages else card.page
         lines = [
-            f"Dota2Forge · {guide.hero.display_name} {guide.position}号位攻略 {card.page}/{maximum}"
+            f"Dota2Forge · {guide.hero.display_name} {guide.position}号位攻略 "
+            f"{ordinal}/{len(pages)}"
         ]
         if card.page == 1:
             lines.extend(["统计窗口尚未核实，不作为当前版本推荐。", *guide.notes])
             if guide.items is None:
                 lines.append("出装统计未启用/未返回；原因见模块状态。")
             else:
-                best = sorted(guide.items, key=lambda v: (-v.matches, v.minute, v.item_id))[:10]
+                popular = sorted(guide.items, key=lambda v: (-v.matches, v.minute, v.item_id))
+                distinct = {v.item_id: v for v in reversed(popular)}
+                best = sorted(distinct.values(), key=lambda v: (-v.matches, v.minute, v.item_id))[
+                    :10
+                ]
                 lines.extend(
                     f"{item_name(v.item_id)} · {v.minute}分钟桶 · {v.matches}场 / {v.wins}胜"
                     for v in best
                 )
-                lines.append(f"共 {len(guide.items)} 个装备时间桶，本页展示最多10个热门桶。")
-            modules = {"statistics": "构筑统计", "samples": "比赛样例", "abilities": "技能统计"}
+                lines.append(
+                    f"每件装备取场次最多的购买时间桶，共 {len(guide.items)} 桶；不是购买顺序。"
+                )
+            modules = {
+                "statistics": "物品统计",
+                "samples": "比赛样例",
+                "abilities": "技能统计",
+                "talents": "天赋统计",
+            }
             lines.extend(
                 f"{modules[key]}：{SOURCE_STATUS[value]}" for key, value in guide.module_errors
             )
             lines.append(f"本次有 {len(guide.samples)} 个实际位置校验过的单场样例。")
+            if not guide.samples:
+                lines.append(f"可用 do攻略样例 <比赛ID> {guide.hero.display_name} 查询指定比赛。")
         elif card.page in (2, 3):
             if not guide.samples:
                 lines.append("单场样例未返回；不生成加点或购买顺序。")
@@ -171,7 +202,8 @@ def sample_events(sample: GuideSample, page: int) -> list[str]:
             lines.append("升级记录未知。")
         else:
             lines.extend(
-                f"#{i} {clock_text(v.time_seconds)} · {v.name or f'技能 ID {v.ability_id}'}"
+                f"#{i} {clock_text(v.time_seconds)} · "
+                f"{skill_name(v.ability_id, v.name)}"
                 f" · 源阶数 {v.source_level}{' · 天赋' if v.is_talent else ''}"
                 for i, v in enumerate(sample.upgrades[:24], 1)
             )

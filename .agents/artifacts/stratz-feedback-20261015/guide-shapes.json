@@ -1,0 +1,55 @@
+{
+  "items": {
+    "rows": 764,
+    "positions": {
+      "POSITION_1": 764
+    },
+    "weeks": [
+      2962
+    ],
+    "failures": {}
+  },
+  "skills": {
+    "rows": 220,
+    "positions": {
+      "POSITION_1": 220
+    },
+    "weeks": [
+      2962
+    ],
+    "failures": {
+      "abilityId_zero": 14
+    }
+  },
+  "talents": {
+    "rows": 8,
+    "positions": {
+      "POSITION_1": 8
+    },
+    "weeks": [
+      2962
+    ],
+    "failures": {}
+  },
+  "samples": [
+    {
+      "valid_position": true,
+      "upgrades": 18,
+      "purchases": 20
+    },
+    {
+      "valid_position": true,
+      "upgrades": 23,
+      "purchases": 23
+    },
+    {
+      "valid_position": true,
+      "upgrades": 24,
+      "purchases": 24
+    }
+  ],
+  "implementation": {
+    "errors": [],
+    "samples": 3
+  }
+}

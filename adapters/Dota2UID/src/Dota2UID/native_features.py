@@ -37,6 +37,7 @@ def review_related(query: str) -> bool:
             "这件",
             "那件",
             "这局",
+            "这把",
             "本局",
             "购买",
             "补图",
@@ -45,7 +46,8 @@ def review_related(query: str) -> bool:
         )
     ) or (
         re.fullmatch(
-            r"(?:为什么|那为什么|那怎么办|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*", query
+            r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
+            query.strip(),
         )
         is not None
     )
@@ -73,8 +75,9 @@ class NativeFeatures:
         if entry is None or not review_related(query):
             return None
         return (
-            REVIEW_INSTRUCTION
-            + f" 当前复盘比赛 {entry.match_id}；get_dota2_review_context 可省略 match_id 取证。"
+            REVIEW_INSTRUCTION + f" 当前复盘比赛 {entry.match_id}；"
+            "先调用 get_dota2_review_context 获取本轮主题的详细事实，"
+            "可省略 match_id 沿用本场和当前英雄。不要仅基于之前回复的短摘要分析。"
         )
 
     async def begin(

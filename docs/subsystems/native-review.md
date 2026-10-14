@@ -20,3 +20,5 @@ GsCore注册common工具，使用可信ToolContext、主对话原生session对�
 AstrBot使用原生conversation_manager和event.request_llm(conversation=...)；后续走正常聊天管线。工具由官方Args文档注册，on_llm_request用共享显式JSONSchema限定已获准工具，保持persona禁用策略；图只发送当前可信event一次。当前4.28.2接口已核对；缺少会话/模型能力时返回事实或可选数据报告，绘图缺失不降级整段多轮聊天。真实宿主连续性/模型兼容仍需部署后验收。
 
 原因见[决策](../../.agents/notes/implemented/2026-10-14-stratz-hero-and-native-review.md)，操作见[复盘指南](../cookbook/native-review.md)。
+
+GsCore H14不填query，桥接以同一可信event.raw_text补齐，相关追问钉数据工具并提示先取本主题事实。@/主动回复策略仍由宿主控制。首答至少一项字段依据和建议，实际模型遵守情况待自测。[反馈修正](../../.agents/notes/implemented/2026-10-15-stratz-followup-and-card-fixes.md)。
