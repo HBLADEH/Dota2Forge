@@ -22,4 +22,4 @@ Status: planned
 首次只读检查：GsCore/Python、NoneBot/Python及NapCat/QQ进程存在；GsCore默认8765未见监听，本机插件目录仅BeyondUID/NTEUID，Dota2UID数据目录已有。尚未发送真实消息或修改宿主。
 
 ## 阻塞与下一步
-用户随后改为“先推送代码，我自己测试一下，AstrBot先不发版”，因此停止本机诊断/部署/消息测试；未安装插件、未改宿主配置、未发送任何真实消息。代码推送见[接续任务](2026-10-15-stratz-code-push.md)，真实会话待用户自测反馈，AstrBot不发版。
+用户随后改为“先推送代码，我自己测试一下，AstrBot先不发版”，因此停止本机诊断/部署/消息测试；未安装插件、未改宿主配置、未发送任何真实消息。代码推送见[已完成任务](../done/2026-10-15-stratz-code-push.md)，真实会话待用户自测反馈，AstrBot不发版。
