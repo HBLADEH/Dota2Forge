@@ -1,0 +1,16 @@
+fatal: path 'runtime_wheels/dota2forge_assets-0.1.0a1-py3-none-any.whl' does not exist in 'HEAD'
+Traceback (most recent call last):
+  File "D:\workstation\Dota2Forge\.agents\artifacts\guide-labels-20261015\verify_committed.py", line 31, in <module>
+    main()
+  File "D:\workstation\Dota2Forge\.agents\artifacts\guide-labels-20261015\verify_committed.py", line 24, in main
+    data = blob("runtime_wheels/" + wheel["filename"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workstation\Dota2Forge\.agents\artifacts\guide-labels-20261015\verify_committed.py", line 14, in blob
+    return subprocess.check_output(["git", "-C", str(REPOSITORY), "show", "HEAD:" + path])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py", line 468, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py", line 573, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', 'D:\\workstation\\Dota2Forge\\dist\\stratz-push\\Dota2UID', 'show', 'HEAD:runtime_wheels/dota2forge_assets-0.1.0a1-py3-none-any.whl']' returned non-zero exit status 128.
