@@ -2,11 +2,13 @@
 
 import importlib
 import json
+from dataclasses import replace
 from datetime import timedelta
 
 import httpx
 import pytest
 from dota2forge_core import (
+    AbilityChoice,
     GamePatch,
     GuideSample,
     HeroGuide,
@@ -90,6 +92,39 @@ def test_feature_cards_render_all_pages_and_bounds_with_readable_source_status()
         engine.close()
 
 
+def test_missing_guide_modules_do_not_send_blank_pages_or_keep_fixed_page_numbers():
+    observed = sample()
+    missing = HeroGuide(
+        observed.hero,
+        3,
+        META,
+        None,
+        None,
+        None,
+        None,
+        (),
+        module_errors=(("samples", "invalid_response"),),
+    )
+    cards = feature_cards(missing, detailed=True)
+    assert [card.page for card in cards] == [1]
+    assert "do攻略样例" in feature_text(cards[0])
+    engine = PillowRenderer()
+    try:
+        assert engine.render(cards[0]).height < 1000
+        partial = HeroGuide(
+            observed.hero, 3, META, None, None, None, (AbilityChoice(5007, None, 1000, 500),), ()
+        )
+        pages = feature_cards(partial, detailed=True)
+        assert [card.page for card in pages] == [1, 4]
+        assert "攻略 2/2" in feature_text(pages[1])
+        assert engine.render(pages[1]).height < 1000
+        unidentified = replace(observed, upgrades=(SkillUpgrade(0, 1, 600, False),))
+        assert "未标识技能 ID 0" in feature_text(feature_cards(unidentified)[0])
+        assert engine.render(feature_cards(unidentified)[0]).width == 780
+    finally:
+        engine.close()
+
+
 @pytest.mark.parametrize("package", ["Dota2UID", "astrbot_plugin_dota2forge"])
 def test_anchor_scope_ttl_reset_binding_invalidation_and_bound(package):
     Store = importlib.import_module(package + ".review_sessions").ReviewSessionStore
@@ -160,6 +195,10 @@ def test_native_five_rounds_retain_target_refresh_expired_evidence_and_keep_figu
         )
         assert image is None and first["target_slot"] == 0
         assert native.hint(key, generation, "为什么", 2)
+        assert "先调用 get_dota2_review_context" in native.hint(
+            key, generation, "这把有什么问题？", 2
+        )
+        assert native.hint(key, generation, "怎么改进？", 2)
         assert native.hint(key, generation, "今天的天气如何", 2) is None
         for topic in ("items", "economy", "laning", "team"):
             reply, image = await native.tool(

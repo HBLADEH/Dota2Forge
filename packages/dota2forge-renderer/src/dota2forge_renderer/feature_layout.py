@@ -7,13 +7,27 @@ from dota2forge_core.review import participant_analysis
 
 from .cards import GuideSampleCard, HeroGuideCard, HeroMetaCard, ImageArtifact, ReviewDataCard
 from .engine import _Canvas
-from .features import RANK_LABELS, clock_text, feature_text, sample_summary
+from .features import RANK_LABELS, clock_text, feature_text, guide_pages, sample_summary
 from .formatting import duration_text
 from .hero_items import item_card_name
 from .theme import GOLD, GREEN, LINE, MUTED, RED, WHITE
 
 if TYPE_CHECKING:
     from .engine import PillowRenderer
+
+
+def wrapped_lines(engine: "PillowRenderer", values: list[str], width: int, size: int) -> list[str]:
+    lines = []
+    font = engine.font(size)
+    for value in values:
+        line = ""
+        for char in engine.display(value):
+            if line and font.getlength(line + char) > width:
+                lines.append(line)
+                line = ""
+            line += char
+        lines.append(line)
+    return lines
 
 
 def render_feature(
@@ -23,7 +37,9 @@ def render_feature(
     if isinstance(card, HeroMetaCard):
         ranking = card.ranking
         snap = ranking.snapshot
-        with _Canvas(engine, 1780) as c:
+        notes = wrapped_lines(engine, list(snap.notes), 708, 26)
+        footer_y = 1182 + len(notes) * 34 + 16
+        with _Canvas(engine, footer_y + 170) as c:
             c.header(
                 "版本强势英雄",
                 f"版本 {snap.patch.name} · {RANK_LABELS[snap.request.rank]} · 第{card.page}页",
@@ -63,9 +79,9 @@ def render_feature(
                 color=GOLD,
             )
             c.text(36, 1134, "默认按 Wilson 95%下界；不保证个人上分。", color=MUTED)
-            for i, note in enumerate(snap.notes[:10]):
-                c.text(36, 1182 + i * 40, note, size=26, color=MUTED)
-            c.metadata(1600, snap.metadata)
+            for i, note in enumerate(notes):
+                c.text(36, 1182 + i * 34, note, size=26, color=MUTED, truncate=False)
+            c.metadata(footer_y, snap.metadata)
             return c.encode()
     sample = (
         card.sample
@@ -75,27 +91,40 @@ def render_feature(
     page = card.page if isinstance(card, GuideSampleCard) else (1 if card.page == 2 else 2)
     if isinstance(card, HeroGuideCard) and card.page in (1, 4):
         lines = text.splitlines()
-        rows = lines[1:-2][:27]
-        panel_height = max(230, 46 * len(rows) + 44)
+        rows = wrapped_lines(engine, lines[1:-2], 660, 28)
+        panel_height = max(170, 40 * len(rows) + 44)
         footer_y = 204 + panel_height + 16
+        pages = guide_pages(card.guide, card.detailed)
+        ordinal = pages.index(card.page) + 1 if card.page in pages else card.page
         with _Canvas(engine, footer_y + 170) as c:
             c.header(
                 card.guide.hero.display_name + "攻略",
-                f"{card.guide.position}号位 · 第 {card.page}/{4 if card.detailed else 2} 页",
+                f"{card.guide.position}号位 · 第 {ordinal}/{len(pages)} 页",
             )
             c.panel(28, 204, 724, panel_height)
             # All source status is also present in the complete text fallback.
             for i, line in enumerate(rows):
-                c.text(44, 226 + i * 46, line, color=GOLD if i == 0 else WHITE, width=692)
+                c.text(
+                    44,
+                    226 + i * 40,
+                    line,
+                    color=GOLD if i == 0 else WHITE,
+                    width=660,
+                    truncate=False,
+                )
             c.metadata(footer_y, card.guide.metadata)
+            return c.encode()
+    if sample is None:
+        assert isinstance(card, HeroGuideCard)
+        with _Canvas(engine, 560) as c:
+            c.header("攻略样例暂不可用", "来源本次未返回可用样例")
+            c.paragraph(
+                230, "可用 do攻略样例 <比赛ID> <英雄> 查询指定比赛；不生成未知加点或出装顺序。"
+            )
+            c.metadata(390, card.guide.metadata)
             return c.encode()
     with _Canvas(engine, 1780) as c:
         c.header("真实攻略样例", "升级顺序与购买时间 · 单场观察")
-        if sample is None:
-            c.paragraph(230, "本次没有可用单场样例，不能生成加点和出装顺序。")
-            assert isinstance(card, HeroGuideCard)
-            c.metadata(1580, card.guide.metadata)
-            return c.encode()
         for i, line in enumerate(sample_summary(sample)[:3]):
             c.text(36, 210 + i * 44, line, color=GOLD if i == 0 else WHITE)
         if page == 1:
@@ -110,7 +139,12 @@ def render_feature(
                     c.panel(x, y, 172, 146)
                     c.text(x + 9, y + 10, f"#{i + 1}", color=GOLD, width=154)
                     c.text(
-                        x + 9, y + 46, event.name or f"ID {event.ability_id}", size=26, width=154
+                        x + 9,
+                        y + 46,
+                        event.name
+                        or ("未标识技能" if event.ability_id == 0 else f"ID {event.ability_id}"),
+                        size=26,
+                        width=154,
                     )
                     c.text(
                         x + 9,

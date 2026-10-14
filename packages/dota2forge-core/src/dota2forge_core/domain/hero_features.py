@@ -222,7 +222,7 @@ class AbilityChoice:
     name: str | None = None
 
     def __post_init__(self) -> None:
-        if type(self.ability_id) is not int or not 1 <= self.ability_id <= 2147483647:
+        if type(self.ability_id) is not int or not 0 <= self.ability_id <= 2147483647:
             raise ValidationError("Invalid ability ID")
         require_nonnegative(self.level)
         require_counts(self.matches, self.wins)
@@ -239,7 +239,7 @@ class SkillUpgrade:
     name: str | None = None
 
     def __post_init__(self) -> None:
-        if type(self.ability_id) is not int or not 1 <= self.ability_id <= 2147483647:
+        if type(self.ability_id) is not int or not 0 <= self.ability_id <= 2147483647:
             raise ValidationError("Invalid upgrade ability")
         if (
             type(self.source_level) is not int
@@ -350,7 +350,7 @@ class HeroGuide:
             or any(
                 not isinstance(v, tuple)
                 or len(v) != 2
-                or v[0] not in {"statistics", "samples", "abilities"}
+                or v[0] not in {"statistics", "samples", "abilities", "talents"}
                 or v[1]
                 not in {
                     "scope_mismatch",

@@ -4,7 +4,7 @@ from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 from ..domain.analysis import PurchaseEvent
-from ..domain.errors import DataSource, ProviderError, ProviderErrorCode
+from ..domain.errors import DataSource, ProviderError, ProviderErrorCode, ValidationError
 from ..domain.hero_features import (
     AbilityChoice,
     BuildItemBucket,
@@ -87,7 +87,7 @@ def upgrades(value: object) -> tuple[SkillUpgrade, ...] | None:
             label = raw_label
         result.append(
             SkillUpgrade(
-                integer(field(row, "abilityId"), minimum=1),
+                integer(field(row, "abilityId")),
                 integer(field(row, "level")),
                 integer(field(row, "time"), minimum=-2147483648),
                 optional_bool(field(row, "isTalent")),
@@ -111,7 +111,7 @@ class StratzHeroes:
             await cache.close()
 
     async def labels(self, events: tuple[SkillUpgrade, ...], version: int) -> dict[int, str | None]:
-        ids = tuple(sorted({v.ability_id for v in events if v.ability_id <= 32767}))
+        ids = tuple(sorted({v.ability_id for v in events if 0 < v.ability_id <= 32767}))
         if not ids:
             return {}
 
@@ -203,14 +203,17 @@ class StratzHeroes:
                             integer(field(row, "winCount")),
                         )
                     )
-        notes = ["天梯全选；按完整 UTC 日桶汇总，与当前版本生效时间取交集。"]
+        notes = ["统计范围：天梯全选，当前版本的完整 UTC 日。"]
         expected_days = int((end - start).total_seconds() // 86400)
+        coverage: dict[int, list[int]] = {}
         for position, dates in observed_days.items():
             if len(dates) < expected_days:
-                notes.append(
-                    f"{position}号位请求 {expected_days} 日，仅返回 {len(dates)} 个日桶；"
-                    "缺日不补零、不平移窗口。"
-                )
+                coverage.setdefault(len(dates), []).append(position)
+        for days, covered_positions in coverage.items():
+            label = "、".join(str(position) for position in covered_positions)
+            notes.append(f"{label}号位：有效 {days}/{expected_days} 日，缺日不补零。")
+        if coverage:
+            notes.append("请求窗口固定，不因来源延迟向前移动。")
         if (
             current.effective_at > first_patch_day - timedelta(days=1)
             and current.effective_at != first_patch_day
@@ -256,50 +259,61 @@ class StratzHeroes:
         try:
             payload, fetched = await self._http.request(query, {"hero": hero.hero_id})
             stats = object_value(field(data(payload), "heroStats"))
-            groups = {
-                name: tuple(object_value(r) for r in rows(field(stats, name)))
-                for name in ("items", "skills", "talents")
-            }
-            all_rows = tuple(r for group in groups.values() for r in group)
-            if any(
-                field(r, "heroId") != hero.hero_id or field(r, "position") != f"POSITION_{position}"
-                for r in all_rows
+            weeks_seen: set[int] = set()
+            for name, module in (
+                ("items", "statistics"),
+                ("skills", "abilities"),
+                ("talents", "talents"),
             ):
-                errors.append(("statistics", "scope_mismatch"))
-                notes.append("上游统计的位置标记与请求不一致，已停用这些桶；样例仍按实际位置校验。")
-            else:
-                weeks = {integer(field(r, "week")) for r in all_rows}
-                if len(weeks) > 1:
-                    raise failure(ProviderErrorCode.INVALID_RESPONSE)
-                week = next(iter(weeks), None)
-                items = tuple(
-                    BuildItemBucket(
-                        integer(field(r, "itemId"), minimum=1),
-                        integer(field(r, "time")),
-                        integer(field(r, "instance")),
-                        integer(field(r, "matchCount")),
-                        integer(field(r, "winCount")),
-                    )
-                    for r in groups["items"]
-                )
-                abilities = tuple(
-                    AbilityChoice(
-                        integer(field(r, "abilityId"), minimum=1),
-                        integer(field(r, "level")),
-                        integer(field(r, "matchCount")),
-                        integer(field(r, "winCount")),
-                    )
-                    for r in groups["skills"]
-                )
-                talents = tuple(
-                    AbilityChoice(
-                        integer(field(r, "abilityId"), minimum=1),
-                        None,
-                        integer(field(r, "matchCount")),
-                        integer(field(r, "winCount")),
-                    )
-                    for r in groups["talents"]
-                )
+                try:
+                    bucket_rows = tuple(object_value(r) for r in rows(field(stats, name)))
+                    if any(field(r, "heroId") != hero.hero_id for r in bucket_rows):
+                        raise failure(ProviderErrorCode.INVALID_RESPONSE)
+                    if any(field(r, "position") != f"POSITION_{position}" for r in bucket_rows):
+                        errors.append((module, "scope_mismatch"))
+                        continue
+                    weeks = {integer(field(r, "week")) for r in bucket_rows}
+                    if len(weeks) > 1:
+                        raise failure(ProviderErrorCode.INVALID_RESPONSE)
+                    if name == "items":
+                        items = tuple(
+                            BuildItemBucket(
+                                integer(field(r, "itemId"), minimum=1),
+                                integer(field(r, "time")),
+                                integer(field(r, "instance")),
+                                integer(field(r, "matchCount")),
+                                integer(field(r, "winCount")),
+                            )
+                            for r in bucket_rows
+                        )
+                    elif name == "skills":
+                        abilities = tuple(
+                            AbilityChoice(
+                                integer(field(r, "abilityId")),
+                                integer(field(r, "level")),
+                                integer(field(r, "matchCount")),
+                                integer(field(r, "winCount")),
+                            )
+                            for r in bucket_rows
+                        )
+                    else:
+                        talents = tuple(
+                            AbilityChoice(
+                                integer(field(r, "abilityId")),
+                                None,
+                                integer(field(r, "matchCount")),
+                                integer(field(r, "winCount")),
+                            )
+                            for r in bucket_rows
+                        )
+                    weeks_seen.update(weeks)
+                except ProviderError as error:
+                    errors.append((module, error.code.value))
+                except ValidationError:
+                    errors.append((module, "invalid_response"))
+            week = next(iter(weeks_seen)) if len(weeks_seen) == 1 else None
+            if len(weeks_seen) > 1:
+                notes.append("各模块来源周索引不同，统计窗口尚未核实。")
         except ProviderError as error:
             if error.code in {ProviderErrorCode.AUTHENTICATION, ProviderErrorCode.RATE_LIMITED}:
                 raise
