@@ -1,7 +1,7 @@
 # STRATZ零标识技能与GsCore真实追问钩子修正
 
 Category: bug-fix
-Related task: [自测反馈](../../tasks/active/2026-10-15-stratz-followup-and-card-fixes.md)
+Related task: [自测反馈](../../tasks/done/2026-10-15-stratz-followup-and-card-fixes.md)
 Related code: [GS桥接](../../../adapters/Dota2UID/src/Dota2UID/host_ai.py.template)、[Provider](../../../packages/dota2forge-core/src/dota2forge_core/infrastructure/_stratz_heroes.py)、[Renderer](../../../packages/dota2forge-renderer/src/dota2forge_renderer/feature_layout.py)
 Related docs: [复盘契约](../../../docs/subsystems/native-review.md)、[英雄契约](../../../docs/subsystems/hero-features.md)
 
@@ -23,3 +23,5 @@ Renderer默认最多2页、详细最多4页，仅发送有内容的模块，缺�
 
 ## Verification
 只读主宰复测764物品桶、220技能桶（14个0）、8天赋桶；3个实际1号位样例升级18/23/24、购买20/23/24，module_errors为空。仅保存公开形状/计数/布尔，无账号/比赛ID/玩家响应。新增禁网回归覆盖ID0/模块独立失败、缺页抑制、H14空query可信事件回退和泛化追问。卡片合成QA、实际SDK边界、最终统一检查/构建/推送见关联任务；SDK合成会话不等于真实模型/QQ递送，用户仍自测。
+
+最终统一入口exit0：2106项禁网测试/401.26秒，覆盖91.01%，独立scripts/Core/Assets94%/90%/92%；Ruff/mypy通过。五包与固定SHA分发隔离消费通过，GS25文件/4wheel摘要一致。修复推送原主仓/GS测试分支，AstrBot不发版，无宿主配置或真实消息修改。

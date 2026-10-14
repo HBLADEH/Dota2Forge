@@ -22,4 +22,8 @@
 
 统一入口exit0：[check-all.log](check-all.log)，2106项禁网测试/401.26秒，聚合覆盖91.01%，scripts/Core/Assets各94%/90%/92%，80%门槛未改；治理、Ruff格式/lint、mypy102源文件通过。选测与SDK证据是补充，不代表真实模型或QQ群消息验收。
 
-原因见[实施note](../../notes/implemented/2026-10-15-stratz-followup-and-card-fixes.md)，最终检查/分发/推送见[任务](../../tasks/active/2026-10-15-stratz-followup-and-card-fixes.md)。
+原因见[实施note](../../notes/implemented/2026-10-15-stratz-followup-and-card-fixes.md)，最终检查/分发/推送见[任务](../../tasks/done/2026-10-15-stratz-followup-and-card-fixes.md)。
+
+固定源码SHA `3a38f64e019b00c090ae6f838fa324430bb7288e` 的候选位于 `dist/plugin-distributions/stratz-feedback-20261015/`；[生成](build-distributions.log)、[双端隔离消费](smoke-distributions.log)exit0，[提交字节检查](committed-bytes.log)25文件/4wheel全部匹配。GS测试分支提交`110cd6f8688d08c95201101885079833fd054e2d`，主仓/GS均推送codex/stratz-features，未推送Astr分发或创建Release/标签。
+
+用户已将旧GS候选合并至main(a263b16)。新修复仍在测试分支，安装者需fetch并切到codex/stratz-features更新后重启；未发布候选a15版本号沿用，以新manifest/运行指针摘要辨别。主仓固定源码与GS修复都可按提交SHA核实，真实模型/群聊图片仍需用户自测。
