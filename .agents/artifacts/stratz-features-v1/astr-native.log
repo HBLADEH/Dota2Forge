@@ -1,0 +1,10 @@
+[32m[11:07:12.735][0m [Core] [1m[INFO][0m [provider.func_tool_manager:390]: [1mAdded llm tool: get_dota2_meta[0m
+[32m[11:07:12.741][0m [Core] [1m[INFO][0m [provider.func_tool_manager:390]: [1mAdded llm tool: get_dota2_hero_guide[0m
+[32m[11:07:12.747][0m [Core] [1m[INFO][0m [provider.func_tool_manager:390]: [1mAdded llm tool: get_dota2_review_context[0m
+[32m[11:07:12.753][0m [Core] [1m[INFO][0m [provider.func_tool_manager:390]: [1mAdded llm tool: render_dota2_review_data[0m
+[32m[11:07:12.754][0m [Core] [1m[INFO][0m [star.base:45]: [1mPlugin Dota2ForgePlugin log level: INFO.[0m
+[32m[11:07:14.696][0m [Core] [1m[INFO][0m [astrbot_plugin_dota2forge.runtime:240]: [1mlifecycle state=ready reply_mode=image[0m
+[32m[11:07:17.656][0m [Core] [1m[INFO][0m [host.main.template:127]: [1mDota2Forge terminate requested[0m
+[32m[11:07:17.664][0m [Core] [1m[INFO][0m [astrbot_plugin_dota2forge.runtime:451]: [1mlifecycle state=stopped client_closed=True[0m
+[32m[11:07:17.664][0m [Core] [1m[INFO][0m [host.main.template:134]: [1mDota2Forge terminated state=stopped client_closed=True[0m
+{"sdk_version": "4.28.2", "real_decorators_and_toolset": true, "explicit_schemas": true, "real_provider_request": true, "same_conversation_five_rounds": true, "figure_text_fact_once": true, "same_id_history_reset": true, "client_closed": true, "conversation_manager": "synthetic", "real_model": false, "real_platform_sends": false}

@@ -1,0 +1,253 @@
+{
+  "versions": [
+    {
+      "id": 190,
+      "name": "7.41f",
+      "asOfDateTime": 1789430400
+    },
+    {
+      "id": 189,
+      "name": "7.41e",
+      "asOfDateTime": 1785369600
+    },
+    {
+      "id": 188,
+      "name": "7.41d",
+      "asOfDateTime": 1780531200
+    },
+    {
+      "id": 187,
+      "name": "7.41c",
+      "asOfDateTime": 1778025600
+    }
+  ],
+  "match_players_args": [
+    {
+      "name": "players",
+      "args": [
+        {
+          "name": "steamAccountId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Long",
+            "ofType": null
+          }
+        }
+      ]
+    }
+  ],
+  "constants_args": [
+    {
+      "name": "item",
+      "args": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int"
+            }
+          }
+        },
+        {
+          "name": "gameVersionId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          }
+        },
+        {
+          "name": "language",
+          "type": {
+            "kind": "ENUM",
+            "name": "LanguageEnum",
+            "ofType": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "ability",
+      "args": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "Int"
+            }
+          }
+        },
+        {
+          "name": "gameVersionId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          }
+        },
+        {
+          "name": "language",
+          "type": {
+            "kind": "ENUM",
+            "name": "LanguageEnum",
+            "ofType": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "abilities",
+      "args": [
+        {
+          "name": "gameVersionId",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Short",
+            "ofType": null
+          }
+        },
+        {
+          "name": "language",
+          "type": {
+            "kind": "ENUM",
+            "name": "LanguageEnum",
+            "ofType": null
+          }
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "hero_matches": true,
+      "match_present": true,
+      "account_present": true,
+      "nested_player_present": false,
+      "selected_count": 1,
+      "players": [
+        {
+          "hero_matches": true,
+          "position": "POSITION_3",
+          "abilities": [
+            {
+              "abilityId": 5008,
+              "level": 0,
+              "time": -89,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5009,
+              "level": 0,
+              "time": 100,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5009,
+              "level": 1,
+              "time": 153,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5007,
+              "level": 0,
+              "time": 212,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5009,
+              "level": 2,
+              "time": 281,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5010,
+              "level": 0,
+              "time": 337,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5009,
+              "level": 3,
+              "time": 421,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5007,
+              "level": 1,
+              "time": 515,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5007,
+              "level": 2,
+              "time": 555,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5008,
+              "level": 1,
+              "time": 614,
+              "isTalent": false
+            },
+            {
+              "abilityId": 9401,
+              "level": 0,
+              "time": 773,
+              "isTalent": true
+            },
+            {
+              "abilityId": 5007,
+              "level": 3,
+              "time": 895,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5010,
+              "level": 1,
+              "time": 963,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5008,
+              "level": 2,
+              "time": 1052,
+              "isTalent": false
+            },
+            {
+              "abilityId": 5008,
+              "level": 3,
+              "time": 1117,
+              "isTalent": false
+            },
+            {
+              "abilityId": 6102,
+              "level": 0,
+              "time": 1230,
+              "isTalent": true
+            },
+            {
+              "abilityId": 5010,
+              "level": 2,
+              "time": 1509,
+              "isTalent": false
+            },
+            {
+              "abilityId": 6991,
+              "level": 0,
+              "time": 1701,
+              "isTalent": true
+            }
+          ],
+          "purchase_count": 24
+        }
+      ]
+    }
+  ],
+  "client_closed": true
+}

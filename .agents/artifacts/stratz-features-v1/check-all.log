@@ -1,0 +1,2310 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+486 files already formatted
+RUN ruff check .
+All checks passed!
+RUN mypy
+Success: no issues found in 102 source files
+RUN pytest
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 2101 items
+
+tests\assets\test_hosts.py .....................                         [  0%]
+tests\assets\test_http_validation.py .........................           [  2%]
+tests\assets\test_manager.py ......                                      [  2%]
+tests\assets\test_storage_lifecycle.py ........                          [  2%]
+tests\assets\test_windows_paths.py ..................                    [  3%]
+tests\astrbot_consumer\test_application.py ....                          [  3%]
+tests\astrbot_consumer\test_astr_commands.py ......................      [  4%]
+tests\astrbot_consumer\test_astr_first_configuration.py ..               [  5%]
+tests\astrbot_consumer\test_astr_platform.py ...............             [  5%]
+tests\astrbot_consumer\test_delivery.py ......                           [  6%]
+tests\astrbot_consumer\test_dependency_loading.py .                      [  6%]
+tests\astrbot_consumer\test_host_bridge.py .F                            [  6%]
+tests\astrbot_consumer\test_subscription_delivery.py ..............      [  6%]
+tests\core\test_analysis.py ...............................              [  8%]
+tests\core\test_boundaries.py .                                          [  8%]
+tests\core\test_cache_retry.py .........                                 [  8%]
+tests\core\test_cross_check.py ...................                       [  9%]
+tests\core\test_detail_stats.py ........................................ [ 11%]
+...........................................................              [ 14%]
+tests\core\test_feature_consumers.py ........                            [ 14%]
+tests\core\test_hero_features.py ....................................... [ 16%]
+                                                                         [ 16%]
+tests\core\test_hero_item_consumers.py .F.F.F......                      [ 17%]
+tests\core\test_hero_items.py .......................................... [ 19%]
+........................                                                 [ 20%]
+tests\core\test_identity.py ............................................ [ 22%]
+...................................                                      [ 24%]
+tests\core\test_match_detail.py ........................................ [ 26%]
+........................................................................ [ 29%]
+.........................                                                [ 30%]
+tests\core\test_match_report_analysis.py ......................          [ 31%]
+tests\core\test_match_report_subscriptions.py ...                        [ 31%]
+tests\core\test_models.py .............................................. [ 34%]
+.......                                                                  [ 34%]
+tests\core\test_opendota.py ............................................ [ 36%]
+.................                                                        [ 37%]
+tests\core\test_rank_mmr.py ..................................           [ 38%]
+tests\core\test_repository.py ...........................                [ 40%]
+tests\core\test_storage_worker.py ...                                    [ 40%]
+tests\core\test_stratz.py .............................................. [ 42%]
+............................................                             [ 44%]
+tests\core\test_stratz_check.py ........                                 [ 44%]
+tests\core\test_stratz_detail.py ....................................... [ 46%]
+...                                                                      [ 46%]
+tests\core\test_stratz_http.py ......................................... [ 48%]
+.................                                                        [ 49%]
+tests\core\test_subscription_adapters.py ..........................      [ 50%]
+tests\core\test_subscription_delivery_daily.py ....................      [ 51%]
+tests\core\test_subscription_host_senders.py ...                         [ 52%]
+tests\core\test_subscription_repository.py ............................. [ 53%]
+....................................................                     [ 55%]
+tests\core\test_subscription_runtime.py .........                        [ 56%]
+tests\core\test_subscriptions.py ....................................... [ 58%]
+...........                                                              [ 58%]
+tests\core\test_workflow.py ...............................              [ 60%]
+tests\dota2uid\test_bundled_host_bridge.py ............................. [ 61%]
+...............                                                          [ 62%]
+tests\dota2uid\test_commands.py ........................................ [ 64%]
+..............                                                           [ 64%]
+tests\dota2uid\test_config_trace_guard.py .............................. [ 66%]
+..............                                                           [ 66%]
+tests\dota2uid\test_detail_commands.py ............................      [ 68%]
+tests\dota2uid\test_gscore_first_configuration.py ....                   [ 68%]
+tests\dota2uid\test_host_config.py ..................................... [ 70%]
+................................                                         [ 71%]
+tests\dota2uid\test_image_replies.py ............                        [ 72%]
+tests\dota2uid\test_install_and_bridge.py ...FF                          [ 72%]
+tests\dota2uid\test_presentation.py .................................... [ 74%]
+.................                                                        [ 75%]
+tests\dota2uid\test_runtime.py .............                             [ 75%]
+tests\dota2uid\test_selection.py ....................................... [ 77%]
+....                                                                     [ 77%]
+tests\dota2uid\test_subscription_images.py ......                        [ 78%]
+tests\dota2uid\test_web_config_runtime.py .............................. [ 79%]
+....................                                                     [ 80%]
+tests\renderer\test_forge_theme.py ...                                   [ 80%]
+tests\renderer\test_hero_items_card.py .                                 [ 80%]
+tests\renderer\test_illustrations.py ................................... [ 82%]
+.......................                                                  [ 83%]
+tests\renderer\test_item_label_layout.py ...                             [ 83%]
+tests\renderer\test_match_report_cards.py .......                        [ 83%]
+tests\renderer\test_readable_detail_cards.py ..                          [ 83%]
+tests\renderer\test_renderer_cards.py .................................. [ 85%]
+.......                                                                  [ 85%]
+tests\renderer\test_renderer_worker.py ..                                [ 86%]
+tests\renderer\test_subscription_cards.py .................              [ 86%]
+tests\test_bundled_distributions.py FFF...F......FFFFFFFFFFF.            [ 88%]
+tests\test_download_dota_assets.py ..........                            [ 88%]
+tests\test_governance.py ............................................... [ 90%]
+............................                                             [ 92%]
+tests\test_gscore_bundled_runtime.py ................................... [ 93%]
+.........................................................                [ 96%]
+tests\test_gscore_public_runtime.py ....................FF.              [ 97%]
+tests\test_packages.py .......F...                                       [ 98%]
+tests\test_plugin_distributions.py F.................................... [ 99%]
+....                                                                     [100%]
+
+================================== FAILURES ===================================
+____ test_bridge_registration_permissions_reloading_and_png_messages[True] ____
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bridge_registration_permi1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020380B0D9A0>
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+store_entry = True
+
+    @pytest.mark.parametrize("store_entry", [False, True])
+    def test_bridge_registration_permissions_reloading_and_png_messages(
+        tmp_path, monkeypatch, run_async, store_entry
+    ):
+        commands = {}
+        regex_handlers = {}
+        tools = {}
+        llm_hooks = []
+
+        def llm_tool(*, name):
+            def decorate(func):
+                assert "Args:" in func.__doc__
+                tools[name] = func
+                return func
+
+            return decorate
+
+        def on_llm_request():
+            def decorate(func):
+                llm_hooks.append(func)
+                return func
+
+            return decorate
+
+        class Star:
+            def __init__(self, context):
+                self.context = context
+
+        class GreedyStr(str):
+            pass
+
+        class At:
+            def __init__(self, qq):
+                self.qq = qq
+
+        class AtAll:
+            pass
+
+        class Image:
+            @staticmethod
+            def fromBytes(value):
+                assert value.startswith(b"\x89PNG")
+                return ("image", value)
+
+        class PermissionType(StrEnum):
+            ADMIN = "admin"
+
+        def permission_type(permission):
+            def decorate(func):
+                func.permission = permission
+                return func
+
+            return decorate
+
+        def command(name, alias=None):
+            def decorate(func):
+                # AstrBot's GreedyStr consumes all tokens, including no tokens.
+                assert func.__annotations__["text"] is GreedyStr
+                commands[name] = func
+                for other in alias or ():
+                    commands[other] = func
+                return func
+
+            return decorate
+
+        def regex(pattern):
+            def decorate(func):
+                regex_handlers[pattern] = func
+                return func
+
+            return decorate
+
+        class Event:
+            def __init__(self, *, admin=False, components=(), message=""):
+                self.admin = admin
+                self.components = components
+                self.sent = []
+                self.stopped = False
+                self.message = message
+
+            def get_message_str(self):
+                return self.message
+
+            def get_self_id(self):
+                return "bot"
+
+            def get_sender_id(self):
+                return "user"
+
+            def get_platform_id(self):
+                return "connection"
+
+            def get_platform_name(self):
+                return "qq"
+
+            def get_messages(self):
+                return self.components
+
+            def get_message_type(self):
+                return SimpleNamespace(value="FriendMessage")
+
+            def get_group_id(self):
+                return ""
+
+            def is_admin(self):
+                return self.admin
+
+            def stop_event(self):
+                self.stopped = True
+
+            def plain_result(self, text):
+                return text
+
+            def chain_result(self, chain):
+                return chain
+
+            async def send(self, result):
+                self.sent.append(result)
+
+        for name in (
+            "astrbot",
+            "astrbot.api",
+            "astrbot.api.event",
+            "astrbot.api.star",
+            "astrbot.api.message_components",
+            "astrbot.core",
+            "astrbot.core.star",
+            "astrbot.core.star.filter",
+            "astrbot.core.star.filter.command",
+        ):
+            monkeypatch.setitem(sys.modules, name, ModuleType(name))
+        sys.modules["astrbot.api"].AstrBotConfig = dict
+        sys.modules["astrbot.api"].logger = logging.getLogger("synthetic")
+        sys.modules["astrbot.api.event"].AstrMessageEvent = Event
+        sys.modules["astrbot.api.event"].filter = SimpleNamespace(
+            command=command,
+            regex=regex,
+            permission_type=permission_type,
+            PermissionType=PermissionType,
+            llm_tool=llm_tool,
+            on_llm_request=on_llm_request,
+        )
+        sys.modules["astrbot.api.star"].Star = Star
+        sys.modules["astrbot.api.star"].Context = object
+        sys.modules["astrbot.api.star"].StarTools = SimpleNamespace(
+            get_data_dir=lambda _: tmp_path / "plugin_data"
+        )
+        for name, value in {"At": At, "AtAll": AtAll, "Image": Image}.items():
+            setattr(sys.modules["astrbot.api.message_components"], name, value)
+        sys.modules["astrbot.core.star.filter.command"].GreedyStr = GreedyStr
+        source = tmp_path / "host" / "astrbot" / "core" / "star" / "star_manager.py"
+        source.parent.mkdir(parents=True)
+        source.write_text("", encoding="utf-8")
+        bridge = install_bridge(tmp_path / "host") / "main.py"
+        if store_entry:
+            candidate = build_distributions(
+                Path(__file__).resolve().parents[2],
+                tmp_path / "candidate",
+                "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+                "https://github.com/HBLADEH/Dota2UID",
+            )
+            bridge = candidate / "astrbot_plugin_dota2forge/main.py"
+        spec = importlib.util.spec_from_file_location(
+            "synthetic_astr_bridge", bridge, submodule_search_locations=[str(bridge.parent)]
+        )
+        module = importlib.util.module_from_spec(spec)
+        monkeypatch.setitem(sys.modules, "synthetic_astr_bridge", module)
+>       spec.loader.exec_module(module)
+
+tests\astrbot_consumer\test_host_bridge.py:185:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<frozen importlib._bootstrap_external>:999: in exec_module
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+C:\Users\BLADE\AppData\Local\Temp\pytest-of-BLADE\pytest-400\test_bridge_registration_permi1\candidate\astrbot_plugin_dota2forge\main.py:3: in <module>
+    _verify_dependencies(__file__)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+entry = 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bridge_registration_permi1\\candidate\\astrbot_plugin_dota2forge\\main.py'
+
+    def verify_dependencies(entry: str) -> None:
+        """Fail before SDK/runtime imports; never silently load an older shared library."""
+        if sys.version_info < MINIMUM_PYTHON:
+            raise RuntimeError("Dota2Forge requires Python 3.12 or newer. Upgrade the host first.")
+        try:
+            manifest = json.loads(Path(entry).with_name("release.json").read_text(encoding="utf-8"))
+            if not isinstance(manifest, dict) or type(manifest.get("schema_version")) is not int:
+                raise ValueError
+            if manifest["schema_version"] != 1:
+                raise ValueError
+            adapter = ADAPTERS[manifest["plugin"]]
+            expected = manifest["versions"]
+            if not isinstance(expected, dict) or set(expected) != {
+                "dota2forge-core",
+                "dota2forge-renderer",
+                "dota2forge-assets",
+                adapter,
+            }:
+                raise ValueError
+            if any(not isinstance(value, str) or not value for value in expected.values()):
+                raise ValueError
+        except (OSError, ValueError, KeyError, TypeError):
+            raise RuntimeError(
+                "Dota2Forge release manifest is missing or invalid. Reinstall the plugin."
+            ) from None
+        incompatible = []
+        for name, version in sorted(expected.items()):
+            try:
+                installed = metadata.version(name)
+            except metadata.PackageNotFoundError:
+                installed = None
+            if installed != version:
+                incompatible.append(name)
+        if incompatible:
+>           raise RuntimeError(
+                "Dota2Forge dependencies are missing or incompatible: "
+                + ", ".join(incompatible)
+                + ". Stop the host, install the pinned versions, then restart."
+            )
+E           RuntimeError: Dota2Forge dependencies are missing or incompatible: astrbot-plugin-dota2forge, dota2forge-core, dota2forge-renderer. Stop the host, install the pinned versions, then restart.
+
+C:\Users\BLADE\AppData\Local\Temp\pytest-of-BLADE\pytest-400\test_bridge_registration_permi1\candidate\astrbot_plugin_dota2forge\_dota2forge_bootstrap.py:51: RuntimeError
+_ test_both_runtimes_resolve_without_binding_and_only_request_opendota[do\u65a7\u738b\u51fa\u88c5--astrbot_plugin_dota2forge] _
+
+adapter = 'astrbot_plugin_dota2forge', command = 'do斧王出装', name = ''
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_both_runtimes_resolve_wit1')
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+
+    @pytest.mark.parametrize("adapter", ["Dota2UID", "astrbot_plugin_dota2forge"])
+    @pytest.mark.parametrize(
+        "command,name", [("do斧王出装", ""), ("doAM出装", ""), ("do出装", "Shadow Fiend")]
+    )
+    def test_both_runtimes_resolve_without_binding_and_only_request_opendota(
+        adapter, command, name, tmp_path, run_async
+    ):
+        calls = []
+
+        def handler(request):
+            calls.append(request)
+            assert request.method == "GET" and request.url.host == "api.opendota.com"
+            assert "Authorization" not in request.headers
+            return httpx.Response(200, json=data())
+
+        async def check():
+            client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+            runtime, caller = make_runtime(adapter, tmp_path, client, False)
+            replies = []
+
+            async def send(reply):
+                replies.append(reply)
+
+            await runtime.dispatch(caller, command, name, send)
+            text = replies[0].text
+            assert "热门出装" in text and "OPENDOTA" in text and "STRATZ" not in text
+            assert "闪烁匕首：8 次" in text and "动物信使" not in text
+            assert "装备 ID 999999：2 次" in text and "：0 次" in text
+            assert "本次无物品统计" in text and "统计未知（来源未返回）" in text
+            assert "补丁" in text and "未知" in text and "热门不等于最优" in text
+            assert len(calls) == 1
+            before = len(calls)
+            await runtime.dispatch(caller, "do猴子出装", "", send)
+            assert "歧义" in replies[-1].text and "幻影长矛手" in replies[-1].text
+            await runtime.dispatch(caller, "do不存在出装", "", send)
+            assert "未识别" in replies[-1].text and len(calls) == before
+            await runtime.close()
+            assert runtime.client_closed
+
+>       run_async(check())
+
+tests\core\test_hero_item_consumers.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def check():
+        client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+        runtime, caller = make_runtime(adapter, tmp_path, client, False)
+        replies = []
+
+        async def send(reply):
+            replies.append(reply)
+
+        await runtime.dispatch(caller, command, name, send)
+        text = replies[0].text
+        assert "热门出装" in text and "OPENDOTA" in text and "STRATZ" not in text
+        assert "闪烁匕首：8 次" in text and "动物信使" not in text
+        assert "装备 ID 999999：2 次" in text and "：0 次" in text
+        assert "本次无物品统计" in text and "统计未知（来源未返回）" in text
+        assert "补丁" in text and "未知" in text and "热门不等于最优" in text
+        assert len(calls) == 1
+        before = len(calls)
+        await runtime.dispatch(caller, "do猴子出装", "", send)
+>       assert "歧义" in replies[-1].text and "幻影长矛手" in replies[-1].text
+E       AssertionError: assert ('歧义' in '参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。')
+E        +  where '参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。' = AstrTextReply(text='参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。').text
+
+tests\core\test_hero_item_consumers.py:75: AssertionError
+_ test_both_runtimes_resolve_without_binding_and_only_request_opendota[doAM\u51fa\u88c5--astrbot_plugin_dota2forge] _
+
+adapter = 'astrbot_plugin_dota2forge', command = 'doAM出装', name = ''
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_both_runtimes_resolve_wit3')
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+
+    @pytest.mark.parametrize("adapter", ["Dota2UID", "astrbot_plugin_dota2forge"])
+    @pytest.mark.parametrize(
+        "command,name", [("do斧王出装", ""), ("doAM出装", ""), ("do出装", "Shadow Fiend")]
+    )
+    def test_both_runtimes_resolve_without_binding_and_only_request_opendota(
+        adapter, command, name, tmp_path, run_async
+    ):
+        calls = []
+
+        def handler(request):
+            calls.append(request)
+            assert request.method == "GET" and request.url.host == "api.opendota.com"
+            assert "Authorization" not in request.headers
+            return httpx.Response(200, json=data())
+
+        async def check():
+            client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+            runtime, caller = make_runtime(adapter, tmp_path, client, False)
+            replies = []
+
+            async def send(reply):
+                replies.append(reply)
+
+            await runtime.dispatch(caller, command, name, send)
+            text = replies[0].text
+            assert "热门出装" in text and "OPENDOTA" in text and "STRATZ" not in text
+            assert "闪烁匕首：8 次" in text and "动物信使" not in text
+            assert "装备 ID 999999：2 次" in text and "：0 次" in text
+            assert "本次无物品统计" in text and "统计未知（来源未返回）" in text
+            assert "补丁" in text and "未知" in text and "热门不等于最优" in text
+            assert len(calls) == 1
+            before = len(calls)
+            await runtime.dispatch(caller, "do猴子出装", "", send)
+            assert "歧义" in replies[-1].text and "幻影长矛手" in replies[-1].text
+            await runtime.dispatch(caller, "do不存在出装", "", send)
+            assert "未识别" in replies[-1].text and len(calls) == before
+            await runtime.close()
+            assert runtime.client_closed
+
+>       run_async(check())
+
+tests\core\test_hero_item_consumers.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def check():
+        client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+        runtime, caller = make_runtime(adapter, tmp_path, client, False)
+        replies = []
+
+        async def send(reply):
+            replies.append(reply)
+
+        await runtime.dispatch(caller, command, name, send)
+        text = replies[0].text
+        assert "热门出装" in text and "OPENDOTA" in text and "STRATZ" not in text
+        assert "闪烁匕首：8 次" in text and "动物信使" not in text
+        assert "装备 ID 999999：2 次" in text and "：0 次" in text
+        assert "本次无物品统计" in text and "统计未知（来源未返回）" in text
+        assert "补丁" in text and "未知" in text and "热门不等于最优" in text
+        assert len(calls) == 1
+        before = len(calls)
+        await runtime.dispatch(caller, "do猴子出装", "", send)
+>       assert "歧义" in replies[-1].text and "幻影长矛手" in replies[-1].text
+E       AssertionError: assert ('歧义' in '参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。')
+E        +  where '参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。' = AstrTextReply(text='参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。').text
+
+tests\core\test_hero_item_consumers.py:75: AssertionError
+_ test_both_runtimes_resolve_without_binding_and_only_request_opendota[do\u51fa\u88c5-Shadow Fiend-astrbot_plugin_dota2forge] _
+
+adapter = 'astrbot_plugin_dota2forge', command = 'do出装', name = 'Shadow Fiend'
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_both_runtimes_resolve_wit5')
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+
+    @pytest.mark.parametrize("adapter", ["Dota2UID", "astrbot_plugin_dota2forge"])
+    @pytest.mark.parametrize(
+        "command,name", [("do斧王出装", ""), ("doAM出装", ""), ("do出装", "Shadow Fiend")]
+    )
+    def test_both_runtimes_resolve_without_binding_and_only_request_opendota(
+        adapter, command, name, tmp_path, run_async
+    ):
+        calls = []
+
+        def handler(request):
+            calls.append(request)
+            assert request.method == "GET" and request.url.host == "api.opendota.com"
+            assert "Authorization" not in request.headers
+            return httpx.Response(200, json=data())
+
+        async def check():
+            client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+            runtime, caller = make_runtime(adapter, tmp_path, client, False)
+            replies = []
+
+            async def send(reply):
+                replies.append(reply)
+
+            await runtime.dispatch(caller, command, name, send)
+            text = replies[0].text
+            assert "热门出装" in text and "OPENDOTA" in text and "STRATZ" not in text
+            assert "闪烁匕首：8 次" in text and "动物信使" not in text
+            assert "装备 ID 999999：2 次" in text and "：0 次" in text
+            assert "本次无物品统计" in text and "统计未知（来源未返回）" in text
+            assert "补丁" in text and "未知" in text and "热门不等于最优" in text
+            assert len(calls) == 1
+            before = len(calls)
+            await runtime.dispatch(caller, "do猴子出装", "", send)
+            assert "歧义" in replies[-1].text and "幻影长矛手" in replies[-1].text
+            await runtime.dispatch(caller, "do不存在出装", "", send)
+            assert "未识别" in replies[-1].text and len(calls) == before
+            await runtime.close()
+            assert runtime.client_closed
+
+>       run_async(check())
+
+tests\core\test_hero_item_consumers.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def check():
+        client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+        runtime, caller = make_runtime(adapter, tmp_path, client, False)
+        replies = []
+
+        async def send(reply):
+            replies.append(reply)
+
+        await runtime.dispatch(caller, command, name, send)
+        text = replies[0].text
+        assert "热门出装" in text and "OPENDOTA" in text and "STRATZ" not in text
+        assert "闪烁匕首：8 次" in text and "动物信使" not in text
+        assert "装备 ID 999999：2 次" in text and "：0 次" in text
+        assert "本次无物品统计" in text and "统计未知（来源未返回）" in text
+        assert "补丁" in text and "未知" in text and "热门不等于最优" in text
+        assert len(calls) == 1
+        before = len(calls)
+        await runtime.dispatch(caller, "do猴子出装", "", send)
+>       assert "歧义" in replies[-1].text and "幻影长矛手" in replies[-1].text
+E       AssertionError: assert ('歧义' in '参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。')
+E        +  where '参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。' = AstrTextReply(text='参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。').text
+
+tests\core\test_hero_item_consumers.py:75: AssertionError
+____ test_host_bridge_cold_hot_stop_reload_and_command_registration[False] ____
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_host_bridge_cold_hot_stop0')
+config_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_host_bridge_cold_hot_stop0/config.toml')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381219130>
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+store_entry = False
+
+    @pytest.mark.parametrize("store_entry", [False, True])
+    def test_host_bridge_cold_hot_stop_reload_and_command_registration(
+        tmp_path, config_path, monkeypatch, run_async, store_entry
+    ):
+        hooks = {name: [] for name in ("on_core_start", "on_core_start_before", "on_core_shutdown")}
+        commands = {}
+        regex_handlers = {}
+        routes = {}
+        jobs = {}
+
+        class Scheduler:
+            def add_job(self, callback, trigger, **options):
+                assert trigger == "interval" and options["max_instances"] == 1
+                assert options["coalesce"] is True and options["seconds"] == 60
+                jobs[options["id"]] = callback
+
+            def get_job(self, job_id):
+                return jobs.get(job_id)
+
+            def remove_job(self, job_id):
+                del jobs[job_id]
+
+        config_path.write_text(
+            "subscriptions_enabled=true\n" + config_path.read_text("utf-8"), encoding="utf-8"
+        )
+
+        class App:
+            user_middleware = []
+            middleware_stack = None
+
+            def route(self, path, *, dependencies):
+                assert len(dependencies) == 1
+                assert dependencies[0] is require_admin
+
+                def register(func):
+                    routes[path] = func
+                    return func
+
+                return register
+
+            get = post = route
+
+        def require_admin():
+            raise AssertionError("The host owns authentication")
+
+        class Service:
+            def __init__(self, name, pm):
+                self.pm = pm
+
+            def on_command(self, keywords, **kwargs):
+                def register(func):
+                    for key in keywords if isinstance(keywords, tuple) else [keywords]:
+                        commands[key] = (func, self.pm)
+                    return func
+
+                return register
+
+            def on_regex(self, pattern, **kwargs):
+                def register(func):
+                    regex_handlers[pattern] = func
+                    return func
+
+                return register
+
+        for name in (
+            "gsuid_core",
+            "gsuid_core.bot",
+            "gsuid_core.models",
+            "gsuid_core.server",
+            "gsuid_core.sv",
+            "gsuid_core.aps",
+            "gsuid_core.logger",
+            "fastapi",
+            "gsuid_core.webconsole",
+            "gsuid_core.webconsole.app_app",
+            "gsuid_core.webconsole.web_api",
+        ):
+            monkeypatch.setitem(sys.modules, name, ModuleType(name))
+        sys.modules["gsuid_core.bot"].Bot = CapturingBot
+        install_config_sdk(monkeypatch)
+        sys.modules["gsuid_core.models"].Event = SyntheticEvent
+        sys.modules["gsuid_core.sv"].SV = Service
+        sys.modules["gsuid_core.aps"].scheduler = Scheduler()
+        sys.modules["gsuid_core.logger"].logger = type("Logger", (), {"info": lambda *_: None})()
+        sys.modules["gsuid_core.sv"].Plugins = lambda **kwargs: None
+        sys.modules["fastapi"].Depends = lambda dependency: dependency
+        sys.modules["gsuid_core.webconsole.app_app"].app = App()
+        sys.modules["gsuid_core.webconsole.web_api"].require_admin_header = require_admin
+        for name, callbacks in hooks.items():
+
+            def register(func, callbacks=callbacks):
+                callbacks.append(func)
+                return func
+
+            setattr(sys.modules["gsuid_core.server"], name, register)
+        server = tmp_path / "host" / "gsuid_core" / "server.py"
+        server.parent.mkdir(parents=True)
+        server.write_text("", encoding="utf-8")
+        entry, _ = install_bridge(tmp_path / "host")
+        if store_entry:
+            candidate = build_distributions(
+                Path(__file__).resolve().parents[2],
+                tmp_path / "candidate",
+                "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+                "https://github.com/HBLADEH/Dota2UID",
+            )
+            entry = candidate / "Dota2UID/__init__.py"
+        clients = []
+
+        def factory():
+            client = httpx.AsyncClient(
+                transport=httpx.MockTransport(lambda _: pytest.fail("No HTTP for binding"))
+            )
+            clients.append(client)
+            return client
+
+        def load():
+            spec = importlib.util.spec_from_file_location(
+                "synthetic_host_bridge", entry, submodule_search_locations=[str(entry.parent)]
+            )
+            module = importlib.util.module_from_spec(spec)
+            monkeypatch.setitem(sys.modules, "synthetic_host_bridge", module)
+            spec.loader.exec_module(module)
+            monkeypatch.delitem(
+                sys.modules, "synthetic_host_bridge._dota2forge_bootstrap", raising=False
+            )
+            module.runtime = Runtime(config_path, client_factory=factory)
+            return module
+
+        async def check():
+            cold = load()
+            assert cold.runtime.state == State.NEW
+            assert set(commands) == {
+                "do素材状态",
+                "do下载素材",
+                "do更新素材",
+                "do帮助",
+                "do菜单",
+                "do绑定",
+                "do改绑",
+                "do账号",
+                "do解绑",
+                "do查询",
+                "do战绩",
+                "do比赛",
+                "do出装",
+                "do停用",
+                "do订阅玩家",
+                "do订阅比赛",
+                "do订阅列表",
+                "do取消订阅",
+                "do重试推送",
+            }
+            assert commands["do停用"][1] == 0
+            assert set(regex_handlers) == {r"^do(?P<hero>.{1,64})出装$", SUBSCRIPTION_PATTERN}
+            assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
+            assert await cold.status_dota2uid() == {
+                "state": "new",
+                "client_closed": True,
+                "assets_state": "checking",
+            }
+            await cold.start_dota2uid()
+            await cold.start_dota2uid()
+            assert len(jobs) == 1 and cold.job_registered
+            bot = CapturingBot()
+            await cold.command_dota2uid(bot, SyntheticEvent())
+            assert "绑定已保存" in bot.replies[-1] and len(clients) == 1
+            for raw_text, expected in (
+                ("do订阅玩家 123456789", "已保存玩家对局订阅"),
+                ("do订阅比赛 9001", "已保存指定比赛订阅"),
+                ("do订阅列表", "账号 123456789"),
+                ("do订阅 比赛 123456789", "已保存比赛订阅"),
+                ("do订阅\t段位\t123456789", "已保存段位订阅"),
+                ("do订阅　日报　123456789", "已保存日报订阅"),
+                ("do订阅", "已保存比赛订阅"),
+                ("do订阅 未知 123", "参数不正确"),
+                ("do订阅玩家 123 extra", "参数不正确"),
+                ("do订阅 玩家 123", "参数不正确"),
+            ):
+                await dispatch_message(commands, regex_handlers, bot, SyntheticEvent(), raw_text)
+                assert expected in bot.replies[-1]
+            dispatched = []
+
+            async def capture(caller, keyword, text, send):
+                dispatched.append((keyword, text))
+
+            with monkeypatch.context() as patch:
+                patch.setattr(cold.runtime, "dispatch", capture)
+                await regex_handlers[r"^do(?P<hero>.{1,64})出装$"](
+                    bot, SyntheticEvent(command="AM", text="", regex_dict={"hero": "AM"})
+                )
+                await cold.command_dota2uid(bot, SyntheticEvent(command="do出装", text="斧王"))
+            assert dispatched == [("do出装", "AM"), ("do出装", "斧王")]
+            await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=6, text=""))
+            assert cold.runtime.state == State.READY
+            await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=0, text=""))
+            assert cold.runtime.state == State.STOPPED and clients[-1].is_closed
+            assert not jobs and not cold.job_registered
+            before = len(bot.replies)
+            await cold.command_dota2uid(bot, SyntheticEvent())
+            assert len(bot.replies) == before
+            config_path.write_text(
+                config_path.read_text("utf-8").replace('reply_mode="text"', 'reply_mode="image"'),
+                encoding="utf-8",
+            )
+            hot = load()
+            await hot.command_dota2uid(bot, SyntheticEvent(command="do菜单", text=""))
+            assert isinstance(bot.replies[-1], bytes) and bot.replies[-1].startswith(b"\x89PNG")
+            await hot.start_dota2uid()
+            assert len(jobs) == 1
+            assert len(clients) == 2
+            stopped = await hot.close_dota2uid()
+            assert stopped == {
+                "state": "stopped",
+                "client_closed": True,
+                "assets_state": hot.runtime.asset_status.state,
+            }
+            assert stopped["assets_state"] in {"failed", "cancelled", "checking"}
+            await hot.stop_dota2uid()
+            assert all(c.is_closed for c in clients)
+            assert not jobs
+
+>       run_async(check())
+
+tests\dota2uid\test_install_and_bridge.py:304:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def check():
+        cold = load()
+        assert cold.runtime.state == State.NEW
+>       assert set(commands) == {
+            "do素材状态",
+            "do下载素材",
+            "do更新素材",
+            "do帮助",
+            "do菜单",
+            "do绑定",
+            "do改绑",
+            "do账号",
+            "do解绑",
+            "do查询",
+            "do战绩",
+            "do比赛",
+            "do出装",
+            "do停用",
+            "do订阅玩家",
+            "do订阅比赛",
+            "do订阅列表",
+            "do取消订阅",
+            "do重试推送",
+        }
+E       AssertionError: assert {'do下载素材', 'd..., 'do帮助', ...} == {'do下载素材', 'd..., 'do战绩', ...}
+E
+E         Extra items in the left set:
+E         'do强势'
+E         'do复盘'
+E         'do攻略'
+E         'do攻略样例'
+E         Use -v to get more diff
+
+tests\dota2uid\test_install_and_bridge.py:214: AssertionError
+____ test_host_bridge_cold_hot_stop_reload_and_command_registration[True] _____
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_host_bridge_cold_hot_stop1')
+config_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_host_bridge_cold_hot_stop1/config.toml')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381119E50>
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+store_entry = True
+
+    @pytest.mark.parametrize("store_entry", [False, True])
+    def test_host_bridge_cold_hot_stop_reload_and_command_registration(
+        tmp_path, config_path, monkeypatch, run_async, store_entry
+    ):
+        hooks = {name: [] for name in ("on_core_start", "on_core_start_before", "on_core_shutdown")}
+        commands = {}
+        regex_handlers = {}
+        routes = {}
+        jobs = {}
+
+        class Scheduler:
+            def add_job(self, callback, trigger, **options):
+                assert trigger == "interval" and options["max_instances"] == 1
+                assert options["coalesce"] is True and options["seconds"] == 60
+                jobs[options["id"]] = callback
+
+            def get_job(self, job_id):
+                return jobs.get(job_id)
+
+            def remove_job(self, job_id):
+                del jobs[job_id]
+
+        config_path.write_text(
+            "subscriptions_enabled=true\n" + config_path.read_text("utf-8"), encoding="utf-8"
+        )
+
+        class App:
+            user_middleware = []
+            middleware_stack = None
+
+            def route(self, path, *, dependencies):
+                assert len(dependencies) == 1
+                assert dependencies[0] is require_admin
+
+                def register(func):
+                    routes[path] = func
+                    return func
+
+                return register
+
+            get = post = route
+
+        def require_admin():
+            raise AssertionError("The host owns authentication")
+
+        class Service:
+            def __init__(self, name, pm):
+                self.pm = pm
+
+            def on_command(self, keywords, **kwargs):
+                def register(func):
+                    for key in keywords if isinstance(keywords, tuple) else [keywords]:
+                        commands[key] = (func, self.pm)
+                    return func
+
+                return register
+
+            def on_regex(self, pattern, **kwargs):
+                def register(func):
+                    regex_handlers[pattern] = func
+                    return func
+
+                return register
+
+        for name in (
+            "gsuid_core",
+            "gsuid_core.bot",
+            "gsuid_core.models",
+            "gsuid_core.server",
+            "gsuid_core.sv",
+            "gsuid_core.aps",
+            "gsuid_core.logger",
+            "fastapi",
+            "gsuid_core.webconsole",
+            "gsuid_core.webconsole.app_app",
+            "gsuid_core.webconsole.web_api",
+        ):
+            monkeypatch.setitem(sys.modules, name, ModuleType(name))
+        sys.modules["gsuid_core.bot"].Bot = CapturingBot
+        install_config_sdk(monkeypatch)
+        sys.modules["gsuid_core.models"].Event = SyntheticEvent
+        sys.modules["gsuid_core.sv"].SV = Service
+        sys.modules["gsuid_core.aps"].scheduler = Scheduler()
+        sys.modules["gsuid_core.logger"].logger = type("Logger", (), {"info": lambda *_: None})()
+        sys.modules["gsuid_core.sv"].Plugins = lambda **kwargs: None
+        sys.modules["fastapi"].Depends = lambda dependency: dependency
+        sys.modules["gsuid_core.webconsole.app_app"].app = App()
+        sys.modules["gsuid_core.webconsole.web_api"].require_admin_header = require_admin
+        for name, callbacks in hooks.items():
+
+            def register(func, callbacks=callbacks):
+                callbacks.append(func)
+                return func
+
+            setattr(sys.modules["gsuid_core.server"], name, register)
+        server = tmp_path / "host" / "gsuid_core" / "server.py"
+        server.parent.mkdir(parents=True)
+        server.write_text("", encoding="utf-8")
+        entry, _ = install_bridge(tmp_path / "host")
+        if store_entry:
+            candidate = build_distributions(
+                Path(__file__).resolve().parents[2],
+                tmp_path / "candidate",
+                "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+                "https://github.com/HBLADEH/Dota2UID",
+            )
+            entry = candidate / "Dota2UID/__init__.py"
+        clients = []
+
+        def factory():
+            client = httpx.AsyncClient(
+                transport=httpx.MockTransport(lambda _: pytest.fail("No HTTP for binding"))
+            )
+            clients.append(client)
+            return client
+
+        def load():
+            spec = importlib.util.spec_from_file_location(
+                "synthetic_host_bridge", entry, submodule_search_locations=[str(entry.parent)]
+            )
+            module = importlib.util.module_from_spec(spec)
+            monkeypatch.setitem(sys.modules, "synthetic_host_bridge", module)
+            spec.loader.exec_module(module)
+            monkeypatch.delitem(
+                sys.modules, "synthetic_host_bridge._dota2forge_bootstrap", raising=False
+            )
+            module.runtime = Runtime(config_path, client_factory=factory)
+            return module
+
+        async def check():
+            cold = load()
+            assert cold.runtime.state == State.NEW
+            assert set(commands) == {
+                "do素材状态",
+                "do下载素材",
+                "do更新素材",
+                "do帮助",
+                "do菜单",
+                "do绑定",
+                "do改绑",
+                "do账号",
+                "do解绑",
+                "do查询",
+                "do战绩",
+                "do比赛",
+                "do出装",
+                "do停用",
+                "do订阅玩家",
+                "do订阅比赛",
+                "do订阅列表",
+                "do取消订阅",
+                "do重试推送",
+            }
+            assert commands["do停用"][1] == 0
+            assert set(regex_handlers) == {r"^do(?P<hero>.{1,64})出装$", SUBSCRIPTION_PATTERN}
+            assert set(routes) == {"/api/dota2uid/status", "/api/dota2uid/stop"}
+            assert await cold.status_dota2uid() == {
+                "state": "new",
+                "client_closed": True,
+                "assets_state": "checking",
+            }
+            await cold.start_dota2uid()
+            await cold.start_dota2uid()
+            assert len(jobs) == 1 and cold.job_registered
+            bot = CapturingBot()
+            await cold.command_dota2uid(bot, SyntheticEvent())
+            assert "绑定已保存" in bot.replies[-1] and len(clients) == 1
+            for raw_text, expected in (
+                ("do订阅玩家 123456789", "已保存玩家对局订阅"),
+                ("do订阅比赛 9001", "已保存指定比赛订阅"),
+                ("do订阅列表", "账号 123456789"),
+                ("do订阅 比赛 123456789", "已保存比赛订阅"),
+                ("do订阅\t段位\t123456789", "已保存段位订阅"),
+                ("do订阅　日报　123456789", "已保存日报订阅"),
+                ("do订阅", "已保存比赛订阅"),
+                ("do订阅 未知 123", "参数不正确"),
+                ("do订阅玩家 123 extra", "参数不正确"),
+                ("do订阅 玩家 123", "参数不正确"),
+            ):
+                await dispatch_message(commands, regex_handlers, bot, SyntheticEvent(), raw_text)
+                assert expected in bot.replies[-1]
+            dispatched = []
+
+            async def capture(caller, keyword, text, send):
+                dispatched.append((keyword, text))
+
+            with monkeypatch.context() as patch:
+                patch.setattr(cold.runtime, "dispatch", capture)
+                await regex_handlers[r"^do(?P<hero>.{1,64})出装$"](
+                    bot, SyntheticEvent(command="AM", text="", regex_dict={"hero": "AM"})
+                )
+                await cold.command_dota2uid(bot, SyntheticEvent(command="do出装", text="斧王"))
+            assert dispatched == [("do出装", "AM"), ("do出装", "斧王")]
+            await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=6, text=""))
+            assert cold.runtime.state == State.READY
+            await cold.disable_dota2uid(bot, SyntheticEvent(user_pm=0, text=""))
+            assert cold.runtime.state == State.STOPPED and clients[-1].is_closed
+            assert not jobs and not cold.job_registered
+            before = len(bot.replies)
+            await cold.command_dota2uid(bot, SyntheticEvent())
+            assert len(bot.replies) == before
+            config_path.write_text(
+                config_path.read_text("utf-8").replace('reply_mode="text"', 'reply_mode="image"'),
+                encoding="utf-8",
+            )
+            hot = load()
+            await hot.command_dota2uid(bot, SyntheticEvent(command="do菜单", text=""))
+            assert isinstance(bot.replies[-1], bytes) and bot.replies[-1].startswith(b"\x89PNG")
+            await hot.start_dota2uid()
+            assert len(jobs) == 1
+            assert len(clients) == 2
+            stopped = await hot.close_dota2uid()
+            assert stopped == {
+                "state": "stopped",
+                "client_closed": True,
+                "assets_state": hot.runtime.asset_status.state,
+            }
+            assert stopped["assets_state"] in {"failed", "cancelled", "checking"}
+            await hot.stop_dota2uid()
+            assert all(c.is_closed for c in clients)
+            assert not jobs
+
+>       run_async(check())
+
+tests\dota2uid\test_install_and_bridge.py:304:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\dota2uid\test_install_and_bridge.py:212: in check
+    cold = load()
+           ^^^^^^
+tests\dota2uid\test_install_and_bridge.py:204: in load
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:999: in exec_module
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+C:\Users\BLADE\AppData\Local\Temp\pytest-of-BLADE\pytest-400\test_host_bridge_cold_hot_stop1\candidate\Dota2UID\__init__.py:3: in <module>
+    _verify_dependencies(__file__)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+entry = 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_host_bridge_cold_hot_stop1\\candidate\\Dota2UID\\__init__.py'
+
+    def verify_dependencies(entry: str) -> None:
+        """Fail before SDK/runtime imports; never silently load an older shared library."""
+        if sys.version_info < MINIMUM_PYTHON:
+            raise RuntimeError("Dota2Forge requires Python 3.12 or newer. Upgrade the host first.")
+        try:
+            manifest = json.loads(Path(entry).with_name("release.json").read_text(encoding="utf-8"))
+            if not isinstance(manifest, dict) or type(manifest.get("schema_version")) is not int:
+                raise ValueError
+            if manifest["schema_version"] != 1:
+                raise ValueError
+            adapter = ADAPTERS[manifest["plugin"]]
+            expected = manifest["versions"]
+            if not isinstance(expected, dict) or set(expected) != {
+                "dota2forge-core",
+                "dota2forge-renderer",
+                "dota2forge-assets",
+                adapter,
+            }:
+                raise ValueError
+            if any(not isinstance(value, str) or not value for value in expected.values()):
+                raise ValueError
+        except (OSError, ValueError, KeyError, TypeError):
+            raise RuntimeError(
+                "Dota2Forge release manifest is missing or invalid. Reinstall the plugin."
+            ) from None
+        incompatible = []
+        for name, version in sorted(expected.items()):
+            try:
+                installed = metadata.version(name)
+            except metadata.PackageNotFoundError:
+                installed = None
+            if installed != version:
+                incompatible.append(name)
+        if incompatible:
+>           raise RuntimeError(
+                "Dota2Forge dependencies are missing or incompatible: "
+                + ", ".join(incompatible)
+                + ". Stop the host, install the pinned versions, then restart."
+            )
+E           RuntimeError: Dota2Forge dependencies are missing or incompatible: dota2forge-core, dota2forge-renderer, dota2uid. Stop the host, install the pinned versions, then restart.
+
+C:\Users\BLADE\AppData\Local\Temp\pytest-of-BLADE\pytest-400\test_host_bridge_cold_hot_stop1\candidate\Dota2UID\_dota2forge_bootstrap.py:51: RuntimeError
+___ test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap ____
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_carries_only_valid0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_carries_only_valid0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_carries_only_valid0')
+
+    def test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap(
+        bundled_source, tmp_path
+    ):
+        root, wheels = bundled_source
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:118:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_carries_only_valid0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_carries_only_valid0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_is_deterministic_keeps_astrbot_unchanged_and_uses_its_install_guide _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_is_deterministic_k0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_is_deterministic_k0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_is_deterministic_k0')
+
+    def test_bundle_is_deterministic_keeps_astrbot_unchanged_and_uses_its_install_guide(
+        bundled_source, tmp_path
+    ):
+        root, wheels = bundled_source
+>       bundle = build_bundle(root, wheels, tmp_path / "bundled")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:188:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_is_deterministic_k0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_is_deterministic_k0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_________ test_bundled_install_guide_links_use_the_source_repository __________
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundled_install_guide_lin0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundled_install_guide_lin0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundled_install_guide_lin0')
+
+    def test_bundled_install_guide_links_use_the_source_repository(bundled_source, tmp_path):
+        root, wheels = bundled_source
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:217:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundled_install_guide_lin0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundled_install_guide_lin0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime __
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_source_commit_pins_readme0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_source_commit_pins_readme0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_source_commit_pins_readme0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381E776E0>
+
+    def test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime(
+        bundled_source, tmp_path, monkeypatch
+    ):
+        root, wheels = bundled_source
+        source_ref = "0123456789abcdef0123456789abcdef01234567"
+        monkeypatch.setattr(distribution, "ROOT", root)
+        pinned = tmp_path / "pinned"
+>       assert (
+            distribution.main(
+                [
+                    "--output",
+                    str(pinned),
+                    "--astrbot-repo",
+                    ASTR_REPO,
+                    "--gscore-repo",
+                    GS_REPO,
+                    "--gscore-wheels",
+                    str(wheels),
+                    "--astrbot-wheels",
+                    str(wheels),
+                    "--gscore-bundled",
+                    "--source-ref",
+                    source_ref,
+                ]
+            )
+            == 0
+        )
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x00000203FEB0F2E0>(['--output', 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_source_commit_pins_readme0\\pi...', 'https://github.com/HBLADEH/astrbot_plugin_dota2forge', '--gscore-repo', 'https://github.com/HBLADEH/Dota2UID', ...])
+E        +    where <function main at 0x00000203FEB0F2E0> = distribution.main
+
+tests\test_bundled_distributions.py:291: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Distribution generation failed. Check source metadata, repository URLs and output.
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra0-py3-none-any] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native0')
+extra = {'gsuid_core/__init__.py': b'host SDK'}, tag = 'py3-none-any'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:406:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_rejects_sdk_native0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra1-py3-none-any] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native1/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native1/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native1')
+extra = {'dota2forge_core/extension.pyd': b'native'}, tag = 'py3-none-any'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:406:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native1/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_rejects_sdk_native1\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra2-py3-none-any] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native2/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native2/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native2')
+extra = {'dota2forge_core/hero.png': b'game PNG'}, tag = 'py3-none-any'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:406:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native2/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_rejects_sdk_native2\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra3-cp312-cp312-win_amd64] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native3/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native3/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native3')
+extra = {}, tag = 'cp312-cp312-win_amd64'
+
+    @pytest.mark.parametrize(
+        "extra,tag",
+        [
+            ({"gsuid_core/__init__.py": b"host SDK"}, "py3-none-any"),
+            ({"dota2forge_core/extension.pyd": b"native"}, "py3-none-any"),
+            ({"dota2forge_core/hero.png": b"game PNG"}, "py3-none-any"),
+            ({}, "cp312-cp312-win_amd64"),
+        ],
+    )
+    def test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels(
+        bundled_source, tmp_path, extra, tag
+    ):
+        root, wheels = bundled_source
+        version = distribution.versions(root)["dota2forge-core"]
+        path = wheels / f"dota2forge_core-{version}-py3-none-any.whl"
+        path.write_bytes(synthetic_wheel("dota2forge-core", version, extra, tag))
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:406:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_rejects_sdk_native3/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_rejects_sdk_native3\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_invalid_bundle_does_not_overwrite_existing_candidate[missing] ______
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o0')
+change = 'missing'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381E76030>
+
+    @pytest.mark.parametrize("change", ["missing", "metadata", "corrupt"])
+    def test_invalid_bundle_does_not_overwrite_existing_candidate(
+        bundled_source, tmp_path, change, monkeypatch
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:416:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_invalid_bundle_does_not_o0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_invalid_bundle_does_not_overwrite_existing_candidate[metadata] _____
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o1/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o1/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o1')
+change = 'metadata'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020380AF1220>
+
+    @pytest.mark.parametrize("change", ["missing", "metadata", "corrupt"])
+    def test_invalid_bundle_does_not_overwrite_existing_candidate(
+        bundled_source, tmp_path, change, monkeypatch
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:416:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o1/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_invalid_bundle_does_not_o1\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_invalid_bundle_does_not_overwrite_existing_candidate[corrupt] ______
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o2/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o2/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o2')
+change = 'corrupt'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381DA0770>
+
+    @pytest.mark.parametrize("change", ["missing", "metadata", "corrupt"])
+    def test_invalid_bundle_does_not_overwrite_existing_candidate(
+        bundled_source, tmp_path, change, monkeypatch
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       output = build_bundle(root, wheels, tmp_path / "candidate")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_bundled_distributions.py:416:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_invalid_bundle_does_not_o2/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_invalid_bundle_does_not_o2\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____________ test_bundle_cli_reports_success_and_never_publishes _____________
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_cli_reports_succes0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_cli_reports_succes0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_cli_reports_succes0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020380AF2180>
+capsys = <_pytest.capture.CaptureFixture object at 0x0000020380AF2360>
+
+    def test_bundle_cli_reports_success_and_never_publishes(
+        bundled_source, tmp_path, monkeypatch, capsys
+    ):
+        root, wheels = bundled_source
+        monkeypatch.setattr(distribution, "ROOT", root)
+>       assert (
+            distribution.main(
+                [
+                    "--output",
+                    str(tmp_path / "candidate"),
+                    "--astrbot-repo",
+                    ASTR_REPO,
+                    "--gscore-repo",
+                    GS_REPO,
+                    "--gscore-wheels",
+                    str(wheels),
+                    "--gscore-bundled",
+                ]
+            )
+            == 0
+        )
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x00000203FEB0F2E0>(['--output', 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_cli_reports_succes0\\ca...', 'https://github.com/HBLADEH/astrbot_plugin_dota2forge', '--gscore-repo', 'https://github.com/HBLADEH/Dota2UID', ...])
+E        +    where <function main at 0x00000203FEB0F2E0> = distribution.main
+
+tests\test_bundled_distributions.py:452: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Distribution generation failed. Check source metadata, repository URLs and output.
+_ test_bundle_validation_fails_before_output_if_inputs_change_or_collide[oversize] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b0/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b0/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381E74830>
+change = 'oversize'
+
+    @pytest.mark.parametrize("change", ["oversize", "collision", "changed"])
+    def test_bundle_validation_fails_before_output_if_inputs_change_or_collide(
+        bundled_source, tmp_path, monkeypatch, change
+    ):
+        root, wheels = bundled_source
+        original = bundled_runtime.validate_wheel
+        if change == "oversize":
+            monkeypatch.setattr(bundled_runtime, "MAX_WHEEL_BYTES", 1)
+
+            def validate(*args):
+                pytest.fail("Oversize wheel must fail before opening ZIP metadata")
+        else:
+
+            def validate(path, name, version, digest):
+                files = original(path, name, version, digest)
+                if change == "collision":
+                    files["common-marker"] = b"collision"
+                else:
+                    path.write_bytes(path.read_bytes() + b"modified during validation")
+                return files
+
+        monkeypatch.setattr(bundled_runtime, "validate_wheel", validate)
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:495:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_validation_fails_b0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_validation_fails_before_output_if_inputs_change_or_collide[collision] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b1/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b1/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381E75790>
+change = 'collision'
+
+    @pytest.mark.parametrize("change", ["oversize", "collision", "changed"])
+    def test_bundle_validation_fails_before_output_if_inputs_change_or_collide(
+        bundled_source, tmp_path, monkeypatch, change
+    ):
+        root, wheels = bundled_source
+        original = bundled_runtime.validate_wheel
+        if change == "oversize":
+            monkeypatch.setattr(bundled_runtime, "MAX_WHEEL_BYTES", 1)
+
+            def validate(*args):
+                pytest.fail("Oversize wheel must fail before opening ZIP metadata")
+        else:
+
+            def validate(path, name, version, digest):
+                files = original(path, name, version, digest)
+                if change == "collision":
+                    files["common-marker"] = b"collision"
+                else:
+                    path.write_bytes(path.read_bytes() + b"modified during validation")
+                return files
+
+        monkeypatch.setattr(bundled_runtime, "validate_wheel", validate)
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:495:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b1/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_validation_fails_b1\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_ test_bundle_validation_fails_before_output_if_inputs_change_or_collide[changed] _
+
+bundled_source = (WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b2/source'), WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b2/source/wheels'))
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020381F2CB00>
+change = 'changed'
+
+    @pytest.mark.parametrize("change", ["oversize", "collision", "changed"])
+    def test_bundle_validation_fails_before_output_if_inputs_change_or_collide(
+        bundled_source, tmp_path, monkeypatch, change
+    ):
+        root, wheels = bundled_source
+        original = bundled_runtime.validate_wheel
+        if change == "oversize":
+            monkeypatch.setattr(bundled_runtime, "MAX_WHEEL_BYTES", 1)
+
+            def validate(*args):
+                pytest.fail("Oversize wheel must fail before opening ZIP metadata")
+        else:
+
+            def validate(path, name, version, digest):
+                files = original(path, name, version, digest)
+                if change == "collision":
+                    files["common-marker"] = b"collision"
+                else:
+                    path.write_bytes(path.read_bytes() + b"modified during validation")
+                return files
+
+        monkeypatch.setattr(bundled_runtime, "validate_wheel", validate)
+        output = tmp_path / "candidate"
+        with pytest.raises(ValueError):
+>           build_bundle(root, wheels, output)
+
+tests\test_bundled_distributions.py:495:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_bundled_distributions.py:109: in build_bundle
+    return distribution.build_distributions(
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_bundle_validation_fails_b2/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_bundle_validation_fails_b2\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+___ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n] ___
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_public_generation_keeps_o0')
+line_ending = '\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_ai.py.template",
+        ]
+        relative_files.extend(
+            sorted(
+                {
+                    source
+                    for images in distribution.SHOWCASE_IMAGES.values()
+                    for source in images.values()
+                }
+            )
+        )
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+>       write_wheels(wheels)
+
+tests\test_gscore_public_runtime.py:251:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_public_generation_keeps_o0/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_public_generation_keeps_o0\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+__ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n] __
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_public_generation_keeps_o1')
+line_ending = '\r\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_ai.py.template",
+        ]
+        relative_files.extend(
+            sorted(
+                {
+                    source
+                    for images in distribution.SHOWCASE_IMAGES.values()
+                    for source in images.values()
+                }
+            )
+        )
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+>       write_wheels(wheels)
+
+tests\test_gscore_public_runtime.py:251:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\build_plugin_distributions.py:721: in build_distributions
+    artifacts = distribution_files(
+scripts\build_plugin_distributions.py:558: in distribution_files
+    "_dota2forge_ai.py": text_bytes(
+scripts\build_plugin_distributions.py:67: in text_bytes
+    return path.read_text(encoding="utf-8").encode("utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_public_generation_keeps_o1/source/adapters/Dota2UID/src/Dota2UID/host_ai.py.template')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\pytest-of-BLADE\\pytest-400\\test_public_generation_keeps_o1\\source\\adapters\\Dota2UID\\src\\Dota2UID\\host_ai.py.template'
+
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+_____ test_astrbot_development_bridge_declares_matching_local_components ______
+
+    def test_astrbot_development_bridge_declares_matching_local_components():
+        host = files("astrbot_plugin_dota2forge").joinpath("host")
+        requirements = {
+            requirement.name: requirement
+            for line in host.joinpath("requirements.txt").read_text("utf-8").splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+            for requirement in [Requirement(line)]
+        }
+        for name in (
+            "astrbot-plugin-dota2forge",
+            "dota2forge-core",
+            "dota2forge-renderer",
+            "dota2forge-assets",
+        ):
+>           assert str(requirements[name].specifier) == "==" + importlib.metadata.version(name)
+E           AssertionError: assert '==0.1.0a13' == '==0.1.0a12'
+E
+E             - ==0.1.0a12
+E             ?          ^
+E             + ==0.1.0a13
+E             ?          ^
+
+tests\test_packages.py:58: AssertionError
+_ test_both_roots_have_pinned_dependencies_license_and_reproducible_archives __
+
+candidate = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_both_roots_have_pinned_de0/candidate')
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-400/test_both_roots_have_pinned_de0')
+
+    def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(candidate, tmp_path):
+        second = distribution.build_distributions(ROOT, tmp_path / "second", ASTR_REPO, GS_REPO)
+        assert distribution.build_distributions(ROOT, candidate, ASTR_REPO, GS_REPO) == candidate
+        for plugin, entry in (("Dota2UID", "__init__.py"), ("astrbot_plugin_dota2forge", "main.py")):
+            release = json.loads((candidate / plugin / "release.json").read_text("utf-8"))
+            assert release["plugin"] == plugin and len(release["versions"]) == 4
+            assert release["versions"] == {
+                "dota2forge-core": "0.1.0a8",
+                "dota2forge-renderer": "0.1.0a8",
+                "dota2forge-assets": "0.1.0a1",
+                (
+                    "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
+                ): "0.1.0a13" if plugin.startswith("astrbot") else "0.1.0a15",
+            }
+            compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
+            assert (candidate / plugin / "LICENSE").read_text("utf-8") == (ROOT / "LICENSE").read_text(
+                "utf-8"
+            )
+            packed = candidate / f"{plugin}.zip"
+            assert packed.read_bytes() == (second / packed.name).read_bytes()
+            assert packed.stat().st_size < distribution.MAX_ASTRBOT_ZIP_BYTES
+            with ZipFile(packed) as archive:
+                assert "release.json" in archive.namelist() and entry in archive.namelist()
+                assert not any(
+                    ".env" in name or ".git" in name or "assets/" in name for name in archive.namelist()
+                )
+                assert archive.read(entry) == (candidate / plugin / entry).read_bytes()
+        gs = tomllib.loads((candidate / "Dota2UID/pyproject.toml").read_text("utf-8"))
+        assert gs["project"]["gscore_auto_update_dep"] == [
+            "dota2forge-assets==0.1.0a1",
+            "dota2forge-core[stratz]==0.1.0a8",
+            "dota2forge-renderer==0.1.0a8",
+            "dota2uid[stratz]==0.1.0a15",
+        ]
+        assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
+        helper = candidate / "Dota2UID/_dota2forge_config.py"
+        compile(helper.read_text("utf-8"), str(helper), "exec")
+        assert (
+            helper.read_bytes()
+            == (ROOT / "adapters/Dota2UID/src/Dota2UID/host_config.py.template")
+            .read_text("utf-8")
+            .replace("\r\n", "\n")
+            .encode()
+        )
+        astr = (candidate / "astrbot_plugin_dota2forge/metadata.yaml").read_text("utf-8")
+        assert f"repo: {ASTR_REPO}" in astr and 'astrbot_version: ">=4.5.0"' in astr
+        requirements = (candidate / "astrbot_plugin_dota2forge/requirements.txt").read_text("utf-8")
+        assert "astrbot-plugin-dota2forge[stratz]==0.1.0a13" in requirements
+        assert "dota2forge-core[stratz]==0.1.0a8" in requirements
+        changelog = (candidate / "astrbot_plugin_dota2forge/CHANGELOG.md").read_bytes()
+        assert changelog == distribution.text_bytes(
+            ROOT / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md"
+        )
+        assert "0.1.0-alpha.13" in changelog.decode("utf-8")
+        with ZipFile(candidate / "astrbot_plugin_dota2forge.zip") as archive:
+            assert archive.read("CHANGELOG.md") == changelog
+        manifest = json.loads((candidate / "manifest.json").read_text("utf-8"))
+>       assert (
+            manifest["source_sha256"]["adapters/astrbot_plugin_dota2forge/CHANGELOG.md"]
+            == hashlib.sha256(changelog).hexdigest()
+        )
+E       AssertionError: assert '007d511c5302...95266ef34de31' == '1ae32bf54e70...9bb6d6f52d775'
+E
+E         - 1ae32bf54e701ef06c317cf2ebe723a28b881fe1327899b07c89bb6d6f52d775
+E         + 007d511c5302237e8c7e48bf3f0726fbb7ee11e3a2a0824db2395266ef34de31
+
+tests\test_plugin_distributions.py:87: AssertionError
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.9-final-0 _______________
+
+Name                                                                                      Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------------------------------------------------------
+adapters\Dota2UID\src\Dota2UID\__init__.py                                                    0      0      0      0   100%
+adapters\Dota2UID\src\Dota2UID\commands.py                                                  113      5     42      1    96%   78-79, 83, 93-94
+adapters\Dota2UID\src\Dota2UID\config.py                                                     72      1     14      1    98%   46
+adapters\Dota2UID\src\Dota2UID\install.py                                                    48     14     14      2    74%   21, 50-61, 65
+adapters\Dota2UID\src\Dota2UID\native_features.py                                            58      9     16      3    84%   110, 112-118, 156-160
+adapters\Dota2UID\src\Dota2UID\presentation.py                                               76      0     20      0   100%
+adapters\Dota2UID\src\Dota2UID\replies.py                                                     9      0      0      0   100%
+adapters\Dota2UID\src\Dota2UID\review_sessions.py                                            67      1     26      2    97%   40->44, 87
+adapters\Dota2UID\src\Dota2UID\runtime.py                                                   609     57    212     36    86%   185, 197-204, 213-223, 252, 254->257, 261, 270, 277-280, 290->292, 296-298, 305, 322, 326->exit, 332->335, 345-346, 348, 351->exit, 353->exit, 383, 385-386, 393, 397->406, 404, 407, 464, 490->509, 491->493, 494, 556->558, 558->560, 587->590, 616->619, 624->628, 627, 631->634, 682-685, 717->exit, 788-813, 953, 966-972
+adapters\Dota2UID\src\Dota2UID\selection.py                                                  63      0     18      0   100%
+adapters\Dota2UID\src\Dota2UID\subscription_routes.py                                        33      1     12      1    96%   34
+adapters\Dota2UID\src\Dota2UID\subscriptions.py                                             155     12     70      9    91%   107, 137, 144, 164, 191, 200-201, 224, 241, 273->275, 279, 290-291
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\__init__.py                  8      5      2      0    30%   14-24
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\application.py             292     38    104     14    84%   189, 264-274, 285, 304, 310, 313-316, 344->exit, 403-404, 417, 425, 440-462, 463->522, 472, 531, 540, 542, 575, 578->exit
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\commands.py                102      9     38      3    91%   50-51, 55, 65-66, 81, 88, 111-112
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\config.py                   48      0      4      0   100%
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\identity.py                 32      0      6      0   100%
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\install.py                  51     19     20      4    65%   22, 26, 31, 52-69, 73
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\native_features.py          58      9     16      3    84%   110, 112-118, 156-160
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\review_sessions.py          67      1     26      2    97%   40->44, 87
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\runtime.py                 276     35     88     23    82%   102-104, 107->exit, 115, 149, 151-152, 164, 173->exit, 187, 225, 242->259, 243->245, 246, 263, 266, 273, 279-287, 319-322, 343, 355, 367-380, 391, 403, 426, 427->430, 434->436, 440->442, 442->444
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\selection.py                39      0      6      1    98%   47->49
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\subscription_routes.py      29      1     10      1    95%   22
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\subscriptions.py           153     12     70      9    91%   103, 126, 133, 140, 160, 187, 196-197, 220, 269->271, 275, 286-287
+packages\dota2forge-assets\src\dota2forge_assets\__init__.py                                  4      0      0      0   100%
+packages\dota2forge-assets\src\dota2forge_assets\cli.py                                     106      4     34      4    94%   33, 112, 116, 160
+packages\dota2forge-assets\src\dota2forge_assets\http.py                                     68      2     28      3    95%   36->73, 47, 78
+packages\dota2forge-assets\src\dota2forge_assets\manager.py                                 301     20     88      9    93%   29, 117, 125, 155-156, 196-197, 208->exit, 213, 306, 321-322, 335-338, 343-344, 405, 429, 450
+packages\dota2forge-assets\src\dota2forge_assets\models.py                                   60      0     12      0   100%
+packages\dota2forge-assets\src\dota2forge_assets\session.py                                 112      4     46      5    94%   50->54, 53, 93, 149, 194, 197->199
+packages\dota2forge-assets\src\dota2forge_assets\sources.py                                  51      0     18      0   100%
+packages\dota2forge-assets\src\dota2forge_assets\store.py                                   194     18     66     17    86%   47, 59-61, 90-91, 99, 106, 108, 126, 136, 152, 156, 168, 182, 209, 215, 230, 237->exit, 242
+packages\dota2forge-assets\src\dota2forge_assets\validation.py                               89      7     50      8    89%   50, 61->66, 109, 117, 120, 130, 134, 137
+packages\dota2forge-core\src\dota2forge_core\__init__.py                                     23      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\cross_check.py                                 100      0     20      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\__init__.py                               0      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\analysis.py                             107     18     52     17    78%   30, 32, 34, 36, 48, 74, 88, 91, 95, 97, 106, 112, 124, 126, 132, 140, 161, 171
+packages\dota2forge-core\src\dota2forge_core\domain\errors.py                                50      0      4      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\hero_features.py                        232     30     84     31    81%   48, 82, 88, 104, 106, 126, 134, 142, 150, 163, 166, 189, 203, 212, 226, 230, 243, 249, 251, 253, 278, 279->281, 283, 285, 289, 299, 317, 320, 332, 343, 368
+packages\dota2forge-core\src\dota2forge_core\domain\hero_items.py                            97      1     46      1    99%   33
+packages\dota2forge-core\src\dota2forge_core\domain\identity.py                              45      0     20      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\match_detail.py                         168      3     74      3    98%   119, 121, 235
+packages\dota2forge-core\src\dota2forge_core\domain\match_reports.py                         71     11     32     11    79%   29, 33, 39, 41, 43, 48, 53, 63, 67, 74, 85
+packages\dota2forge-core\src\dota2forge_core\domain\models.py                                96      0     36      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\ranks.py                                 26      0     10      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\review.py                                38      4     10      4    83%   34, 40, 45, 55
+packages\dota2forge-core\src\dota2forge_core\domain\subscription_reports.py                  48      2     12      2    93%   42, 46
+packages\dota2forge-core\src\dota2forge_core\domain\subscriptions.py                        186      6     98      5    95%   78, 115, 156, 163-165
+packages\dota2forge-core\src\dota2forge_core\feature_requests.py                             90      6     44      7    90%   49, 53, 79, 83, 86, 97, 108->118
+packages\dota2forge-core\src\dota2forge_core\feature_tools.py                                82     22     36      6    69%   28-71, 116, 122, 133, 138, 144, 228
+packages\dota2forge-core\src\dota2forge_core\hero_features.py                                44      5     14      5    83%   71, 78, 85, 93, 105
+packages\dota2forge-core\src\dota2forge_core\hero_items.py                                   15      0      4      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\__init__.py                       4      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_analysis_mapping.py            125     21     56     16    80%   31, 36, 65, 67, 71, 79, 82, 86, 89-90, 100, 119, 126, 129-130, 144, 152, 155, 158, 160, 179
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_feature_cache.py                56      3     16      4    90%   38, 55->60, 59, 67
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_hero_items_mapping.py           27      0     14      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_http.py                95      2     36      1    96%   35->39, 117-118
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_mapping.py             87      3     36      3    95%   82, 110, 116
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_detail.py                56      0     22      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_heroes.py               233     34     88     29    79%   52, 59-60, 67, 75, 80->88, 86, 116, 132->144, 135, 137->144, 142, 176, 182->184, 194, 195->190, 209->208, 214->219, 273, 303-307, 317, 323, 327, 330, 335, 337-340, 342, 362-364, 393, 400, 405->415, 407->415, 419->428, 426-427
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_http.py                 110      0     48      1    99%   134->138
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_mapping.py               64      0     24      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_subscription_codec.py          145     14     50     14    86%   50, 64, 70, 80, 86, 234, 247, 288, 302, 308, 360, 363, 425, 481
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_worker.py                       17      0      4      1    95%   21->23
+packages\dota2forge-core\src\dota2forge_core\infrastructure\cache.py                        170     28     30      4    84%   72-73, 108, 110, 145-150, 159, 161-166, 169-174, 180-181, 191, 229-230
+packages\dota2forge-core\src\dota2forge_core\infrastructure\hero_catalog.py                   8      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\opendota.py                      48      1     10      1    97%   75
+packages\dota2forge-core\src\dota2forge_core\infrastructure\resilience.py                   122     22     42     11    77%   50, 52, 67-68, 82, 89, 102, 108, 111, 121, 123, 154, 166, 176, 179, 184-186, 202, 206, 218, 225
+packages\dota2forge-core\src\dota2forge_core\infrastructure\review_cache.py                  17      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\sqlite.py                        98      0     26      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\stratz.py                        95      8     26      5    89%   114, 122, 126-127, 131, 134, 138, 189
+packages\dota2forge-core\src\dota2forge_core\infrastructure\subscriptions.py                283      7    110      8    96%   145, 214, 216, 338, 458, 462, 464->466, 596
+packages\dota2forge-core\src\dota2forge_core\ports.py                                        33      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\review.py                                       81      8     30      8    86%   37, 39, 44, 47-48, 54, 55->71, 105, 178
+packages\dota2forge-core\src\dota2forge_core\subscriptions.py                               240     20     96     10    91%   54, 71, 82, 160, 173-179, 189-194, 208, 368-374, 382, 403-404, 408, 412, 416-417
+packages\dota2forge-core\src\dota2forge_core\use_cases.py                                    70      1     20      1    98%   62
+packages\dota2forge-renderer\src\dota2forge_renderer\__init__.py                              5      0      0      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\cards.py                                67      0      2      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\engine.py                              424      3    126      5    99%   177->exit, 194->196, 252, 309, 349
+packages\dota2forge-renderer\src\dota2forge_renderer\feature_layout.py                      124     13     44      9    87%   58, 67, 92-95, 102, 148, 238, 255, 280-281, 285
+packages\dota2forge-renderer\src\dota2forge_renderer\features.py                             98     18     44      8    77%   69, 83, 97, 118, 136, 144, 158, 171, 208-232
+packages\dota2forge-renderer\src\dota2forge_renderer\formatting.py                           41      0     16      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\hero_items.py                           37      0     10      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\illustrations.py                        90      6     38      6    91%   44, 49, 80, 100, 103, 116
+packages\dota2forge-renderer\src\dota2forge_renderer\match_details.py                         7      0      0      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\match_report_layout.py                 169      0     42      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\reporting.py                           112      8     46      5    91%   16, 142, 161, 237-241, 248->233
+packages\dota2forge-renderer\src\dota2forge_renderer\subscriptions.py                        72      1     30      4    95%   105->119, 131->133, 148, 155->166
+packages\dota2forge-renderer\src\dota2forge_renderer\theme.py                                11      0      0      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\worker.py                               46      0     10      1    98%   26->exit
+scripts\build_plugin_distributions.py                                                       355     47    132     14    85%   19, 114, 119, 208->223, 362, 363->365, 414-450, 476, 533, 573-582, 585-594, 667-677, 679-686, 727, 788
+scripts\check_governance.py                                                                 242      2    122      3    99%   18, 165->153, 327
+scripts\check_stratz.py                                                                      32      1      2      1    94%   64
+scripts\download_dota_assets.py                                                               3      3      2      0     0%   3-6
+scripts\generate_reference.py                                                                49      1     16      1    97%   80
+scripts\gscore_bundled_runtime.py                                                           719     54    288     43    90%   131, 153, 183, 203, 210, 213, 281, 300, 349, 369, 385, 405, 408-409, 414-415, 423->435, 437, 449->443, 463, 472, 488-489, 491, 525-527, 533->exit, 540-542, 552-553, 567, 680, 687, 691, 698-703, 767, 824, 838->835, 887, 890, 950, 958->952, 974, 1034, 1037, 1064, 1076, 1104, 1107->1100, 1137, 1142, 1146, 1152->1154, 1159, 1162
+scripts\gscore_public_runtime.py                                                             76      2     30      2    96%   20, 178
+scripts\plugin_bootstrap.py                                                                  34      1     16      1    96%   37
+scripts\smoke_plugin_distributions.py                                                        71     13     22      4    77%   16, 158, 164-172, 240, 244
+scripts\smoke_wheels.py                                                                      27      3     12      5    74%   54->66, 66->77, 77->88, 88->93, 104-108
+scripts\stage_wheel_dependencies.py                                                          26      1     10      1    94%   50
+-------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                     10182    741   3616    483    90%
+Required test coverage of 80% reached. Total coverage: 90.43%
+=========================== short test summary info ===========================
+FAILED tests/astrbot_consumer/test_host_bridge.py::test_bridge_registration_permissions_reloading_and_png_messages[True]
+FAILED tests/core/test_hero_item_consumers.py::test_both_runtimes_resolve_without_binding_and_only_request_opendota[do\u65a7\u738b\u51fa\u88c5--astrbot_plugin_dota2forge]
+FAILED tests/core/test_hero_item_consumers.py::test_both_runtimes_resolve_without_binding_and_only_request_opendota[doAM\u51fa\u88c5--astrbot_plugin_dota2forge]
+FAILED tests/core/test_hero_item_consumers.py::test_both_runtimes_resolve_without_binding_and_only_request_opendota[do\u51fa\u88c5-Shadow Fiend-astrbot_plugin_dota2forge]
+FAILED tests/dota2uid/test_install_and_bridge.py::test_host_bridge_cold_hot_stop_reload_and_command_registration[False]
+FAILED tests/dota2uid/test_install_and_bridge.py::test_host_bridge_cold_hot_stop_reload_and_command_registration[True]
+FAILED tests/test_bundled_distributions.py::test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap
+FAILED tests/test_bundled_distributions.py::test_bundle_is_deterministic_keeps_astrbot_unchanged_and_uses_its_install_guide
+FAILED tests/test_bundled_distributions.py::test_bundled_install_guide_links_use_the_source_repository
+FAILED tests/test_bundled_distributions.py::test_source_commit_pins_readmes_and_bundled_guide_without_changing_runtime
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra0-py3-none-any]
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra1-py3-none-any]
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra2-py3-none-any]
+FAILED tests/test_bundled_distributions.py::test_bundle_rejects_sdk_native_assets_and_mislabelled_wheels[extra3-cp312-cp312-win_amd64]
+FAILED tests/test_bundled_distributions.py::test_invalid_bundle_does_not_overwrite_existing_candidate[missing]
+FAILED tests/test_bundled_distributions.py::test_invalid_bundle_does_not_overwrite_existing_candidate[metadata]
+FAILED tests/test_bundled_distributions.py::test_invalid_bundle_does_not_overwrite_existing_candidate[corrupt]
+FAILED tests/test_bundled_distributions.py::test_bundle_cli_reports_success_and_never_publishes
+FAILED tests/test_bundled_distributions.py::test_bundle_validation_fails_before_output_if_inputs_change_or_collide[oversize]
+FAILED tests/test_bundled_distributions.py::test_bundle_validation_fails_before_output_if_inputs_change_or_collide[collision]
+FAILED tests/test_bundled_distributions.py::test_bundle_validation_fails_before_output_if_inputs_change_or_collide[changed]
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n]
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n]
+FAILED tests/test_packages.py::test_astrbot_development_bridge_declares_matching_local_components
+FAILED tests/test_plugin_distributions.py::test_both_roots_have_pinned_dependencies_license_and_reproducible_archives
+================= 25 failed, 2076 passed in 479.02s (0:07:59) =================
+Required command failed: pytest

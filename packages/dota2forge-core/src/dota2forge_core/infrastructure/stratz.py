@@ -6,12 +6,21 @@ import httpx
 
 from ..domain.analysis import MatchAnalysisResult
 from ..domain.errors import DataSource, ProviderErrorCode, ValidationError
+from ..domain.hero_features import (
+    GuideSample,
+    HeroGuide,
+    HeroMetaSnapshot,
+    MetaRequest,
+    require_position,
+)
+from ..domain.hero_items import Hero
 from ..domain.identity import AccountId
-from ..domain.match_detail import MatchDetailResult, MatchId
+from ..domain.match_detail import MatchDetail, MatchDetailResult, MatchId
 from ..domain.models import DataMetadata, MatchSummary, PlayerProfile, RecentMatches
 from ..ports import Clock
 from ._analysis_mapping import stratz_analysis
 from ._stratz_detail import match_detail
+from ._stratz_heroes import StratzHeroes
 from ._stratz_http import StratzHTTP, failure
 from ._stratz_mapping import match_page, player_data, profile
 
@@ -95,6 +104,38 @@ class StratzProvider:
         timeout_seconds: float = 10,
     ) -> None:
         self._http = StratzHTTP(client, token, clock, timeout_seconds)
+        self._heroes = StratzHeroes(self._http)
+
+    async def close(self) -> None:
+        await self._heroes.close()
+
+    async def get_hero_meta(self, request: MetaRequest) -> HeroMetaSnapshot:
+        if not isinstance(request, MetaRequest):
+            raise ValidationError("Expected a meta request")
+        try:
+            return await self._heroes.meta(request)
+        except ValidationError:
+            raise failure(ProviderErrorCode.INVALID_RESPONSE) from None
+
+    async def get_hero_guide(self, hero: Hero, position: int) -> HeroGuide:
+        if not isinstance(hero, Hero) or position is None:
+            raise ValidationError("Expected a hero and position")
+        require_position(position)
+        try:
+            return await self._heroes.guide(hero, position)
+        except ValidationError:
+            raise failure(ProviderErrorCode.INVALID_RESPONSE) from None
+
+    async def get_guide_sample(self, match_id: MatchId, hero: Hero) -> GuideSample:
+        if not isinstance(match_id, MatchId) or not isinstance(hero, Hero):
+            raise ValidationError("Expected sample identity")
+        detail = await self.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise failure(ProviderErrorCode.NOT_FOUND)
+        try:
+            return await self._heroes.sample(match_id, hero, detail)
+        except ValidationError:
+            raise failure(ProviderErrorCode.INVALID_RESPONSE) from None
 
     async def get_player(self, account_id: AccountId) -> PlayerProfile:
         self._validate_account(account_id)

@@ -1,0 +1,13 @@
+{
+  "sdk_version": "4.28.2",
+  "real_decorators_and_toolset": true,
+  "explicit_schemas": true,
+  "real_provider_request": true,
+  "same_conversation_five_rounds": true,
+  "figure_text_fact_once": true,
+  "same_id_history_reset": true,
+  "client_closed": true,
+  "conversation_manager": "synthetic",
+  "real_model": false,
+  "real_platform_sends": false
+}

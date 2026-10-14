@@ -1,0 +1,38 @@
+{
+  "guide-sample-skills": {
+    "width": 780,
+    "height": 1680,
+    "bytes": 197378,
+    "text_boxes": 77,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_feature_implemented": false
+  },
+  "guide-sample-items": {
+    "width": 780,
+    "height": 1680,
+    "bytes": 214601,
+    "text_boxes": 36,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_feature_implemented": false
+  },
+  "review-data": {
+    "width": 780,
+    "height": 1120,
+    "bytes": 124722,
+    "text_boxes": 18,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_feature_implemented": false
+  },
+  "conversation": {
+    "width": 780,
+    "height": 1680,
+    "bytes": 202798,
+    "text_boxes": 20,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_feature_implemented": false
+  }
+}

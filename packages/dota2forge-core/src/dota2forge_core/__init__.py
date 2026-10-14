@@ -33,6 +33,21 @@ from .domain.errors import (
     SubscriptionRepositoryError,
     ValidationError,
 )
+from .domain.hero_features import (
+    AbilityChoice,
+    BuildItemBucket,
+    GamePatch,
+    GuideSample,
+    HeroGuide,
+    HeroMetaEntry,
+    HeroMetaRanking,
+    HeroMetaSnapshot,
+    HeroWinBucket,
+    MetaRequest,
+    MetaSort,
+    RankBracket,
+    SkillUpgrade,
+)
 from .domain.hero_items import (
     Hero,
     HeroCatalog,
@@ -55,6 +70,7 @@ from .domain.match_detail import (
 from .domain.match_reports import MatchReport
 from .domain.models import DataMetadata, MatchSummary, PlayerBinding, PlayerProfile, RecentMatches
 from .domain.ranks import RankMmrEstimate, estimate_rank_mmr
+from .domain.review import ReviewChartKind, ReviewChartRequest, ReviewEvidence, ReviewTopic
 from .domain.subscription_reports import BEIJING, DailyCoverage, DailyReport, report_bounds
 from .domain.subscriptions import (
     DeliveryOutcome,
@@ -68,15 +84,39 @@ from .domain.subscriptions import (
     SubscriptionPollState,
     SubscriptionScope,
 )
+from .hero_features import HeroFeatureService, rank_heroes
 from .hero_items import HeroItemService
 from .infrastructure.cache import CacheCodec, MemoryCache, SQLiteCache
 from .infrastructure.resilience import CachedProvider, RetryingProvider, RetryPolicy
 from .infrastructure.subscriptions import SQLiteSubscriptionRepository
 from .ports import CachePort, SubscriptionRepository
+from .review import ReviewService, chart_data, evidence_data
 from .subscriptions import SubscriptionService
 from .use_cases import Dota2Service, MatchAnalysisService, MatchDetailService
 
 __all__ = [
+    "AbilityChoice",
+    "BuildItemBucket",
+    "GamePatch",
+    "GuideSample",
+    "HeroGuide",
+    "HeroMetaEntry",
+    "HeroMetaRanking",
+    "HeroMetaSnapshot",
+    "HeroWinBucket",
+    "MetaRequest",
+    "MetaSort",
+    "RankBracket",
+    "SkillUpgrade",
+    "HeroFeatureService",
+    "rank_heroes",
+    "ReviewChartKind",
+    "ReviewChartRequest",
+    "ReviewEvidence",
+    "ReviewTopic",
+    "ReviewService",
+    "chart_data",
+    "evidence_data",
     "Hero",
     "HeroCatalog",
     "HeroItemService",

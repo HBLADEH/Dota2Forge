@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "patch": "7.41f",
+    "bucket_count": 635,
+    "entry_count": 10,
+    "notes": [
+      "天梯全选；按完整 UTC 日桶汇总，与当前版本生效时间取交集。",
+      "3号位请求 7 日，仅返回 5 个日桶；缺日不补零、不平移窗口。",
+      "来源数据滞后：最后可用日截至 2026-10-11 UTC。"
+    ]
+  },
+  "guide": {
+    "module_errors": [
+      [
+        "statistics",
+        "scope_mismatch"
+      ]
+    ],
+    "sample_count": 3,
+    "samples": [
+      {
+        "position_valid": true,
+        "upgrades": 18,
+        "purchases": 24,
+        "label_error": null
+      },
+      {
+        "position_valid": true,
+        "upgrades": 18,
+        "purchases": 19,
+        "label_error": null
+      },
+      {
+        "position_valid": true,
+        "upgrades": 16,
+        "purchases": 34,
+        "label_error": null
+      }
+    ]
+  },
+  "client_closed": true
+}

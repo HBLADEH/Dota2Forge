@@ -555,6 +555,9 @@ def distribution_files(
                     "_dota2forge_config.py": text_bytes(
                         root / GS_ADAPTER_SOURCE / "host_config.py.template"
                     ),
+                    "_dota2forge_ai.py": text_bytes(
+                        root / GS_ADAPTER_SOURCE / "host_ai.py.template"
+                    ),
                     "config.example.toml": text_bytes(
                         root / "adapters/Dota2UID/config.example.toml"
                     ),

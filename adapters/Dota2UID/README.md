@@ -1,6 +1,9 @@
 <p align="center">
+
   <img src="../../docs/assets/branding/juggernaut-icon-v1.png" width="128" height="128" alt="Dota2Forge 图标">
 </p>
+
+开发分支候选新增版本强势、STRATZ攻略/样例与原生多轮复盘按需补图；本轮尚未发布，旧发行包不包含这些能力。参见[新指令](../../docs/cookbook/hero-meta.md)与[复盘](../../docs/cookbook/native-review.md)。
 
 <h1 align="center">Dota2UID</h1>
 

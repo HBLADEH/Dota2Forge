@@ -1,0 +1,29 @@
+{
+  "hero-meta": {
+    "width": 780,
+    "height": 1680,
+    "bytes": 192904,
+    "text_boxes": 32,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_card_implemented": false
+  },
+  "hero-guide": {
+    "width": 780,
+    "height": 1680,
+    "bytes": 190607,
+    "text_boxes": 42,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_card_implemented": false
+  },
+  "match-review": {
+    "width": 780,
+    "height": 1680,
+    "bytes": 200102,
+    "text_boxes": 22,
+    "bounds_and_overlap_checked_by_canvas": true,
+    "synthetic": true,
+    "production_card_implemented": false
+  }
+}

@@ -1,6 +1,6 @@
-# 英雄攻略源调研（尚未实现）
+# STRATZ攻略：首版与历史调研
 
-2026-10-05首次公开调研未使用凭据，见[匿名摘要](../../.agents/artifacts/command-mmr-guide-v1/source-probes.json)。随后用户授权验证STRATZ，使用本机已有Token仅查公开英雄/schema/constants，不选账号/比赛ID、不落盘凭据。攻略命令仍未注册；一次成功不证明长期稳定。
+2026-10-05首次公开调研未使用凭据，见[匿名摘要](../../.agents/artifacts/command-mmr-guide-v1/source-probes.json)。随后用户授权验证STRATZ，使用本机已有Token仅查公开英雄/schema/constants，不选账号/比赛ID、不落盘凭据。此段为历史调研；一次成功不证明长期稳定。
 
 | 来源 | 已核实能力 | 获取与局限 | 结论 |
 | --- | --- | --- | --- |
@@ -17,4 +17,9 @@ STRATZ实测敌法师/POSITION_1、斧王/POSITION_3：聚合购买行数508/711
 
 适配器仅识别 do…攻略 并转换可信身份/发送；Core增加独立GuideProvider与不可变结果，HTTP在基础设施；Renderer不联网。缓存按来源/英雄/位置/版本隔离，过期与获取失败区分、无静默换源。验证需覆盖别名歧义、位置、补丁过期、无攻略、403/限流、双端消费及图片/文本；实现和缓存策略须另建任务/note。
 
-原选择原因见[调研记录](../../.agents/notes/proposed/2026-10-05-hero-guide-source.md)，后续STRATZ验证保持proposed，用户决定实施后另建攻略任务。
+原选择原因见[调研记录](../../.agents/notes/proposed/2026-10-05-hero-guide-source.md)，后续STRATZ验证保持proposed。2026-10-14新增[三项功能需求规划](../../Dota2Forge_STRATZ_FEATURE_PLAN.md)与[攻略接续任务](../../.agents/tasks/done/2026-10-14-stratz-hero-guides.md)；首版现已实现，当前状态见下述新证据，不能沿用历史接口结论。
+
+
+## 2026-10-14开发候选
+
+共享服务、双端攻略/样例指令与Forge卡片已实现，见[指令](hero-meta.md)、[契约](../subsystems/hero-features.md)。本轮只读核查确认guide.matchPlayer为空，改用独立match.players目标查询；聚合桶位置标记异常时暂停这些统计、保留scope_mismatch。技能level为零基技能阶数而非英雄等级；嵌套ability解析拒绝时用独立本场版本中文常量。三个真实3号位样例通过，证据只存数量和口径，不含账号或原始响应。命石、任意等级/库存回放仍未实现。尚未生产发布或真实聊天联调。

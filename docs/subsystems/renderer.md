@@ -1,6 +1,6 @@
 # 共享图片展示契约
 
-[dota2forge_renderer](../../packages/dota2forge-renderer/src/dota2forge_renderer/)依赖Core归一化模型和Pillow，禁止平台SDK、Provider请求、SQL和环境读取。Core不依赖Renderer。普通导入不加载本地字体/资源；PillowRenderer首次render才加载版本化资源，close清理缓存。
+[dota2forge_renderer](../../packages/dota2forge-renderer/src/dota2forge_renderer/)消费Core模型与Pillow，不访问SDK、HTTP、SQL或环境；Core不反向依赖。导入不加载资源，首渲染加载本地版本资源，close清理。
 
 Pillow>=11.3,<13兼容GsCore fastembed的<12约束；安装器保留宿主约束并执行pip check，验证见[发行决策](../../.agents/notes/implemented/2026-10-06-gscore-public-release.md)。
 
@@ -42,4 +42,7 @@ Dota2UID默认reply_mode=image，可配置text；不带该项的旧配置默认i
 
 本轮卡片优化的[合成预览与边界](../../.agents/artifacts/readable-cards-v1/README.md)、[字段与存储决策](../../.agents/notes/implemented/2026-10-06-readable-cards-and-detail-stats.md)已记录，尚未发布运行包或部署生产。
 
-0.1.0a4增加长名留白，图片上限1800px，2MiB不变；[发行决策](../../.agents/notes/implemented/2026-10-06-a4-layout-and-astrbot-release.md)。
+a4长名留白，1800px/2MiB；[发行决策](../../.agents/notes/implemented/2026-10-06-a4-layout-and-astrbot-release.md)。
+
+
+新增[英雄卡](hero-features.md)与[复盘图](native-review.md)，沿用上述边界。
