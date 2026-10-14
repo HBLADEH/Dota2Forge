@@ -57,6 +57,7 @@ def main() -> int:
                     "from importlib.resources import files; "
                     "assert parse_command('do帮助', '').limit == 10; "
                     "assert files('Dota2UID').joinpath('host_entry.py.template').is_file(); "
+                    "assert files('Dota2UID').joinpath('host_ai.py.template').is_file(); "
                     "assert files('Dota2UID')"
                     ".joinpath('bundled_host_entry.py.template').is_file(); "
                     "assert files('Dota2UID')"

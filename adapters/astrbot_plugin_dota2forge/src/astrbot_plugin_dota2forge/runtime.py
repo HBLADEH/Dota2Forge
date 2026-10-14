@@ -12,11 +12,13 @@ from dota2forge_assets.session import ManagerFactory
 from dota2forge_core import (
     DeliveryOutcome,
     Dota2Service,
+    HeroFeatureService,
     HeroItemService,
     InvalidIdentityError,
     MatchAnalysisService,
     MatchDetailService,
     RepositoryError,
+    ReviewService,
     SQLiteSubscriptionRepository,
     SubscriptionEvent,
     SubscriptionRepositoryError,
@@ -26,9 +28,10 @@ from dota2forge_core import (
 from dota2forge_core.infrastructure import SystemClock
 from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog
 from dota2forge_core.infrastructure.opendota import OpenDotaProvider
+from dota2forge_core.infrastructure.review_cache import ReviewObservationProvider
 from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
 from dota2forge_core.infrastructure.stratz import StratzProvider
-from dota2forge_renderer import AsyncRenderer, MenuCard, PillowRenderer, RenderError
+from dota2forge_renderer import AsyncRenderer, ImageArtifact, MenuCard, PillowRenderer, RenderError
 
 from .application import AstrApplication, AstrSend, AstrSubscriptionSend, AstrTextReply
 from .commands import AstrCommandError, parse_command
@@ -80,9 +83,13 @@ class Runtime:
         self._config: Config | None = None
         self._client: httpx.AsyncClient | None = None
         self._application: AstrApplication | None = None
+        self._provider: StratzProvider | None = None
+        self._review_cache: ReviewObservationProvider | None = None
         self._start_task: asyncio.Task[None] | None = None
         self._close_task: asyncio.Task[None] | None = None
-        self._operations: set[asyncio.Task[None]] = set()
+        self._operations: set[
+            asyncio.Task[None] | asyncio.Task[tuple[dict[str, object], ImageArtifact | None]]
+        ] = set()
         self._overload: asyncio.Task[object] | None = None
         self._subscriptions: SubscriptionController | None = None
         self._subscription_commands_lock = asyncio.Lock()
@@ -194,14 +201,19 @@ class Runtime:
                     )
                 )
             bindings = Dota2Service(repository, provider, provider, clock)
+            self._provider = provider
+            self._review_cache = ReviewObservationProvider(provider, provider)
+            catalog = load_hero_catalog()
             application = AstrApplication(
                 bindings,
                 MatchDetailService(provider),
                 renderer,
                 analysis=MatchAnalysisService(provider),
+                heroes=HeroFeatureService(provider, provider, catalog),
+                review=ReviewService(self._review_cache, self._review_cache, catalog),
                 items=HeroItemService(
                     OpenDotaProvider(client, clock=clock, timeout_seconds=config.timeout_seconds),
-                    load_hero_catalog(),
+                    catalog,
                 ),
                 image_mode=config.reply_mode == "image",
             )
@@ -344,6 +356,68 @@ class Runtime:
             self._close_task = asyncio.create_task(self._finish_close())
         await asyncio.shield(self._close_task)
 
+    def review_hint(
+        self,
+        caller: Caller,
+        session_id: str,
+        generation: object,
+        query: str,
+        history_count: int | None = None,
+    ) -> str | None:
+        if self._state != State.READY or self._application is None:
+            return None
+        try:
+            identity = caller.identity(self._namespace)
+            session = caller.session()
+            return (
+                None
+                if session is None
+                else self._application.review_hint(
+                    identity, session, session_id, generation, query, history_count
+                )
+            )
+        except InvalidIdentityError:
+            return None
+
+    async def ai_tool(
+        self,
+        caller: Caller,
+        session_id: str,
+        generation: object,
+        name: str,
+        args: dict[str, object],
+    ) -> tuple[dict[str, object], ImageArtifact | None]:
+        if self._state in {State.STOPPING, State.STOPPED} or len(self._operations) >= 16:
+            raise ValidationError(UNAVAILABLE)
+
+        async def execute() -> tuple[dict[str, object], ImageArtifact | None]:
+            await self.start()
+            identity, session = caller.identity(self._namespace), caller.session()
+            if (
+                self._state != State.READY
+                or self._application is None
+                or session is None
+                or not isinstance(session_id, str)
+                or not 1 <= len(session_id) <= 256
+            ):
+                raise InvalidIdentityError()
+            return await self._application.native_operation(
+                identity, session, session_id, generation, name, args
+            )
+
+        task = asyncio.create_task(execute())
+        self._operations.add(task)
+        try:
+            return await task
+        finally:
+            self._operations.discard(task)
+
+    async def begin_review(
+        self, caller: Caller, session_id: str, generation: object, text: str
+    ) -> dict[str, object]:
+        payload, _ = await self.ai_tool(caller, session_id, generation, "begin", {"text": text})
+        return payload
+
     async def _finish_close(self) -> None:
         try:
             if self._operations:
@@ -363,6 +437,10 @@ class Runtime:
             finally:
                 try:
                     if self._client is not None:
+                        if self._review_cache is not None:
+                            await self._review_cache.close()
+                        if self._provider is not None:
+                            await self._provider.close()
                         await self._client.aclose()
                 finally:
                     self._application = None

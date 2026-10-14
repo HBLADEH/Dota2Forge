@@ -1,6 +1,6 @@
 # Core 账号绑定与查询契约
 
-实现入口为 [公开用例](../../packages/dota2forge-core/src/dota2forge_core/use_cases.py)。领域值、端口与用例无 HTTP、SQL、环境读取或宿主 SDK 依赖；[SQLite 实现](../../packages/dota2forge-core/src/dota2forge_core/infrastructure/sqlite.py) 和 SystemClock 由组合入口显式注入。
+入口见[公开用例](../../packages/dota2forge-core/src/dota2forge_core/use_cases.py)。领域/端口/用例不访问HTTP、SQL、环境或SDK；SQLite与时钟由组合入口显式注入。
 
 SubscriptionService提供比赛/段位/北京时间日报观察及claim/retry/确认；独立SQLite检查点/outbox与持久尝试。Core不调度或发送，双端默认关闭，见[订阅契约](subscriptions.md)和[接入](../cookbook/subscriptions.md)。
 
@@ -50,10 +50,13 @@ MatchParticipant 保留阵营/槽位、英雄/KDA/GPM/XPM、等级/补反补/净
 
 STRATZ 映射 steamAccount.seasonRank/昵称及最近比赛基本统计；胜负由玩家阵营和 didRadiantWin 共同决定。每页至多 20、每次至多 10 页，短页继续按实际行数推进，空页或无进展停止，不保证历史完整。去重冲突、错账号、必要字段缺失或不合法模型失败；集合和每场分别保留实际抓取时间，observed_at/patch 未知时为空。
 
-HTTP 401 与已核实的缺 Bearer JSON 提示为认证失败；429/限额耗尽保留可知等待，超时明确返回，其余非 200 为 UNAVAILABLE。JSON/schema/null 及 GraphQL errors（含部分数据和可选字段错误）为 INVALID_RESPONSE；正常可选 null 可保留 None。空 matches 有效，null player/matches 不伪装为空，也不猜测 PRIVATE/NOT_FOUND；isStratzPublic=false 不是整个账号不可查的证据。无重试、缓存或自动回退，同 Token/循环须复用一个实例读取额度。
+HTTP 401 与已核实的缺 Bearer JSON 提示为认证失败；429/限额耗尽保留可知等待，超时明确返回，其余非 200 为 UNAVAILABLE。JSON/schema/null 及 GraphQL errors（含部分数据和可选字段错误）为 INVALID_RESPONSE；正常可选 null 可保留 None。空 matches 有效，null player/matches 不伪装为空，也不猜测 PRIVATE/NOT_FOUND；isStratzPublic=false 不是整个账号不可查的证据。旧玩家/战绩查询无重试、缓存或自动回退，同 Token/循环须复用一个实例读取额度。
 
 已独立只读联调概况、100场及偏移100旧比赛详情。has_stats=False但parsed_at存在，不能推断完整；装备缺失保持None。GsCore/QQ旧详情/序号/分页图片与生命周期已通过；新的宽幅报告真机状态见[任务](../../.agents/tasks/active/2026-10-09-match-analysis-report.md)，临时列表仍在适配器。独立MatchAnalysisProvider保存各来源经济/购买观察及STRATZ团队优势，原样IMP只比较本局，不换算MMR/胜率/官方MVP，averageImp/award未实现。见[分析契约](analysis.md)、[Renderer](renderer.md)。
 
 操作见 [离线闭环](../cookbook/core-offline.md)。
 
 OpenDotaProvider实现玩家/比赛/详情及[英雄出装](hero-items.md)端口；玩家默认STRATZ。CrossCheckService独立返回两源观察、错误和差异；不混用解析/模式、不自动回退或跨源补字段，明确PRIVATE不查补充源。出装已双端接入并匿名联调，其他补充SDK未在线联调。见[OpenDota契约](opendota.md)和[组合](../cookbook/opendota.md)。
+
+
+新增[英雄观察](hero-features.md)与[原生复盘](native-review.md)；新缓存策略单独定义。

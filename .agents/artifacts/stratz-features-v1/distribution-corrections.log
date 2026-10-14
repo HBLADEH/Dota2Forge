@@ -1,0 +1,33 @@
+D:\workstation\Dota2Forge\.venv\Lib\site-packages\coverage\inorout.py:558: CoverageWarning: Module dota2forge_core was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.16.2/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+D:\workstation\Dota2Forge\.venv\Lib\site-packages\coverage\inorout.py:558: CoverageWarning: Module dota2forge_renderer was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.16.2/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+D:\workstation\Dota2Forge\.venv\Lib\site-packages\coverage\inorout.py:558: CoverageWarning: Module dota2forge_assets was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.16.2/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+D:\workstation\Dota2Forge\.venv\Lib\site-packages\coverage\inorout.py:558: CoverageWarning: Module Dota2UID was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.16.2/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+D:\workstation\Dota2Forge\.venv\Lib\site-packages\coverage\inorout.py:558: CoverageWarning: Module astrbot_plugin_dota2forge was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.16.2/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+...
+ERROR: Coverage failure: total of 19 is less than fail-under=80
+                                                                         [100%]
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.9-final-0 _______________
+
+Name                                    Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------
+scripts\build_plugin_distributions.py     355    103    132     27    70%   19, 77, 84, 98, 100, 114, 119, 141, 165, 171, 175, 208->223, 254, 284-340, 345-367, 383, 414-450, 466, 470, 476, 533, 546->548, 573-582, 585-594, 610, 668, 720, 727, 731, 746-784, 788
+scripts\check_governance.py               242    242    122      0     0%   3-327
+scripts\check_stratz.py                    32     32      2      0     0%   3-64
+scripts\download_dota_assets.py             3      3      2      0     0%   3-6
+scripts\generate_reference.py              49     49     16      0     0%   3-80
+scripts\gscore_bundled_runtime.py         719    719    288      0     0%   7-1164
+scripts\gscore_public_runtime.py           76     40     30      7    44%   20, 35, 40, 43, 46, 57, 66-104, 108-156, 160-174, 178
+scripts\plugin_bootstrap.py                34     26     16      0    16%   19-51
+scripts\smoke_plugin_distributions.py      71     35     22      2    52%   16, 177-227, 231-240, 244
+scripts\smoke_wheels.py                    27     27     12      0     0%   3-108
+scripts\stage_wheel_dependencies.py        26     26     10      0     0%   3-50
+-----------------------------------------------------------------------------------
+TOTAL                                    1634   1302    652     36    19%
+FAIL Required test coverage of 80% not reached. Total coverage: 19.42%
+3 passed in 5.37s

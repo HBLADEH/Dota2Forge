@@ -1,0 +1,23 @@
+Resolved 47 packages in 8ms
+   Building astrbot-plugin-dota2forge @ file:///D:/workstation/Dota2Forge/adapters/astrbot_plugin_dota2forge
+   Building dota2forge-core @ file:///D:/workstation/Dota2Forge/packages/dota2forge-core
+   Building dota2forge-renderer @ file:///D:/workstation/Dota2Forge/packages/dota2forge-renderer
+   Building dota2uid @ file:///D:/workstation/Dota2Forge/adapters/Dota2UID
+      Built astrbot-plugin-dota2forge @ file:///D:/workstation/Dota2Forge/adapters/astrbot_plugin_dota2forge
+      Built dota2uid @ file:///D:/workstation/Dota2Forge/adapters/Dota2UID
+      Built dota2forge-core @ file:///D:/workstation/Dota2Forge/packages/dota2forge-core
+      Built dota2forge-renderer @ file:///D:/workstation/Dota2Forge/packages/dota2forge-renderer
+Prepared 4 packages in 5.68s
+Uninstalled 4 packages in 527ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 4 packages in 22ms
+ - astrbot-plugin-dota2forge==0.1.0a12 (from file:///D:/workstation/Dota2Forge/adapters/astrbot_plugin_dota2forge)
+ + astrbot-plugin-dota2forge==0.1.0a13 (from file:///D:/workstation/Dota2Forge/adapters/astrbot_plugin_dota2forge)
+ - dota2forge-core==0.1.0a7 (from file:///D:/workstation/Dota2Forge/packages/dota2forge-core)
+ + dota2forge-core==0.1.0a8 (from file:///D:/workstation/Dota2Forge/packages/dota2forge-core)
+ - dota2forge-renderer==0.1.0a7 (from file:///D:/workstation/Dota2Forge/packages/dota2forge-renderer)
+ + dota2forge-renderer==0.1.0a8 (from file:///D:/workstation/Dota2Forge/packages/dota2forge-renderer)
+ - dota2uid==0.1.0a14 (from file:///D:/workstation/Dota2Forge/adapters/Dota2UID)
+ + dota2uid==0.1.0a15 (from file:///D:/workstation/Dota2Forge/adapters/Dota2UID)

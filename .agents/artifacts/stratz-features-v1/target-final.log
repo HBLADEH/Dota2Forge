@@ -1,0 +1,367 @@
+............................FF..........................................
+ERROR: Coverage failure: total of 41 is less than fail-under=80
+                                                                         [100%]
+================================== FAILURES ===================================
+___ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n] ___
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-406/test_public_generation_keeps_o0')
+line_ending = '\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_ai.py.template",
+        ]
+        relative_files.extend(
+            sorted(
+                {
+                    source
+                    for images in distribution.SHOWCASE_IMAGES.values()
+                    for source in images.values()
+                }
+            )
+        )
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+        write_wheels(wheels)
+        candidate = distribution.build_distributions(
+            root,
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            REPO,
+            wheels,
+            wheels,
+        )
+        plugin = candidate / "Dota2UID"
+        # Distribution text is deterministically UTF-8/LF on Windows and Unix checkouts.
+        assert (plugin / "INSTALL.md").read_bytes() == guide_text.encode("utf-8")
+        readme = (plugin / "README.md").read_text("utf-8")
+        assert "[安装指南](INSTALL.md)" in readme
+        for label, path in (
+            ("截图记录", "docs/assets/screenshots/README.md"),
+            ("开发指南", "docs/cookbook/development.md"),
+            ("素材说明", "docs/cookbook/illustrations.md"),
+        ):
+            assert f"[{label}]({distribution.PROJECT_SOURCE_URL}/{path})" in readme
+            assert f"[{label}](INSTALL.md)" not in readme
+        installation = readme.split("## 安装与首次配置\n", 1)[1].split("## 快速开始\n", 1)[0]
+        assert "install_runtime.py" in installation
+        assert "do安装核心" not in installation and "do核心状态" not in installation
+        assert "install_runtime.py" in readme
+        assert len(runtime.public_requirements(plugin)) == 4
+        manifest = json.loads((plugin / "runtime-wheels.json").read_text("utf-8"))
+        for wheel in manifest["wheels"].values():
+            assert (
+                wheel["sha256"] == hashlib.sha256((wheels / wheel["filename"]).read_bytes()).hexdigest()
+            )
+        astr = candidate / "astrbot_plugin_dota2forge"
+        assert len(runtime.public_requirements(astr)) == 4
+        public_requirements = (astr / "requirements.txt").read_text("utf-8")
+        assert (
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/"
+            in public_requirements
+        )
+        assert "astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl#sha256=" in public_requirements
+        local_requirements = smoke.offline_astrbot_requirements(astr, wheels)
+        assert "https://" not in "\n".join(local_requirements)
+        assert all("#sha256=" in line for line in local_requirements[:4])
+        adapter_wheel = wheels / "astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl"
+        original = adapter_wheel.read_bytes()
+        adapter_wheel.write_bytes(original + b"corrupt")
+        with pytest.raises(ValueError, match="checksum mismatch"):
+            smoke.offline_astrbot_requirements(astr, wheels)
+        adapter_wheel.unlink()
+        with pytest.raises(ValueError, match="Missing staged wheel"):
+            smoke.offline_astrbot_requirements(astr, wheels)
+        adapter_wheel.write_bytes(original)
+        (astr / "requirements.txt").write_text(
+            public_requirements.replace("/v0.1.0a13/", "/v0.1.0a6/"), "utf-8"
+        )
+        with pytest.raises(ValueError, match="public runtime manifest"):
+            smoke.offline_astrbot_requirements(astr, wheels)
+        (astr / "requirements.txt").write_text(public_requirements, "utf-8")
+        assert (astr / "INSTALL.md").read_text("utf-8") == (
+            root / distribution.ASTR_INSTALL_GUIDE
+        ).read_text("utf-8")
+        assert "https://github.com/HBLADEH/astrbot_plugin_dota2forge/blob/main/INSTALL.md" in (
+            astr / "README.md"
+        ).read_text("utf-8")
+        astr_readme = (astr / "README.md").read_text("utf-8")
+        assert (
+            '<a href="https://github.com/HBLADEH/astrbot_plugin_dota2forge/blob/main/INSTALL.md">'
+            "安装指南</a>"
+        ) in astr_readme
+        assert f"[截图记录]({distribution.PROJECT_SOURCE_URL}/docs/assets/screenshots/README.md)" in (
+            astr_readme
+        )
+        assert "[截图记录](INSTALL.md)" not in astr_readme
+        assert "dota2uid" not in (astr / "runtime-wheels.json").read_text("utf-8")
+        manifest_sources = json.loads((candidate / "manifest.json").read_text("utf-8"))["source_sha256"]
+>       assert "wheels/astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl" in manifest_sources
+E       AssertionError: assert 'wheels/astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl' in {'LICENSE': 'b326ce81a85a5cc8adc9edbfdd18ebf86370b26b7e5a6f0a05cc916df8e0a6b1', 'adapters/Dota2UID/README.md': 'b5bc4a...f2e2f814', 'adapters/Dota2UID/pyproject.toml': 'd2967f46fb0e7b95093c6625b5fdcf07f227e88eaa34834bcb5ec6de84dcd4c0', ...}
+
+tests\test_gscore_public_runtime.py:325: AssertionError
+__ test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n] __
+
+tmp_path = WindowsPath('C:/Users/BLADE/AppData/Local/Temp/pytest-of-BLADE/pytest-406/test_public_generation_keeps_o1')
+line_ending = '\r\n'
+
+    @pytest.mark.parametrize("line_ending", ["\n", "\r\n"])
+    def test_public_generation_keeps_operator_links_local_and_hashes_wheels(tmp_path, line_ending):
+        root = tmp_path / "source"
+        relative_files = [
+            "LICENSE",
+            "scripts/build_plugin_distributions.py",
+            "scripts/plugin_bootstrap.py",
+            distribution.GS_RUNTIME_SOURCE,
+            distribution.GS_INSTALL_GUIDE,
+            distribution.ASTR_INSTALL_GUIDE,
+            distribution.ICON_SOURCE,
+            "adapters/Dota2UID/config.example.toml",
+            "adapters/astrbot_plugin_dota2forge/CHANGELOG.md",
+            "adapters/Dota2UID/src/Dota2UID/host_entry.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_config.py.template",
+            "adapters/Dota2UID/src/Dota2UID/host_ai.py.template",
+        ]
+        relative_files.extend(
+            sorted(
+                {
+                    source
+                    for images in distribution.SHOWCASE_IMAGES.values()
+                    for source in images.values()
+                }
+            )
+        )
+        for folder in distribution.PACKAGES.values():
+            relative_files.append(folder + "/pyproject.toml")
+            if folder.startswith("adapters/"):
+                relative_files.append(folder + "/README.md")
+        host = "adapters/astrbot_plugin_dota2forge/src/astrbot_plugin_dota2forge/host/"
+        relative_files.extend(
+            host + name for name in ("main.py.template", "metadata.yaml", "_conf_schema.json")
+        )
+        for relative in relative_files:
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        guide = root / distribution.GS_INSTALL_GUIDE
+        guide_text = guide.read_text("utf-8")
+        guide.write_bytes(guide_text.replace("\n", line_ending).encode("utf-8"))
+        wheels = root / "wheels"
+        write_wheels(wheels)
+        candidate = distribution.build_distributions(
+            root,
+            tmp_path / "candidate",
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+            REPO,
+            wheels,
+            wheels,
+        )
+        plugin = candidate / "Dota2UID"
+        # Distribution text is deterministically UTF-8/LF on Windows and Unix checkouts.
+        assert (plugin / "INSTALL.md").read_bytes() == guide_text.encode("utf-8")
+        readme = (plugin / "README.md").read_text("utf-8")
+        assert "[安装指南](INSTALL.md)" in readme
+        for label, path in (
+            ("截图记录", "docs/assets/screenshots/README.md"),
+            ("开发指南", "docs/cookbook/development.md"),
+            ("素材说明", "docs/cookbook/illustrations.md"),
+        ):
+            assert f"[{label}]({distribution.PROJECT_SOURCE_URL}/{path})" in readme
+            assert f"[{label}](INSTALL.md)" not in readme
+        installation = readme.split("## 安装与首次配置\n", 1)[1].split("## 快速开始\n", 1)[0]
+        assert "install_runtime.py" in installation
+        assert "do安装核心" not in installation and "do核心状态" not in installation
+        assert "install_runtime.py" in readme
+        assert len(runtime.public_requirements(plugin)) == 4
+        manifest = json.loads((plugin / "runtime-wheels.json").read_text("utf-8"))
+        for wheel in manifest["wheels"].values():
+            assert (
+                wheel["sha256"] == hashlib.sha256((wheels / wheel["filename"]).read_bytes()).hexdigest()
+            )
+        astr = candidate / "astrbot_plugin_dota2forge"
+        assert len(runtime.public_requirements(astr)) == 4
+        public_requirements = (astr / "requirements.txt").read_text("utf-8")
+        assert (
+            "https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/download/"
+            in public_requirements
+        )
+        assert "astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl#sha256=" in public_requirements
+        local_requirements = smoke.offline_astrbot_requirements(astr, wheels)
+        assert "https://" not in "\n".join(local_requirements)
+        assert all("#sha256=" in line for line in local_requirements[:4])
+        adapter_wheel = wheels / "astrbot_plugin_dota2forge-0.1.0a13-py3-none-any.whl"
+        original = adapter_wheel.read_bytes()
+        adapter_wheel.write_bytes(original + b"corrupt")
+        with pytest.raises(ValueError, match="checksum mismatch"):
+            smoke.offline_astrbot_requirements(astr, wheels)
+        adapter_wheel.unlink()
+        with pytest.raises(ValueError, match="Missing staged wheel"):
+            smoke.offline_astrbot_requirements(astr, wheels)
+        adapter_wheel.write_bytes(original)
+        (astr / "requirements.txt").write_text(
+            public_requirements.replace("/v0.1.0a13/", "/v0.1.0a6/"), "utf-8"
+        )
+        with pytest.raises(ValueError, match="public runtime manifest"):
+            smoke.offline_astrbot_requirements(astr, wheels)
+        (astr / "requirements.txt").write_text(public_requirements, "utf-8")
+        assert (astr / "INSTALL.md").read_text("utf-8") == (
+            root / distribution.ASTR_INSTALL_GUIDE
+        ).read_text("utf-8")
+        assert "https://github.com/HBLADEH/astrbot_plugin_dota2forge/blob/main/INSTALL.md" in (
+            astr / "README.md"
+        ).read_text("utf-8")
+        astr_readme = (astr / "README.md").read_text("utf-8")
+        assert (
+            '<a href="https://github.com/HBLADEH/astrbot_plugin_dota2forge/blob/main/INSTALL.md">'
+            "安装指南</a>"
+        ) in astr_readme
+        assert f"[截图记录]({distribution.PROJECT_SOURCE_URL}/docs/assets/screenshots/README.md)" in (
+            astr_readme
+        )
+        assert "[截图记录](INSTALL.md)" not in astr_readme
+        assert "dota2uid" not in (astr / "runtime-wheels.json").read_text("utf-8")
+        manifest_sources = json.loads((candidate / "manifest.json").read_text("utf-8"))["source_sha256"]
+>       assert "wheels/astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl" in manifest_sources
+E       AssertionError: assert 'wheels/astrbot_plugin_dota2forge-0.1.0a12-py3-none-any.whl' in {'LICENSE': 'b326ce81a85a5cc8adc9edbfdd18ebf86370b26b7e5a6f0a05cc916df8e0a6b1', 'adapters/Dota2UID/README.md': 'b5bc4a...f2e2f814', 'adapters/Dota2UID/pyproject.toml': 'd2967f46fb0e7b95093c6625b5fdcf07f227e88eaa34834bcb5ec6de84dcd4c0', ...}
+
+tests\test_gscore_public_runtime.py:325: AssertionError
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.9-final-0 _______________
+
+Name                                                                                      Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------------------------------------------------------
+adapters\Dota2UID\src\Dota2UID\__init__.py                                                    0      0      0      0   100%
+adapters\Dota2UID\src\Dota2UID\commands.py                                                  113     48     42      4    48%   23, 56, 78-79, 83, 87-88, 93-94, 98, 100-138
+adapters\Dota2UID\src\Dota2UID\config.py                                                     72     15     14      7    74%   17, 24-25, 31, 35, 46, 86, 89, 95-96, 120, 135, 150, 165-166
+adapters\Dota2UID\src\Dota2UID\install.py                                                    48     48     14      0     0%   3-65
+adapters\Dota2UID\src\Dota2UID\native_features.py                                            58      9     16      3    84%   110, 112-118, 156-160
+adapters\Dota2UID\src\Dota2UID\presentation.py                                               76     56     20      0    21%   41-42, 50-53, 65-102, 106-114, 125-127, 131, 135-140, 150-157, 161-225
+adapters\Dota2UID\src\Dota2UID\replies.py                                                     9      0      0      0   100%
+adapters\Dota2UID\src\Dota2UID\review_sessions.py                                            67      1     26      2    97%   40->44, 87
+adapters\Dota2UID\src\Dota2UID\runtime.py                                                   609    273    212     54    49%   126, 177, 185, 197-204, 213-223, 252, 254->257, 261, 270, 277-280, 290->292, 296-298, 303-323, 326-354, 366, 379-407, 422-430, 436, 464, 477, 489-507, 510-513, 514->exit, 518, 521->532, 525, 527, 529, 542, 545->547, 551->553, 553->555, 555->562, 556->558, 558->560, 563, 584-596, 609-610, 612-628, 631->634, 637, 643-654, 682-685, 687-696, 702-711, 713->716, 717->exit, 719->exit, 739->741, 748-749, 753, 760-769, 788-813, 819-821, 825-855, 857-891, 893-895, 897-900, 901->904, 905->913, 912, 916-937, 953, 955-959, 961-962, 966-972
+adapters\Dota2UID\src\Dota2UID\selection.py                                                  63     22     18      3    54%   17, 44, 71, 78-81, 86-90, 93-100, 104-105
+adapters\Dota2UID\src\Dota2UID\subscription_routes.py                                        33     25     12      0    18%   14-35, 39-66
+adapters\Dota2UID\src\Dota2UID\subscriptions.py                                             155    116     70      1    18%   51, 97-201, 208-301, 306-307
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\__init__.py                  8      5      2      0    30%   14-24
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\application.py             292    173    104     16    37%   105, 109, 121-147, 151, 161-216, 264-274, 285, 304, 310, 313-316, 326-327, 343-345, 355-372, 388-389, 391-400, 402-404, 412-414, 416-421, 425, 440-462, 463->522, 466-521, 524-555, 564, 573-584
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\commands.py                102     51     38      3    43%   14, 50-51, 55, 59-60, 65-66, 70, 72-113
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\config.py                   48      9      4      2    79%   14, 21-22, 82, 85-86, 89-90, 104
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\identity.py                 32      8      6      2    68%   23, 34-40
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\install.py                  51     51     20      0     0%   3-73
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\native_features.py          58      9     16      3    84%   110, 112-118, 156-160
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\review_sessions.py          67      1     26      2    97%   40->44, 87
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\runtime.py                 276     93     88     26    59%   62, 99, 102-104, 107-120, 124, 132, 145-167, 173->exit, 187, 194, 225, 241-257, 261-268, 269->exit, 273, 277, 279-287, 299-301, 303-305, 307-312, 318-332, 335-336, 342-345, 350->357, 353, 355, 367-380, 391, 403, 424, 426, 427->430, 431->433, 433->438, 434->436, 439->446, 440->442, 442->444
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\selection.py                39     15      6      0    53%   15, 31-32, 37-41, 44-50
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\subscription_routes.py      29     22     10      0    18%   13-23, 27-57
+adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\subscriptions.py           153    116     70      1    17%   47, 93-197, 204-297, 302-303
+packages\dota2forge-assets\src\dota2forge_assets\__init__.py                                  4      0      0      0   100%
+packages\dota2forge-assets\src\dota2forge_assets\cli.py                                     106    106     34      0     0%   3-160
+packages\dota2forge-assets\src\dota2forge_assets\http.py                                     68     56     28      0    12%   23-27, 30-78, 81-89
+packages\dota2forge-assets\src\dota2forge_assets\manager.py                                 301    213     88      8    25%   29, 69, 72-87, 95, 101-102, 117, 119-126, 140-141, 153-156, 159, 162, 165-200, 204-205, 208-209, 212-229, 232-346, 358-415, 419, 428-464, 473->481, 477-479, 485
+packages\dota2forge-assets\src\dota2forge_assets\models.py                                   60      9     12      3    81%   13-14, 36, 38, 42, 72, 76-78
+packages\dota2forge-assets\src\dota2forge_assets\session.py                                 112     57     46      6    39%   44, 46-53, 89, 93, 96-110, 121, 124-127, 130-150, 153->156, 164-201
+packages\dota2forge-assets\src\dota2forge_assets\sources.py                                  51     34     18      0    25%   43-76, 80-100, 104-112, 116
+packages\dota2forge-assets\src\dota2forge_assets\store.py                                   194    103     66      8    40%   35-37, 47, 53->56, 59-64, 68->exit, 90-91, 99, 105-108, 111-131, 134-137, 143-157, 164-169, 172, 175-186, 191-194, 197-198, 201-211, 214-216, 227-231, 234-238, 241-245
+packages\dota2forge-assets\src\dota2forge_assets\validation.py                               89     60     50      6    25%   28, 31-41, 50, 60, 61->66, 64-65, 70-83, 87-95, 99-124, 128-139
+packages\dota2forge-core\src\dota2forge_core\__init__.py                                     23      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\cross_check.py                                 100     49     20      0    42%   38, 49-62, 73-75, 94, 101-108, 116-129, 136-144, 147-161, 166-202, 211-228
+packages\dota2forge-core\src\dota2forge_core\domain\__init__.py                               0      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\domain\analysis.py                             107     25     52     22    69%   30, 32, 34, 36, 44, 48, 68, 74, 76, 88, 91, 95, 97, 106, 112, 124, 126, 132, 135, 140, 155, 157, 161, 170-171
+packages\dota2forge-core\src\dota2forge_core\domain\errors.py                                50      9      4      2    80%   16, 21, 31, 36, 41, 46, 51, 80, 86
+packages\dota2forge-core\src\dota2forge_core\domain\hero_features.py                        232     36     84     37    77%   35, 42, 48, 67, 69, 71, 82, 88, 104, 106, 126, 134, 142, 145, 150, 163, 166, 189, 203, 212, 226, 230, 243, 249, 251, 253, 278, 279->281, 283, 285, 289, 299, 317, 320, 332, 343, 368
+packages\dota2forge-core\src\dota2forge_core\domain\hero_items.py                            97     35     46      8    55%   13, 15, 28, 30, 33, 38-39, 45, 50, 61, 78-82, 91-101, 111-118, 122
+packages\dota2forge-core\src\dota2forge_core\domain\identity.py                              45     17     20      3    54%   19, 22, 30-34, 37, 46-56, 75, 83
+packages\dota2forge-core\src\dota2forge_core\domain\match_detail.py                         168     36     74     27    72%   31, 37, 44, 77, 81, 83, 87, 106, 108, 110, 114, 119, 121, 127-155, 187, 197, 199, 201, 206, 208, 209->213, 211, 213->204, 215, 220-236, 251, 259, 272, 275-277, 290, 294, 299
+packages\dota2forge-core\src\dota2forge_core\domain\match_reports.py                         71     44     32      0    26%   28-53, 57, 62-70, 73-80, 84-86, 98, 104, 112-132
+packages\dota2forge-core\src\dota2forge_core\domain\models.py                                96     38     36      4    48%   12, 17, 29, 36, 46-50, 61-67, 71, 90-110, 114, 137-156
+packages\dota2forge-core\src\dota2forge_core\domain\ranks.py                                 26     17     10      0    25%   17-22, 33-43
+packages\dota2forge-core\src\dota2forge_core\domain\review.py                                38      5     10      5    79%   34, 40, 45, 55, 71
+packages\dota2forge-core\src\dota2forge_core\domain\subscription_reports.py                  48     20     12      0    47%   16-19, 38-58, 62, 66, 70
+packages\dota2forge-core\src\dota2forge_core\domain\subscriptions.py                        186     98     98      1    31%   17-18, 22-23, 51, 65-80, 93-115, 127-167, 177-182, 194-222, 244-265
+packages\dota2forge-core\src\dota2forge_core\feature_requests.py                             90     15     44     13    76%   49, 53, 66-71, 73, 79, 83, 86, 97, 103, 108->118, 113, 115, 119->121
+packages\dota2forge-core\src\dota2forge_core\feature_tools.py                                82     36     36      7    52%   28-71, 106-116, 122, 129, 133, 135, 138, 144, 157-158, 187-188, 227-233
+packages\dota2forge-core\src\dota2forge_core\hero_features.py                                44      6     14      6    79%   49, 71, 78, 85, 93, 105
+packages\dota2forge-core\src\dota2forge_core\hero_items.py                                   15      6      4      1    53%   11, 16-24
+packages\dota2forge-core\src\dota2forge_core\infrastructure\__init__.py                       4      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_analysis_mapping.py            125     78     56     13    33%   29, 31, 34, 36, 45-60, 64-91, 100, 103, 106, 117, 119, 126, 129-130, 138-142, 144, 150-179
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_feature_cache.py                56      5     16      7    83%   29, 36->41, 38, 48, 55->60, 59, 67
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_hero_items_mapping.py           27     22     14      0    12%   16-47
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_http.py                95     71     36      1    19%   19, 23-25, 29-39, 50, 61-111, 114-132
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_opendota_mapping.py             87     70     36      0    14%   20-25, 29-31, 35, 39-41, 45, 49-52, 56-70, 76-102, 108-120, 146-169
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_detail.py                56     11     22     11    72%   21, 27, 43->54, 49, 51, 52->54, 85, 88, 91, 94, 97, 111-112
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_heroes.py               233     39     88     34    76%   46, 52, 59-60, 67, 75, 80->88, 83, 86, 116, 132->144, 135, 137->144, 142, 176, 182->184, 194, 195->190, 209->208, 214->219, 220->222, 268-269, 273, 303-307, 317, 323, 327, 330, 335, 337-340, 342, 359, 362-364, 393, 400, 405->415, 407->415, 419->428, 426-427
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_http.py                 110     44     48     16    53%   26, 33-39, 52, 59, 74, 76, 81, 97-100, 105-107, 109, 111-119, 122, 125-126, 134-135, 142, 145-149, 151, 153-156, 158
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_stratz_mapping.py               64     39     24      3    34%   14, 26, 36, 41-49, 55-64, 70-73, 77-105
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_subscription_codec.py          145    109     50      0    18%   43-45, 49-51, 55-59, 63-65, 69-71, 75, 79-81, 85-87, 91, 95, 99-102, 106, 122-126, 154, 163-165, 174-210, 214-261, 271-281, 285-290, 301-309, 356-402, 418-426, 474-528
+packages\dota2forge-core\src\dota2forge_core\infrastructure\_worker.py                       17     11      4      0    29%   11-23
+packages\dota2forge-core\src\dota2forge_core\infrastructure\cache.py                        170    132     30      0    19%   25-26, 38-43, 46-54, 57-64, 67-69, 72-73, 76-78, 81-82, 88-89, 103-117, 120-129, 132-134, 137-150, 153-166, 169-174, 177-181, 184-198, 203-210, 213-226, 229-230, 233-234, 238, 242-250
+packages\dota2forge-core\src\dota2forge_core\infrastructure\hero_catalog.py                   8      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\opendota.py                      48     26     10      0    38%   40-43, 46-49, 52-65, 68-71, 74-77
+packages\dota2forge-core\src\dota2forge_core\infrastructure\resilience.py                   122     75     42      0    29%   37-57, 60, 67-68, 81-85, 89, 92-102, 105, 108, 111, 120-126, 130, 133-134, 145-156, 159, 162, 165-167, 176, 179, 184-186, 199, 202, 205-214, 217-221, 224-226
+packages\dota2forge-core\src\dota2forge_core\infrastructure\review_cache.py                  17      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\infrastructure\sqlite.py                        98     28     26      7    65%   33, 35, 42, 61-83, 109-110, 117-118, 123, 149, 154, 159-166
+packages\dota2forge-core\src\dota2forge_core\infrastructure\stratz.py                        95     40     26      6    50%   114, 117-118, 122, 126-127, 131, 134, 137-138, 141-146, 149-177, 181, 189, 197-198
+packages\dota2forge-core\src\dota2forge_core\infrastructure\subscriptions.py                283    174    110     17    34%   69, 76, 79, 89-129, 141-165, 168-184, 192-259, 268-277, 280-293, 315-331, 336-350, 353-363, 368-386, 389-406, 412-418, 438->440, 443-444, 451-452, 454-468, 473, 502, 523->528, 535, 542, 559->573, 585, 586->597, 596, 604, 606, 618-636
+packages\dota2forge-core\src\dota2forge_core\ports.py                                        33      0      0      0   100%
+packages\dota2forge-core\src\dota2forge_core\review.py                                       81     10     30      9    81%   38, 40, 45, 47-49, 55, 56->72, 66, 106, 179
+packages\dota2forge-core\src\dota2forge_core\subscriptions.py                               240    199     96      1    12%   54, 70-76, 81-92, 102, 111-113, 118, 123-125, 134, 137, 148-152, 159-219, 229-230, 235, 246-391, 399-418, 431-455, 466-495
+packages\dota2forge-core\src\dota2forge_core\use_cases.py                                    70     34     20      2    42%   37-45, 55-63, 83-86, 93, 102-110, 115-126, 131-136, 141
+packages\dota2forge-renderer\src\dota2forge_renderer\__init__.py                              5      0      0      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\cards.py                                67      2      2      1    96%   31, 52
+packages\dota2forge-renderer\src\dota2forge_renderer\engine.py                              424    245    126     20    38%   88-93, 103, 136-140, 143, 148, 171-172, 175-199, 206, 251-260, 265-274, 280-283, 286-292, 296->298, 309, 332, 340, 349, 383, 387, 389, 391, 393, 395, 397, 399-401, 410-412, 415-472, 475-495, 498-539, 542-560, 570-633, 636-644, 647-765
+packages\dota2forge-renderer\src\dota2forge_renderer\feature_layout.py                      127     13     44      9    87%   58, 67, 95-98, 105, 151, 241, 258, 283-284, 288
+packages\dota2forge-renderer\src\dota2forge_renderer\features.py                            101     18     44      8    78%   81, 95, 109, 131, 149, 157, 171, 184, 221-247
+packages\dota2forge-renderer\src\dota2forge_renderer\formatting.py                           41     24     16      1    32%   12-14, 18-23, 38, 44-54, 58-63, 67
+packages\dota2forge-renderer\src\dota2forge_renderer\hero_items.py                           37     17     10      1    45%   47-48, 53-59, 63-86
+packages\dota2forge-renderer\src\dota2forge_renderer\illustrations.py                        90     46     38      5    38%   44, 47-81, 92-93, 97-123, 127
+packages\dota2forge-renderer\src\dota2forge_renderer\match_details.py                         7      2      0      0    71%   10, 20
+packages\dota2forge-renderer\src\dota2forge_renderer\match_report_layout.py                 169    169     42      0     0%   3-419
+packages\dota2forge-renderer\src\dota2forge_renderer\reporting.py                           112     90     46      0    14%   15-31, 35-39, 46-49, 53, 70, 81, 85-86, 90-91, 100-128, 132-155, 159-228, 232-250
+packages\dota2forge-renderer\src\dota2forge_renderer\subscriptions.py                        72     61     30      0    11%   28-31, 39-72, 78, 86-126, 130-171
+packages\dota2forge-renderer\src\dota2forge_renderer\theme.py                                11      0      0      0   100%
+packages\dota2forge-renderer\src\dota2forge_renderer\worker.py                               46     37     10      0    16%   11-16, 19-27, 30-46, 49-52, 55-59
+scripts\build_plugin_distributions.py                                                       355     78    132     18    77%   19, 84, 114, 119, 171, 175, 208->223, 254, 284-340, 345-367, 414-450, 466, 470, 476, 533, 546->548, 573-582, 585-594, 668, 727, 788
+scripts\check_governance.py                                                                 242    242    122      0     0%   3-327
+scripts\check_stratz.py                                                                      32     32      2      0     0%   3-64
+scripts\download_dota_assets.py                                                               3      3      2      0     0%   3-6
+scripts\generate_reference.py                                                                49     49     16      0     0%   3-80
+scripts\gscore_bundled_runtime.py                                                           719    719    288      0     0%   7-1164
+scripts\gscore_public_runtime.py                                                             76      2     30      2    96%   20, 178
+scripts\plugin_bootstrap.py                                                                  34      1     16      1    96%   37
+scripts\smoke_plugin_distributions.py                                                        71      3     22      2    95%   16, 240, 244
+scripts\smoke_wheels.py                                                                      27     27     12      0     0%   3-108
+scripts\stage_wheel_dependencies.py                                                          26     26     10      0     0%   3-50
+-------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                     10188   5419   3616    491    41%
+FAIL Required test coverage of 80% not reached. Total coverage: 41.18%
+=========================== short test summary info ===========================
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\n]
+FAILED tests/test_gscore_public_runtime.py::test_public_generation_keeps_operator_links_local_and_hashes_wheels[\r\n]
+2 failed, 70 passed in 19.55s

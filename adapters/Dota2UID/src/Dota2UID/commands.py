@@ -13,6 +13,7 @@ from dota2forge_core import (
     parse_match_id,
 )
 from dota2forge_core.domain.hero_items import normalize_hero_name
+from dota2forge_core.feature_requests import FEATURE_COMMANDS, FeatureRequest, parse_feature
 
 from .config import Config
 
@@ -33,6 +34,10 @@ class Action(StrEnum):
     RECENT = "do战绩"
     MATCH = "do比赛"
     ITEMS = "do出装"
+    META = "do强势"
+    GUIDE = "do攻略"
+    GUIDE_SAMPLE = "do攻略样例"
+    REVIEW = "do复盘"
 
 
 @dataclass(frozen=True, repr=False)
@@ -63,9 +68,16 @@ class Command:
     match_index: int | None = None
     page: int | None = None
     hero_name: str | None = None
+    feature: FeatureRequest | None = None
 
 
 def parse_command(keyword: str, text: str) -> Command:
+    if keyword in FEATURE_COMMANDS or (keyword.startswith("do") and keyword.endswith("攻略")):
+        try:
+            feature = parse_feature(keyword, text)
+        except ValueError:
+            raise CommandError() from None
+        return Command(Action(feature.keyword), feature=feature)
     if keyword.startswith("do") and keyword.endswith("出装") and keyword != "do出装":
         if text.strip():
             raise CommandError()

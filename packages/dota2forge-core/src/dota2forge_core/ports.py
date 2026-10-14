@@ -5,6 +5,7 @@ from typing import Protocol, TypeVar
 
 from .domain.analysis import MatchAnalysisResult
 from .domain.errors import DataSource
+from .domain.hero_features import GuideSample, HeroGuide, HeroMetaSnapshot, MetaRequest
 from .domain.hero_items import Hero, HeroItemStatistics
 from .domain.identity import AccountId, PlatformIdentity
 from .domain.match_detail import MatchDetailResult, MatchId
@@ -62,6 +63,22 @@ class HeroItemProvider(Protocol):
     def source(self) -> DataSource: ...
 
     async def get_hero_item_statistics(self, hero: Hero) -> HeroItemStatistics: ...
+
+
+class HeroMetaProvider(Protocol):
+    @property
+    def source(self) -> DataSource: ...
+
+    async def get_hero_meta(self, request: MetaRequest) -> HeroMetaSnapshot: ...
+
+
+class HeroGuideProvider(Protocol):
+    @property
+    def source(self) -> DataSource: ...
+
+    async def get_hero_guide(self, hero: Hero, position: int) -> HeroGuide: ...
+
+    async def get_guide_sample(self, match_id: MatchId, hero: Hero) -> GuideSample: ...
 
 
 class MatchProvider(Protocol):

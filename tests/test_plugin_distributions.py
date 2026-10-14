@@ -34,12 +34,12 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
         release = json.loads((candidate / plugin / "release.json").read_text("utf-8"))
         assert release["plugin"] == plugin and len(release["versions"]) == 4
         assert release["versions"] == {
-            "dota2forge-core": "0.1.0a7",
-            "dota2forge-renderer": "0.1.0a7",
+            "dota2forge-core": "0.1.0a8",
+            "dota2forge-renderer": "0.1.0a8",
             "dota2forge-assets": "0.1.0a1",
             (
                 "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
-            ): "0.1.0a12" if plugin.startswith("astrbot") else "0.1.0a14",
+            ): "0.1.0a13" if plugin.startswith("astrbot") else "0.1.0a15",
         }
         compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
         assert (candidate / plugin / "LICENSE").read_text("utf-8") == (ROOT / "LICENSE").read_text(
@@ -57,9 +57,9 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
     gs = tomllib.loads((candidate / "Dota2UID/pyproject.toml").read_text("utf-8"))
     assert gs["project"]["gscore_auto_update_dep"] == [
         "dota2forge-assets==0.1.0a1",
-        "dota2forge-core[stratz]==0.1.0a7",
-        "dota2forge-renderer==0.1.0a7",
-        "dota2uid[stratz]==0.1.0a14",
+        "dota2forge-core[stratz]==0.1.0a8",
+        "dota2forge-renderer==0.1.0a8",
+        "dota2uid[stratz]==0.1.0a15",
     ]
     assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
     helper = candidate / "Dota2UID/_dota2forge_config.py"
@@ -74,19 +74,21 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
     astr = (candidate / "astrbot_plugin_dota2forge/metadata.yaml").read_text("utf-8")
     assert f"repo: {ASTR_REPO}" in astr and 'astrbot_version: ">=4.5.0"' in astr
     requirements = (candidate / "astrbot_plugin_dota2forge/requirements.txt").read_text("utf-8")
-    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a12" in requirements
-    assert "dota2forge-core[stratz]==0.1.0a7" in requirements
+    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a13" in requirements
+    assert "dota2forge-core[stratz]==0.1.0a8" in requirements
     changelog = (candidate / "astrbot_plugin_dota2forge/CHANGELOG.md").read_bytes()
     assert changelog == distribution.text_bytes(
         ROOT / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md"
     )
-    assert "0.1.0-alpha.12" in changelog.decode("utf-8")
+    assert "0.1.0-alpha.13" in changelog.decode("utf-8")
     with ZipFile(candidate / "astrbot_plugin_dota2forge.zip") as archive:
         assert archive.read("CHANGELOG.md") == changelog
     manifest = json.loads((candidate / "manifest.json").read_text("utf-8"))
     assert (
         manifest["source_sha256"]["adapters/astrbot_plugin_dota2forge/CHANGELOG.md"]
-        == hashlib.sha256(changelog).hexdigest()
+        == hashlib.sha256(
+            (ROOT / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md").read_bytes()
+        ).hexdigest()
     )
     assert manifest["status"] == "local_candidate"
     for name, digest in manifest["files_sha256"].items():

@@ -16,7 +16,11 @@ from dota2forge_core import (
     BindingNotFoundError,
     DeliveryOutcome,
     Dota2Service,
+    GuideSample,
+    HeroFeatureService,
+    HeroGuide,
     HeroItemService,
+    HeroMetaRanking,
     HeroResolutionError,
     MatchAnalysisService,
     MatchAnalysisUnavailable,
@@ -33,8 +37,11 @@ from dota2forge_core import (
     ProviderError,
     RecentMatches,
     RepositoryError,
+    ReviewService,
     SubscriptionEvent,
+    ValidationError,
 )
+from dota2forge_core.feature_requests import FeatureRequest, parse_feature
 from dota2forge_renderer import (
     AsyncRenderer,
     Card,
@@ -48,6 +55,7 @@ from dota2forge_renderer import (
     StatusCard,
 )
 from dota2forge_renderer.cards import DETAIL_PER_PAGE
+from dota2forge_renderer.features import feature_cards, feature_text, review_brief
 from dota2forge_renderer.formatting import (
     duration_text,
     mmr_estimate_text,
@@ -66,6 +74,8 @@ from dota2forge_renderer.subscriptions import (
 from dota2forge_renderer.theme import help_text
 
 from .commands import AstrAction, AstrCommandError, parse_command
+from .native_features import NativeFeatures
+from .review_sessions import ReviewSessionStore
 from .selection import Key, SelectionError, SelectionStore, Session
 
 HELP = help_text("AstrBot")
@@ -215,6 +225,8 @@ class AstrApplication:
         *,
         analysis: MatchAnalysisService | None = None,
         items: HeroItemService | None = None,
+        heroes: HeroFeatureService | None = None,
+        review: ReviewService | None = None,
         image_mode: bool = True,
         selection_clock: Callable[[], float] = time.monotonic,
     ) -> None:
@@ -222,6 +234,13 @@ class AstrApplication:
         self._details = details
         self._analysis = analysis
         self._items = items
+        self._heroes, self._review = heroes, review
+        self._review_sessions = ReviewSessionStore(selection_clock)
+        self._native = (
+            None
+            if heroes is None or review is None
+            else NativeFeatures(heroes, review, lambda: self._renderer, self._review_sessions)
+        )
         self._renderer = renderer
         self._image_mode = image_mode
         self._selections = SelectionStore(selection_clock)
@@ -232,6 +251,75 @@ class AstrApplication:
             return await self._service.get_binding(identity)
         except BindingNotFoundError:
             return None
+
+    async def _review_match(
+        self,
+        identity: PlatformIdentity,
+        request: FeatureRequest,
+        key: tuple[PlatformIdentity, Session] | None,
+    ) -> tuple[int, PlayerBinding | None]:
+        binding = await self._binding(identity)
+        if request.match_id is not None:
+            return request.match_id.value, binding
+        if request.match_index is not None:
+            recent = self._selections.get(key, binding)
+            if request.match_index > len(recent.matches):
+                raise ValidationError("该列表没有对应场次，请重新查询战绩。")
+            return recent.matches[request.match_index - 1].match_id, binding
+        if request.latest:
+            recent = await self._service.get_recent_matches(identity, 1)
+            if not recent.matches:
+                raise ValidationError("来源本次未返回近期比赛。")
+            return recent.matches[0].match_id, binding
+        raise ValidationError("请提供比赛 ID、最近或本会话已发送列表的第N场。")
+
+    def review_hint(
+        self,
+        identity: PlatformIdentity,
+        session: Session,
+        session_id: str,
+        generation: object,
+        query: str,
+        history_count: int | None = None,
+    ) -> str | None:
+        return (
+            None
+            if self._native is None
+            else self._native.hint(
+                (identity, session, session_id), generation, query, history_count
+            )
+        )
+
+    async def native_operation(
+        self,
+        identity: PlatformIdentity,
+        session: Session,
+        session_id: str,
+        generation: object,
+        name: str,
+        args: dict[str, object],
+    ) -> tuple[dict[str, object], ImageArtifact | None]:
+        async with self._dispatch_lock:
+            if self._native is None:
+                raise ValidationError("原生复盘服务尚未配置。")
+            key = identity, session, session_id
+            binding = await self._binding(identity)
+            if name == "begin":
+                text = args.get("text")
+                if not isinstance(text, str):
+                    raise ValidationError("Expected review arguments")
+                request = parse_feature("do复盘", text)
+                if request.match_id is None and request.match_index is None and not request.latest:
+                    entry = self._review_sessions.get(key, generation, binding)
+                    if entry is None:
+                        raise ValidationError("请先提供比赛 ID 或执行 do复盘。")
+                    match = entry.match_id
+                else:
+                    match, binding = await self._review_match(
+                        identity, request, (identity, session)
+                    )
+                return await self._native.begin(key, generation, binding, request, match), None
+            return await self._native.tool(key, generation, binding, name, args)
 
     async def handle(self, identity: PlatformIdentity, keyword: str, text: str) -> list[AstrReply]:
         """Prepare replies without committing a delivered list."""
@@ -308,6 +396,7 @@ class AstrApplication:
                 )
                 texts = ["账号绑定已保存。绑定仅用于查询，不证明账号所有权。"]
                 self._selections.invalidate(identity)
+                self._review_sessions.invalidate(identity)
                 cards = (StatusCard(texts[0], "Dota2Forge / AstrBot"),)
             elif command.action == AstrAction.BINDING:
                 binding = await self._service.get_binding(identity)
@@ -317,6 +406,7 @@ class AstrApplication:
                 removed = await self._service.unbind_account(identity)
                 texts = ["已解除你的账号绑定。" if removed else "你目前没有绑定账号。"]
                 self._selections.invalidate(identity)
+                self._review_sessions.invalidate(identity)
                 cards = (StatusCard(texts[0], "Dota2Forge / AstrBot"),)
             elif command.action == AstrAction.PLAYER:
                 player = await self._service.get_player(identity, account_id=command.account)
@@ -329,6 +419,50 @@ class AstrApplication:
                 result_items = await self._items.get_items(command.hero_name)
                 texts = [hero_items_text(result_items)]
                 cards = (HeroItemsCard(result_items),)
+            elif command.feature is not None:
+                request = command.feature
+                if self._heroes is None or self._review is None:
+                    return [AstrTextReply("STRATZ 扩展服务尚未配置。")], None
+                result_features: HeroMetaRanking | HeroGuide | GuideSample | None
+                if command.action == AstrAction.META:
+                    result_features = await self._heroes.get_meta(request.meta)
+                elif command.action == AstrAction.GUIDE:
+                    assert request.hero_name is not None
+                    result_features = await self._heroes.get_guide(
+                        request.hero_name, request.position
+                    )
+                elif command.action == AstrAction.GUIDE_SAMPLE:
+                    assert request.hero_name is not None and request.match_id is not None
+                    result_features = await self._heroes.get_sample(
+                        request.match_id.value, request.hero_name
+                    )
+                else:
+                    match, review_binding = await self._review_match(identity, request, key)
+                    evidence = await self._review.get_context(
+                        match,
+                        request.hero_name,
+                        account=None if review_binding is None else review_binding.account_id,
+                    )
+                    if request.report:
+                        report = MatchReport(
+                            MatchId(match),
+                            evidence.detail.metadata,
+                            None,
+                            None,
+                            evidence.detail,
+                            evidence.analysis
+                            or MatchAnalysisUnavailable(MatchId(match), evidence.detail.metadata),
+                        )
+                        texts = match_report_text(report)
+                        cards = tuple(MatchReportCard(report, i + 1) for i in range(len(texts)))
+                        texts = split_report_text(texts)
+                    else:
+                        texts = [review_brief(evidence)]
+                        cards = ()
+                    result_features = None
+                if result_features is not None:
+                    cards = feature_cards(result_features, detailed=request.detailed)
+                    texts = [feature_text(card) for card in cards]
             elif command.action == AstrAction.RECENT:
                 recent_binding: PlayerBinding | None = await self._binding(identity)
                 if command.page is not None:
@@ -402,6 +536,8 @@ class AstrApplication:
             return [AstrTextReply("命令参数不正确。\n" + HELP)], None
         except HeroResolutionError as error:
             return [AstrTextReply(hero_resolution_text(error))], None
+        except ValidationError:
+            return [AstrTextReply("参数或复盘视角不可用，请核实比赛 ID、英雄与已发送列表。")], None
         except BindingNotFoundError:
             return [AstrTextReply("你尚未绑定账号，请使用 do绑定 <ID>。")], None
         except BindingConflictError:
@@ -423,6 +559,7 @@ class AstrApplication:
     async def close(self) -> None:
         async with self._dispatch_lock:
             self._selections.clear()
+            self._review_sessions.clear()
             if self._renderer is not None:
                 await self._renderer.close()
 

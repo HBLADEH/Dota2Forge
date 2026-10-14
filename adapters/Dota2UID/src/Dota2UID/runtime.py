@@ -16,7 +16,11 @@ from dota2forge_core import (
     BindingNotFoundError,
     DeliveryOutcome,
     Dota2Service,
+    GuideSample,
+    HeroFeatureService,
+    HeroGuide,
     HeroItemService,
+    HeroMetaRanking,
     HeroResolutionError,
     InvalidIdentityError,
     MatchAnalysisService,
@@ -30,22 +34,26 @@ from dota2forge_core import (
     ProviderError,
     RecentMatches,
     RepositoryError,
+    ReviewService,
     SQLiteSubscriptionRepository,
     SubscriptionEvent,
     SubscriptionRepositoryError,
     SubscriptionService,
     ValidationError,
 )
+from dota2forge_core.feature_requests import FeatureRequest, parse_feature
 from dota2forge_core.infrastructure import SystemClock
 from dota2forge_core.infrastructure._worker import run_storage
 from dota2forge_core.infrastructure.hero_catalog import load_hero_catalog
 from dota2forge_core.infrastructure.opendota import OpenDotaProvider
+from dota2forge_core.infrastructure.review_cache import ReviewObservationProvider
 from dota2forge_core.infrastructure.sqlite import SQLiteBindingRepository
 from dota2forge_core.infrastructure.stratz import StratzProvider
 from dota2forge_renderer import (
     AsyncRenderer,
     Card,
     HeroItemsCard,
+    ImageArtifact,
     MatchReportCard,
     MenuCard,
     PillowRenderer,
@@ -54,6 +62,7 @@ from dota2forge_renderer import (
     RenderError,
     StatusCard,
 )
+from dota2forge_renderer.features import feature_cards, feature_text, review_brief
 from dota2forge_renderer.hero_items import hero_items_text, hero_resolution_text
 from dota2forge_renderer.reporting import match_report_text, split_report_text
 from dota2forge_renderer.subscriptions import (
@@ -63,8 +72,10 @@ from dota2forge_renderer.subscriptions import (
 
 from .commands import Action, Caller, Command, CommandError, parse_command
 from .config import Config, ConfigurationError, ConfigurationPending, ensure_config, load_config
+from .native_features import NativeFeatures
 from .presentation import HELP, match_detail_text, player_text, provider_error_text, recent_text
 from .replies import ImageReply, Reply, TextReply
+from .review_sessions import ReviewSessionStore
 from .selection import RecentSelectionStore, ResultKey, SelectionError, result_key
 from .subscription_routes import delivery_route, destination
 from .subscriptions import SUBSCRIPTION_COMMANDS, SubscriptionController
@@ -135,6 +146,12 @@ class Runtime:
         self._details: MatchDetailService | None = None
         self._analysis: MatchAnalysisService | None = None
         self._items: HeroItemService | None = None
+        self._heroes: HeroFeatureService | None = None
+        self._review: ReviewService | None = None
+        self._provider: StratzProvider | None = None
+        self._review_cache: ReviewObservationProvider | None = None
+        self._review_sessions = ReviewSessionStore(selection_clock)
+        self._native: NativeFeatures | None = None
         self._lock = asyncio.Lock()
         self._state = State.NEW
         self._active: asyncio.Task[object] | None = None
@@ -158,6 +175,122 @@ class Runtime:
     @property
     def subscriptions_enabled(self) -> bool:
         return self._subscriptions is not None and self._subscriptions.enabled
+
+    def _native_key(self, caller: Caller, session_id: str) -> tuple[object, ...]:
+        if (
+            self._config is None
+            or not isinstance(session_id, str)
+            or not 1 <= len(session_id) <= 256
+        ):
+            raise InvalidIdentityError()
+        identity = caller.identity(self._config)
+        return identity, result_key(caller, self._config), session_id
+
+    def review_hint(
+        self,
+        caller: Caller,
+        session_id: str,
+        generation: object,
+        query: str,
+        history_count: int | None = None,
+    ) -> str | None:
+        if self._state != State.READY or self._native is None:
+            return None
+        try:
+            return self._native.hint(
+                self._native_key(caller, session_id), generation, query, history_count
+            )
+        except (InvalidIdentityError, SelectionError):
+            return None
+
+    async def _review_match(
+        self, caller: Caller, identity: PlatformIdentity, request: FeatureRequest
+    ) -> tuple[int, PlayerBinding | None]:
+        assert self._service is not None and self._config is not None
+        binding = await self._binding(identity)
+        if request.match_id is not None:
+            return request.match_id.value, binding
+        if request.match_index is not None:
+            recent = self._selections.get(result_key(caller, self._config), binding)
+            if request.match_index > len(recent.matches):
+                raise ValidationError("该列表没有对应场次，请重新查询战绩。")
+            return recent.matches[request.match_index - 1].match_id, binding
+        if request.latest:
+            recent = await self._service.get_recent_matches(identity, 1)
+            if not recent.matches:
+                raise ValidationError("来源本次未返回近期比赛。")
+            return recent.matches[0].match_id, binding
+        raise ValidationError("请提供比赛 ID、最近或本会话已发送列表的第N场。")
+
+    async def ai_tool(
+        self,
+        caller: Caller,
+        session_id: str,
+        generation: object,
+        name: str,
+        args: dict[str, object],
+    ) -> tuple[dict[str, object], ImageArtifact | None]:
+        return await self._native_operation(caller, session_id, generation, name, args)
+
+    async def begin_review(
+        self, caller: Caller, session_id: str, generation: object, text: str
+    ) -> dict[str, object]:
+        payload, _ = await self._native_operation(
+            caller, session_id, generation, "begin", {"text": text}
+        )
+        return payload
+
+    async def _native_operation(
+        self,
+        caller: Caller,
+        session_id: str,
+        generation: object,
+        name: str,
+        args: dict[str, object],
+    ) -> tuple[dict[str, object], ImageArtifact | None]:
+        if len(self._dispatch_tasks) >= 16 or self._state in {State.STOPPING, State.STOPPED}:
+            raise ValidationError(UNAVAILABLE)
+        task = asyncio.current_task()
+        if task is not None:
+            self._dispatch_tasks.add(task)
+            self._dispatch_drained.clear()
+        try:
+            await self.start()
+            async with self._lock:
+                if self._state != State.READY or self._native is None or self._config is None:
+                    raise ValidationError(UNAVAILABLE)
+                key = self._native_key(caller, session_id)
+                identity = caller.identity(self._config)
+                binding = await self._binding(identity)
+                self._active = task
+                try:
+                    if name == "begin":
+                        raw_text = args.get("text")
+                        if not isinstance(raw_text, str):
+                            raise ValidationError("Expected review arguments")
+                        request = parse_feature("do复盘", raw_text)
+                        if (
+                            request.match_id is None
+                            and request.match_index is None
+                            and not request.latest
+                        ):
+                            entry = self._review_sessions.get(key, generation, binding)
+                            if entry is None:
+                                raise ValidationError("请先提供比赛 ID 或执行 do复盘。")
+                            match = entry.match_id
+                        else:
+                            match, binding = await self._review_match(caller, identity, request)
+                        return await self._native.begin(
+                            key, generation, binding, request, match
+                        ), None
+                    return await self._native.tool(key, generation, binding, name, args)
+                finally:
+                    self._active = None
+        finally:
+            if task is not None:
+                self._dispatch_tasks.discard(task)
+            if not self._dispatch_tasks:
+                self._dispatch_drained.set()
 
     def subscription_route(self, event: SubscriptionEvent) -> Caller:
         if self._config is None:
@@ -311,9 +444,17 @@ class Runtime:
                 self._service = Dota2Service(repository, provider, provider, clock)
                 self._details = MatchDetailService(provider)
                 self._analysis = MatchAnalysisService(provider)
+                self._provider = provider
+                catalog = load_hero_catalog()
+                self._heroes = HeroFeatureService(provider, provider, catalog)
+                self._review_cache = ReviewObservationProvider(provider, provider)
+                self._review = ReviewService(self._review_cache, self._review_cache, catalog)
+                self._native = NativeFeatures(
+                    self._heroes, self._review, lambda: self._renderer, self._review_sessions
+                )
                 self._items = HeroItemService(
                     OpenDotaProvider(client, clock=clock, timeout_seconds=config.timeout_seconds),
-                    load_hero_catalog(),
+                    catalog,
                 )
                 subscription_repository = SQLiteSubscriptionRepository(
                     config.database.with_name("subscriptions.sqlite3")
@@ -412,6 +553,10 @@ class Runtime:
                     if self._subscriptions is not None:
                         await self._subscriptions.close()
                     if self._client is not None:
+                        if self._review_cache is not None:
+                            await self._review_cache.close()
+                        if self._provider is not None:
+                            await self._provider.close()
                         await self._client.aclose()
                 finally:
                     if self._renderer is not None:
@@ -421,6 +566,10 @@ class Runtime:
                 self._details = None
                 self._analysis = None
                 self._items = None
+                self._heroes = None
+                self._review = None
+                self._native = None
+                self._review_sessions.clear()
                 self._config = None
                 self._asset_config = None
                 self._selections.clear()
@@ -619,6 +768,53 @@ class Runtime:
                         )
                         return _CommandResult([message])
                     assert command is not None
+                    if command.feature is not None:
+                        request = command.feature
+                        assert self._heroes is not None and self._review is not None
+                        feature_result: HeroMetaRanking | HeroGuide | GuideSample
+                        if command.action == Action.META:
+                            feature_result = await self._heroes.get_meta(request.meta)
+                        elif command.action == Action.GUIDE:
+                            assert request.hero_name is not None
+                            feature_result = await self._heroes.get_guide(
+                                request.hero_name, request.position
+                            )
+                        elif command.action == Action.GUIDE_SAMPLE:
+                            assert request.hero_name is not None and request.match_id is not None
+                            feature_result = await self._heroes.get_sample(
+                                request.match_id.value, request.hero_name
+                            )
+                        else:
+                            match, binding = await self._review_match(caller, identity, request)
+                            evidence = await self._review.get_context(
+                                match,
+                                request.hero_name,
+                                account=None if binding is None else binding.account_id,
+                            )
+                            if request.report:
+                                report = MatchReport(
+                                    MatchId(match),
+                                    evidence.detail.metadata,
+                                    None,
+                                    None,
+                                    evidence.detail,
+                                    evidence.analysis
+                                    or MatchAnalysisUnavailable(
+                                        MatchId(match), evidence.detail.metadata
+                                    ),
+                                )
+                                pages = match_report_text(report)
+                                return _CommandResult(
+                                    split_report_text(pages),
+                                    cards=tuple(
+                                        MatchReportCard(report, i + 1) for i in range(len(pages))
+                                    ),
+                                )
+                            return _CommandResult([review_brief(evidence)])
+                        feature_batch = feature_cards(feature_result, detailed=request.detailed)
+                        return _CommandResult(
+                            [feature_text(card) for card in feature_batch], cards=feature_batch
+                        )
                     if command.action == Action.ITEMS:
                         assert self._items is not None and command.hero_name is not None
                         result_items = await self._items.get_items(command.hero_name)
@@ -708,6 +904,7 @@ class Runtime:
                     messages = await execute(self._service, identity, command)
                     if command.action in {Action.REBIND, Action.UNBIND}:
                         self._selections.invalidate(identity)
+                        self._review_sessions.invalidate(identity)
                         if (
                             self._pending_delivery is not None
                             and self._pending_delivery.key.identity == identity
