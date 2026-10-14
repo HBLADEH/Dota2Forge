@@ -10,6 +10,10 @@
 
 `render_previews.py`绘制6张生产卡片，数据和几何图标均为明确标记的合成演示；公开天赋名称只作展示文本。原始几何素材由脚本生成，未下载官方图。已查看[总览](contact-sheet.png)，三列完整天赋、统计/购买/复盘图标和缺图文字均可读。[尺寸结果](qa.json)最高1780px/289156字节。
 
-提示约束改进不替代真实模型评测；未接入死亡/团战/视野/录像。最终全仓、构建、分支结果见[任务](../../tasks/active/2026-10-15-guide-icons-and-talent-labels.md)。
+提示约束改进不替代真实模型评测；未接入死亡/团战/视野/录像。最终全仓、构建、分支结果见[任务](../../tasks/done/2026-10-15-guide-icons-and-talent-labels.md)。
 
 [统一入口](check-all.log)exit0：2113项禁网测试/486.47秒，聚合覆盖91.04%，scripts/Core/Assets分别94%/90%/92%；Ruff格式/lint、mypy102源文件与治理通过。[五包构建](build-wheels.log)和[隔离安装](smoke-wheels.log)exit0。初始57项选测日志含Pillow弃用警告，测试已改为getcolors，最终统一检查无该警告。
+
+固定源码388587a519fd83de38e79e247c2a03d0ee8d307c的[分发生成](build-distributions.log)与[双端隔离消费](smoke-distributions.log)exit0。`verify_committed.py`核对GS候选所有Git blob与4个wheel摘要，[结果](committed-bytes.log)25文件/4wheel全部一致；初次辅助脚本误写runtime_wheels目录，保留[初始失败](committed-bytes-initial.log)，修正为实际runtime-wheels后通过，未改任何候选字节或断言。
+
+GS85490d14cd9337d35e7ec5513821404c344626e9及主仓源码已推送原codex/stratz-features，远端SHA一致。用户已合并前轮root PR22/GS PR6；新提交在这些main基线之后，未合并main、创建标签/Release或推送AstrBot分发。候选版本号沿用，以新清单摘要识别，更新分支并重启后再由用户自测。

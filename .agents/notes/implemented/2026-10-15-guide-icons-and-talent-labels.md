@@ -1,7 +1,7 @@
 # 攻略本地图标、版本化天赋中文与复盘质量约束
 
 Category: bug-fix
-Related task: [实施任务](../../tasks/active/2026-10-15-guide-icons-and-talent-labels.md)
+Related task: [实施任务](../../tasks/done/2026-10-15-guide-icons-and-talent-labels.md)
 Related code: [常量解析](../../../packages/dota2forge-core/src/dota2forge_core/infrastructure/_stratz_heroes.py)、[卡片](../../../packages/dota2forge-renderer/src/dota2forge_renderer/feature_layout.py)、[复盘](../../../packages/dota2forge-core/src/dota2forge_core/review.py)
 Related docs: [攻略](../../../docs/subsystems/hero-features.md)、[复盘](../../../docs/subsystems/native-review.md)
 
@@ -23,3 +23,5 @@ Renderer复用本地资源映射，在统计、样例购买和复盘购买图绘
 
 ## Verification
 公开常量探针只保存公共技能定义，无比赛/账号/聊天；合成禁网测试和6张卡片视觉QA。最终全仓检查、构建与授权测试分支推送结果见关联任务和[证据](../../artifacts/guide-labels-20261015/README.md)。
+
+统一入口2113项禁网测试通过、覆盖91.04%，独立scripts/Core/Assets94%/90%/92%；五包隔离安装、双端本地候选smoke与GS提交25文件/4wheel摘要验证通过。主仓388587a/GS85490d1推送原测试分支，无AstrBot发行。
