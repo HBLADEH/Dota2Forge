@@ -315,6 +315,48 @@ def test_wrong_position_statistics_are_disabled_but_sample_remains(run_async):
     run_async(check())
 
 
+@pytest.mark.parametrize("broken", [False, True])
+def test_unidentified_skill_keeps_samples_and_statistics_modules_fail_independently(
+    broken, run_async
+):
+    seen = []
+
+    def handler(request):
+        query = json.loads(request.content)["query"]
+        seen.append(query)
+        payload = mock_reply(request)
+        if "itemFullPurchase" in query:
+            skills = payload["data"]["heroStats"]["skills"]
+            extra = {**skills[0], "abilityId": 0, "level": 1}
+            if broken:
+                extra["winCount"] = extra["matchCount"] + 1
+            skills.append(extra)
+        if "players(steamAccountId" in query:
+            player = payload["data"]["match"]["players"][0]
+            player["abilities"].append({"abilityId": 0, "level": 1, "time": 600, "isTalent": False})
+        return httpx.Response(200, json=payload)
+
+    async def check():
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            provider = StratzProvider(
+                client, token="synthetic", clock=type("Clock", (), {"now": lambda _: NOW})()
+            )
+            guide = await provider.get_hero_guide(load_hero_catalog().resolve("斧王"), 3)
+            assert guide.items and guide.talents and guide.samples
+            assert guide.samples[0].upgrades[-1].ability_id == 0
+            assert guide.samples[0].upgrades[-1].name is None
+            if broken:
+                assert guide.abilities is None
+                assert guide.module_errors == (("abilities", "invalid_response"),)
+            else:
+                assert guide.abilities[-1].ability_id == 0
+                assert not guide.module_errors
+            await provider.close()
+        assert not any("ability(id:0," in query for query in seen)
+
+    run_async(check())
+
+
 @pytest.mark.parametrize("mutation", ["errors", "duplicate", "wrong_hero", "wrong_ability", "wins"])
 def test_invalid_provider_evidence_is_not_silently_joined_or_ranked(run_async, mutation):
     async def check():
