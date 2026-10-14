@@ -1,0 +1,38 @@
+{
+  "overview": {
+    "width": 780,
+    "height": 954,
+    "bytes": 161172,
+    "synthetic": true
+  },
+  "skills": {
+    "width": 780,
+    "height": 1780,
+    "bytes": 289156,
+    "synthetic": true
+  },
+  "purchases": {
+    "width": 780,
+    "height": 1780,
+    "bytes": 221831,
+    "synthetic": true
+  },
+  "talents": {
+    "width": 780,
+    "height": 1034,
+    "bytes": 173795,
+    "synthetic": true
+  },
+  "review-items": {
+    "width": 780,
+    "height": 1180,
+    "bytes": 115428,
+    "synthetic": true
+  },
+  "missing-icons": {
+    "width": 780,
+    "height": 1780,
+    "bytes": 199937,
+    "synthetic": true
+  }
+}

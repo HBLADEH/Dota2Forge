@@ -4,7 +4,14 @@ import json
 from functools import lru_cache
 from importlib.resources import files
 
-from dota2forge_core import GuideSample, HeroGuide, HeroMetaRanking, RankBracket, ReviewEvidence
+from dota2forge_core import (
+    BuildItemBucket,
+    GuideSample,
+    HeroGuide,
+    HeroMetaRanking,
+    RankBracket,
+    ReviewEvidence,
+)
 
 from .cards import Card, GuideSampleCard, HeroGuideCard, HeroMetaCard, RenderError
 from .formatting import duration_text, timestamp, value_text
@@ -45,6 +52,16 @@ def clock_text(seconds: int) -> str:
 
 def skill_name(ability_id: int, name: str | None) -> str:
     return name or ("未标识技能 ID 0" if ability_id == 0 else f"技能 ID {ability_id}")
+
+
+def popular_items(guide: HeroGuide) -> tuple[BuildItemBucket, ...]:
+    popular = sorted(guide.items or (), key=lambda v: (-v.matches, v.minute, v.item_id))
+    distinct = {v.item_id: v for v in reversed(popular)}
+    return tuple(sorted(distinct.values(), key=lambda v: (-v.matches, v.minute, v.item_id))[:10])
+
+
+def item_bucket_text(item: BuildItemBucket) -> str:
+    return f"{item_name(item.item_id)} · {item.minute}分钟桶 · {item.matches}场 / {item.wins}胜"
 
 
 def feature_cards(
@@ -133,15 +150,7 @@ def feature_text(card: Card) -> str:
             if guide.items is None:
                 lines.append("出装统计未启用/未返回；原因见模块状态。")
             else:
-                popular = sorted(guide.items, key=lambda v: (-v.matches, v.minute, v.item_id))
-                distinct = {v.item_id: v for v in reversed(popular)}
-                best = sorted(distinct.values(), key=lambda v: (-v.matches, v.minute, v.item_id))[
-                    :10
-                ]
-                lines.extend(
-                    f"{item_name(v.item_id)} · {v.minute}分钟桶 · {v.matches}场 / {v.wins}胜"
-                    for v in best
-                )
+                lines.extend(item_bucket_text(v) for v in popular_items(guide))
                 lines.append(
                     f"每件装备取场次最多的购买时间桶，共 {len(guide.items)} 桶；不是购买顺序。"
                 )
@@ -164,12 +173,13 @@ def feature_text(card: Card) -> str:
                 lines.extend(sample_summary(guide.samples[0]))
                 lines.extend(sample_events(guide.samples[0], 1 if card.page == 2 else 2))
         else:
-            lines.append("天赋选择桶（不拼接成最佳加点顺序）")
+            lines.append("天赋与属性加点统计（不拼接成最佳加点顺序）")
+            lines.extend(note for note in guide.notes if "天赋中文名称" in note)
             if guide.talents is None:
                 lines.append("天赋统计未返回或位置不一致。")
             else:
                 lines.extend(
-                    f"技能 ID {v.ability_id} · {v.matches}场 / {v.wins}胜"
+                    f"{skill_name(v.ability_id, v.name)} · {v.matches}场 / {v.wins}胜"
                     for v in sorted(guide.talents, key=lambda v: (-v.matches, v.ability_id))[:8]
                 )
             for sample in guide.samples:
