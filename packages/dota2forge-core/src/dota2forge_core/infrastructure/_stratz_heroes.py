@@ -112,13 +112,17 @@ class StratzHeroes:
 
     async def labels(self, events: tuple[SkillUpgrade, ...], version: int) -> dict[int, str | None]:
         ids = tuple(sorted({v.ability_id for v in events if 0 < v.ability_id <= 32767}))
+        return await self.label_ids(ids, version)
+
+    async def label_ids(self, ids: tuple[int, ...], version: int) -> dict[int, str | None]:
+        ids = tuple(sorted({identifier for identifier in ids if 0 < identifier <= 32767}))
         if not ids:
             return {}
 
         async def load() -> tuple[tuple[int, str | None], ...]:
             selections = " ".join(
                 f"a{i}:ability(id:{ability},gameVersionId:$version,language:S_CHINESE)"
-                "{id language{displayName}}"
+                "{id name language{displayName}}"
                 for i, ability in enumerate(ids)
             )
             payload, _ = await self._http.request(
@@ -141,6 +145,9 @@ class StratzHeroes:
                         ):
                             raise failure(ProviderErrorCode.INVALID_RESPONSE)
                         label = raw_label
+                    # Verified constant key, not a guess from an unidentified event ID.
+                    if not label and row.get("name") == "special_bonus_attributes":
+                        label = "属性加点"
                 result.append((ability, label))
             return tuple(result)
 
@@ -354,6 +361,24 @@ class StratzHeroes:
             errors.append(("samples", error.code.value))
         if fetched is None:
             raise failure(ProviderErrorCode.UNAVAILABLE)
+        if talents:
+            try:
+                versions = tuple(v for v in await self.patches() if v.effective_at <= fetched)
+                if not versions:
+                    raise failure(ProviderErrorCode.INVALID_RESPONSE)
+                label_patch = max(versions, key=lambda v: (v.effective_at, v.version_id))
+                selected = sorted(talents, key=lambda v: (-v.matches, v.ability_id))[:16]
+                names = await self.label_ids(
+                    tuple(v.ability_id for v in selected), label_patch.version_id
+                )
+                talents = tuple(replace(v, name=names.get(v.ability_id)) for v in talents)
+                notes.append(
+                    f"天赋中文名称使用 {label_patch.name} 常量，仅解释技能标识；统计窗口未核实。"
+                )
+                if any(not v.name for v in sorted(talents, key=lambda v: -v.matches)[:16]):
+                    notes.append("部分天赋中文名称未返回，保留技能 ID，不推测效果。")
+            except ProviderError as error:
+                notes.append(f"天赋中文名称获取失败（{error.code.value}），保留技能 ID。")
         return HeroGuide(
             hero,
             position,

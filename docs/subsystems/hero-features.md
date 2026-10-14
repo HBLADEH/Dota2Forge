@@ -12,7 +12,7 @@ M0开发候选已实现；Core/Renderer最低0.1.0a8，Dota2UID候选a15、AstrB
 guide目标matchPlayer当前为null，故临时读取候选比赛/账号ID后，以独立match.players筛选并校验实际hero/position/account；不把传入的位置当已经生效的口径。嵌套ability解析遭拒，中文名由constants.ability按本场gameVersionId/S_CHINESE独立查询，失败以label_error保留。样例含单场补丁、时间、阵营/KDA/IMP、升级和购买事件及来源装备槽；序列不构造“最佳加点”。匿名/账号缺失时允许终局快照，升级与购买为None，不猜身份。
 
 ## 展示与边界
-`HeroMetaCard`、`HeroGuideCard`、`GuideSampleCard`使用共享Forge主题和同源文字回退。攻略默认最多2页、详细最多4页，只发送有内容的模块并按实际页数编号；样例2页，升级最多24条的四列网格、购买最多32条，标明显示/总条数。升级序号不是英雄等级，源level是从0起的技能阶数。赛前负购买时间、重复与组件保留；最终6装备/3背包/中立槽为来源快照，不回放任意时刻库存。缺图使用名字/ID/空槽占位，技能名不会猜测，未接入技能官方栅格素材。
+`HeroMetaCard`、`HeroGuideCard`、`GuideSampleCard`使用共享Forge主题和同源文字回退。攻略默认最多2页、详细最多4页，只发送有内容的模块并按实际页数编号；样例2页，升级最多24条的三列网格、购买最多32条，标明显示/总条数。长技能名完整换行，超出有界布局回退完整文字。升级序号不是英雄等级，源level是从0起的技能阶数。赛前负购买时间、重复与组件保留；最终6装备/3背包/中立槽为来源快照，不回放任意时刻库存。装备统计/购买记录使用已有本地装备图标，缺图保留名字/ID/空槽，未接入技能官方栅格素材。
 
 普通攻略统计与OpenDota职业`do出装`独立，不互补来源、不伪称同版本。单場样例不代表最优选择或因果。技能天赋、命石、详细中立获取、任意等级/库存回放仍按核查范围声明，不因schema存在即承诺支持。
 
@@ -20,3 +20,5 @@ guide目标matchPlayer当前为null，故临时读取候选比赛/账号ID后，
 共用原StratzProvider/HTTP/配额锁，固定受限GraphQL，无自动重试/切源/录像解析POST。缓存为有界进程内观察：版本/榜单30分钟、攻略/中文名6小时、样例1小时；最多128项，版本表1项，同key合并、至多16个在途key、最后等待者取消即排空。关闭释放缓存与在途任务，client仍由适配器所有。无SQL迁移。来源响应与错误不写身份日志，AI输出删除账号/昵称。见[原生复盘](native-review.md)、[实施决策](../../.agents/notes/implemented/2026-10-14-stratz-hero-and-native-review.md)。
 
 来源技能ID0保留为未标识记录，不猜属性点/天赋或查询常量0。统计模块独立失败，错误可含statistics/abilities/talents/samples；每件物品仅展示最多场次时间桶，不合并桶分母。长说明完整换行，超出尺寸则文字回退，见[反馈修正](../../.agents/notes/implemented/2026-10-15-stratz-followup-and-card-fixes.md)。
+
+聚合天赋最多16个高场次ID解析为中文，名称按抓取时最新已生效版本常量获取，notes明确名称版本；不据此填写统计metadata.patch或核实周窗口。工具talents新增可空name；图片最多8项。单场名称仍按本场版本。来源常量键special_bonus_attributes无中文时显示“属性加点”，不猜属性数值；无名/解析失败保留ID和说明，不丢失统计。见[名称决策](../../.agents/notes/implemented/2026-10-15-guide-icons-and-talent-labels.md)。

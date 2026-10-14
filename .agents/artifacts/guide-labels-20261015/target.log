@@ -1,0 +1,21 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 57 items
+
+tests\core\test_hero_features.py ....................................... [ 68%]
+.......                                                                  [ 80%]
+tests\core\test_feature_consumers.py .........                           [ 96%]
+tests\renderer\test_guide_features.py ..                                 [100%]
+
+============================== warnings summary ===============================
+tests/renderer/test_guide_features.py::test_equipment_statistics_purchase_and_review_cards_draw_local_icons
+tests/renderer/test_guide_features.py::test_equipment_statistics_purchase_and_review_cards_draw_local_icons
+tests/renderer/test_guide_features.py::test_equipment_statistics_purchase_and_review_cards_draw_local_icons
+  D:\workstation\Dota2Forge\tests\renderer\test_guide_features.py:48: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+    assert sum(pixel == (32, 255, 74) for pixel in image.getdata()) > 800
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 57 passed, 3 warnings in 2.93s ========================

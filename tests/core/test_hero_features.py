@@ -3,6 +3,7 @@
 import asyncio
 import copy
 import json
+import re
 from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
@@ -108,7 +109,12 @@ def mock_reply(request, *, mismatch=False):
     query = json.loads(request.content)["query"]
     if "a0:ability" in query:
         return {
-            "data": {"constants": {"a0": {"id": 5007, "language": {"displayName": "合成技能"}}}}
+            "data": {
+                "constants": {
+                    alias: {"id": int(identifier), "language": {"displayName": "合成技能"}}
+                    for alias, identifier in re.findall(r"(a\d+):ability\(id:(\d+),", query)
+                }
+            }
         }
     if "gameVersions" in query:
         return {
@@ -311,6 +317,71 @@ def test_wrong_position_statistics_are_disabled_but_sample_remains(run_async):
             assert ("statistics", "scope_mismatch") in guide.module_errors
             assert guide.samples[0].player.position == "POSITION_3"
             await provider.close()
+
+    run_async(check())
+
+
+@pytest.mark.parametrize("failure", [None, "missing", "identity", "length", "resolver"])
+def test_talent_labels_use_explicit_versions_and_fail_without_discarding_statistics(
+    run_async, failure
+):
+    seen = []
+
+    def handler(request):
+        body = json.loads(request.content)
+        query = body["query"]
+        payload = mock_reply(request)
+        if "gameVersions" in query:
+            payload["data"]["constants"]["gameVersions"].append(
+                {
+                    "id": 12,
+                    "name": "synthetic.old",
+                    "asOfDateTime": int((NOW - timedelta(days=30)).timestamp()),
+                }
+            )
+        if "players(steamAccountId" in query:
+            payload["data"]["match"]["gameVersionId"] = 12
+        if "a0:ability" in query:
+            seen.append(body["variables"]["version"])
+            for row in payload["data"]["constants"].values():
+                if row["id"] == 9999:
+                    row["name"] = "special_bonus_attributes"
+                    row["language"]["displayName"] = None
+                    if failure == "missing":
+                        row["name"] = "untranslated_synthetic"
+                    elif failure == "identity":
+                        row["id"] = 9998
+                    elif failure == "length":
+                        row["language"]["displayName"] = "天" * 161
+                    elif failure == "resolver":
+                        payload["errors"] = [{"message": "synthetic failure"}]
+                else:
+                    row["language"]["displayName"] = "本场旧版技能"
+        return httpx.Response(200, json=payload)
+
+    async def check():
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            provider = StratzProvider(
+                client, token="synthetic", clock=type("Clock", (), {"now": lambda _: NOW})()
+            )
+            try:
+                guide = await provider.get_hero_guide(load_hero_catalog().resolve("斧王"), 3)
+                assert guide.items and guide.talents and guide.abilities and guide.samples
+                assert not guide.module_errors
+                assert guide.metadata.patch is None  # Names don't prove a statistics patch.
+                assert guide.samples[0].upgrades[0].name == "本场旧版技能"
+                assert guide.samples[0].patch.version_id == 12
+                assert guide.talents[0].name == ("属性加点" if failure is None else None)
+                serialized = guide_data(guide)
+                assert serialized["talents"][0]["name"] == guide.talents[0].name
+                assert any("天赋中文名称" in note for note in guide.notes)
+                if failure in (None, "missing"):
+                    assert any("synthetic.1 常量" in note for note in guide.notes)
+                else:
+                    assert any("获取失败" in note for note in guide.notes)
+            finally:
+                await provider.close()
+        assert seen == [12, 11]
 
     run_async(check())
 
