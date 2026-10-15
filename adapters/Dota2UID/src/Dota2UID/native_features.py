@@ -10,46 +10,52 @@ from dota2forge_core import (
     ReviewService,
     ValidationError,
     chart_data,
-    evidence_data,
 )
 from dota2forge_core.feature_requests import FeatureRequest
 from dota2forge_core.feature_tools import guide_data, meta_data, parse_tool
+from dota2forge_core.infrastructure.review_guidance import review_payload, suggested_topic
 from dota2forge_core.review import REVIEW_INSTRUCTION
 from dota2forge_renderer import AsyncRenderer, ImageArtifact, RenderError, ReviewDataCard
+from dota2forge_renderer.features import hero_names
+from dota2forge_renderer.hero_items import item_name
 
 from .review_sessions import ReviewSessionStore
 
 
 def review_related(query: str) -> bool:
-    return any(
-        word in query.lower()
-        for word in (
-            "复盘",
-            "dota",
-            "经济",
-            "出装",
-            "装备",
-            "对线",
-            "团战",
-            "补刀",
-            "净资产",
-            "优势",
-            "这件",
-            "那件",
-            "这局",
-            "这把",
-            "本局",
-            "购买",
-            "补图",
-            "曲线",
-            "bkb",
+    return (
+        suggested_topic(query).value != "overview"
+        or any(
+            word in query.lower()
+            for word in (
+                "复盘",
+                "dota",
+                "经济",
+                "出装",
+                "装备",
+                "对线",
+                "团战",
+                "补刀",
+                "净资产",
+                "优势",
+                "这件",
+                "那件",
+                "这局",
+                "这把",
+                "本局",
+                "购买",
+                "补图",
+                "曲线",
+                "bkb",
+            )
         )
-    ) or (
-        re.fullmatch(
-            r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
-            query.strip(),
+        or (
+            re.fullmatch(
+                r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
+                query.strip(),
+            )
+            is not None
         )
-        is not None
     )
 
 
@@ -76,8 +82,10 @@ class NativeFeatures:
             return None
         return (
             REVIEW_INSTRUCTION + f" 当前复盘比赛 {entry.match_id}；"
-            "先调用 get_dota2_review_context 获取本轮主题的详细事实，"
+            f"先调用 get_dota2_review_context(topic='{suggested_topic(query).value}') "
+            "获取本轮主题的详细事实，"
             "可省略 match_id 沿用本场和当前英雄。不要仅基于之前回复的短摘要分析。"
+            "遵循工具的 analysis_guide 复盘Skill及专题；宿主支持时可加载 dota2-review。"
         )
 
     async def begin(
@@ -98,7 +106,9 @@ class NativeFeatures:
             match_id, hero, account=None if binding is None else binding.account_id
         )
         self.sessions.remember(key, generation, binding, match_id, hero, evidence)
-        return evidence_data(evidence, request.topic)
+        return review_payload(
+            evidence, request.topic, hero_labels=hero_names(), item_label=item_name
+        )
 
     async def tool(
         self,
@@ -143,7 +153,9 @@ class NativeFeatures:
             )
         if name == "get_dota2_review_context":
             self.sessions.remember(key, generation, binding, match_id, hero, evidence)
-            return evidence_data(evidence, request.topic), None
+            return review_payload(
+                evidence, request.topic, hero_labels=hero_names(), item_label=item_name
+            ), None
         assert request.chart is not None
         chart = request.chart
         if "end_seconds" not in args and evidence.detail.duration_seconds is not None:

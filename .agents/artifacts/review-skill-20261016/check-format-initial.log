@@ -1,0 +1,138 @@
+Governance checks passed. Live host verification is recorded separately in tasks.
+RUN ruff format --check .
+unformatted: File would be reformatted
+  --> adapters\Dota2UID\src\Dota2UID\native_features.py:24:12
+   |
+23 | def review_related(query: str) -> bool:
+   -     return suggested_topic(query).value != "overview" or any(
+   -         word in query.lower()
+   -         for word in (
+   -             "复盘",
+   -             "dota",
+   -             "经济",
+   -             "出装",
+   -             "装备",
+   -             "对线",
+   -             "团战",
+   -             "补刀",
+   -             "净资产",
+   -             "优势",
+   -             "这件",
+   -             "那件",
+   -             "这局",
+   -             "这把",
+   -             "本局",
+   -             "购买",
+   -             "补图",
+   -             "曲线",
+   -             "bkb",
+24 +     return (
+25 +         suggested_topic(query).value != "overview"
+26 +         or any(
+27 +             word in query.lower()
+28 +             for word in (
+29 +                 "复盘",
+30 +                 "dota",
+31 +                 "经济",
+32 +                 "出装",
+33 +                 "装备",
+34 +                 "对线",
+35 +                 "团战",
+36 +                 "补刀",
+37 +                 "净资产",
+38 +                 "优势",
+39 +                 "这件",
+40 +                 "那件",
+41 +                 "这局",
+42 +                 "这把",
+43 +                 "本局",
+44 +                 "购买",
+45 +                 "补图",
+46 +                 "曲线",
+47 +                 "bkb",
+48 +             )
+49 |         )
+   -     ) or (
+   -         re.fullmatch(
+   -             r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
+   -             query.strip(),
+50 +         or (
+51 +             re.fullmatch(
+52 +                 r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
+53 +                 query.strip(),
+54 +             )
+55 +             is not None
+56 |         )
+   -         is not None
+57 |     )
+   |
+
+unformatted: File would be reformatted
+  --> adapters\astrbot_plugin_dota2forge\src\astrbot_plugin_dota2forge\native_features.py:24:12
+   |
+23 | def review_related(query: str) -> bool:
+   -     return suggested_topic(query).value != "overview" or any(
+   -         word in query.lower()
+   -         for word in (
+   -             "复盘",
+   -             "dota",
+   -             "经济",
+   -             "出装",
+   -             "装备",
+   -             "对线",
+   -             "团战",
+   -             "补刀",
+   -             "净资产",
+   -             "优势",
+   -             "这件",
+   -             "那件",
+   -             "这局",
+   -             "这把",
+   -             "本局",
+   -             "购买",
+   -             "补图",
+   -             "曲线",
+   -             "bkb",
+24 +     return (
+25 +         suggested_topic(query).value != "overview"
+26 +         or any(
+27 +             word in query.lower()
+28 +             for word in (
+29 +                 "复盘",
+30 +                 "dota",
+31 +                 "经济",
+32 +                 "出装",
+33 +                 "装备",
+34 +                 "对线",
+35 +                 "团战",
+36 +                 "补刀",
+37 +                 "净资产",
+38 +                 "优势",
+39 +                 "这件",
+40 +                 "那件",
+41 +                 "这局",
+42 +                 "这把",
+43 +                 "本局",
+44 +                 "购买",
+45 +                 "补图",
+46 +                 "曲线",
+47 +                 "bkb",
+48 +             )
+49 |         )
+   -     ) or (
+   -         re.fullmatch(
+   -             r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
+   -             query.strip(),
+50 +         or (
+51 +             re.fullmatch(
+52 +                 r"(?:为什么|那为什么|那怎么办|有什么问题|哪里有问题|怎么改进|继续|还有呢|能解释一下|画张图)[呢吗啊？?！!。\s]*",
+53 +                 query.strip(),
+54 +             )
+55 +             is not None
+56 |         )
+   -         is not None
+57 |     )
+   |
+
+2 files would be reformatted, 519 files already formatted
+Required command failed: ruff

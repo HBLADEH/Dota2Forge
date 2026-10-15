@@ -24,9 +24,9 @@ def test_workspace_package_installed(distribution, module):
     assert importlib.import_module(module).__doc__
     assert importlib.metadata.version(distribution) == (
         {
-            "astrbot-plugin-dota2forge": "0.1.0a13",
-            "dota2uid": "0.1.0a15",
-            "dota2forge-core": "0.1.0a8",
+            "astrbot-plugin-dota2forge": "0.1.0a14",
+            "dota2uid": "0.1.0a16",
+            "dota2forge-core": "0.1.0a9",
             "dota2forge-renderer": "0.1.0a8",
             "dota2forge-assets": "0.1.0a1",
         }.get(distribution, "0.1.0a4")
@@ -39,6 +39,9 @@ def test_feature_renderer_consumers_reject_the_previous_public_renderer(distribu
     renderer = next(value for value in requirements if value.name == "dota2forge-renderer")
     assert not renderer.specifier.contains("0.1.0a7", prereleases=True)
     assert renderer.specifier.contains("0.1.0a8", prereleases=True)
+    core = next(value for value in requirements if value.name == "dota2forge-core")
+    assert not core.specifier.contains("0.1.0a8", prereleases=True)
+    assert core.specifier.contains("0.1.0a9", prereleases=True)
 
 
 def test_astrbot_development_bridge_declares_matching_local_components():
@@ -56,7 +59,7 @@ def test_astrbot_development_bridge_declares_matching_local_components():
         "dota2forge-assets",
     ):
         assert str(requirements[name].specifier) == "==" + importlib.metadata.version(name)
-    assert "version: 0.1.0-alpha.13\n" in host.joinpath("metadata.yaml").read_text("utf-8")
+    assert "version: 0.1.0-alpha.14\n" in host.joinpath("metadata.yaml").read_text("utf-8")
 
 
 def test_core_keeps_http_optional_and_has_no_host_sdks():

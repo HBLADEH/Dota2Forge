@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 from .analysis import MatchAnalysis
-from .errors import ValidationError
+from .errors import DataSource, ValidationError
 from .match_detail import MatchDetail
 
 
@@ -28,6 +28,7 @@ class ReviewEvidence:
     analysis: MatchAnalysis | None
     target_slot: int | None = None
     analysis_error: str | None = None
+    source_attempts: tuple[tuple[DataSource, str], ...] = ()
 
     def __post_init__(self) -> None:
         if not isinstance(self.detail, MatchDetail):
@@ -53,6 +54,29 @@ class ReviewEvidence:
             "invalid_response",
         }:
             raise ValidationError("Invalid evidence failure")
+        if (
+            not isinstance(self.source_attempts, tuple)
+            or len(self.source_attempts) > 2
+            or any(
+                not isinstance(v, tuple)
+                or len(v) != 2
+                or not isinstance(v[0], DataSource)
+                or v[0] not in (DataSource.STRATZ, DataSource.OPENDOTA)
+                or v[1]
+                not in {
+                    "not_found",
+                    "timeout",
+                    "unavailable",
+                    "rate_limited",
+                    "basic_only",
+                    "private",
+                    "authentication",
+                    "invalid_response",
+                }
+                for v in self.source_attempts
+            )
+        ):
+            raise ValidationError("Invalid review source attempts")
 
 
 @dataclass(frozen=True, slots=True)

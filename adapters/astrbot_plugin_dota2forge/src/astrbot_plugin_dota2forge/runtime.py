@@ -85,6 +85,7 @@ class Runtime:
         self._application: AstrApplication | None = None
         self._provider: StratzProvider | None = None
         self._review_cache: ReviewObservationProvider | None = None
+        self._review_fallback_cache: ReviewObservationProvider | None = None
         self._start_task: asyncio.Task[None] | None = None
         self._close_task: asyncio.Task[None] | None = None
         self._operations: set[
@@ -203,6 +204,10 @@ class Runtime:
             bindings = Dota2Service(repository, provider, provider, clock)
             self._provider = provider
             self._review_cache = ReviewObservationProvider(provider, provider)
+            supplement = OpenDotaProvider(
+                client, clock=clock, timeout_seconds=config.timeout_seconds
+            )
+            self._review_fallback_cache = ReviewObservationProvider(supplement, supplement)
             catalog = load_hero_catalog()
             application = AstrApplication(
                 bindings,
@@ -210,9 +215,16 @@ class Runtime:
                 renderer,
                 analysis=MatchAnalysisService(provider),
                 heroes=HeroFeatureService(provider, provider, catalog),
-                review=ReviewService(self._review_cache, self._review_cache, catalog),
+                review=ReviewService(
+                    self._review_cache,
+                    self._review_cache,
+                    catalog,
+                    fallback=ReviewService(
+                        self._review_fallback_cache, self._review_fallback_cache, catalog
+                    ),
+                ),
                 items=HeroItemService(
-                    OpenDotaProvider(client, clock=clock, timeout_seconds=config.timeout_seconds),
+                    supplement,
                     catalog,
                 ),
                 image_mode=config.reply_mode == "image",
@@ -439,6 +451,8 @@ class Runtime:
                     if self._client is not None:
                         if self._review_cache is not None:
                             await self._review_cache.close()
+                        if self._review_fallback_cache is not None:
+                            await self._review_fallback_cache.close()
                         if self._provider is not None:
                             await self._provider.close()
                         await self._client.aclose()

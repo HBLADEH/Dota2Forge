@@ -5,6 +5,8 @@
 
 开发分支候选新增版本强势、STRATZ攻略/样例与原生多轮复盘按需补图；本轮尚未发布，旧发行包不包含这些能力。参见[新指令](../../docs/cookbook/hero-meta.md)与[复盘](../../docs/cookbook/native-review.md)。
 
+a14/Corea9开发候选共享复盘Skill专题指南和STRATZ优先/OpenDota只读兜底；本轮不发布AstrBot，真实模型与平台会话仍待验收。
+
 <h1 align="center">Dota2Forge · AstrBot</h1>
 
 <p align="center">在聊天中查询 Dota 2 玩家、战绩、比赛报告和英雄热门出装。</p>
