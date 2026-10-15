@@ -11,3 +11,7 @@
 [统一入口](check-all.log)exit0：2150项禁网测试/590.58秒，覆盖91.11%，scripts/Core/Assets分别94%/90%/92%，Ruff/mypy103源文件通过。名称标签加入前[前轮统一检查](check-before-labels.log)2149项/91.10%通过；[最初格式检查](check-format-initial.log)发现两处未格式化，在最终检查前已修正。
 
 统一检查之后仅澄清提示末句“工具字段”为“比赛字段”，区分来源数据与插件指南；逻辑/结构未再变更，[最终选测](target-final.log)105项通过。最终源码[五包构建](build-wheels.log)/[离线隔离安装](smoke-wheels.log)exit0，[wheel原生解析](wheel-skill.log)确认6份Skill文件、版本1.0.0及0个执行脚本。[SDK日志](gscore-sdk.log)另确认中文标签与当前专题指南进入实际工具结果，仍无真实模型和发送。
+
+源码固定cc591ccfd70b5b389c83fbfd70cf71a5ded85790，[分发生成](build-distributions.log)与[双端本地消费](smoke-distributions.log)exit0；GS ab751ab857f4cc5da7610d08425ea10aefbbcf52的[提交字节核对](committed-bytes.log)25文件/4wheel一致。更新GS候选为a16/Corea9，删除的仅是隔离干净分发clone中被新版本替代的两个已跟踪wheel；没有操作真实宿主。
+
+主仓与GS原codex/stratz-features已推送，远端SHA核实；未合并main、创建标签/Release或推送AstrBot分发。SSH22当时不可用，临时使用443及已有github.com信任键完成验证，不改全局SSH或Git配置。初始失败日志仅去除行尾空白用于git diff --check，失败内容和断言保留。[完成任务](../../tasks/done/2026-10-16-review-skill.md)。

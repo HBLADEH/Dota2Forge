@@ -1,7 +1,7 @@
 # 渐进式复盘指南与显式整份来源回退
 
 Category: feature
-Related task: [实施](../../tasks/active/2026-10-16-review-skill.md)
+Related task: [实施](../../tasks/done/2026-10-16-review-skill.md)
 Related code: [复盘](../../../packages/dota2forge-core/src/dota2forge_core/review.py)、[指南](../../../packages/dota2forge-core/src/dota2forge_core/infrastructure/review_guidance.py)、[GS桥接](../../../adapters/Dota2UID/src/Dota2UID/host_ai.py.template)
 Related docs: [契约](../../../docs/subsystems/review-skill.md)
 
@@ -27,3 +27,5 @@ Core升a9，两适配器最低Corea9并分别候选a16/a14，Renderer仍a8；锁
 初步102项禁网回归与Skill前置验证通过。实际GsCore/Pydantic Skill发现、注册、卸载及原生五轮工具链使用合成依赖验证，不调用真实模型/消息。完整检查/构建/分支交付见[证据](../../artifacts/review-skill-20261016/README.md)。
 
 统一检查2150项禁网通过、覆盖91.11%，随后提示末句一处措辞澄清经105项选测通过；最终wheel离线隔离安装和6份Skill文件实际SDK解析通过。未以字符串/格式检查冒充模型效果验证。
+
+固定源码cc591cc及GS分发ab751ab推送既有测试分支，双端分发本地消费通过，25文件/4wheel提交字节与摘要一致。AstrBot无发行、宿主无修改、无真实模型/消息调用。
