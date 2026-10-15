@@ -1,0 +1,15 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 102 items
+
+tests\core\test_review_skill.py .................................        [ 32%]
+tests\core\test_hero_features.py ....................................... [ 70%]
+.......                                                                  [ 77%]
+tests\core\test_feature_consumers.py .........                           [ 86%]
+tests\dota2uid\test_native_ai_hooks.py ...                               [ 89%]
+tests\test_packages.py ...........                                       [100%]
+
+============================= 102 passed in 2.97s =============================

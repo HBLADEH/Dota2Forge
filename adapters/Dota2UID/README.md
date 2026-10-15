@@ -5,6 +5,8 @@
 
 开发分支候选新增版本强势、STRATZ攻略/样例与原生多轮复盘按需补图；本轮尚未发布，旧发行包不包含这些能力。参见[新指令](../../docs/cookbook/hero-meta.md)与[复盘](../../docs/cookbook/native-review.md)。
 
+a16/Corea9候选新增dota2-review运行时Skill，按问题分析对线经济、出装与团队职责；STRATZ优先、OpenDota只读整份兜底，保留来源与缺失。原生多轮和@策略不变，新分析质量待用户自测。
+
 <h1 align="center">Dota2UID</h1>
 
 <p align="center">在聊天中查询 Dota 2 玩家、战绩、比赛报告和英雄热门出装。</p>

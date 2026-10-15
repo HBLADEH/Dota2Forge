@@ -26,4 +26,6 @@ FieldComparison对None为UNKNOWN；两个已知值相等为AGREE，否则DIFFERE
 
 ## 验证范围
 
+Corea9的ReviewService可由组合入口显式配置[复盘备用来源](review-skill.md)，仅该用例选择整份OpenDota证据并保留主源尝试原因；不改变原Provider和CrossCheckService的“不自动回退/不拼字段”契约，也不增加POST解析或事件字段消费。
+
 普通测试禁网，使用合成HTTP验证既有Core服务、两端文本和真实本地Renderer消费；新来源尚未在线查询或部署到Bot。操作见[SDK步骤](../cookbook/opendota.md)，原因见[决策](../../.agents/notes/implemented/2026-10-02-opendota-cross-check.md)，真实检查见[任务](../../.agents/tasks/done/2026-10-02-opendota-provider.md)。

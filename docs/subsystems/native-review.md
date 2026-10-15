@@ -21,6 +21,8 @@ AstrBot使用原生conversation_manager和event.request_llm(conversation=...)；
 
 原因见[决策](../../.agents/notes/implemented/2026-10-14-stratz-hero-and-native-review.md)，操作见[复盘指南](../cookbook/native-review.md)。
 
+Corea9/Dota2UIDa16/AstrBot候选a14新增[运行时复盘Skill](review-skill.md)：四专题按需指南、数据完整度与精确节点、显式STRATZ优先/OpenDota整份兜底。普通战绩和CrossCheck不变，未增加录像解析或事件数据，AstrBot不发布。
+
 GsCore H14不填query，桥接以同一可信event.raw_text补齐，相关追问钉数据工具并提示先取本主题事实。@/主动回复策略仍由宿主控制。首答至少一项字段依据和建议，实际模型遵守情况待自测。[反馈修正](../../.agents/notes/implemented/2026-10-15-stratz-followup-and-card-fixes.md)。
 
 共享提示要求补图后仍回答实际问题，出装调整给条件建议；优势曲线不能证明团战从未获胜/个人责任，净资产斜率不等于GPM，引用数值需核对本轮字段与采样时间。工具limitations同步净资产/因果边界。提示不等于输出正确性保证：用户截图仍出现数字前后不一致和过度归因，模型质量需人工评估，见[本轮决策](../../.agents/notes/implemented/2026-10-15-guide-icons-and-talent-labels.md)。
