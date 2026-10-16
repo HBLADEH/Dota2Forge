@@ -1,6 +1,6 @@
 # 正常对话复盘
 
-以下为开发候选；用户自测已确认GsCore群聊@后多轮与补图，新的Skill分析质量和AstrBot仍待实机验证。使用宿主已经配置的AI；先启动一场复盘，再按平时方式追问，不用每条消息重复比赛ID。
+适用于Dota2UID a16／AstrBot alpha.14。用户自测已确认GsCore群聊@后多轮与补图，新的Skill分析质量和AstrBot仍待实机验证。使用宿主已经配置的AI，并允许当前人格／会话使用插件复盘工具；先启动一场复盘，再按平时方式追问，不用每条消息重复比赛ID。AstrBot命令按宿主设置加斜线或唤醒前缀。
 
 ```text
 do复盘 <比赛ID> [英雄]
@@ -21,6 +21,6 @@ do复盘 <比赛ID> [英雄] 报告
 
 见[复盘契约](../subsystems/native-review.md)、[英雄攻略](hero-meta.md)、[普通数据查询](analysis.md)。
 
-候选Dota2UIDa16/Corea9内置dota2-review Skill，无需另装终端脚本。综合问题会考虑对线发育、装备、职责与团队方向；问“出装怎么改”则聚焦对应指南，给事实依据、调整候选、条件和代价，再按需补图。支持的GsCore可在运行时Skill列表看到dota2-review；工具analysis_guide也会带相同指南，旧宿主仍能使用。用户自定义同名Skill遵循宿主覆盖规则。
+Dota2UIDa16／AstrBot a14配合Corea9内置dota2-review Skill，无需另装终端脚本。综合问题会考虑对线发育、装备、职责与团队方向；问“出装怎么改”则聚焦对应指南，给事实依据、调整候选、条件和代价，再按需补图。支持的GsCore可在运行时Skill列表看到dota2-review；两端工具analysis_guide也会带相同指南，旧GsCore与AstrBot通过工具消费。用户自定义同名Skill遵循宿主覆盖规则。
 
 来源优先STRATZ；找不到/超时/不可用/限流或仅基础数据时只读尝试OpenDota，使用时明确来源和原因。认证/隐私/格式异常不静默换源，两源不会拼成一份。无时间线时保留基础分析，不自动排队解析，不把经济曲线认定为死亡/团战过程。详见[Skill与来源规则](../subsystems/review-skill.md)。
