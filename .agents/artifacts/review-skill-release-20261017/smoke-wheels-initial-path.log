@@ -1,0 +1,13 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-0klug9y8\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-0klug9y8\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-wheel-0klug9y8\venv
+error: Failed to read `--find-links` directory: D:\workstation\Dota2Forge\dist\review-skill-release-20261017\dist
+  Caused by: 系统找不到指定的路径。 (os error 3)
+Traceback (most recent call last):
+  File "<stdin>", line 8, in <module>
+  File "D:\workstation\Dota2Forge\scripts\smoke_wheels.py", line 27, in main
+    subprocess.run(
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\subprocess.py", line 573, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['uv', 'pip', 'install', '--no-cache', '--python', 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\dota2forge-wheel-0klug9y8\\venv\\Scripts\\python.exe', '--no-index', '--find-links', 'D:\\workstation\\Dota2Forge\\dist\\review-skill-release-20261017\\dist', '--prerelease=allow', 'dota2forge-core']' returned non-zero exit status 2.

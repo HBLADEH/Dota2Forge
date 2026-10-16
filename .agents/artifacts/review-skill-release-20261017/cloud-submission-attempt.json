@@ -1,0 +1,15 @@
+{
+  "observed_at_utc": "2026-10-16T17:47:56.532911+00:00",
+  "market_id": "HBLADEH/astrbot_plugin_dota2forge",
+  "repository": "https://github.com/HBLADEH/astrbot_plugin_dota2forge",
+  "version": "0.1.0-alpha.14",
+  "previous_version": "0.1.0-alpha.12",
+  "submission_click_count": 1,
+  "parsed_as_existing_plugin_update": true,
+  "publishing_space": "HBLADEH",
+  "submit_returned_to_versions_page": true,
+  "new_version_visible": false,
+  "status": "unconfirmed_after_first_refresh",
+  "public_github_release_verified": true,
+  "resubmitted": false
+}
