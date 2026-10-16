@@ -150,6 +150,7 @@ class Runtime:
         self._review: ReviewService | None = None
         self._provider: StratzProvider | None = None
         self._review_cache: ReviewObservationProvider | None = None
+        self._review_fallback_cache: ReviewObservationProvider | None = None
         self._review_sessions = ReviewSessionStore(selection_clock)
         self._native: NativeFeatures | None = None
         self._lock = asyncio.Lock()
@@ -448,12 +449,23 @@ class Runtime:
                 catalog = load_hero_catalog()
                 self._heroes = HeroFeatureService(provider, provider, catalog)
                 self._review_cache = ReviewObservationProvider(provider, provider)
-                self._review = ReviewService(self._review_cache, self._review_cache, catalog)
+                supplement = OpenDotaProvider(
+                    client, clock=clock, timeout_seconds=config.timeout_seconds
+                )
+                self._review_fallback_cache = ReviewObservationProvider(supplement, supplement)
+                self._review = ReviewService(
+                    self._review_cache,
+                    self._review_cache,
+                    catalog,
+                    fallback=ReviewService(
+                        self._review_fallback_cache, self._review_fallback_cache, catalog
+                    ),
+                )
                 self._native = NativeFeatures(
                     self._heroes, self._review, lambda: self._renderer, self._review_sessions
                 )
                 self._items = HeroItemService(
-                    OpenDotaProvider(client, clock=clock, timeout_seconds=config.timeout_seconds),
+                    supplement,
                     catalog,
                 )
                 subscription_repository = SQLiteSubscriptionRepository(
@@ -555,6 +567,8 @@ class Runtime:
                     if self._client is not None:
                         if self._review_cache is not None:
                             await self._review_cache.close()
+                        if self._review_fallback_cache is not None:
+                            await self._review_fallback_cache.close()
                         if self._provider is not None:
                             await self._provider.close()
                         await self._client.aclose()

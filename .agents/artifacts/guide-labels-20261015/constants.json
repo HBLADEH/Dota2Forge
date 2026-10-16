@@ -1,0 +1,148 @@
+{
+  "schema": {
+    "data": {
+      "__type": {
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Short",
+              "ofType": null
+            }
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "uri",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "language",
+            "type": {
+              "kind": "OBJECT",
+              "name": "AbilityLanguageType",
+              "ofType": null
+            }
+          },
+          {
+            "name": "stat",
+            "type": {
+              "kind": "OBJECT",
+              "name": "AbilityStatType",
+              "ofType": null
+            }
+          },
+          {
+            "name": "attributes",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "AbilityAttributeType"
+              }
+            }
+          },
+          {
+            "name": "isTalent",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "constants": {
+    "data": {
+      "constants": {
+        "a0": {
+          "id": 730,
+          "name": "special_bonus_attributes",
+          "language": {
+            "displayName": null,
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a1": {
+          "id": 7021,
+          "name": "special_bonus_unique_juggernaut_3",
+          "language": {
+            "displayName": "-1.0秒 剑心效果获得间隔",
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a2": {
+          "id": 7394,
+          "name": "special_bonus_unique_juggernaut_4",
+          "language": {
+            "displayName": "+15% 剑舞致命一击伤害",
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a3": {
+          "id": 915,
+          "name": "special_bonus_unique_juggernaut_blade_dance_lifesteal",
+          "language": {
+            "displayName": "+40% 剑舞吸血",
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a4": {
+          "id": 1192,
+          "name": "special_bonus_unique_juggernaut_blade_fury_movespeed",
+          "language": {
+            "displayName": "剑刃风暴期间+45 移动速度",
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a5": {
+          "id": 1013,
+          "name": "special_bonus_unique_juggernaut_omnislash_duration",
+          "language": {
+            "displayName": "+1秒 无敌斩持续时间",
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a6": {
+          "id": 628,
+          "name": "special_bonus_unique_juggernaut_5",
+          "language": {
+            "displayName": "-12秒 治疗守卫冷却",
+            "description": [],
+            "attributes": []
+          }
+        },
+        "a7": {
+          "id": 6105,
+          "name": "special_bonus_unique_juggernaut",
+          "language": {
+            "displayName": "+120 剑刃风暴每秒伤害",
+            "description": [],
+            "attributes": []
+          }
+        }
+      }
+    }
+  },
+  "fetched_at": "2026-10-14T18:15:35.935680+00:00"
+}

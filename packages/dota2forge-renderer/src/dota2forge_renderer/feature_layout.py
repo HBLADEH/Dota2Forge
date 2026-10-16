@@ -5,9 +5,24 @@ from typing import TYPE_CHECKING
 from dota2forge_core import ReviewChartKind, chart_data
 from dota2forge_core.review import participant_analysis
 
-from .cards import GuideSampleCard, HeroGuideCard, HeroMetaCard, ImageArtifact, ReviewDataCard
+from .cards import (
+    GuideSampleCard,
+    HeroGuideCard,
+    HeroMetaCard,
+    ImageArtifact,
+    RenderError,
+    ReviewDataCard,
+)
 from .engine import _Canvas
-from .features import RANK_LABELS, clock_text, feature_text, guide_pages, sample_summary
+from .features import (
+    RANK_LABELS,
+    clock_text,
+    feature_text,
+    guide_pages,
+    item_bucket_text,
+    popular_items,
+    sample_summary,
+)
 from .formatting import duration_text
 from .hero_items import item_card_name
 from .theme import GOLD, GREEN, LINE, MUTED, RED, WHITE
@@ -91,7 +106,18 @@ def render_feature(
     page = card.page if isinstance(card, GuideSampleCard) else (1 if card.page == 2 else 2)
     if isinstance(card, HeroGuideCard) and card.page in (1, 4):
         lines = text.splitlines()
-        rows = wrapped_lines(engine, lines[1:-2], 660, 28)
+        icons = (
+            {item_bucket_text(v): v.item_id for v in popular_items(card.guide)}
+            if card.page == 1
+            else {}
+        )
+        rows = [
+            (row, icons.get(line) if index == 0 else None, bool(icons.get(line)))
+            for line in lines[1:-2]
+            for index, row in enumerate(
+                wrapped_lines(engine, [line], 600 if line in icons else 660, 28)
+            )
+        ]
         panel_height = max(170, 40 * len(rows) + 44)
         footer_y = 204 + panel_height + 16
         pages = guide_pages(card.guide, card.detailed)
@@ -103,13 +129,15 @@ def render_feature(
             )
             c.panel(28, 204, 724, panel_height)
             # All source status is also present in the complete text fallback.
-            for i, line in enumerate(rows):
+            for i, (line, icon, inset) in enumerate(rows):
+                if icon:
+                    c.icon("items", icon, 44, 226 + i * 40, (48, 36))
                 c.text(
-                    44,
+                    104 if inset else 44,
                     226 + i * 40,
                     line,
                     color=GOLD if i == 0 else WHITE,
-                    width=660,
+                    width=600 if inset else 660,
                     truncate=False,
                 )
             c.metadata(footer_y, card.guide.metadata)
@@ -133,34 +161,42 @@ def render_feature(
             if events is None:
                 c.text(36, 420, "技能升级记录未知", color=MUTED)
             else:
-                # Four columns leave room for localized skill names, without guessed levels.
+                # Three columns allow complete localized talent names on two lines.
                 for i, event in enumerate(events[:24]):
-                    x, y = 28 + (i % 4) * 181, 414 + (i // 4) * 156
-                    c.panel(x, y, 172, 146)
-                    c.text(x + 9, y + 10, f"#{i + 1}", color=GOLD, width=154)
+                    x, y = 28 + (i % 3) * 244, 414 + (i // 3) * 120
+                    c.panel(x, y, 236, 112)
                     c.text(
                         x + 9,
-                        y + 46,
-                        event.name
-                        or ("未标识技能" if event.ability_id == 0 else f"ID {event.ability_id}"),
+                        y + 10,
+                        f"#{i + 1} 阶{event.source_level}",
                         size=26,
-                        width=154,
+                        color=GOLD,
+                        width=126,
                     )
                     c.text(
-                        x + 9,
-                        y + 80,
-                        f"阶 {event.source_level}{' 天赋' if event.is_talent else ''}",
-                        size=26,
-                        width=154,
-                    )
-                    c.text(
-                        x + 9,
-                        y + 114,
+                        x + 132,
+                        y + 10,
                         clock_text(event.time_seconds),
                         size=26,
                         color=MUTED,
-                        width=154,
+                        width=94,
                     )
+                    label = ("天赋：" if event.is_talent else "") + (
+                        event.name
+                        or ("未标识技能" if event.ability_id == 0 else f"ID {event.ability_id}")
+                    )
+                    name_rows = wrapped_lines(engine, [label], 218, 26)
+                    if len(name_rows) > 2:
+                        raise RenderError()
+                    for index, skill_row in enumerate(name_rows):
+                        c.text(
+                            x + 9,
+                            y + 46 + index * 30,
+                            skill_row,
+                            size=26,
+                            width=218,
+                            truncate=False,
+                        )
                 c.text(
                     36,
                     1370,
@@ -196,14 +232,16 @@ def render_feature(
                         width=86,
                     )
                     c.text(
-                        x + 108,
+                        x + 154,
                         y + 10,
                         item_card_name(purchase.item_id)
                         if purchase.item_id
                         else purchase.item_key or "未知",
                         size=26,
-                        width=232,
+                        width=190,
                     )
+                    if purchase.item_id:
+                        c.icon("items", purchase.item_id, x + 104, y + 9, (42, 36))
                 c.text(
                     36,
                     1426,
@@ -258,12 +296,20 @@ def render_review_data(engine: "PillowRenderer", card: ReviewDataCard) -> ImageA
                 )
             )
             for i, p in enumerate(purchases[:12]):
+                if p.item_id:
+                    c.icon("items", p.item_id, 150, 304 + i * 46, (42, 36))
                 c.text(
                     44,
                     308 + i * 46,
-                    f"{clock_text(p.time_seconds)} · "
-                    f"{item_card_name(p.item_id) if p.item_id else p.item_key}",
-                    width=680,
+                    clock_text(p.time_seconds),
+                    width=96,
+                    color=GOLD,
+                )
+                c.text(
+                    206,
+                    308 + i * 46,
+                    item_card_name(p.item_id) if p.item_id else p.item_key or "未知",
+                    width=518,
                 )
             c.text(
                 36,

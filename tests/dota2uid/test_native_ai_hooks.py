@@ -67,3 +67,36 @@ def test_tool_hook_accepts_sdk_empty_query_without_changing_reply_trigger(
     assert received == [("这把有什么问题？", 2)]
     assert ensured == ["get_dota2_review_context", "render_dota2_review_data"]
     assert event.is_tome is True and event.raw_text == "这把有什么问题？"
+
+
+def test_plugin_skill_cleanup_does_not_remove_new_generation_or_user_skills(monkeypatch):
+    import sys
+    from pathlib import Path
+
+    from dota2forge_core.infrastructure.review_guidance import skill_directory
+
+    directories = [(Path("synthetic-other"), "other-plugin")]
+    rebuilt = []
+
+    def install(name, **values):
+        module = ModuleType(name)
+        module.__dict__.update(values)
+        monkeypatch.setitem(sys.modules, name, module)
+
+    def register(path, plugin):
+        directories[:] = [entry for entry in directories if entry[0] != path]
+        directories.append((path, plugin))
+
+    install("gsuid_core.ai_core.register", ai_skill=register)
+    install("gsuid_core.ai_core.skills.operations", _rebuild_skills=lambda: rebuilt.append(True))
+    install("gsuid_core.ai_core.skills.resource", plugin_skill_dirs=directories)
+    namespace = {"__name__": "synthetic_native_bridge"}
+    source = files("Dota2UID").joinpath("host_ai.py.template").read_text("utf-8")
+    exec(compile(source, "host_ai.py.template", "exec"), namespace)
+    first = namespace["register_review_skill"]()
+    second = namespace["register_review_skill"]()
+    first()
+    assert (skill_directory().resolve(), "Dota2UID") in directories and not rebuilt
+    second()
+    second()
+    assert directories == [(Path("synthetic-other"), "other-plugin")] and rebuilt == [True]

@@ -1,6 +1,6 @@
 # 原生多轮比赛复盘
 
-开发候选已实现SDK外业务与两端原生入口；未生产部署或用真实模型/平台聊天验收。宿主负责模型、预算、对话历史和发送权限；插件不新增模型配置，不保存聊天，不用每轮临时LLM冒称多轮。
+开发候选已实现SDK外业务与两端原生入口。用户自测截图确认GsCore群聊@后连续追问和图片可用；代理未发送真实消息，AstrBot及完整生命周期验收仍未验证。宿主负责模型、预算、对话历史和发送权限；插件不新增模型配置，不保存聊天，不用每轮临时LLM冒称多轮。
 
 ## 事实与用例
 `ReviewService`通过详情/分析端口取A/B层观察，`ReviewEvidence`保留同比赛同来源的详情、经济、购买、目标slot和分析错误。英雄需本场唯一匹配；未指定英雄时可用可信调用者绑定偏好，无匹配则双方概览，不猜参赛身份。分析关联校验slot和公开账号一致；错误不混接，基础事实仍保留。序列带单位、语义和真实时轴，STRATZ净资产不是OpenDota累计金币；天辉优势有符号且起点-60秒。终局补刀不可解释成对线期补刀。
@@ -21,4 +21,8 @@ AstrBot使用原生conversation_manager和event.request_llm(conversation=...)；
 
 原因见[决策](../../.agents/notes/implemented/2026-10-14-stratz-hero-and-native-review.md)，操作见[复盘指南](../cookbook/native-review.md)。
 
+Corea9/Dota2UIDa16/AstrBot候选a14新增[运行时复盘Skill](review-skill.md)：四专题按需指南、数据完整度与精确节点、显式STRATZ优先/OpenDota整份兜底。普通战绩和CrossCheck不变，未增加录像解析或事件数据，AstrBot不发布。
+
 GsCore H14不填query，桥接以同一可信event.raw_text补齐，相关追问钉数据工具并提示先取本主题事实。@/主动回复策略仍由宿主控制。首答至少一项字段依据和建议，实际模型遵守情况待自测。[反馈修正](../../.agents/notes/implemented/2026-10-15-stratz-followup-and-card-fixes.md)。
+
+共享提示要求补图后仍回答实际问题，出装调整给条件建议；优势曲线不能证明团战从未获胜/个人责任，净资产斜率不等于GPM，引用数值需核对本轮字段与采样时间。工具limitations同步净资产/因果边界。提示不等于输出正确性保证：用户截图仍出现数字前后不一致和过度归因，模型质量需人工评估，见[本轮决策](../../.agents/notes/implemented/2026-10-15-guide-icons-and-talent-labels.md)。

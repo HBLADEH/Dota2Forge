@@ -1,6 +1,6 @@
 # Dota2UID 随包运行库安装
 
-本页对应 **0.1.0a14 bundled 预发行分发**，随包Core a7、Renderer a7、Assets a1，提供远古锻炉主题、比赛宽幅报告与STRATZ IMP；订阅比赛新增总览与分队详情卡，渲染失败回退同一报告文本。发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)与[发行记录](plugin-release.md)。旧a4使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
+本页对应 **0.1.0a16 bundled 预发行分发**，随包Core a9、Renderer a8、Assets a1。新增版本强势、STRATZ攻略与单场样例、带dota2-review Skill的原生连续复盘及按需数据图；攻略复用现有装备素材，技能／天赋优先来源中文名称。发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)与[发行记录](plugin-release.md)。旧a4使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
 
 a11沿用a10源码加入的受控热切换；[实施记录](../../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)区分SDK隔离验收与生产/QQ。旧a6–a9首次升级需一次冷启动，使新的排空协议生效。
 
@@ -36,6 +36,8 @@ HTTPX/Pillow继续使用宿主已经安装的兼容版本。根依赖声明只�
 卸载前先停用，再由宿主卸载插件并重启；保留data/Dota2UID以便恢复。运行库和共享第三方依赖不混在一起，不删除其他插件使用的包。普通业务命令与数据来源继续遵守[Dota2UID说明](../../adapters/Dota2UID/README.md)。
 
 ## 受控重载的更新步骤
+
+本轮复盘Skill与原生AI桥接更新，建议先备份data/Dota2UID，发送do停用，退出GsCore后更新插件并冷启动；用do核心状态核对运行版本为a16/Corea9/Renderer8。Skill无需另装；在GsCore启用AI模型及当前人格工具，发送do复盘 <比赛ID> [英雄]后连续追问。仅@回复的会话仍需逐次@；详细示例见[复盘用法](native-review.md)。
 
 首次冷启动新协议版本后，兼容bundled更新可直接点击宿主重载；AutoReloadPlugins开启时有更新自动调度。插件校验新包，短暂停止业务并排空旧任务，启用后用do核心状态确认期望/准备/运行版本及切换状态。do安装核心只准备当前清单，完成后重载。切换中的请求不会自动重发，旧战绩列表需重查。
 
