@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "D:\workstation\Dota2Forge\.agents\artifacts\review-skill-20261016\check_gscore_native.py", line 233, in <module>
+    asyncio.run(check(directory))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "D:\workstation\Dota2Forge\.agents\artifacts\review-skill-20261016\check_gscore_native.py", line 82, in check
+    assert skills["dota2-review"].metadata["version"] == "1.0.0"
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+KeyError: 'version'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\dota2forge-gscore-native-0hx1pafu\\illustrations\\.lease'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workstation\Dota2Forge\.agents\artifacts\review-skill-20261016\check_gscore_native.py", line 227, in <module>
+    with tempfile.TemporaryDirectory(prefix="dota2forge-gscore-native-") as directory:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.13.2-windows-x86_64-none\Lib\tempfile.py", line 905, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\BLADE\\AppData\\Local\\Temp\\dota2forge-gscore-native-0hx1pafu\\illustrations\\.lease'

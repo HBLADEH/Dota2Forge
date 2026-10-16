@@ -1,0 +1,38 @@
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gcob3pxu\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gcob3pxu\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-gcob3pxu\venv
+Resolved 12 packages in 121ms
+Prepared 12 packages in 337ms
+Installed 12 packages in 265ms
+ + anyio==4.15.1
+ + astrbot-plugin-dota2forge==0.1.0a14 (from file:///D:/workstation/Dota2Forge/dist/release-assets/review-skill-20261016/astrbot_plugin_dota2forge-0.1.0a14-py3-none-any.whl#sha256=1c6f8d9f8ad5641d6d81ad83a013537a1afce71f654ec59ddd5993c44ce05a64)
+ + certifi==2026.7.22
+ + dota2forge-assets==0.1.0a1 (from file:///D:/workstation/Dota2Forge/dist/release-assets/review-skill-20261016/dota2forge_assets-0.1.0a1-py3-none-any.whl#sha256=9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250)
+ + dota2forge-core==0.1.0a9 (from file:///D:/workstation/Dota2Forge/dist/release-assets/review-skill-20261016/dota2forge_core-0.1.0a9-py3-none-any.whl#sha256=66f51e73e36beb27ca1cf47bed89554106e0df17ac12948462c16ba15bd3506e)
+ + dota2forge-renderer==0.1.0a8 (from file:///D:/workstation/Dota2Forge/dist/release-assets/review-skill-20261016/dota2forge_renderer-0.1.0a8-py3-none-any.whl#sha256=8104a581e2d74f24882ec4156f49499ac27d94d0ecf2b95a7ba7104453eb005e)
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: astrbot_plugin_dota2forge
+Using CPython 3.12.9 interpreter at: .venv\Scripts\python.exe
+Creating virtual environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-mngu5iyp\venv
+Activate with: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-mngu5iyp\venv\Scripts\activate
+Using Python 3.12.9 environment at: C:\Users\BLADE\AppData\Local\Temp\dota2forge-distribution-mngu5iyp\venv
+Resolved 8 packages in 6ms
+Prepared 8 packages in 239ms
+Installed 8 packages in 222ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + pillow==12.3.0
+ + typing-extensions==4.16.0
+Pinned dependencies, automatic assets, configuration, shutdown and persistence passed.
+SDK-free local distribution smoke passed: Dota2UID

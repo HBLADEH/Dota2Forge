@@ -1,0 +1,17 @@
+{
+  "native_skill_registered_and_removed": true,
+  "chinese_labels_and_topic_guide": true,
+  "real_registration_and_pydantic_schema": true,
+  "real_hook_registry": true,
+  "trusted_context_hidden": true,
+  "same_session_five_rounds": true,
+  "generic_followup_tool_recall": true,
+  "tool_hook_empty_query_event_fallback": true,
+  "persona_disabled_respected": true,
+  "subagent_outbound_rejected": true,
+  "same_id_generation_reset": true,
+  "unregister_and_close": true,
+  "side_effect_dependencies": "synthetic",
+  "real_model": false,
+  "real_platform_sends": false
+}

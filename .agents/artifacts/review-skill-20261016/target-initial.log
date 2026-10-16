@@ -1,0 +1,428 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\workstation\Dota2Forge
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0, socket-0.8.1
+collected 90 items
+
+tests\core\test_review_skill.py ...F..F..F..F......FFF...........        [ 36%]
+tests\core\test_hero_features.py ....................................... [ 80%]
+.......                                                                  [ 87%]
+tests\core\test_feature_consumers.py .........                           [ 97%]
+tests\dota2uid\test_native_ai_hooks.py ..                                [100%]
+
+================================== FAILURES ===================================
+_ test_read_only_fallback_selects_one_whole_source_and_preserves_reason[not_found-basic] _
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+stage = 'basic', code = 'not_found'
+
+    @pytest.mark.parametrize("stage", ["detail", "analysis", "basic"])
+    @pytest.mark.parametrize("code", ["not_found", "timeout", "unavailable", "rate_limited"])
+    def test_read_only_fallback_selects_one_whole_source_and_preserves_reason(run_async, stage, code):
+        primary, secondary = sources()
+        if stage == "basic":
+            primary.analysis = None
+        else:
+            setattr(primary, stage, ProviderError(ProviderErrorCode(code), DataSource.STRATZ))
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:93:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E1477CB0>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+_ test_read_only_fallback_selects_one_whole_source_and_preserves_reason[timeout-basic] _
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+stage = 'basic', code = 'timeout'
+
+    @pytest.mark.parametrize("stage", ["detail", "analysis", "basic"])
+    @pytest.mark.parametrize("code", ["not_found", "timeout", "unavailable", "rate_limited"])
+    def test_read_only_fallback_selects_one_whole_source_and_preserves_reason(run_async, stage, code):
+        primary, secondary = sources()
+        if stage == "basic":
+            primary.analysis = None
+        else:
+            setattr(primary, stage, ProviderError(ProviderErrorCode(code), DataSource.STRATZ))
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:93:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E14BECC0>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+_ test_read_only_fallback_selects_one_whole_source_and_preserves_reason[unavailable-basic] _
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+stage = 'basic', code = 'unavailable'
+
+    @pytest.mark.parametrize("stage", ["detail", "analysis", "basic"])
+    @pytest.mark.parametrize("code", ["not_found", "timeout", "unavailable", "rate_limited"])
+    def test_read_only_fallback_selects_one_whole_source_and_preserves_reason(run_async, stage, code):
+        primary, secondary = sources()
+        if stage == "basic":
+            primary.analysis = None
+        else:
+            setattr(primary, stage, ProviderError(ProviderErrorCode(code), DataSource.STRATZ))
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:93:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E1492780>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+_ test_read_only_fallback_selects_one_whole_source_and_preserves_reason[rate_limited-basic] _
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+stage = 'basic', code = 'rate_limited'
+
+    @pytest.mark.parametrize("stage", ["detail", "analysis", "basic"])
+    @pytest.mark.parametrize("code", ["not_found", "timeout", "unavailable", "rate_limited"])
+    def test_read_only_fallback_selects_one_whole_source_and_preserves_reason(run_async, stage, code):
+        primary, secondary = sources()
+        if stage == "basic":
+            primary.analysis = None
+        else:
+            setattr(primary, stage, ProviderError(ProviderErrorCode(code), DataSource.STRATZ))
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:93:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E151BBC0>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+___ test_failed_or_equally_basic_fallback_preserves_primary_facts[missing] ____
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+secondary_state = 'missing'
+
+    @pytest.mark.parametrize("secondary_state", ["missing", "timeout", "invalid"])
+    def test_failed_or_equally_basic_fallback_preserves_primary_facts(run_async, secondary_state):
+        primary, secondary = sources()
+        primary.analysis = None
+        if secondary_state == "missing":
+            secondary.analysis = None
+        elif secondary_state == "timeout":
+            secondary.detail = ProviderError(ProviderErrorCode.TIMEOUT, DataSource.OPENDOTA)
+        else:
+            secondary.analysis = ProviderError(ProviderErrorCode.INVALID_RESPONSE, DataSource.OPENDOTA)
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:131:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E1519B80>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+___ test_failed_or_equally_basic_fallback_preserves_primary_facts[timeout] ____
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+secondary_state = 'timeout'
+
+    @pytest.mark.parametrize("secondary_state", ["missing", "timeout", "invalid"])
+    def test_failed_or_equally_basic_fallback_preserves_primary_facts(run_async, secondary_state):
+        primary, secondary = sources()
+        primary.analysis = None
+        if secondary_state == "missing":
+            secondary.analysis = None
+        elif secondary_state == "timeout":
+            secondary.detail = ProviderError(ProviderErrorCode.TIMEOUT, DataSource.OPENDOTA)
+        else:
+            secondary.analysis = ProviderError(ProviderErrorCode.INVALID_RESPONSE, DataSource.OPENDOTA)
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:131:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E14A59D0>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+___ test_failed_or_equally_basic_fallback_preserves_primary_facts[invalid] ____
+
+run_async = <bound method BaseEventLoop.run_until_complete of <ProactorEventLoop running=False closed=False debug=False>>
+secondary_state = 'invalid'
+
+    @pytest.mark.parametrize("secondary_state", ["missing", "timeout", "invalid"])
+    def test_failed_or_equally_basic_fallback_preserves_primary_facts(run_async, secondary_state):
+        primary, secondary = sources()
+        primary.analysis = None
+        if secondary_state == "missing":
+            secondary.analysis = None
+        elif secondary_state == "timeout":
+            secondary.detail = ProviderError(ProviderErrorCode.TIMEOUT, DataSource.OPENDOTA)
+        else:
+            secondary.analysis = ProviderError(ProviderErrorCode.INVALID_RESPONSE, DataSource.OPENDOTA)
+>       result = run_async(service(primary, secondary).get_context(22, "斧王"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\core\test_review_skill.py:131:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\BLADE\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\asyncio\base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+packages\dota2forge-core\src\dota2forge_core\review.py:54: in get_context
+    primary = await self._context(match, hero_name, account=account)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <dota2forge_core.review.ReviewService object at 0x00000283E14AED80>
+match = 22, hero_name = '斧王', account = None
+
+    async def _context(
+        self, match: int | str, hero_name: str | None = None, *, account: AccountId | None = None
+    ) -> ReviewEvidence:
+        match_id = parse_match_id(match)
+        hero = None if hero_name is None else self._catalog.resolve(hero_name)
+        detail = await self._details.get_match_detail(match_id)
+        if not isinstance(detail, MatchDetail):
+            raise ProviderError(ProviderErrorCode.NOT_FOUND, self._details.source)
+        if detail.match_id != match_id or detail.metadata.source != self._details.source:
+            raise ProviderError(ProviderErrorCode.INVALID_RESPONSE, self._details.source)
+        target = None
+        if hero is not None:
+            candidates = tuple(p for p in detail.players or () if p.hero_id == hero.hero_id)
+            if len(candidates) != 1 or candidates[0].player_slot is None:
+                raise ValidationError("Hero perspective is missing or ambiguous")
+            target = candidates[0].player_slot
+        elif account is not None:
+            player = detail.participant(account)
+            target = None if player is None else player.player_slot
+        analysis = None
+        error = None
+        try:
+            result = await self._analysis.get_match_analysis(match_id)
+>           if result.match_id != match_id or result.metadata.source != detail.metadata.source:
+               ^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'match_id'
+
+packages\dota2forge-core\src\dota2forge_core\review.py:115: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/core/test_review_skill.py::test_read_only_fallback_selects_one_whole_source_and_preserves_reason[not_found-basic]
+FAILED tests/core/test_review_skill.py::test_read_only_fallback_selects_one_whole_source_and_preserves_reason[timeout-basic]
+FAILED tests/core/test_review_skill.py::test_read_only_fallback_selects_one_whole_source_and_preserves_reason[unavailable-basic]
+FAILED tests/core/test_review_skill.py::test_read_only_fallback_selects_one_whole_source_and_preserves_reason[rate_limited-basic]
+FAILED tests/core/test_review_skill.py::test_failed_or_equally_basic_fallback_preserves_primary_facts[missing]
+FAILED tests/core/test_review_skill.py::test_failed_or_equally_basic_fallback_preserves_primary_facts[timeout]
+FAILED tests/core/test_review_skill.py::test_failed_or_equally_basic_fallback_preserves_primary_facts[invalid]
+======================== 7 failed, 83 passed in 5.35s =========================

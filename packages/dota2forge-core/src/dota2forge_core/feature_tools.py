@@ -275,7 +275,7 @@ def guide_data(guide: HeroGuide | GuideSample) -> dict[str, object]:
         "talents": None
         if guide.talents is None
         else [
-            {"ability_id": a.ability_id, "matches": a.matches, "wins": a.wins}
+            {"ability_id": a.ability_id, "name": a.name, "matches": a.matches, "wins": a.wins}
             for a in sorted(guide.talents, key=lambda row: (-row.matches, row.ability_id))[:16]
         ],
         "samples": [sample_data(s) for s in guide.samples],
