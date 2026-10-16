@@ -1,0 +1,33 @@
+{
+  "readme": "README.md",
+  "image": "docs/assets/architecture/dota2forge-handdrawn-v2.png",
+  "image_sha256": "17f801c009a57ad275beb5ed527e65ef051897d1a6dc101578c35f175d055575",
+  "image_placement": "after project introduction, before module table",
+  "image_decode": "passed",
+  "doc": "docs/subsystems/platform-adapters.md",
+  "releases_verified_via_authenticated_github_api": [
+    "Dota2UID v0.1.0a16",
+    "astrbot_plugin_dota2forge v0.1.0a14"
+  ],
+  "host_or_chat_changes": false,
+  "offline_checks": {
+    "command": "uv run --locked python scripts/check_governance.py --all",
+    "exit_code": 0,
+    "tests_passed": 2150,
+    "test_seconds": 641.22,
+    "aggregate_coverage_percent": 91.11,
+    "independent_coverage_percent": {
+      "scripts": 94,
+      "core": 90,
+      "assets": 92
+    }
+  },
+  "markdown_preview": {
+    "source": "GitHub Markdown API response, local approved PNG",
+    "image_display": [
+      960,
+      640
+    ],
+    "image_clipping": false
+  }
+}

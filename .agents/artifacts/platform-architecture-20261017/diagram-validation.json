@@ -1,0 +1,42 @@
+{
+  "document": "docs/subsystems/platform-adapters.md",
+  "mermaid_version": "11.12.0",
+  "diagrams": [
+    {
+      "index": 0,
+      "sha256": "963338654027ca5fefaf83d4ec21cf378110783ffe564ebb193a4fc4aff55300",
+      "parse": "passed",
+      "render": "passed"
+    },
+    {
+      "index": 1,
+      "sha256": "56896769ba655fe23da8bd125ddedc3aa42b0945330ad4a86e7168edd9f5fa97",
+      "parse": "passed",
+      "render": "passed"
+    },
+    {
+      "index": 2,
+      "sha256": "480b64d4d9f6588f2bd787544d8e674bb4033d64db11660f16a59768db2db0a5",
+      "parse": "passed",
+      "render": "passed"
+    }
+  ],
+  "external_data_or_platform_messages": false,
+  "handdrawn": {
+    "path": "docs/assets/architecture/dota2forge-handdrawn-v2.png",
+    "sha256": "17f801c009a57ad275beb5ed527e65ef051897d1a6dc101578c35f175d055575",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen edit",
+    "review": "Compact parallel host-plugin lanes; Core business results -> plugin presentation data -> Renderer -> same plugin -> host -> user; Chinese labels checked",
+    "prompt": ".agents/artifacts/platform-architecture-20261017/imagegen-flow-v2-prompt.txt"
+  },
+  "handdrawn_v1": {
+    "path": "docs/assets/architecture/dota2forge-handdrawn-v1.png",
+    "sha256": "49c6808605be1b8eda60b46052ac79f6160080ba282ac117e4ef833f09e14f34",
+    "generator": "built-in image_gen",
+    "review": "Chinese labels, host/plugin/core/renderer ownership and independent instances checked"
+  }
+}

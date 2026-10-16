@@ -1,0 +1,40 @@
+Mode: built-in image_gen; initial generation, followed by one targeted text edit.
+Final workspace image: docs/assets/architecture/dota2forge-handdrawn-v1.png
+
+INITIAL GENERATION
+
+Use case: infographic-diagram
+Asset type: a single friendly hand-drawn project architecture sketch for the Dota2Forge repository and chat preview.
+Primary request: 用手绘风格、简单易懂地介绍 Dota2Forge 怎样分别适配 GsCore 和 AstrBot。Make it feel like a developer explaining on a whiteboard / notebook, not a corporate architecture diagram.
+
+Composition: landscape 3:2, clean warm paper background with an extremely faint dot grid, generous whitespace, large highly legible simplified Chinese handwritten-style lettering, slightly imperfect dark ink lines, rounded doodle boxes, hand-drawn curved arrows, restrained pale teal and soft orange marker accents. A few simple sketch icons (a person, chat bubbles, a gear, a picture) are welcome. No decorative Dota hero illustrations, no realistic desk or hands. No tiny dense labels. Keep the diagram delightfully simple, with only the following main nodes.
+
+Exact title: "Dota2Forge 一图看懂"
+Small subtitle: "两个入口，一套业务"
+
+LAYOUT AND ACCURATE CONNECTIONS:
+Top center: a small user/chat doodle labeled "用户".
+Below, two clearly parallel lanes:
+LEFT host box "GsCore", downward bidirectional arrow to plugin box "Dota2UID".
+RIGHT host box "AstrBot", downward bidirectional arrow to plugin box "AstrBot 插件".
+A small readable handwritten note near these two upper lanes: "收消息 / 回消息".
+Below the plugin boxes, a light loose enclosing bracket or grouping around BOTH plugins, with annotation "各自处理身份、权限和消息". This grouping is conceptual, not a new software component. There must be no arrow between the two plugins or the two hosts.
+
+From BOTH plugin boxes, two clearly separate curved bidirectional arrows converge to a central shared-code gear/notebook box below labeled EXACTLY:
+"Dota2Forge Core"
+"绑定 · 查询 · 分析"
+"订阅 · 复盘取证"
+Place a prominent short note directly below this core box: "复用代码，各自运行". This means each plugin runs its own Core instance, not a central remote server.
+
+Below the Core, a small cloud/database-shaped external-data box labeled "STRATZ / OpenDota", joined to Core with a short bidirectional arrow labeled "取数据". Do NOT add individual statistics or screenshots.
+
+OFF TO THE SIDE of the plugin grouping, a compact picture doodle labeled "Renderer" and "把结果画成图". Connect this sidecar to the PLUGIN GROUP (both adapters collectively) with ONE short bidirectional hand-drawn arrow. Renderer must NOT connect directly to Core: adapters obtain Core results and call Renderer themselves. The return route to the user is through the corresponding plugin and host, conveyed by the upper bidirectional arrows. This sidecar should be visually secondary, not another large pipeline.
+
+A tiny but comfortably readable footer note: "AI 模型与对话由宿主负责".
+No more boxes, no storage details, no source paths, no HTTP/SQL/Protocol text, no deployment/version claims, no assets/cache/lifecycle detail. No GsCore-to-AstrBot dependency. No arrow from Core to Renderer or Core to AI. Every Chinese label and the Latin brand names must be correct. Prioritize an effortless newcomer mental model over exhaustiveness. High-quality crisp hand-drawn sketchnote illustration, simple and welcoming, not ruler-straight, not formal enterprise infographic.
+
+TARGETED EDIT
+
+Edit this hand-drawn Dota2Forge architecture sketch with exactly one targeted text change. Preserve the whole composition, every box, character, icon, arrow, title, colors, paper texture and existing text.
+In the purple Renderer sidecar box at the far right, keep the title "Renderer", but change the smaller line "把结果画成图" to the exact readable Chinese label "两端共用 · 出图".
+This clarifies that BOTH the GsCore Dota2UID and the AstrBot plugin use the same Renderer code. Keep the sidecar connected to the encompassing dotted plugin group, not to Core. Preserve the casual handwritten style. Make no other changes.
