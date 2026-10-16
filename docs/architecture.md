@@ -2,7 +2,7 @@
 
 仓库采用 Python 3.12+ 与 uv workspace。五个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
-当前源码及GitHub预发行为Core a7、Renderer a7、Assets a1、AstrBot a12、Dota2UID a14，订阅卡片已公开；Cloud审核状态见[发行记录](cookbook/plugin-release.md)。UID a12修复订阅命令前缀冲突，[进度](../.agents/tasks/done/2026-10-11-subscription-command-prefix.md)另记。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
+当前源码为Core a9、Renderer a8、Assets a1、AstrBot a14、Dota2UID a16；公开与Cloud状态见[发行记录](cookbook/plugin-release.md)。两端已有STRATZ强势／攻略和原生多轮复盘，Core提供共享Skill指南及显式STRATZ→OpenDota整份回退，[来源边界](subsystems/review-skill.md)不改变普通查询策略。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
 
 GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。公开a6–a9更新仍冷启动；本地a10以owner协议、独占租约、来源与数据兼容检查及完整任务排空实施整组热切换，准备/运行指针分开，失败保留或重建旧业务。Core SQLite取消等待已开始线程退出；宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包契约](subsystems/gscore-bundled-runtime.md)。
 
@@ -18,7 +18,7 @@ Core 已包含严格身份/比赛 ID 值、绑定/查询用例、独立 MatchDet
 
 STRATZ 主源已实现并独立只读联调概况、100 场分页及按比赛 ID 的最小详情；后者不受 recent 范围限制，不保证历史覆盖。详情字段缺口、匿名身份和正常 null 详情分别保留；错误不降级为空结果，额度耗尽停止发送，无自动重试或回退。Dota2UID已有直接ID、已发送列表序号/取页和图片/文本模式；共享Renderer和详情卡已实现。GsCore冷启动/受控stop/reload与QQ单会话图片可读性已验证，[证据](../.agents/artifacts/gscore-image-lifecycle-v1/README.md)。见[图片任务](../.agents/tasks/active/2026-10-01-image-interaction.md)、[详情任务](../.agents/tasks/active/2026-10-01-historical-match-detail.md)、[Renderer契约](subsystems/renderer.md)。OpenDota独立补充与CrossCheckService、Core的显式缓存/刷新/有限重试装饰器已实现并禁网验证，两份观察及差异分别保留，不换源/拼接；明确PRIVATE不继续补充请求，[来源契约](subsystems/opendota.md)与[缓存契约](subsystems/cache-retry.md)。新装饰器未部署到Bot或查询真实账号；Valve仍按需规划。
 
-Dota2UID 已有首个绑定/查询消费者：安全导入的 src 库包加显式安装到 plugins/Dota2UID 的宿主发现桥接。组合入口安装 stratz extra，管理专用 HTTP 客户端与 Core SQLite 仓库；可信 Event 转为四维身份后才调用 Core。插件注册普通命令及需管理员鉴权的状态/停用接口，不注册 AI 工具、不做推送。AstrBot 适配器已有无宿主 SDK 的 AstrApplication，并提供按 AstrBot 4.28.2 验证的发现桥接模板、配置 Schema、可信身份转换、图片消息转换和可重复关闭的 Runtime；消费同一 Core/Renderer。AstrBot本机发现、配置加载、冷启动、重载与关闭恢复已验证，用户确认OneBot单会话菜单/绑定/玩家/战绩分页/序号详情图片正常且可读；剩余实机边界见[AstrBot证据](../.agents/artifacts/astrbot-host-v1/README.md)。库顶层按需导出，避免宿主递归重载依赖时捕获旧Core/Renderer类型。两端互不依赖，平台事件不传入核心。
+Dota2UID 已有首个绑定/查询消费者：安全导入的 src 库包加显式安装到 plugins/Dota2UID 的宿主发现桥接。组合入口安装 stratz extra，管理专用 HTTP 客户端与 Core SQLite 仓库；可信 Event 转为四维身份后才调用 Core。插件注册普通命令、原生AI工具及需管理员鉴权的状态/停用接口；可选订阅推送另见下文。AstrBot 适配器已有无宿主 SDK 的 AstrApplication，并提供按 AstrBot 4.28.2 验证的发现桥接模板、配置 Schema、可信身份转换、图片消息转换和可重复关闭的 Runtime；消费同一 Core/Renderer。AstrBot本机发现、配置加载、冷启动、重载与关闭恢复已验证，用户确认OneBot单会话菜单/绑定/玩家/战绩分页/序号详情图片正常且可读；剩余实机边界见[AstrBot证据](../.agents/artifacts/astrbot-host-v1/README.md)。库顶层按需导出，避免宿主递归重载依赖时捕获旧Core/Renderer类型。两端互不依赖，平台事件不传入核心。
 
 已发送的最后战绩以128份/10分钟有界进程内状态保存，按部署/平台/机器人/用户/连接/群或私聊隔离；改绑/解绑/停用/重载失效。完整发送后才提交，失败不重发；页码不再查Provider，序号使用已保存ID。此状态属于适配器交互，不是来源数据缓存；见 [选择决策](../.agents/notes/implemented/2026-10-01-delivered-list-selection.md)。
 
