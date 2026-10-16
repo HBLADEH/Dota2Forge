@@ -1,0 +1,12 @@
+[
+  {
+    "plugin": "Dota2UID",
+    "main_commit": "8cfcfce5630f14135b0362d337e7dfd417b4a024",
+    "candidate_files_equal_main": 25
+  },
+  {
+    "plugin": "astrbot_plugin_dota2forge",
+    "main_commit": "c885bbfa6fac4f3a4863a08d868413722b55ae8e",
+    "candidate_files_equal_main": 20
+  }
+]

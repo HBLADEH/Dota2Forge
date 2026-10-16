@@ -1,0 +1,12 @@
+{
+  "observed_at_utc": "2026-10-16T17:31:20.753136+00:00",
+  "version_url": "https://cloud.astrbot.app/plugin/HBLADEH/astrbot_plugin_dota2forge?tab=versions",
+  "market_id": "HBLADEH/astrbot_plugin_dota2forge",
+  "latest_version": "0.1.0-alpha.12",
+  "latest_status": "Published",
+  "reviewer_message": "VirusTotal 与 Claude Code Agent 安全检查均已通过。",
+  "publishing_actions_visible": true,
+  "existing_github_session_sign_in": true,
+  "new_permissions_or_credentials_created": false,
+  "submission_performed": false
+}

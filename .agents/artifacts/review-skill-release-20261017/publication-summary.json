@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "source_commit": "0e3ecc0d1eda948b548feae03c7c9fa62944d52d",
+  "source_merge": "3e24e5b0616b56af664a7ac463c5cbce556a7da0",
+  "publications": {
+    "Dota2UID": {
+      "tag": "v0.1.0a16",
+      "distribution_commit": "8cfcfce5630f14135b0362d337e7dfd417b4a024",
+      "release_id": 415213025,
+      "url": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a16",
+      "published_at": "2026-10-16T17:42:12Z",
+      "assets_verified_anonymously": 11,
+      "repository_files_match_candidate": 25,
+      "release_metadata_source": "authenticated gh API (anonymous API rate-limited)",
+      "old_tags_unchanged": 11,
+      "old_releases_and_assets_unchanged": 11
+    },
+    "astrbot_plugin_dota2forge": {
+      "tag": "v0.1.0a14",
+      "distribution_commit": "c885bbfa6fac4f3a4863a08d868413722b55ae8e",
+      "release_id": 415215043,
+      "url": "https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a14",
+      "published_at": "2026-10-16T17:42:23Z",
+      "assets_verified_anonymously": 11,
+      "repository_files_match_candidate": 20,
+      "release_metadata_source": "authenticated gh API (anonymous API rate-limited)",
+      "old_tags_unchanged": 7,
+      "old_releases_and_assets_unchanged": 7
+    }
+  },
+  "production_host_modified": false,
+  "real_model_or_platform_messages_sent": false
+}
