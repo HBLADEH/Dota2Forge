@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "source_commit": "0e3ecc0d1eda948b548feae03c7c9fa62944d52d",
+  "versions": {
+    "dota2forge-core": "0.1.0a9",
+    "dota2forge-renderer": "0.1.0a8",
+    "dota2forge-assets": "0.1.0a1",
+    "dota2uid": "0.1.0a16",
+    "astrbot-plugin-dota2forge": "0.1.0a14"
+  },
+  "packages": [
+    {
+      "filename": "astrbot_plugin_dota2forge-0.1.0a14-py3-none-any.whl",
+      "bytes": 35851,
+      "sha256": "1c6f8d9f8ad5641d6d81ad83a013537a1afce71f654ec59ddd5993c44ce05a64"
+    },
+    {
+      "filename": "astrbot_plugin_dota2forge-0.1.0a14.tar.gz",
+      "bytes": 35452,
+      "sha256": "da21bef249605c5449e69e65f49bcbc96d2bedfa0527fe681fa82d32e863b85c"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1-py3-none-any.whl",
+      "bytes": 21202,
+      "sha256": "9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250"
+    },
+    {
+      "filename": "dota2forge_assets-0.1.0a1.tar.gz",
+      "bytes": 16441,
+      "sha256": "1f4914fde2ba9287219930cb200235a0f569fd15c49f64be8b6bdfdbd16723c7"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a9-py3-none-any.whl",
+      "bytes": 103797,
+      "sha256": "66f51e73e36beb27ca1cf47bed89554106e0df17ac12948462c16ba15bd3506e"
+    },
+    {
+      "filename": "dota2forge_core-0.1.0a9.tar.gz",
+      "bytes": 77184,
+      "sha256": "fb25932d5009865f46e12fb9dd040ebe7108d9f21ad2c36aa374f74b6408577f"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a8-py3-none-any.whl",
+      "bytes": 13749409,
+      "sha256": "8104a581e2d74f24882ec4156f49499ac27d94d0ecf2b95a7ba7104453eb005e"
+    },
+    {
+      "filename": "dota2forge_renderer-0.1.0a8.tar.gz",
+      "bytes": 13733081,
+      "sha256": "b63ff4ec931c641f0f9205692fe663b08b305d89cde78d726c13c8b29b8a9e09"
+    },
+    {
+      "filename": "dota2uid-0.1.0a16-py3-none-any.whl",
+      "bytes": 50688,
+      "sha256": "79c4eacc67c1b72138f68738b14a7b3154dc8404f25dd5e87d6daa477e4422f2"
+    },
+    {
+      "filename": "dota2uid-0.1.0a16.tar.gz",
+      "bytes": 48741,
+      "sha256": "0b4ed552346d7c7be7c2ea76af65fb83f9450f2a4f06331ae0f1bc36b66a88bf"
+    }
+  ],
+  "candidates": [
+    {
+      "plugin": "Dota2UID",
+      "files": 25,
+      "zip_matches_folder": true,
+      "reviewed_screenshots": 7
+    },
+    {
+      "plugin": "astrbot_plugin_dota2forge",
+      "files": 20,
+      "zip_matches_folder": true,
+      "reviewed_screenshots": 7
+    }
+  ],
+  "skill_resources": 6,
+  "private_config_databases_absent": true
+}

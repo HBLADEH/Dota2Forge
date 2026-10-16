@@ -1,7 +1,7 @@
 # 双端复盘 Skill 公开分发
 
 Category: operations
-Related task: [发行](../../tasks/active/2026-10-17-review-skill-release.md)
+Related task: [发行](../../tasks/done/2026-10-17-review-skill-release.md)
 Related code: [双端适配器](../../../adapters/)、[分发生成器](../../../scripts/build_plugin_distributions.py)
 Related docs: [发行指南](../../../docs/cookbook/plugin-release.md)、[复盘用法](../../../docs/cookbook/native-review.md)
 
@@ -20,4 +20,6 @@ Related docs: [发行指南](../../../docs/cookbook/plugin-release.md)、[复盘
 这次公开包含强势英雄、攻略图标／中文天赋和共享 Skill；真实模型效果与 AstrBot 平台多轮仍待用户测试。建议两端备份后冷启动，AstrBot 需用实际宿主 Python 更新四组件。来源及事件缺口仍明确保留，不改变 Provider／存储／权限契约，也不修改宿主配置或运行实例。
 
 ## Verification
-开工确认 GitHub 默认分支、既有 PR／标签／Release，目标 a16／alpha.14 尚未公开，前轮推送 CI 均成功。完整本轮检查、候选和公开下载证据见[发行记录](../../artifacts/review-skill-release-20261017/README.md)，未完成项按真实结果接续。
+源码PR #23／四项CI和本地统一2150项禁网检查通过，覆盖91.11%；五包与双端隔离消费通过。GS a16／Astr alpha.14已公开，main／tag及每端11附件与候选一致，旧版保留。匿名API限流时仅元数据使用已登录API，仓库及附件仍匿名下载，不放宽字节／摘要断言。
+
+Cloud原市场单次更新提交后，只读解析确认当前版本alpha.14；新版本行与审核结论尚未可见，状态记未知，不重复提交或冒充上架。完整检查、截图、失败原件和公开下载证据见[发行记录](../../artifacts/review-skill-release-20261017/README.md)。其他正在编辑的架构／README工作保留，不混入本轮交付。

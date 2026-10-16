@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "plugin": "Dota2UID",
+  "tag": "v0.1.0a16",
+  "distribution_commit": "8cfcfce5630f14135b0362d337e7dfd417b4a024",
+  "draft_id": 415213025,
+  "draft_assets_verified": {
+    "dota2forge_assets-0.1.0a1-py3-none-any.whl": {
+      "bytes": 21202,
+      "sha256": "9e3c890b24b861e20452d83d80b4962d0f7acbf2f7c0722c6f95bb91aa9a4250"
+    },
+    "dota2forge_assets-0.1.0a1.tar.gz": {
+      "bytes": 16441,
+      "sha256": "1f4914fde2ba9287219930cb200235a0f569fd15c49f64be8b6bdfdbd16723c7"
+    },
+    "dota2forge_core-0.1.0a9-py3-none-any.whl": {
+      "bytes": 103797,
+      "sha256": "66f51e73e36beb27ca1cf47bed89554106e0df17ac12948462c16ba15bd3506e"
+    },
+    "dota2forge_core-0.1.0a9.tar.gz": {
+      "bytes": 77184,
+      "sha256": "fb25932d5009865f46e12fb9dd040ebe7108d9f21ad2c36aa374f74b6408577f"
+    },
+    "dota2forge_renderer-0.1.0a8-py3-none-any.whl": {
+      "bytes": 13749409,
+      "sha256": "8104a581e2d74f24882ec4156f49499ac27d94d0ecf2b95a7ba7104453eb005e"
+    },
+    "dota2forge_renderer-0.1.0a8.tar.gz": {
+      "bytes": 13733081,
+      "sha256": "b63ff4ec931c641f0f9205692fe663b08b305d89cde78d726c13c8b29b8a9e09"
+    },
+    "dota2uid-0.1.0a16-py3-none-any.whl": {
+      "bytes": 50688,
+      "sha256": "79c4eacc67c1b72138f68738b14a7b3154dc8404f25dd5e87d6daa477e4422f2"
+    },
+    "dota2uid-0.1.0a16.tar.gz": {
+      "bytes": 48741,
+      "sha256": "0b4ed552346d7c7be7c2ea76af65fb83f9450f2a4f06331ae0f1bc36b66a88bf"
+    },
+    "Dota2UID.zip": {
+      "bytes": 18971067,
+      "sha256": "2f036389e0b173765ae7aa9ee706b49f9d0b8aeea39847df96f361b4b9900c21"
+    },
+    "release-assets.json": {
+      "bytes": 1967,
+      "sha256": "699e5400a4dc3e682441c508994b28db3cd35f47e5a8c3276585efec5556b08f"
+    },
+    "SHA256SUMS": {
+      "bytes": 904,
+      "sha256": "65eacb595aeda22694d9b6a1da08b04eb0127354454551bb00f57676858aa0a8"
+    }
+  },
+  "published": true,
+  "url": "https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a16",
+  "published_at": "2026-10-16T17:42:12Z"
+}
