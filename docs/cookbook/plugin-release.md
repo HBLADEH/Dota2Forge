@@ -2,7 +2,7 @@
 
 2026-10-17用户授权发布UID a16／Astr alpha.14，Core a9、Renderer a8、Assets a1；包含版本强势、攻略图标／中文天赋和共享复盘Skill。本轮正在准备检查与公开附件，实际结果见[发行证据](../../.agents/artifacts/review-skill-release-20261017/README.md)。不部署宿主或发送聊天，真实模型效果由用户后续测试；此前AstrBot暂不发布限制已被本次授权替代。
 
-2026-10-13订阅卡片已公开：[UID a14](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a14)、[Astr alpha.12](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a12)，Renderer a7；Core a7/Assets a1沿用原公开字节。各11附件、main/tag/ZIP匿名摘要一致，见[证据](../../.agents/artifacts/subscription-match-cards-release-v1/README.md)。Cloud alpha.12已单次提交，等待安全检查；alpha.11已Published。部署与聊天验收分别记录。
+2026-10-13的UID a14／Astr alpha.12订阅卡片发行、Cloud提交与部署分别见[历史证据](../../.agents/artifacts/subscription-match-cards-release-v1/README.md)。
 
 此前README与七张脱敏图发行见[记录](../../.agents/artifacts/plugin-readme-release-20261012/README.md)。旧UID a6–a9首次升级冷启动；[索引PR #40](gscore-store-publish.md)待审核。
 
