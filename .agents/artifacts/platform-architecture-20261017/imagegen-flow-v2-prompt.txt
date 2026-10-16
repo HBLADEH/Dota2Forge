@@ -1,0 +1,53 @@
+Mode: built-in image_gen edit.
+Edit target: docs/assets/architecture/dota2forge-handdrawn-v1.png
+Final image: docs/assets/architecture/dota2forge-handdrawn-v2.png
+Purpose: compact composition and explicit plugin -> Renderer -> plugin -> host -> user reply sequence.
+
+Use case: infographic-diagram edit.
+Edit target: the provided hand-drawn Dota2Forge architecture image.
+The user wants a much fuller, tighter composition and an UNAMBIGUOUS rendering-and-delivery flow. Substantially recompose the layout; preserve the charming hand-drawn ink/pencil style, warm dotted paper, soft pastel marker accents, Chinese lettering and exact project names. Do not preserve the old empty layout or old floating Renderer sidecar.
+
+Canvas: landscape 3:2. Fill about 85–90% of the canvas with meaningful readable diagram content. Use narrow but comfortable margins, short arrows, bigger boxes and readable labels. No large empty corners, no decorative filler, no formal enterprise diagram.
+
+Exact title: "Dota2Forge 一图看懂"
+Subtitle: "接入 → 取数 → 渲染 → 回复"
+
+UPPER PART (roughly upper 60%):
+Show a compact project architecture with TWO PARALLEL request lanes, left to right.
+A friendly small person/chat icon on far left labeled "用户".
+Upper lane: 用户 → host box "GsCore" → plugin box "Dota2UID".
+Lower lane: 用户 → host box "AstrBot" → plugin box "AstrBot 插件".
+Keep each host mapped only to its corresponding plugin. No arrows between the two hosts or between the two plugins.
+Both plugin boxes independently point right to the shared-code box labeled:
+"Dota2Forge Core"
+"绑定 · 查询 · 分析"
+"订阅 · 复盘取证"
+The arrows into Core are labeled "调用业务".
+Below the two plugin boxes, one short common annotation: "各自校验身份、权限与参数".
+Beside or below Core, a compact external-source cloud labeled "STRATZ / OpenDota", connected bidirectionally to Core with the label "取数据".
+A short note by Core: "复用代码，各自运行".
+
+LOWER PART (roughly lower 35%):
+This must be a prominent, easy-to-follow FULL REPLY PIPELINE that uses the space previously empty.
+A handwritten section label: "拿到 Core 结果后，插件继续："
+Below it, draw FIVE compact hand-drawn boxes arranged in one clear left-to-right chain. Use simple explanatory icons and LARGE numbered badges 1–5:
+1. exact box text "对应插件" / "整理展示数据"
+2. exact box text "Renderer" / "渲染图片"
+3. exact box text "对应插件" / "取回 PNG，组装消息"
+4. exact box text "对应宿主" / "GsCore / AstrBot"
+5. exact box text "用户" / "收到图片"
+Connect 1 → 2 with a labeled arrow "卡片数据".
+Connect 2 → 3 with a labeled arrow "PNG".
+Connect 3 → 4 with a labeled arrow "调用发送".
+Connect 4 → 5 with a labeled arrow "图片回复".
+The repeated plugin boxes denote phases of the SAME corresponding plugin, not extra modules. This lower sequence applies independently to BOTH upper lanes. Keep the chain cohesive and visually obvious.
+
+A compact readable footer:
+"图片查询示例 · 两端各自执行"
+"AI 模型与对话由宿主负责"
+
+CRITICAL TECHNICAL ACCURACY:
+Core performs business logic and returns business results. The plugin prepares presentation/card data, calls Renderer, gets PNG back, assembles platform messages and delegates actual delivery through its corresponding host.
+Renderer does NOT send to the user or call the host; Core does NOT directly call Renderer.
+There must be NO direct Core → Renderer edge. There must be NO standalone Renderer → user edge. In particular do not retain the old Renderer sidecar looking attached only to the AstrBot plugin.
+Keep the diagram clear, full and casual with friendly sketchnote lettering, not dense tiny code/path text. No added modules or unimplemented features.
