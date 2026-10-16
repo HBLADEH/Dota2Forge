@@ -1,0 +1,23 @@
+{
+  "repository": "HBLADEH/Dota2Forge",
+  "branch": "codex/readme-architecture",
+  "verified_commit": "1560c79529b0e6ad5d347db2db9b5a065b4d8ac7",
+  "remote_head_matches": true,
+  "files": [
+    {
+      "path": "README.md",
+      "local_blob": "c3b4980f01a0e89a445d6cf059218a771c74968c",
+      "remote_blob": "c3b4980f01a0e89a445d6cf059218a771c74968c"
+    },
+    {
+      "path": "docs/assets/architecture/dota2forge-handdrawn-v2.png",
+      "local_blob": "32be5edad4ff6f6efc192085ea032eeedefc2986",
+      "remote_blob": "32be5edad4ff6f6efc192085ea032eeedefc2986"
+    },
+    {
+      "path": "docs/subsystems/platform-adapters.md",
+      "local_blob": "18439d67b0101c0fcefa236a5abe1839b18aed87",
+      "remote_blob": "18439d67b0101c0fcefa236a5abe1839b18aed87"
+    }
+  ]
+}

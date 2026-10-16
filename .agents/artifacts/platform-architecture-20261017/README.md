@@ -29,3 +29,5 @@ v2 仅调整 PNG、说明及任务记录，复核图片、文档治理、图源�
 [图像及位置核对](readme-validation.json)确认引用一次、使用已确认 PNG 的原始摘要、放置于模块表之前。GitHub Markdown API 解析通过；其返回正文配本地原 PNG 作[版式预览](readme-preview.png)，图像以960×640完整显示，人工核对无覆盖或裁切。预览不代替已发布页面或宿主联调。
 
 本次重新执行统一离线入口退出0，完整输出见[README 检查日志](readme-check-all.log)：2150项禁网测试通过（641.22秒），聚合覆盖91.11%，scripts/Core/Assets分别94%/90%/92%，Ruff与mypy通过。提交与远端结果记录在对应接续任务。
+
+图文提交1560c79529b0e6ad5d347db2db9b5a065b4d8ac7已推送至codex/readme-architecture，[远端核对](push-verification.json)验证分支及README、v2图片、详细文档blob一致。[PR #25](https://github.com/HBLADEH/Dota2Forge/pull/25)已创建但未合并，交付接续见[完成任务](../../tasks/done/2026-10-17-readme-architecture-push.md)。
