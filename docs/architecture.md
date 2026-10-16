@@ -2,6 +2,8 @@
 
 仓库采用 Python 3.12+ 与 uv workspace。五个独立版本包均使用 src 布局和 Hatchling 构建，包元数据是名称、版本和依赖的事实源。
 
+新人先看[手绘架构与交互图](subsystems/platform-adapters.md)：简图、查询与原生复盘时序，以及订阅和两种 AstrBot 接法。
+
 当前源码为Core a9、Renderer a8、Assets a1、AstrBot a14、Dota2UID a16；公开与Cloud状态见[发行记录](cookbook/plugin-release.md)。两端已有STRATZ强势／攻略和原生多轮复盘，Core提供共享Skill指南及显式STRATZ→OpenDota整份回退，[来源边界](subsystems/review-skill.md)不改变普通查询策略。[发行生成器](../scripts/build_plugin_distributions.py)从同一源码生成双端根桥接、四组件锁定依赖及校验清单；Dota2UID可选bundled模式携带标准wheel，不另行维护业务副本。入口检查Python/组件版本；合法空Token等待业务配置，仍可按设置准备公共素材。
 
 GsCore bundled管理入口仅依赖标准库/已有SDK，核心缺失仍能响应主人安装、状态与文字帮助；项目wheel在独立数据目录准备不可变代际，通过完整校验及离线资源检查才发布。公开a6–a9更新仍冷启动；本地a10以owner协议、独占租约、来源与数据兼容检查及完整任务排空实施整组热切换，准备/运行指针分开，失败保留或重建旧业务。Core SQLite取消等待已开始线程退出；宿主HTTPX/Pillow不被自动替换。薄分发及AstrBot路径继续保留，见[随包契约](subsystems/gscore-bundled-runtime.md)。
