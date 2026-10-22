@@ -1,12 +1,22 @@
 # Dota2Forge
 
-开发分支候选新增版本强势、STRATZ攻略/样例与原生多轮复盘按需补图；本轮尚未发布，旧发行包不包含这些能力。参见[新指令](docs/cookbook/hero-meta.md)与[复盘](docs/cookbook/native-review.md)。
-
 **将 Dota 2 数据锻造成可复用的 Bot 能力。**
 
 [GitHub 仓库](https://github.com/HBLADEH/Dota2Forge) · [CI 检查](https://github.com/HBLADEH/Dota2Forge/actions/workflows/ci.yml)
 
 Dota2Forge 为 AstrBot 和 GsCore 提供共享的玩家查询、近期战绩、比赛分析、图片战报和订阅能力。业务复用 Dota2Forge Core，两端分别处理宿主命令、配置、身份、权限、消息与生命周期。当前处于 **M0 预发行**阶段。
+
+## 架构速览
+
+![Dota2Forge 手绘架构与图片回复流程](docs/assets/architecture/dota2forge-handdrawn-v2.png)
+
+GsCore 通过 **Dota2UID** 接入，AstrBot 通过 **astrbot_plugin_dota2forge** 接入；两端复用 Core 和 Renderer 代码，各自运行并存储数据。
+
+图片查询中，**Core 返回业务结果 → 插件整理展示数据 → Renderer 出图 → 插件组装消息 → 对应宿主发送给用户**。文字模式跳过渲染，AI 模型与对话由宿主负责。
+
+更多细节见[双宿主结构、查询与复盘时序](docs/subsystems/platform-adapters.md)。
+
+## 项目组成
 
 | 模块 | 说明 | 文档 |
 | --- | --- | --- |
@@ -21,8 +31,8 @@ Dota2Forge 为 AstrBot 和 GsCore 提供共享的玩家查询、近期战绩、�
 
 使用对应的独立分发仓库，具体步骤与升级边界见插件说明：
 
-- **AstrBot**：[alpha.12 预发行](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a12) · [安装指南](docs/cookbook/astrbot-public-install.md)。需要 Python 3.12+、AstrBot >=4.5.0；停止宿主后用实际解释器安装固定版本运行组件，再冷启动。
-- **GsCore**：[Dota2UID a14 随包预发行](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a14) · [安装指南](docs/cookbook/gscore-bundled-install.md)。匹配项目运行库在插件专用目录准备；旧 a6–a9 首次升级需冷启动，兼容的新版随包更新支持受控重载。
+- **AstrBot**：[alpha.14 预发行](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a14) · [安装指南](docs/cookbook/astrbot-public-install.md)。需要 Python 3.12+、AstrBot >=4.5.0；停止宿主后用实际解释器安装固定版本运行组件，再冷启动。
+- **GsCore**：[Dota2UID a16 随包预发行](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a16) · [安装指南](docs/cookbook/gscore-bundled-install.md)。匹配项目运行库在插件专用目录准备；旧 a6–a9 首次升级需冷启动，兼容的新版随包更新支持受控重载。
 
 AstrBot Cloud 的提交与审核情况见[发行记录](docs/cookbook/plugin-release.md)；[GsCore 索引 PR #40](https://github.com/Genshin-bots/GenshinUID-docs/pull/40)状态见[商店记录](docs/cookbook/gscore-store-publish.md)。本仓源码版本不代表商店已经同步。
 
@@ -30,11 +40,13 @@ AstrBot Cloud 的提交与审核情况见[发行记录](docs/cookbook/plugin-rel
 
 命令统一使用 `do` 前缀，AstrBot 按唤醒设置添加 `/`。已实现账号绑定、玩家概况、段位预估 MMR、近期战绩分页、按 ID 或列表序号查看比赛、英雄热门出装、素材管理和默认关闭的订阅。玩家和比赛来自 STRATZ，热门出装来自 OpenDota。
 
+当前预发行还提供[版本强势英雄](docs/cookbook/hero-meta.md)、[STRATZ 攻略与样例](docs/cookbook/hero-guides.md)、[原生多轮复盘与按需补图](docs/cookbook/native-review.md)。复盘的来源回退及未接入事件边界见[共享复盘指南](docs/subsystems/review-skill.md)。
+
 比赛报告包含总览、两队详细统计与装备、团队优势曲线及 STRATZ IMP。预估 MMR 不等于精确天梯分，IMP 不等同官方 MVP，热门出装统计不代表最优出装。来源缺失明确保留，请求失败不伪装成无数据。
 
 双端 README 使用“远古锻炉”主题和七张 GsCore 实机卡片，身份字段已脱敏，AstrBot 复用并注明来源。图片、尺寸与来源见[截图记录](docs/assets/screenshots/README.md)，配置页见[截图清单](docs/cookbook/plugin-showcase.md)。首次图片模式可在后台准备公共素材，角色、美术及字体遵循各自许可。
 
-GsCore/QQ 与 AstrBot/OneBot 的基础图片查询、配置及生命周期已有独立验收；当前主题截图不代替另一端或所有客户端验收。[AstrBot 剩余场景](.agents/tasks/active/2026-10-02-astrbot-platform.md)和[真实订阅推送](.agents/tasks/active/2026-10-02-subscriptions.md)继续跟踪。英雄攻略、AI Tool 和部署整合尚未实现。
+GsCore/QQ 与 AstrBot/OneBot 的基础图片查询、配置及生命周期已有独立验收；当前主题截图不代替另一端或所有客户端验收。[AstrBot 剩余场景](.agents/tasks/active/2026-10-02-astrbot-platform.md)和[真实订阅推送](.agents/tasks/active/2026-10-02-subscriptions.md)继续跟踪。复盘 Skill 的真实模型效果、AstrBot 完整多轮与隔离/过期/重载边界仍待验收；部署整合和录像事件尚未实现。
 
 ## 开发
 
@@ -50,6 +62,7 @@ uv build --all-packages
 
 ## 文档
 
+- [手绘架构与交互图](docs/subsystems/platform-adapters.md)：新人阅读入口
 - [当前架构](docs/architecture.md)与[治理契约](docs/subsystems/governance.md)
 - [订阅契约](docs/subsystems/subscriptions.md)与[数据分析契约](docs/subsystems/analysis.md)
 - [发行与验证指南](docs/cookbook/plugin-release.md)
