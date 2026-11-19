@@ -346,6 +346,29 @@ def test_host_dependency_conflict_remains_distinct_from_missing_runtime(plugin, 
     assert "宿主" in manager.status_text() and not (data / "runtime/current.json").exists()
 
 
+@pytest.mark.parametrize(
+    ("version", "supported"),
+    [("11.2.1", False), ("11.3.0", True), ("12.3.0", True), ("13.0.0", True), ("13.1.0", False)],
+)
+def test_host_pillow_version_allows_preparation_only_in_supported_range(
+    plugin, monkeypatch, version, supported
+):
+    root, data, _ = plugin
+    original = runtime.metadata.distribution
+    pillow = SimpleNamespace(version=version, metadata={"Name": "Pillow"}, requires=[])
+    monkeypatch.setattr(
+        runtime.metadata,
+        "distribution",
+        lambda name: pillow if name == "pillow" else original(name),
+    )
+    monkeypatch.delitem(sys.modules, "PIL", raising=False)
+
+    manager = runtime.BundledRuntime(root, data)
+    assert (asyncio.run(manager.prepare()) is not None) is supported
+    assert manager.state == ("prepared" if supported else "dependency_incompatible")
+    assert (data / "runtime/current.json").exists() is supported
+
+
 def test_transitive_requirement_and_host_constraints_are_checked(monkeypatch):
     installed_site = runtime.metadata.distribution("httpx").locate_file("")
     installed_pillow = runtime.metadata.version("Pillow")

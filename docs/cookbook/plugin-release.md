@@ -1,6 +1,8 @@
 # 本地插件发行候选准备
 
-2026-10-17已公开[UID a16](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a16)／[Astr alpha.14](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a14)，Core a9、Renderer a8、Assets a1；包含强势英雄、攻略图标／中文天赋和复盘Skill。各11附件、仓库／ZIP匿名下载逐字节核对通过；元数据因匿名API限流用已登录API核实。[本轮证据](../../.agents/artifacts/review-skill-release-20261017/README.md)分别记录Cloud状态与测试限制；不部署宿主，真实模型效果由用户自测。
+2026-10-17 公开 [UID a16](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a16)／[Astr alpha.14](https://github.com/HBLADEH/astrbot_plugin_dota2forge/releases/tag/v0.1.0a14)，见[发行证据](../../.agents/artifacts/review-skill-release-20261017/README.md)。
+
+[UID a17](https://github.com/HBLADEH/Dota2UID/releases/tag/v0.1.0a17) 适配 Pillow 13.0，状态以 Release 为准；Astr alpha.15 仅本地回归。见[随包指南](gscore-bundled-install.md)。
 
 2026-10-13的UID a14／Astr alpha.12订阅卡片发行、Cloud提交与部署分别见[历史证据](../../.agents/artifacts/subscription-match-cards-release-v1/README.md)。
 

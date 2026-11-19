@@ -1,6 +1,6 @@
 # Dota2UID 随包运行库安装
 
-本页对应 **0.1.0a16 bundled 预发行分发**，随包Core a9、Renderer a8、Assets a1。新增版本强势、STRATZ攻略与单场样例、带dota2-review Skill的原生连续复盘及按需数据图；攻略复用现有装备素材，技能／天赋优先来源中文名称。发行状态及下载见 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)与[发行记录](plugin-release.md)。旧a4使用[旧安装流程](gscore-public-install.md)。要求GsCore宿主Python 3.12+，宿主源码无需修改。
+**0.1.0a17 随包分发**保留 Core a9，更新至 Renderer a9／Assets a2，支持宿主 Pillow 13.0；原 a16 含强势、攻略及原生连续复盘。状态见[发行记录](plugin-release.md)和 [Dota2UID Releases](https://github.com/HBLADEH/Dota2UID/releases)；旧 a4 使用[旧安装流程](gscore-public-install.md)。要求 GsCore 宿主 Python 3.12+，无需修改宿主源码。
 
 a11沿用a10源码加入的受控热切换；[实施记录](../../.agents/tasks/done/2026-10-10-dota2uid-hot-update.md)区分SDK隔离验收与生产/QQ。旧a6–a9首次升级需一次冷启动，使新的排空协议生效。
 
@@ -8,7 +8,7 @@ a11沿用a10源码加入的受控热切换；[实施记录](../../.agents/tasks/
 
 新分发仓库随包提供Core、Renderer、Assets与Dota2UID的匹配wheel。按宿主原有URL安装方式取得该版本；首启只使用本地wheel校验并准备运行目录，不向PyPI安装这些项目包，不触碰全局site-packages。
 
-HTTPX/Pillow继续使用宿主已经安装的兼容版本。根依赖声明只包含这些第三方要求，自动安装仍受宿主开关与冷启动路径控制。版本不兼容时保留管理入口并明确提示；先退出宿主，使用其实际Python维护第三方依赖，再冷启动。聊天安装核心不会升级宿主Pillow。
+HTTPX/Pillow 继续使用宿主已安装的兼容版本。a16 要求 `Pillow>=11.3,<13`，a17 为 `>=11.3,<13.1`；Pillow 13.0 环境使用后者，不降级宿主。自动安装仍受宿主设置控制。不兼容时保留管理入口，`do安装核心` 不会替换宿主 Pillow。
 
 后台打开 **插件配置 → Dota2UID → 插件参数配置**，填写 STRATZ Token 和独立 namespace，点击确认修改。合法空 Token 为 awaiting_config；保存后先 do停用，确认关闭再重载或冷启动。参数包括密码输入、素材、订阅与平台映射，运行库不可用时仍可配置。
 
@@ -37,7 +37,7 @@ HTTPX/Pillow继续使用宿主已经安装的兼容版本。根依赖声明只�
 
 ## 受控重载的更新步骤
 
-本轮复盘Skill与原生AI桥接更新，建议先备份data/Dota2UID，发送do停用，退出GsCore后更新插件并冷启动；用do核心状态核对运行版本为a16/Corea9/Renderer8。Skill无需另装；在GsCore启用AI模型及当前人格工具，发送do复盘 <比赛ID> [英雄]后连续追问。仅@回复的会话仍需逐次@；详细示例见[复盘用法](native-review.md)。
+从 Pillow 13.0 已拒绝启动的 a16 恢复时，先备份 `data/Dota2UID`。若当前宿主已加载兼容 Pillow，可用 GsCore 更新 Dota2UID 到 a17 后重载，或由 `AutoReloadPlugins` 自动触发；无需先 `do停用`。用 `do核心状态` 核对运行版 a17／Core a9／Renderer a9／Assets a2 和业务 `ready`，再验证一条只读查询。若提示需重启或仍未启用，在维护窗口冷启动。宿主入口就绪或文字帮助不算业务恢复；目标宿主热更新待实测。复盘见[用法](native-review.md)。
 
 首次冷启动新协议版本后，兼容bundled更新可直接点击宿主重载；AutoReloadPlugins开启时有更新自动调度。插件校验新包，短暂停止业务并排空旧任务，启用后用do核心状态确认期望/准备/运行版本及切换状态。do安装核心只准备当前清单，完成后重载。切换中的请求不会自动重发，旧战绩列表需重查。
 

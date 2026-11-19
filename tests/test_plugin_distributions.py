@@ -35,11 +35,11 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
         assert release["plugin"] == plugin and len(release["versions"]) == 4
         assert release["versions"] == {
             "dota2forge-core": "0.1.0a9",
-            "dota2forge-renderer": "0.1.0a8",
-            "dota2forge-assets": "0.1.0a1",
+            "dota2forge-renderer": "0.1.0a9",
+            "dota2forge-assets": "0.1.0a2",
             (
                 "astrbot-plugin-dota2forge" if plugin.startswith("astrbot") else "dota2uid"
-            ): "0.1.0a14" if plugin.startswith("astrbot") else "0.1.0a16",
+            ): "0.1.0a15" if plugin.startswith("astrbot") else "0.1.0a17",
         }
         compile((candidate / plugin / entry).read_text("utf-8"), entry, "exec")
         assert (candidate / plugin / "LICENSE").read_text("utf-8") == (ROOT / "LICENSE").read_text(
@@ -56,10 +56,10 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
             assert archive.read(entry) == (candidate / plugin / entry).read_bytes()
     gs = tomllib.loads((candidate / "Dota2UID/pyproject.toml").read_text("utf-8"))
     assert gs["project"]["gscore_auto_update_dep"] == [
-        "dota2forge-assets==0.1.0a1",
+        "dota2forge-assets==0.1.0a2",
         "dota2forge-core[stratz]==0.1.0a9",
-        "dota2forge-renderer==0.1.0a8",
-        "dota2uid[stratz]==0.1.0a16",
+        "dota2forge-renderer==0.1.0a9",
+        "dota2uid[stratz]==0.1.0a17",
     ]
     assert "workspace" not in (candidate / "Dota2UID/pyproject.toml").read_text("utf-8")
     helper = candidate / "Dota2UID/_dota2forge_config.py"
@@ -74,13 +74,14 @@ def test_both_roots_have_pinned_dependencies_license_and_reproducible_archives(c
     astr = (candidate / "astrbot_plugin_dota2forge/metadata.yaml").read_text("utf-8")
     assert f"repo: {ASTR_REPO}" in astr and 'astrbot_version: ">=4.5.0"' in astr
     requirements = (candidate / "astrbot_plugin_dota2forge/requirements.txt").read_text("utf-8")
-    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a14" in requirements
+    assert "astrbot-plugin-dota2forge[stratz]==0.1.0a15" in requirements
     assert "dota2forge-core[stratz]==0.1.0a9" in requirements
     changelog = (candidate / "astrbot_plugin_dota2forge/CHANGELOG.md").read_bytes()
     assert changelog == distribution.text_bytes(
         ROOT / "adapters/astrbot_plugin_dota2forge/CHANGELOG.md"
     )
     assert "0.1.0-alpha.14" in changelog.decode("utf-8")
+    assert "0.1.0-alpha.15" in changelog.decode("utf-8")
     with ZipFile(candidate / "astrbot_plugin_dota2forge.zip") as archive:
         assert archive.read("CHANGELOG.md") == changelog
     manifest = json.loads((candidate / "manifest.json").read_text("utf-8"))
@@ -270,7 +271,7 @@ def test_smoke_command_failure_is_propagated(candidate, monkeypatch):
 
 
 def test_third_party_dependency_constraints_come_from_metadata():
-    assert distribution.third_party_requirements(ROOT) == ["httpx>=0.28.1,<1", "pillow>=11.3,<13"]
+    assert distribution.third_party_requirements(ROOT) == ["httpx>=0.28.1,<1", "pillow>=11.3,<13.1"]
 
 
 def test_plugin_readmes_and_icons_remain_usable_outside_the_workspace(candidate):
