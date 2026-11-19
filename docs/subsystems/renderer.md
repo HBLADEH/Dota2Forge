@@ -2,7 +2,7 @@
 
 [dota2forge_renderer](../../packages/dota2forge-renderer/src/dota2forge_renderer/)消费Core模型与Pillow，不访问SDK、HTTP、SQL或环境；Core不反向依赖。导入不加载资源，首渲染加载本地版本资源，close清理。
 
-Pillow>=11.3,<13兼容GsCore fastembed的<12约束；安装器保留宿主约束并执行pip check，验证见[发行决策](../../.agents/notes/implemented/2026-10-06-gscore-public-release.md)。
+Renderer a9／Assets a2 声明 `Pillow>=11.3,<13.1`，支持 13.0 并保留旧宿主的 Pillow 11.3，见[兼容决策](../../.agents/notes/implemented/2026-11-19-dota2uid-pillow13.md)。
 
 ## 卡片与资源
 

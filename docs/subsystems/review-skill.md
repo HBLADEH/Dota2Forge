@@ -1,6 +1,6 @@
 # 数据驱动复盘 Skill
 
-开发候选：Core0.1.0a9、Dota2UID0.1.0a16、AstrBot0.1.0a14；Renderer仍为a8。未发AstrBot或生产Release，真实模型遵守程度仍需评估。
+随 Dota2UID a16／AstrBot alpha.14 发行，使用 Core a9、Renderer a8；[发行记录](../cookbook/plugin-release.md)区分公开版与后续候选。真实模型遵守程度仍需评估。
 
 ## 内容与入口
 共享资源位于Core.infrastructure.review_skills/dota2-review，版本1.0.0。SKILL.md保留取证、主题路由、事实/解释/行动/条件、图文互补与自检；references按overview、economy（含laning）、items、team渐进加载。资料参考[dota2-newbie-assistant固定版本](https://github.com/timzhangherenow/dota2-newbie-assistant/tree/be6cf7f038c0f548a535d50b723181c0b806a01e)，包内保留作者归属与MIT许可。

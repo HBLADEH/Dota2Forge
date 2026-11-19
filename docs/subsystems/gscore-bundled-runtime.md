@@ -8,6 +8,8 @@
 
 标准库/SDK 管理入口先注册 `do安装核心`、`do核心状态` 和帮助菜单 fallback。安装 handler 复核主人权限且拒绝参数；启动只用本地 wheel，恢复命令才允许固定仓库/版本的 Release URL。带文件锁的准备任务验证依赖与离线子进程导入/字体渲染，原子发布 data/Dota2UID/runtime 内不可变代际；失败或关闭保留旧指针、配置与绑定。共享第三方不兼容时保留管理入口并要求维护。
 
+Dota2UID a17 接受宿主 `Pillow>=11.3,<13.1`，仍检查 wheel 元数据、已加载模块和其他宿主包约束；分发测试对照启动器约束与根依赖声明。它不携带 Pillow，也不替换宿主安装。旧 a16 仍拒绝 Pillow 13；见[兼容决策](../../.agents/notes/implemented/2026-11-19-dota2uid-pillow13.md)。
+
 ## 加载与生命周期
 
 a7 管理入口在项目包可用前注册宿主原生插件参数。首次将旧 TOML 导入 data/Dota2UID/config.json，原文件保留；JSON 存在后单一读取，不回退旧 Token。配置映射经共享的适配器校验器进入 Runtime，只在启动读取快照。后台保存后停用再重载，不自动改变活跃客户端或调度；参数、凭据访问语义及回退见[后台配置](../cookbook/gscore-configuration.md)。Core 不引入 SDK，薄入口和本地桥接安装器同样携带配置模块。

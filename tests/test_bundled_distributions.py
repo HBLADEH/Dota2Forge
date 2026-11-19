@@ -120,6 +120,7 @@ def test_bundle_carries_only_validated_project_wheels_and_stdlib_bootstrap(
     plugin = output / "Dota2UID"
     project = tomllib.loads((plugin / "pyproject.toml").read_text("utf-8"))["project"]
     assert project["dependencies"] == distribution.third_party_requirements(root)
+    assert project["dependencies"] == list(bundled_runtime.HOST_REQUIREMENTS)
     assert "gscore_auto_update_dep" not in project
     assert not (plugin / "_dota2forge_bootstrap.py").exists()
     assert not (plugin / "install_runtime.py").exists()
